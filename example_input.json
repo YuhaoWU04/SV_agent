@@ -1,0 +1,19 @@
+{
+  "sv_id": "example-del-001",
+  "genome_build": "GRCh38",
+  "chrom": "1",
+  "start": 1000000,
+  "end": 1010000,
+  "sv_type": "DEL",
+  "statistics": {
+    "fst": 0.21,
+    "case_af": 0.18,
+    "control_af": 0.04,
+    "cohort_description": "Synthetic example; not a research result"
+  },
+  "quality": {
+    "call_rate": 0.97,
+    "caller": "example-caller",
+    "batch_checked": false
+  }
+}
