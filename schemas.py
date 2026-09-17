@@ -45,6 +45,22 @@ class SVSummary(BaseModel):
     end: int | None = None
     coordinate_system: Literal["1-based-inclusive"] = "1-based-inclusive"
     chromosome_length_bp: int | None = None
+    cipos: list[int] | None = None
+    ciend: list[int] | None = None
+    start_confidence_interval: list[int] | None = None
+    end_confidence_interval: list[int] | None = None
+    breakpoint_uncertainty_status: Literal["complete", "partial", "not_provided"] = (
+        "not_provided"
+    )
+    imprecise: bool = False
+    bnd_mate_status: Literal[
+        "coordinates_provided", "not_provided", "not_applicable"
+    ] = "not_applicable"
+    mate_chrom: str | None = None
+    mate_pos: int | None = None
+    mate_confidence_interval: list[int] | None = None
+    local_orientation: Literal["+", "-"] | None = None
+    mate_orientation: Literal["+", "-"] | None = None
     sv_type: str | None = None
     sv_type_original: str | None = None
     sv_subtype: str | None = None
@@ -79,7 +95,8 @@ class EvidenceRecord(BaseModel):
     status: Literal["found", "not_found", "unavailable", "error", "not_queried"]
     record_id: str = ""
     match_type: Literal[
-        "exact", "region_search", "region_overlap", "nearby", "gene_level", "contextual", "not_applicable"
+        "exact", "high_similarity", "partial_overlap", "region_search",
+        "region_overlap", "nearby", "gene_level", "contextual", "not_applicable"
     ] = "contextual"
     support_direction: Literal["supports", "contradicts", "contextual"] = "contextual"
     summary: str

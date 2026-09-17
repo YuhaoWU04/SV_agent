@@ -5,6 +5,9 @@
   "start": 1000000,
   "end": 1010000,
   "sv_type": "DEL",
+  "CIPOS": [-50, 75],
+  "CIEND": [-100, 100],
+  "IMPRECISE": true,
   "statistics": {
     "fst": 0.21,
     "case_af": 0.18,

@@ -9,10 +9,9 @@ from .prompts import ARTIFACT, DATABASE, INTAKE, LITERATURE, REGION, REPORT, VER
 from .schemas import SVReport, VerificationOutput
 from .tools import (
     assess_artifact_risk,
-    database_availability,
     normalize_sv_input,
-    query_clinvar_region,
     query_ensembl_region,
+    query_gnomad_sv,
     search_pubmed,
 )
 
@@ -38,9 +37,9 @@ region_annotation_agent = Agent(
 database_evidence_agent = Agent(
     name="DatabaseEvidenceAgent",
     model=MODEL,
-    description="Collects and classifies clinical and database evidence.",
+    description="Collects and classifies build-matched gnomAD-SV population evidence.",
     instruction=DATABASE,
-    tools=[query_clinvar_region, database_availability],
+    tools=[query_gnomad_sv],
     output_key="database_evidence",
 )
 

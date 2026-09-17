@@ -50,6 +50,32 @@ def render_markdown(report: dict[str, Any]) -> str:
     ]
     if sv.get("coordinate_system"):
         lines += [f"**Coordinate system:** {sv['coordinate_system']}", ""]
+    uncertainty_status = sv.get("breakpoint_uncertainty_status")
+    if uncertainty_status:
+        start_ci = sv.get("start_confidence_interval")
+        end_ci = sv.get("end_confidence_interval")
+        lines += [
+            "**Breakpoint uncertainty:** "
+            f"{uncertainty_status}; start CI={start_ci or 'not provided'}; "
+            f"end CI={end_ci or 'not provided'}",
+            "",
+        ]
+    if sv.get("sv_type") == "BND":
+        if sv.get("mate_chrom") and sv.get("mate_pos") is not None:
+            orientation = ""
+            if sv.get("local_orientation") and sv.get("mate_orientation"):
+                orientation = (
+                    f"; orientation={sv['local_orientation']}/{sv['mate_orientation']}"
+                )
+            lines += [
+                "**BND mate:** "
+                f"{sv['mate_chrom']}:{sv['mate_pos']}; "
+                f"CI={sv.get('mate_confidence_interval') or 'not provided'}"
+                f"{orientation}",
+                "",
+            ]
+        else:
+            lines += ["**BND mate:** not provided; first-breakend-only analysis", ""]
     if sv.get("length_bp") is not None:
         lines += [f"**SV length:** {sv['length_bp']} bp", ""]
     if normalization_notes:
