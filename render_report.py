@@ -80,6 +80,24 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines += [f"**SV length:** {sv['length_bp']} bp", ""]
     if normalization_notes:
         lines += [f"**Input normalization:** {'; '.join(normalization_notes)}", ""]
+
+    investigation = report.get("investigation_log", {})
+    if investigation:
+        lines += ["## Adaptive investigation", ""]
+        lines.append(
+            f"- Query budget used: {investigation.get('queries_used', 0)}/"
+            f"{investigation.get('query_budget', 2)}"
+        )
+        lines.append(
+            f"- Stop reason: {investigation.get('stop_reason', 'not recorded')}"
+        )
+        for action in investigation.get("executed_actions", []):
+            lines.append(
+                f"- {action.get('action', 'unknown')} — "
+                f"{action.get('status', 'unknown')}: "
+                f"{action.get('evidence_gap', '')}"
+            )
+        lines.append("")
     sections = (
         ("Statistical signals", "statistical_signals"),
         ("Gene and region annotation", "gene_region_annotation"),

@@ -105,8 +105,36 @@ class EvidenceRecord(BaseModel):
     limitations: str = ""
 
 
+class InvestigationAction(BaseModel):
+    action: str
+    evidence_gap: str = ""
+    reason: str = ""
+    expected_information_gain: str = ""
+    status: Literal["planned", "executed", "rejected", "not_executed"]
+    result_status: str = ""
+    rejection_reason: str = ""
+
+
+class InvestigationLog(BaseModel):
+    identified_evidence_gaps: list[str] = Field(default_factory=list)
+    planned_actions: list[InvestigationAction] = Field(default_factory=list)
+    executed_actions: list[InvestigationAction] = Field(default_factory=list)
+    query_budget: int = 2
+    queries_used: int = 0
+    stop_reason: str
+    remaining_limitations: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def validate_budget(self) -> "InvestigationLog":
+        if not 0 <= self.queries_used <= self.query_budget <= 2:
+            raise ValueError("adaptive investigation query budget is invalid")
+        if len(self.executed_actions) > self.queries_used:
+            raise ValueError("executed action count exceeds queries_used")
+        return self
+
+
 class SVReport(BaseModel):
-    report_version: str = "0.1"
+    report_version: str = "1.1.0"
     report_status: Literal["complete", "incomplete", "blocked"]
     sv_summary: SVSummary
     statistical_signals: list[ReportStatement] = Field(default_factory=list)
@@ -123,6 +151,7 @@ class SVReport(BaseModel):
     verified_claims: list[VerifiedClaim] = Field(default_factory=list)
     evidence_catalog: list[EvidenceRecord] = Field(default_factory=list)
     query_provenance: list[ProvenanceItem] = Field(default_factory=list)
+    investigation_log: InvestigationLog
 
     @model_validator(mode="after")
     def validate_internal_links(self) -> "SVReport":

@@ -5,22 +5,28 @@ variant. It does not call SVs from reads and does not replace expert review.
 
 ## Workflow
 
-`InputNormalizerAgent → RegionAnnotationAgent → DatabaseEvidenceAgent →
-LiteratureAndFunctionAgent → ArtifactRiskAgent → EvidenceVerifierAgent →
+`InputNormalizerAgent → BaselineEvidenceCollectorAgent →
+AdaptiveInvestigationAgent → LiteratureAndFunctionAgent → EvidenceVerifierAgent →
 ReportWriterAgent`
 
 The root is a Google ADK `SequentialAgent`. Tool-using stages save JSON text through
 `output_key`; the verifier and writer have no tools and enforce Pydantic output
-schemas. Missing evidence remains `unknown`, `not_found`, `unavailable`, `error`, or
-`not_queried` rather than being silently treated as negative evidence.
+schemas. The design is a deterministic baseline plus bounded adaptation: baseline
+Ensembl, gnomAD-SV, and artifact checks always run, after which one LLM stage may make
+zero, one, or two justified calls from a hard-coded whitelist. Missing evidence remains
+`unknown`, `not_found`, `unavailable`, `error`, or `not_queried` rather than being
+silently treated as negative evidence.
 
 ## Interactive architecture map
 
 Open [`docs/system_flow.html`](docs/system_flow.html) in a browser for the complete
 field-level behavior map. It combines each agent and its tool into one human-facing
 stage. You can pan and zoom the canvas, search field names or meanings, and click any
-field or operation to highlight its upstream inputs, transformation rule, downstream
-outputs, missing-value behavior, and implementation location.
+field or operation to highlight its directly connected inputs, transformation rule,
+and outputs. The **追踪完整上下游** switch expands the selection to the whole lineage;
+**显示全部字段连线** reveals the full graph as faint context. Lines attach to node
+edges, with same-stage links routed through the card gutter. The detail panel shows
+missing-value behavior and implementation location.
 
 The editable source is `architecture/data_lineage.json`; the generated field reference
 is [`docs/field_dictionary.md`](docs/field_dictionary.md). After changing an agent,
@@ -95,7 +101,15 @@ controlled by `SV_AGENT_BREAKPOINT_TOLERANCE_BP`) only to retrieve nearby candid
 This fallback is explicitly marked as heuristic and is not presented as a measured
 confidence interval.
 
-## RegionAnnotationAgent: current capability and limitations
+## BaselineEvidenceCollectorAgent: fixed coverage
+
+This stage calls one deterministic wrapper exactly once. The wrapper always performs
+the existing Ensembl region/breakpoint queries, the build-matched gnomAD-SV query, and
+the artifact-risk rules. The LLM wrapper cannot choose which baseline source to skip.
+Raw source fields are preserved, while stable `ENS-BL-*` and `GNO-BL-*` evidence IDs
+are added. Candidate identity fields are copied into an immutable-field audit block.
+
+## Baseline Ensembl annotation: capability and limitations
 
 The region stage uses only the Ensembl REST API. It performs three coordinate-overlap
 queries for `gene`, `regulatory`, and `repeat` features. It returns the normalized
@@ -115,7 +129,7 @@ whether the window came from VCF confidence intervals or from the heuristic fall
 features found only in a fallback window are nearby candidates, not confirmed SV
 overlaps.
 
-The current region stage does not provide transcript, exon, CDS, MANE transcript,
+The fixed baseline does not provide transcript, exon, CDS, MANE transcript,
 protein consequence, VEP consequence, affected-feature percentage,
 nearest genes, enhancer-gene links, conservation, segmental duplication, curated
 RepeatMasker, or mappability tracks. It
@@ -124,7 +138,7 @@ limit, and it records the retrieval time but not a pinned Ensembl release. Repea
 overlap across a large SV is only a coarse observation and must not be treated as proof
 that either breakpoint is unreliable.
 
-## DatabaseEvidenceAgent: gnomAD-SV query and matching
+## Baseline gnomAD-SV query and matching
 
 The database stage now queries the public gnomAD GraphQL API directly. GRCh38 input
 uses `gnomad_sv_r4`; GRCh37 input uses `gnomad_sv_r2_1`. ClinVar is not queried. The
@@ -151,7 +165,7 @@ bounded, then merges duplicate records. Results are capped at
 `SV_AGENT_MAX_DATABASE_RECORDS` after ranking. No result in gnomAD-SV does not prove
 novelty, pathogenicity, or technical validity.
 
-gnomAD-SV is the only database available to this agent. The prompt forbids results
+gnomAD-SV is the only population database available to the workflow. The prompts forbid results
 from ClinVar, dbVar, DGV, OMIM, GWAS Catalog, GO, Reactome, or model memory. If such a
 source would be useful, the agent may only list it as `not_queried` with reason
 `tool_not_available`; it may not claim that a query occurred. Static adapter
@@ -161,6 +175,37 @@ The GraphQL endpoint is the public gnomAD Browser's browser-facing API rather th
 versioned contract maintained specifically for this project. Dataset IDs are pinned,
 but an upstream API schema change may require an adapter update and must be reported as
 an error rather than interpreted as no matching variants.
+
+## AdaptiveInvestigationAgent: bounded freedom
+
+The adaptive stage reads the complete baseline, names evidence gaps, and may choose at
+most two non-duplicate actions. The limit and duplicate check are enforced in ADK
+session state by the tool, not merely requested in the prompt. Every attempted action
+records its evidence gap, reason, expected information gain, status, and any rejection.
+An external failure consumes a slot, preventing unbounded retries.
+
+The implemented whitelist is deliberately smaller than the conceptual roadmap:
+
+- Ensembl genes within 10 kb or 50 kb, ranked by coordinate distance;
+- Ensembl transcript or exon overlaps;
+- transcript overlap at a parsed BND mate;
+- gnomAD-SV retrieval expanded by 2 kb or 10 kb.
+
+An expanded gnomAD request changes only which records are retrieved. The original VCF
+confidence intervals—or the already declared fallback windows when CI is absent—remain
+the matching windows. Thus a newly retrieved distant record remains `nearby` and cannot
+be promoted simply because the search radius was widened.
+
+VEP, DGV, dbVar, ClinGen, and ClinVar are not in the whitelist because there is no
+implemented, tested adapter for them. The agent must stop or record the limitation
+rather than simulate such a query from model knowledge. Transcript/exon actions remain
+coordinate-overlap observations and do not predict molecular consequence.
+
+The stage makes no call unless a named evidence gap, a relevant available action,
+remaining budget, non-duplication, and plausible effect on interpretation or next
+steps are all present. Zero adaptive calls is a valid completed decision, not agent
+inactivity. Its plan, actions, stop reason, and remaining limitations are copied into
+the report's required `investigation_log`.
 
 NCBI recommends identifying API clients used for PubMed. Set `NCBI_EMAIL` and
 optionally `NCBI_API_KEY`.
@@ -184,7 +229,8 @@ recorded fixtures so database changes do not make the core test suite nondetermi
 ## MVP limitations
 
 - Live adapters: Ensembl region/breakpoint overlap, gnomAD-SV region matching, and
-  PubMed metadata.
+  PubMed metadata; adaptive Ensembl transcript/exon/nearest-gene overlap and bounded
+  gnomAD retrieval expansion reuse those same public adapters.
 - ClinVar, dbVar, DGV, GWAS Catalog, GO, Reactome, and OMIM are not available to the
   database agent.
 - gnomAD-SV similarity labels are screening categories and do not prove that records

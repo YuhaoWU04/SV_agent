@@ -201,7 +201,7 @@ button.control:hover { border-color: var(--primary); }
 .workspace { position: relative; overflow: hidden; touch-action: none; cursor: grab; }
 .workspace.dragging { cursor: grabbing; }
 .world { position: absolute; left: 0; top: 0; transform-origin: 0 0; padding: 92px 70px 120px; display: flex; gap: 105px; align-items: flex-start; }
-.edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 1; }
+.edges { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 4; }
 .stage { position: relative; z-index: 3; width: 410px; flex: 0 0 410px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 8px 24px var(--shadow); overflow: hidden; }
 .stage-header { padding: 15px 17px; border-bottom: 1px solid var(--border); background: var(--panel-2); }
 .stage-index { color: var(--primary); font-size: 12px; font-weight: 700; letter-spacing: .08em; }
@@ -224,9 +224,8 @@ button.control:hover { border-color: var(--primary); }
 .node.related { border-color: var(--primary); }
 .node.selected { border-color: var(--primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 30%, transparent); }
 .stage-limit { margin: 0; padding: 11px 16px 14px; color: var(--muted); font-size: 12px; border-top: 1px dashed var(--border); }
-.edge { fill: none; stroke: var(--border); stroke-width: 1.4; opacity: .20; }
-.edge.active { stroke: var(--primary); stroke-width: 2.2; opacity: .82; }
-.edge.stage-edge { opacity: .42; stroke-width: 2; }
+.edge { fill: none; stroke: var(--border); stroke-width: 1.2; opacity: .12; }
+.edge.active { stroke: var(--primary); stroke-width: 2.2; opacity: .88; }
 .edge.external.active { stroke: light-dark(#6b45b5, #b39cff); }
 .edge.model.active { stroke: light-dark(#a56500, #ffc766); }
 .detail { position: absolute; z-index: 25; top: 14px; right: 14px; width: min(390px, calc(100% - 28px)); max-height: calc(100% - 28px); overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 32px var(--shadow); padding: 16px; }
@@ -257,13 +256,14 @@ button.control:hover { border-color: var(--primary); }
   <header class="toolbar">
     <div class="title-block">
       <h1>__TITLE__</h1>
-      <p>点击字段或处理节点，追踪完整上下游；拖动画布，滚轮缩放。</p>
+      <p>点击节点查看直接处理关系；可切换完整上下游。拖动画布，滚轮缩放。</p>
     </div>
     <input id="search" class="control search" type="search" aria-label="搜索字段或处理" placeholder="搜索字段、含义、数据库或规则">
     <button id="zoomOut" class="control" type="button" aria-label="缩小">−</button>
     <button id="zoomIn" class="control" type="button" aria-label="放大">＋</button>
     <button id="fit" class="control" type="button">适合窗口</button>
     <button id="reset" class="control" type="button">清除选择</button>
+    <label class="toggle"><input id="traceAll" type="checkbox">追踪完整上下游</label>
     <label class="toggle"><input id="showAll" type="checkbox">显示全部字段连线</label>
   </header>
   <section id="workspace" class="workspace" aria-label="SV Investigator 字段级流程图">
@@ -291,6 +291,7 @@ button.control:hover { border-color: var(--primary); }
   const detail = document.getElementById('detail');
   const detailBody = document.getElementById('detailBody');
   const search = document.getElementById('search');
+  const traceAll = document.getElementById('traceAll');
   const showAll = document.getElementById('showAll');
   const nodes = new Map();
   const fields = new Map(data.fields.map(x => [x.id, {...x, nodeType: 'field'}]));
@@ -365,19 +366,66 @@ button.control:hover { border-color: var(--primary); }
     drawEdges();
   }
 
-  function centerOf(element) {
+  function portOf(element, side) {
     const er = element.getBoundingClientRect();
     const wr = world.getBoundingClientRect();
-    return {x: (er.left - wr.left + er.width / 2) / scale, y: (er.top - wr.top + er.height / 2) / scale};
+    const x = side === 'left' ? er.left : er.right;
+    return {x: (x - wr.left) / scale, y: (er.top - wr.top + er.height / 2) / scale};
   }
 
-  function createPath(from, to, active, edgeType, stageEdge = false) {
-    const dx = Math.max(36, Math.abs(to.x - from.x) * .42);
+  function createPath(edge, active) {
+    const fromEl = nodes.get(edge.from);
+    const toEl = nodes.get(edge.to);
+    const fromStage = (fields.get(edge.from) || transforms.get(edge.from)).stage;
+    const toStage = (fields.get(edge.to) || transforms.get(edge.to)).stage;
+    const sameStage = fromStage === toStage;
+    const from = portOf(fromEl, 'right');
+    const to = portOf(toEl, sameStage ? 'right' : 'left');
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
+    if (sameStage) {
+      // Route internal field → operation → field links through the card gutter.
+      // Nothing runs behind an opaque card or across its text.
+      const lane = Math.max(from.x, to.x) + 22;
+      path.setAttribute('d', `M ${from.x} ${from.y} L ${lane} ${from.y} L ${lane} ${to.y} L ${to.x} ${to.y}`);
+    } else {
+      const dx = Math.max(25, (to.x - from.x) * .42);
+      path.setAttribute('d', `M ${from.x} ${from.y} C ${from.x + dx} ${from.y}, ${to.x - dx} ${to.y}, ${to.x} ${to.y}`);
+    }
     path.setAttribute('marker-end', 'url(#arrow)');
-    path.setAttribute('class', `edge${active ? ' active' : ''}${stageEdge ? ' stage-edge' : ''}${edgeType?.startsWith('model') ? ' model' : ''}${edgeType === 'external-query' ? ' external' : ''}`);
+    path.setAttribute('class', `edge${active ? ' active' : ''}${edge.type?.startsWith('model') ? ' model' : ''}${edge.type === 'external-query' ? ' external' : ''}`);
     svg.appendChild(path);
+  }
+
+  function focusedEdges() {
+    if (!selected) return [];
+    if (traceAll.checked) {
+      const related = relatedSet(selected);
+      return edges.filter(edge => related.has(edge.from) && related.has(edge.to));
+    }
+    if (transforms.has(selected)) {
+      return edges.filter(edge => edge.from === selected || edge.to === selected);
+    }
+    // A field's local view includes each directly connected operation and that
+    // operation's immediate input/output fields, but not the rest of the pipeline.
+    const operations = new Set(edges.filter(edge => edge.from === selected || edge.to === selected)
+      .map(edge => edge.from === selected ? edge.to : edge.from)
+      .filter(id => transforms.has(id)));
+    return edges.filter(edge => operations.has(edge.from) || operations.has(edge.to));
+  }
+
+  function updateFocus() {
+    if (!selected) return;
+    const related = new Set([selected]);
+    for (const edge of focusedEdges()) {
+      related.add(edge.from);
+      related.add(edge.to);
+    }
+    for (const [nodeId, element] of nodes) {
+      element.classList.toggle('selected', nodeId === selected);
+      element.classList.toggle('related', nodeId !== selected && related.has(nodeId));
+      element.classList.toggle('dim', !related.has(nodeId));
+    }
+    drawEdges();
   }
 
   function relatedSet(rootId) {
@@ -407,20 +455,12 @@ button.control:hover { border-color: var(--primary); }
 
   function drawEdges() {
     [...svg.querySelectorAll('path.edge')].forEach(path => path.remove());
-    const related = relatedSet(selected);
-    const cards = [...world.querySelectorAll('.stage')];
-    for (let i = 0; i < cards.length - 1; i++) {
-      const a = centerOf(cards[i].querySelector('.stage-header'));
-      const b = centerOf(cards[i + 1].querySelector('.stage-header'));
-      createPath({x: a.x + cards[i].offsetWidth / 2, y: a.y}, {x: b.x - cards[i + 1].offsetWidth / 2, y: b.y}, false, '', true);
-    }
+    const activeEdges = new Set(focusedEdges());
     for (const edge of edges) {
-      const fromEl = nodes.get(edge.from);
-      const toEl = nodes.get(edge.to);
-      if (!fromEl || !toEl) continue;
-      const active = selected && related.has(edge.from) && related.has(edge.to);
+      const active = activeEdges.has(edge);
       if (!showAll.checked && !active) continue;
-      createPath(centerOf(fromEl), centerOf(toEl), active, edge.type);
+      if (!nodes.has(edge.from) || !nodes.has(edge.to)) continue;
+      createPath(edge, active);
     }
   }
 
@@ -446,15 +486,9 @@ button.control:hover { border-color: var(--primary); }
 
   function selectNode(id) {
     selected = id;
-    const related = relatedSet(id);
-    for (const [nodeId, element] of nodes) {
-      element.classList.toggle('selected', nodeId === id);
-      element.classList.toggle('related', nodeId !== id && related.has(nodeId));
-      element.classList.toggle('dim', !related.has(nodeId));
-    }
     const item = fields.get(id) || transforms.get(id);
     if (item) showDetail(item);
-    drawEdges();
+    updateFocus();
   }
 
   function clearSelection() {
@@ -491,6 +525,7 @@ button.control:hover { border-color: var(--primary); }
     drawEdges();
   });
   showAll.addEventListener('change', drawEdges);
+  traceAll.addEventListener('change', updateFocus);
   document.getElementById('reset').addEventListener('click', () => { search.value = ''; clearSelection(); });
   document.getElementById('closeDetail').addEventListener('click', clearSelection);
   document.getElementById('fit').addEventListener('click', fit);

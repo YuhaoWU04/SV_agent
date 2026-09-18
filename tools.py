@@ -773,6 +773,136 @@ def query_ensembl_region(
     }
 
 
+def _query_ensembl_single_feature(
+    host: str, chrom: str, interval: list[int], feature: str, role: str
+) -> dict[str, Any]:
+    """Run one explicit Ensembl overlap query for an adaptive action."""
+    region = quote(f"{chrom}:{interval[0]}-{interval[1]}", safe=":-")
+    url = f"{host}/overlap/region/human/{region}?feature={feature}"
+    payload, error = _json_request(
+        f"{host}/overlap/region/human/{region}",
+        {"feature": feature},
+        {"Content-Type": "application/json"},
+    )
+    if error:
+        return {
+            "role": role, "query_region": f"{chrom}:{interval[0]}-{interval[1]}",
+            "feature": feature, "status": "error", "records": None,
+            "error": error, "source_url": url, "truncated": False,
+        }
+    if not isinstance(payload, list):
+        return {
+            "role": role, "query_region": f"{chrom}:{interval[0]}-{interval[1]}",
+            "feature": feature, "status": "error", "records": None,
+            "error": "invalid_response_shape", "source_url": url,
+            "truncated": False,
+        }
+    records = []
+    for index, row in enumerate(payload[:MAX_DATABASE_RECORDS], start=1):
+        records.append({
+            **row,
+            "evidence_id": f"ENS-ADP-{role.upper()}-{feature.upper()}-{index:03d}",
+            "feature_type": feature,
+            "breakpoint_role": role,
+        })
+    return {
+        "role": role, "query_region": f"{chrom}:{interval[0]}-{interval[1]}",
+        "feature": feature, "status": "found" if records else "not_found",
+        "records": records, "error": None, "source_url": url,
+        "truncated": len(payload) > MAX_DATABASE_RECORDS,
+    }
+
+
+def _validated_normalized_sv(normalized_sv_json: str) -> dict[str, Any]:
+    sv = _safe_json_loads(normalized_sv_json, "normalized_sv_json")
+    if sv.get("status") != "valid":
+        raise ValueError("normalized SV must have status valid")
+    build = _normalize_genome_build(sv.get("genome_build"))
+    chrom = _clean_chrom(sv.get("chrom"))
+    start = _parse_integer(sv.get("start"), "start")
+    end = _parse_integer(sv.get("end"), "end")
+    sv_type, _ = _normalize_sv_type(sv.get("sv_type"))
+    return {
+        **sv, "genome_build": build, "chrom": chrom, "start": start,
+        "end": end, "sv_type": sv_type,
+    }
+
+
+def _ensembl_adaptive_query(sv: dict[str, Any], action: str) -> dict[str, Any]:
+    build = sv["genome_build"]
+    host = "https://grch37.rest.ensembl.org" if build == "GRCh37" else ENSEMBL_REST
+    chrom = sv["chrom"]
+    chrom_length = CHROMOSOME_LENGTHS[build][chrom]
+
+    if action.startswith("QUERY_NEAREST_GENE_"):
+        padding = 10_000 if action.endswith("10KB") else 50_000
+        interval = [max(1, sv["start"] - padding), min(chrom_length, sv["end"] + padding)]
+        result = _query_ensembl_single_feature(host, chrom, interval, "gene", "expanded_region")
+        for row in result.get("records") or []:
+            row_start = row.get("start")
+            row_end = row.get("end")
+            if isinstance(row_start, int) and isinstance(row_end, int):
+                if row_end < sv["start"]:
+                    distance = sv["start"] - row_end
+                elif row_start > sv["end"]:
+                    distance = row_start - sv["end"]
+                else:
+                    distance = 0
+                row["distance_to_nominal_sv_bp"] = distance
+        if result.get("records"):
+            result["records"].sort(
+                key=lambda row: (row.get("distance_to_nominal_sv_bp", 10**18), str(row.get("id", "")))
+            )
+        return {
+            "source": "Ensembl", "action": action, "status": result["status"],
+            "retrieval_padding_bp": padding, "results": [result],
+            "retrieved_at": _now(),
+            "limitations": "Nearest means coordinate distance within the requested search radius; it does not imply regulation or causality.",
+        }
+
+    feature = "transcript" if "TRANSCRIPTS" in action else "exon"
+    scopes: list[tuple[str, str, list[int]]] = []
+    if action == "ANNOTATE_BND_MATE_TRANSCRIPTS":
+        if sv["sv_type"] != "BND" or not sv.get("mate_chrom") or sv.get("mate_pos") is None:
+            return {
+                "source": "Ensembl", "action": action, "status": "not_applicable",
+                "error": "a parsed BND mate is required", "retrieved_at": _now(),
+            }
+        mate_chrom = _clean_chrom(sv["mate_chrom"])
+        mate_pos = _parse_integer(sv["mate_pos"], "mate_pos")
+        mate_window = _breakpoint_window(
+            mate_pos, sv.get("mate_confidence_interval"),
+            CHROMOSOME_LENGTHS[build][mate_chrom],
+        )
+        scopes.append(("mate_breakend", mate_chrom, mate_window["interval"]))
+    elif sv["end"] - sv["start"] + 1 <= 5_000_000:
+        scopes.append(("nominal", chrom, [sv["start"], sv["end"]]))
+    else:
+        start_window = _breakpoint_window(
+            sv["start"], sv.get("start_confidence_interval"), chrom_length
+        )
+        end_window = _breakpoint_window(
+            sv["end"], sv.get("end_confidence_interval"), chrom_length
+        )
+        scopes.extend([
+            ("start_breakend", chrom, start_window["interval"]),
+            ("end_breakend", chrom, end_window["interval"]),
+        ])
+    results = [
+        _query_ensembl_single_feature(host, scope_chrom, interval, feature, role)
+        for role, scope_chrom, interval in scopes
+    ]
+    status = "found" if any(item["status"] == "found" for item in results) else (
+        "error" if results and all(item["status"] == "error" for item in results)
+        else "not_found"
+    )
+    return {
+        "source": "Ensembl", "action": action, "status": status,
+        "results": results, "retrieved_at": _now(),
+        "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence.",
+    }
+
+
 def _ncbi_params(extra: dict[str, Any]) -> dict[str, Any]:
     params = {**extra, "retmode": "json", "tool": "sv_investigator"}
     if NCBI_API_KEY:
@@ -1400,3 +1530,171 @@ def assess_artifact_risk(normalized_sv_json: str, region_annotation_json: str = 
         "medium" if "present" in statuses else "unknown" if "unknown" in statuses else "low"
     )
     return {"overall_risk": overall, "risk_items": items}
+
+
+def _add_ensembl_evidence_ids(annotation: dict[str, Any]) -> dict[str, Any]:
+    """Add stable local IDs without deleting or summarizing source fields."""
+    enriched = json.loads(json.dumps(annotation))
+
+    def enrich_feature_map(container: dict[str, Any], role: str) -> None:
+        features = container.get("features")
+        if not isinstance(features, dict):
+            return
+        for feature, rows in features.items():
+            if not isinstance(rows, list):
+                continue
+            for index, row in enumerate(rows, start=1):
+                if isinstance(row, dict):
+                    row.setdefault(
+                        "evidence_id",
+                        f"ENS-BL-{role.upper()}-{feature.upper()}-{index:03d}",
+                    )
+                    row.setdefault("feature_type", feature)
+                    row.setdefault("breakpoint_role", role)
+
+    enrich_feature_map(enriched, "nominal")
+    breakpoints = enriched.get("breakpoint_annotations")
+    if isinstance(breakpoints, dict):
+        for role in ("start", "end", "mate"):
+            item = breakpoints.get(role)
+            if isinstance(item, dict):
+                enrich_feature_map(item, role)
+    return enriched
+
+
+def _add_gnomad_evidence_ids(evidence: dict[str, Any], prefix: str) -> dict[str, Any]:
+    enriched = json.loads(json.dumps(evidence))
+    for index, row in enumerate(enriched.get("records") or [], start=1):
+        if isinstance(row, dict):
+            row.setdefault("evidence_id", f"GNO-{prefix}-{index:03d}")
+    return enriched
+
+
+def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
+    """Collect the non-optional deterministic Ensembl, gnomAD-SV, and QC baseline."""
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+    except (ValueError, TypeError) as exc:
+        return {"status": "blocked", "error": str(exc)}
+
+    region = query_ensembl_region(
+        genome_build=sv["genome_build"], chrom=sv["chrom"],
+        start=sv["start"], end=sv["end"], sv_type=sv["sv_type"],
+        start_confidence_interval=sv.get("start_confidence_interval"),
+        end_confidence_interval=sv.get("end_confidence_interval"),
+        mate_chrom=sv.get("mate_chrom"), mate_pos=sv.get("mate_pos"),
+        mate_confidence_interval=sv.get("mate_confidence_interval"),
+    )
+    population = query_gnomad_sv(normalized_sv_json)
+    artifact = assess_artifact_risk(normalized_sv_json, json.dumps(region))
+    return {
+        "status": "complete",
+        "collection_policy": "deterministic_non_optional_baseline",
+        "immutable_candidate_fields": {
+            key: sv.get(key) for key in (
+                "genome_build", "chrom", "start", "end", "sv_type",
+                "start_confidence_interval", "end_confidence_interval",
+                "mate_chrom", "mate_pos", "mate_confidence_interval",
+            )
+        },
+        "region_annotation": _add_ensembl_evidence_ids(region),
+        "database_evidence": _add_gnomad_evidence_ids(population, "BL"),
+        "artifact_risk": artifact,
+        "retrieved_at": _now(),
+        "limitations": [
+            "Baseline Ensembl evidence is coordinate-overlap evidence.",
+            "Baseline population evidence is limited to gnomAD-SV.",
+            "Missing source data and query failures remain explicit unknown/error states.",
+        ],
+    }
+
+
+def execute_adaptive_action(
+    normalized_sv_json: str, action: str
+) -> dict[str, Any]:
+    """Execute exactly one whitelisted follow-up without changing candidate identity."""
+    if action not in ADAPTIVE_ACTIONS:
+        return {
+            "status": "rejected", "action": action,
+            "error": "action_not_whitelisted",
+            "allowed_actions": sorted(ADAPTIVE_ACTIONS),
+        }
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+    except (ValueError, TypeError) as exc:
+        return {"status": "rejected", "action": action, "error": str(exc)}
+
+    if action.startswith("EXPAND_GNOMAD_RETRIEVAL_"):
+        padding = 2_000 if action.endswith("2KB") else 10_000
+        result = query_gnomad_sv(
+            normalized_sv_json, retrieval_padding_bp=padding
+        )
+        result = _add_gnomad_evidence_ids(result, f"ADP-{padding}")
+    else:
+        result = _ensembl_adaptive_query(sv, action)
+    return {
+        "status": "executed", "action": action,
+        "candidate_fields_unchanged": True,
+        "result": result,
+    }
+
+
+def run_budgeted_adaptive_action(
+    normalized_sv_json: str,
+    action: str,
+    evidence_gap: str,
+    reason: str,
+    expected_information_gain: str,
+    state: MutableMapping[str, Any],
+) -> dict[str, Any]:
+    """Enforce the hard adaptive-call budget and append a machine-readable audit."""
+    history_key = "temp:adaptive_action_history"
+    count_key = "temp:adaptive_query_count"
+    history = list(state.get(history_key, []))
+    used = int(state.get(count_key, 0))
+    audit = {
+        "action": action,
+        "evidence_gap": evidence_gap.strip(),
+        "reason": reason.strip(),
+        "expected_information_gain": expected_information_gain.strip(),
+        "attempted_at": _now(),
+    }
+    if not all((audit["evidence_gap"], audit["reason"], audit["expected_information_gain"])):
+        audit.update({"status": "rejected", "rejection_reason": "missing_action_justification"})
+        history.append(audit)
+        state[history_key] = history
+        return {**audit, "queries_used": used, "queries_remaining": MAX_ADAPTIVE_QUERIES - used}
+    if action not in ADAPTIVE_ACTIONS:
+        audit.update({"status": "rejected", "rejection_reason": "action_not_whitelisted"})
+        history.append(audit)
+        state[history_key] = history
+        return {**audit, "queries_used": used, "queries_remaining": MAX_ADAPTIVE_QUERIES - used}
+    if any(item.get("action") == action and item.get("status") == "executed" for item in history):
+        audit.update({"status": "rejected", "rejection_reason": "duplicate_action"})
+        history.append(audit)
+        state[history_key] = history
+        return {**audit, "queries_used": used, "queries_remaining": MAX_ADAPTIVE_QUERIES - used}
+    if used >= MAX_ADAPTIVE_QUERIES:
+        audit.update({"status": "rejected", "rejection_reason": "query_budget_exhausted"})
+        history.append(audit)
+        state[history_key] = history
+        return {**audit, "queries_used": used, "queries_remaining": 0}
+
+    # A failed external request still consumes budget: retry loops are not a route
+    # around the bounded-investigation contract.
+    result = execute_adaptive_action(normalized_sv_json, action)
+    used += 1
+    nested_result = result.get("result")
+    result_status = (
+        nested_result.get("status")
+        if isinstance(nested_result, dict) else result.get("status")
+    )
+    audit.update({"status": "executed", "result_status": result_status})
+    history.append(audit)
+    state[count_key] = used
+    state[history_key] = history
+    return {
+        **audit, "queries_used": used,
+        "queries_remaining": MAX_ADAPTIVE_QUERIES - used,
+        "result": result,
+    }

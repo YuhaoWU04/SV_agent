@@ -3,17 +3,45 @@
 from __future__ import annotations
 
 from google.adk.agents import Agent, SequentialAgent
+from google.adk.tools import ToolContext
 
 from .config import MODEL
-from .prompts import ARTIFACT, DATABASE, INTAKE, LITERATURE, REGION, REPORT, VERIFY
+from .prompts import ADAPTIVE, BASELINE, INTAKE, LITERATURE, REPORT, VERIFY
 from .schemas import SVReport, VerificationOutput
 from .tools import (
-    assess_artifact_risk,
+    collect_baseline_evidence,
     normalize_sv_input,
-    query_ensembl_region,
-    query_gnomad_sv,
+    run_budgeted_adaptive_action,
     search_pubmed,
 )
+
+
+def adaptive_followup_query(
+    normalized_sv_json: str,
+    action: str,
+    evidence_gap: str,
+    reason: str,
+    expected_information_gain: str,
+    tool_context: ToolContext,
+) -> dict:
+    """Run one budgeted, audited follow-up from the fixed action whitelist.
+
+    Args:
+        normalized_sv_json: The complete JSON emitted by InputNormalizerAgent.
+        action: One exact action name listed in the adaptive-agent instruction.
+        evidence_gap: Specific unresolved question in the baseline evidence.
+        reason: Why this action is appropriate for that gap.
+        expected_information_gain: How the result could change interpretation.
+        tool_context: Injected ADK context; never supplied by the model.
+    """
+    return run_budgeted_adaptive_action(
+        normalized_sv_json=normalized_sv_json,
+        action=action,
+        evidence_gap=evidence_gap,
+        reason=reason,
+        expected_information_gain=expected_information_gain,
+        state=tool_context.state,
+    )
 
 
 input_normalizer_agent = Agent(
@@ -25,40 +53,31 @@ input_normalizer_agent = Agent(
     output_key="normalized_sv",
 )
 
-region_annotation_agent = Agent(
-    name="RegionAnnotationAgent",
+baseline_evidence_agent = Agent(
+    name="BaselineEvidenceCollectorAgent",
     model=MODEL,
-    description="Collects coordinate-matched Ensembl region annotations.",
-    instruction=REGION,
-    tools=[query_ensembl_region],
-    output_key="region_annotation",
+    description="Runs the required deterministic Ensembl, gnomAD-SV, and QC baseline.",
+    instruction=BASELINE,
+    tools=[collect_baseline_evidence],
+    output_key="baseline_evidence",
 )
 
-database_evidence_agent = Agent(
-    name="DatabaseEvidenceAgent",
+adaptive_investigation_agent = Agent(
+    name="AdaptiveInvestigationAgent",
     model=MODEL,
-    description="Collects and classifies build-matched gnomAD-SV population evidence.",
-    instruction=DATABASE,
-    tools=[query_gnomad_sv],
-    output_key="database_evidence",
+    description="Chooses at most two justified follow-ups from a fixed whitelist.",
+    instruction=ADAPTIVE,
+    tools=[adaptive_followup_query],
+    output_key="adaptive_investigation",
 )
 
 literature_function_agent = Agent(
     name="LiteratureAndFunctionAgent",
     model=MODEL,
-    description="Runs traceable literature searches without inferring from titles.",
+    description="Runs traceable, evidence-guided PubMed searches.",
     instruction=LITERATURE,
     tools=[search_pubmed],
     output_key="literature_evidence",
-)
-
-artifact_risk_agent = Agent(
-    name="ArtifactRiskAgent",
-    model=MODEL,
-    description="Assesses missingness, repeat, caller, and batch-related risks.",
-    instruction=ARTIFACT,
-    tools=[assess_artifact_risk],
-    output_key="artifact_risk",
 )
 
 # Structured-output agents deliberately have no tools. ADK warns that combining
@@ -83,13 +102,12 @@ report_writer_agent = Agent(
 
 root_agent = SequentialAgent(
     name="SVInvestigationPipeline",
-    description="Investigates one pre-screened SV in a fixed, auditable sequence.",
+    description="Runs a fixed baseline plus a bounded, auditable adaptive investigation.",
     sub_agents=[
         input_normalizer_agent,
-        region_annotation_agent,
-        database_evidence_agent,
+        baseline_evidence_agent,
+        adaptive_investigation_agent,
         literature_function_agent,
-        artifact_risk_agent,
         evidence_verifier_agent,
         report_writer_agent,
     ],
