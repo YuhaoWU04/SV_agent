@@ -15,8 +15,10 @@ from sv_investigator.tools import (
     normalize_sv_input,
     query_clingen_dosage,
     query_clinvar,
+    query_dbvar,
     query_dgv,
     query_ensembl_region,
+    query_ensembl_vep,
     query_gnomad_sv,
     run_budgeted_adaptive_action,
     search_pubmed,
@@ -392,6 +394,25 @@ class SVToolsTest(unittest.TestCase):
         })
         self.assertEqual(len(report.investigation_log.executed_actions), 2)
 
+    def test_report_schema_preserves_not_applicable_source_status(self):
+        report = SVReport.model_validate({
+            "report_status": "incomplete",
+            "sv_summary": {
+                "validation_status": "valid", "sv_id": "bnd1",
+                "genome_build": "GRCh38", "chrom": "1", "start": 10,
+                "end": 10, "sv_type": "BND",
+            },
+            "query_provenance": [{
+                "source": "Ensembl VEP", "status": "not_applicable",
+                "query_summary": "BND adjacency is not supported by this endpoint",
+            }],
+            "investigation_log": {
+                "query_budget": 2, "queries_used": 0,
+                "stop_reason": "baseline source not applicable",
+            },
+        })
+        self.assertEqual(report.query_provenance[0].status, "not_applicable")
+
     @patch("sv_investigator.tools._json_request")
     def test_ensembl_region_preserves_sv_type_and_query_scope(self, request):
         request.side_effect = [
@@ -642,6 +663,84 @@ class SVToolsTest(unittest.TestCase):
         self.assertTrue(record["source_variant_ids_truncated"])
         self.assertNotIn("samples", record)
 
+    @patch("sv_investigator.tools._ensembl_json_request")
+    def test_vep_compacts_and_ranks_transcript_consequences(self, request):
+        request.return_value = ([{
+            "id": "1_1000_deletion", "assembly_name": "GRCh38",
+            "seq_region_name": "1", "start": 1000, "end": 2000,
+            "allele_string": "deletion",
+            "most_severe_consequence": "transcript_ablation",
+            "transcript_consequences": [{
+                "gene_id": "ENSG2", "transcript_id": "ENST2",
+                "impact": "MODIFIER", "consequence_terms": ["intron_variant"],
+                "percentage_overlap": 5.0, "biotype": "lncRNA",
+            }, {
+                "gene_id": "ENSG1", "gene_symbol": "GENE1",
+                "transcript_id": "ENST1", "impact": "HIGH",
+                "consequence_terms": ["transcript_ablation"],
+                "percentage_overlap": 100.0, "canonical": 1,
+                "mane_select": "NM_000001.1", "biotype": "protein_coding",
+            }],
+        }], None, 1)
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL",
+        }))
+        result = query_ensembl_vep(json.dumps(sv))
+        self.assertEqual(result["status"], "found")
+        self.assertEqual(result["records"][0]["transcript_id"], "ENST1")
+        self.assertTrue(result["records"][0]["canonical"])
+        self.assertEqual(result["input_annotations"][0]["most_severe_consequence"],
+                         "transcript_ablation")
+        self.assertIn("/vep/human/region/1:1000-2000:1/DEL", request.call_args.args[0])
+
+    @patch("sv_investigator.tools._json_request")
+    def test_dbvar_filters_build_and_labels_direction_ambiguity(self, request):
+        request.side_effect = [
+            ({"esearchresult": {"count": "1", "idlist": ["42"]}}, None),
+            ({"result": {"uids": ["42"], "42": {
+                "uid": "42", "obj_type": "VARIANT", "st": "nstd1",
+                "sv": "nsv42", "dbvarvarianttypelist": ["copy number variation"],
+                "dbvarplacementlist": [
+                    {"chr": "1", "chr_start": 900, "chr_end": 1900,
+                     "assembly": "GRCh37.p13", "assembly_accession": ""},
+                    {"chr": "1", "chr_start": 1000, "chr_end": 2000,
+                     "assembly": "GRCh38.p14", "assembly_accession": ""},
+                ],
+                "dbvarmethodlist": ["Sequencing"],
+                "dbvarclinicalsignificancelist": [], "dbvargenelist": [],
+                "dbvarpublicationlist": [], "variant_call_count": 1,
+            }}}, None),
+        ]
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL",
+        }))
+        result = query_dbvar(json.dumps(sv))
+        self.assertEqual(result["status"], "found")
+        record = result["records"][0]
+        self.assertEqual(record["record_id"], "nsv42")
+        self.assertEqual(record["assembly"], "GRCh38.p14")
+        self.assertEqual(record["type_compatibility"], "ambiguous_cnv_direction")
+        self.assertEqual(record["match_type"], "exact")
+        self.assertFalse(record["same_event_established"])
+
+    @patch("sv_investigator.tools._json_request")
+    @patch("sv_investigator.tools._ensembl_json_request")
+    def test_p1_tools_do_not_force_single_interval_semantics_onto_bnd(
+        self, ensembl_request, ncbi_request
+    ):
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 1000, "sv_type": "BND",
+            "alt": "N]2:2000]",
+        }))
+        payload = json.dumps(sv)
+        self.assertEqual(query_ensembl_vep(payload)["status"], "not_applicable")
+        self.assertEqual(query_dbvar(payload)["status"], "not_applicable")
+        ensembl_request.assert_not_called()
+        ncbi_request.assert_not_called()
+
     def test_new_database_failures_are_not_reported_as_negative_results(self):
         sv = normalize_sv_input(json.dumps({
             "genome_build": "GRCh38", "chrom": "1", "start": 1000,
@@ -652,13 +751,22 @@ class SVToolsTest(unittest.TestCase):
             clingen = query_clingen_dosage(payload)
         with patch("sv_investigator.tools._json_request", return_value=(None, "HTTP 503")):
             clinvar = query_clinvar(payload)
+            dbvar = query_dbvar(payload)
             dgv = query_dgv(payload)
+        with patch(
+            "sv_investigator.tools._ensembl_json_request",
+            return_value=(None, "TimeoutError", 2),
+        ):
+            vep = query_ensembl_vep(payload)
 
         self.assertEqual(clingen["status"], "error")
         self.assertEqual(clinvar["status"], "error")
         self.assertEqual(clinvar["completeness"], "failed")
         self.assertEqual(dgv["status"], "error")
         self.assertEqual(dgv["completeness"], "failed")
+        self.assertEqual(dbvar["status"], "error")
+        self.assertEqual(dbvar["completeness"], "failed")
+        self.assertEqual(vep["status"], "error")
 
     def test_adaptive_action_whitelist_and_budget_are_enforced(self):
         sv = normalize_sv_input(json.dumps({
@@ -694,13 +802,15 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(execute.call_count, 2)
 
     @patch("sv_investigator.tools.query_dgv")
+    @patch("sv_investigator.tools.query_dbvar")
     @patch("sv_investigator.tools.query_clinvar")
     @patch("sv_investigator.tools.query_clingen_dosage")
+    @patch("sv_investigator.tools.query_ensembl_vep")
     @patch("sv_investigator.tools.assess_artifact_risk")
     @patch("sv_investigator.tools.query_gnomad_sv")
     @patch("sv_investigator.tools.query_ensembl_region")
     def test_baseline_collection_adds_ids_without_losing_records(
-        self, ensembl, gnomad, artifact, clingen, clinvar, dgv
+        self, ensembl, gnomad, artifact, vep, clingen, clinvar, dbvar, dgv
     ):
         ensembl.return_value = {
             "source": "Ensembl", "status": "found",
@@ -711,6 +821,10 @@ class SVToolsTest(unittest.TestCase):
             "source": "gnomAD-SV", "status": "found",
             "records": [{"variant_id": "v1", "af": 0.1}],
         }
+        vep.return_value = {
+            "source": "Ensembl VEP", "status": "found",
+            "records": [{"record_id": "ENST1"}],
+        }
         clingen.return_value = {
             "source": "ClinGen Dosage", "status": "found",
             "records": [{"record_id": "ISCA-1"}],
@@ -718,6 +832,10 @@ class SVToolsTest(unittest.TestCase):
         clinvar.return_value = {
             "source": "ClinVar", "status": "found",
             "records": [{"record_id": "VCV1"}],
+        }
+        dbvar.return_value = {
+            "source": "NCBI dbVar", "status": "found",
+            "records": [{"record_id": "nsv1"}],
         }
         dgv.return_value = {
             "source": "DGV Gold Standard", "status": "found",
@@ -747,6 +865,14 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(
             result["dgv_evidence"]["records"][0]["evidence_id"],
             "DGV-BL-001",
+        )
+        self.assertEqual(
+            result["vep_evidence"]["records"][0]["evidence_id"],
+            "VEP-BL-001",
+        )
+        self.assertEqual(
+            result["dbvar_evidence"]["records"][0]["evidence_id"],
+            "DBV-BL-001",
         )
 
     @patch("sv_investigator.tools._json_post")

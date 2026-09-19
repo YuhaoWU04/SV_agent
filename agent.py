@@ -81,8 +81,8 @@ baseline_evidence_agent = Agent(
     name="BaselineEvidenceCollectorAgent",
     model=MODEL,
     description=(
-        "Runs the required deterministic Ensembl, gnomAD-SV, ClinGen, ClinVar, "
-        "DGV, and QC baseline."
+        "Runs the required deterministic Ensembl overlap/VEP, gnomAD-SV, ClinGen, "
+        "ClinVar, dbVar, DGV, and QC baseline."
     ),
     instruction=BASELINE,
     tools=[collect_baseline_evidence_to_state],

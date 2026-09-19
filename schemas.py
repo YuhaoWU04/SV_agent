@@ -84,7 +84,10 @@ class ArtifactRiskItem(BaseModel):
 
 class ProvenanceItem(BaseModel):
     source: str
-    status: Literal["found", "not_found", "unavailable", "error", "not_queried"]
+    status: Literal[
+        "found", "not_found", "not_applicable", "unavailable", "error",
+        "not_queried",
+    ]
     query_summary: str
     retrieved_at: str = ""
 
@@ -92,7 +95,10 @@ class ProvenanceItem(BaseModel):
 class EvidenceRecord(BaseModel):
     evidence_id: str
     source: str
-    status: Literal["found", "not_found", "unavailable", "error", "not_queried"]
+    status: Literal[
+        "found", "not_found", "not_applicable", "unavailable", "error",
+        "not_queried",
+    ]
     record_id: str = ""
     match_type: Literal[
         "exact", "high_similarity", "partial_overlap", "region_search",

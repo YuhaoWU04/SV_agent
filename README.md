@@ -14,11 +14,12 @@ baseline, adaptive, and PubMed results directly to `ToolContext.state`; these ra
 records are not saved from the model's retelling. The adaptive and literature agents'
 `output_key` values contain their decisions and interpretations, while the verifier
 and writer have no tools and enforce Pydantic output schemas. The design is a
-deterministic baseline plus bounded adaptation: baseline Ensembl, gnomAD-SV, ClinGen
-Dosage, ClinVar, DGV Gold Standard, and artifact checks always run, after which one LLM stage may make
+deterministic baseline plus bounded adaptation: baseline Ensembl overlap/VEP,
+gnomAD-SV, ClinGen Dosage, ClinVar, dbVar, DGV Gold Standard, and artifact checks
+always run, after which one LLM stage may make
 zero, one, or two justified calls from a hard-coded whitelist. Missing evidence remains
-`unknown`, `not_found`, `unavailable`, `error`, or `not_queried` rather than being
-silently treated as negative evidence.
+`unknown`, `not_found`, `not_applicable`, `unavailable`, `error`, or `not_queried`
+rather than being silently treated as negative evidence.
 
 The raw state keys are `normalized_sv`, `baseline_evidence`,
 `adaptive_tool_results`, and `literature_tool_results`. Later agents currently read
@@ -116,19 +117,22 @@ for that label. Other overlap-based similarity classes can still apply.
 ## BaselineEvidenceCollectorAgent: fixed coverage
 
 This stage calls one deterministic wrapper exactly once. The wrapper always performs
-Ensembl region/breakpoint queries, build-matched gnomAD-SV, ClinGen Dosage, ClinVar,
-DGV Gold Standard, and the artifact-risk rules. Independent remote sources run
-concurrently, but each result keeps its own success, partial-failure, or error state.
+Ensembl region/breakpoint and VEP queries, build-matched gnomAD-SV, ClinGen Dosage,
+ClinVar, dbVar, DGV Gold Standard, and the artifact-risk rules. Independent remote
+sources run concurrently, but each result keeps its own success, partial-failure, or
+error state.
 The LLM wrapper cannot choose which baseline source to skip. Raw source fields are
-preserved or deterministically compacted, while stable `ENS-BL-*`, `GNO-BL-*`,
-`CGD-BL-*`, `CLV-BL-*`, and `DGV-BL-*` evidence IDs are added. Candidate identity
+preserved or deterministically compacted, while stable `ENS-BL-*`, `VEP-BL-*`,
+`GNO-BL-*`, `CGD-BL-*`, `CLV-BL-*`, `DBV-BL-*`, and `DGV-BL-*` evidence IDs are
+added. Candidate identity
 fields are copied into an immutable-field audit block.
 
-The three new adapters use the shared `SV_AGENT_HTTP_TIMEOUT` setting (20 seconds by
-default) and currently make one attempt per endpoint; unlike Ensembl, they do not yet
-retry transient HTTP failures. Such a failure is stored as `error`, never as an empty
-or negative result. Each source returns at most `SV_AGENT_MAX_DATABASE_RECORDS`
-ranked records (10 by default), while retaining pre-limit counts and a truncation flag.
+Non-Ensembl adapters use the shared `SV_AGENT_HTTP_TIMEOUT` setting (20 seconds by
+default) and currently make one attempt per endpoint. Ensembl overlap and VEP share
+the Ensembl-specific timeout, retry policy, and process-wide concurrency gate. A
+failure is stored as `error`, never as an empty or negative result. Each source returns
+at most `SV_AGENT_MAX_DATABASE_RECORDS` ranked records (10 by default), while retaining
+pre-limit counts and a truncation flag.
 
 ## Baseline Ensembl annotation: capability and limitations
 
@@ -159,14 +163,33 @@ not empty annotation results. These defaults can be changed with
 `SV_AGENT_ENSEMBL_HTTP_TIMEOUT`, `SV_AGENT_ENSEMBL_MAX_ATTEMPTS`,
 `SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS`, and `SV_AGENT_ENSEMBL_RETRY_BACKOFF`.
 
-The fixed baseline does not provide transcript, exon, CDS, MANE transcript,
-protein consequence, VEP consequence, affected-feature percentage,
-nearest genes, enhancer-gene links, conservation, segmental duplication, curated
-RepeatMasker, or mappability tracks. It
+This spatial-overlap adapter does not provide transcript, exon, CDS, MANE transcript,
+protein consequence, or affected-feature percentage; those are handled separately by
+the bounded VEP adapter below. The baseline still does not provide nearest genes,
+enhancer-gene links, conservation, segmental duplication, curated RepeatMasker, or
+mappability tracks. It
 also does not split intervals that exceed the Ensembl overlap endpoint's region-size
 limit, and it records the retrieval time but not a pinned Ensembl release. Repeat
 overlap across a large SV is only a coarse observation and must not be treated as proof
 that either breakpoint is unreliable.
+
+## Baseline Ensembl VEP consequence query
+
+The VEP adapter submits the normalized build, interval, strand, and symbolic `DEL`,
+`DUP`, `INV`, or `INS` allele to the official
+[Ensembl VEP region endpoint](https://rest.ensembl.org/documentation/info/vep_region_get).
+It retains the input-level most-severe consequence and a ranked, compact set of
+transcript, regulatory, motif, and intergenic consequences. Transcript records can
+include gene/transcript IDs, symbols, biotype, canonical and MANE flags, exon/intron
+number, overlap amount, consequence terms, and impact.
+
+VEP is not called for BND because the single-region endpoint cannot represent and
+verify the full adjacency, or for direction-unknown `CNV` because deletion and
+duplication consequences differ. Intervals larger than
+`SV_AGENT_MAX_VEP_INTERVAL_BP` (5 Mb by default) return `not_applicable` to avoid an
+unbounded, failure-prone request. VEP output is a prediction for the submitted symbolic
+allele, not experimental validation, expression evidence, dosage classification, or a
+patient-level conclusion. The response is capped and the Ensembl release is not pinned.
 
 ## Baseline gnomAD-SV query and matching
 
@@ -197,7 +220,7 @@ novelty, pathogenicity, or technical validity.
 
 gnomAD-SV remains the primary frequency source, but it is no longer the only population
 database: DGV Gold Standard is also queried as described below. The prompts still
-forbid invented results from dbVar, OMIM, GWAS Catalog, GO, Reactome, or model memory.
+forbid invented results from OMIM, GWAS Catalog, GO, Reactome, or model memory.
 
 The GraphQL endpoint is the public gnomAD Browser's browser-facing API rather than a
 versioned contract maintained specifically for this project. Dataset IDs are pinned,
@@ -241,6 +264,32 @@ SVs use separate breakpoint regions, and absence from the returned records does 
 prove novelty or benignity. Configure `NCBI_EMAIL` and optionally `NCBI_API_KEY` for
 NCBI requests.
 
+ClinVar, dbVar, and PubMed share a process-wide E-utilities rate limiter. Requests are
+serialized at approximately three per second without `NCBI_API_KEY`, or ten per second
+when a key is configured, so concurrently scheduled baseline sources do not exceed
+NCBI's documented usage rate.
+
+## Baseline dbVar query
+
+The dbVar adapter uses NCBI ESearch and ESummary following the official
+[dbVar Entrez access method](https://www.ncbi.nlm.nih.gov/dbvar/content/tools/entrez/).
+It searches the candidate or bounded breakpoint regions by chromosome, endpoints,
+object type, and compatible structural-variant type, then filters the returned
+placements to the requested GRCh build. Records include the dbVar variant and study
+accessions, placement assembly, reported variant types, methods, genes, publications,
+clinical-significance strings when supplied, variant-call count, and deterministic
+coordinate match metrics.
+
+dbVar aggregates heterogeneous submitter-defined variant regions and calls. A generic
+`copy number variation` record is retained for DEL/DUP only with
+`type_compatibility=ambiguous_cnv_direction`; it is not silently treated as a
+direction-confirmed match. BND returns `not_applicable` because ESummary does not expose
+a reliable two-breakend adjacency for comparison. The bounded endpoint search may miss
+a much larger record that completely encloses the query without placing either dbVar
+endpoint inside it, and ESearch may truncate before all candidates are summarized.
+Remapped coordinates and exact displayed coordinates therefore remain contextual
+evidence, not proof of event identity, validation, or clinical significance.
+
 ## Baseline DGV query
 
 The DGV adapter queries the `dgvGold` GRCh37/GRCh38 track through the
@@ -282,10 +331,11 @@ declared fallback expands retrieval only and does not by itself confer
 `high_similarity`. Thus a newly retrieved distant record cannot be promoted simply
 because the search radius was widened.
 
-ClinGen Dosage, ClinVar, and DGV are mandatory baseline sources, not adaptive actions;
-the agent must use their stored results rather than spend its two calls repeating them.
-VEP, dbVar, the complete current DGV release, OMIM, phenotype matching, and regulatory
-effect resources remain unavailable. The agent must stop or record those limitations
+Ensembl VEP, ClinGen Dosage, ClinVar, dbVar, and DGV are mandatory baseline sources,
+not adaptive actions; the agent must use their stored results rather than spend its
+two calls repeating them. The complete current DGV release, OMIM, phenotype matching,
+enhancer-gene linking, and other regulatory-effect resources remain unavailable. The
+agent must stop or record those limitations
 rather than simulate a query from model knowledge. Transcript/exon actions remain
 coordinate-overlap observations and do not predict molecular consequence.
 
@@ -329,11 +379,12 @@ recorded fixtures so database changes do not make the core test suite nondetermi
 
 ## MVP limitations
 
-- Live adapters: Ensembl region/breakpoint overlap, gnomAD-SV region matching, and
-  PubMed metadata; adaptive Ensembl transcript/exon/nearest-gene overlap and bounded
-  gnomAD retrieval expansion reuse those same public adapters.
-- ClinVar, dbVar, DGV, GWAS Catalog, GO, Reactome, and OMIM are not available to the
-  database agent.
+- Live adapters: Ensembl region/breakpoint overlap and VEP, gnomAD-SV, ClinGen Dosage,
+  ClinVar, dbVar, DGV Gold, and PubMed metadata; adaptive Ensembl
+  transcript/exon/nearest-gene overlap and bounded gnomAD retrieval expansion reuse
+  those same public adapters.
+- The complete DGV release, OMIM, phenotype ontology/matching, enhancer-gene linking,
+  GWAS Catalog, GO, and Reactome are not available to the agents.
 - gnomAD-SV similarity labels are screening categories and do not prove that records
   represent the same biological event.
 - PubMed metadata is contextual and does not prove a paper supports a mechanism.

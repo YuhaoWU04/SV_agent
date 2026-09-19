@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `67f3da94a264`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `89e4ddcc1d99`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -47,7 +47,7 @@
 
 ## 2. 不可跳过的证据基线
 
-一次固定调用并发收集 Ensembl、gnomAD-SV、ClinGen Dosage、ClinVar、DGV Gold 和技术风险；工具直接保存带证据 ID 的完整结果。
+一次固定调用并发收集 Ensembl overlap/VEP、gnomAD-SV、ClinGen Dosage、ClinVar、dbVar、DGV Gold 和技术风险；工具直接保存带证据 ID 的完整结果。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
@@ -55,6 +55,8 @@
 | baseline_evidence.region_annotation.features | gene/regulatory/repeat records\|null | 名义区间的 Ensembl 空间重叠；记录带 ENS-BL ID。 | 空数组=成功无记录；null=查询失败。 |
 | baseline_evidence.region_annotation.breakpoint_annotations.{start,end,mate} | object | 由 VCF CI 或带标签 fallback 构造的各断点窗口及 overlap 结果。 | 无 BND mate 时 mate 为 null。 |
 | baseline_evidence.region_annotation.{errors,truncated,attempts,source_urls,completeness,limitations} | object | Ensembl 逐类错误、截断、尝试次数、来源与空间重叠限制。 | 重试耗尽仍保持 error/null，不转成 not_found。 |
+| baseline_evidence.vep_evidence.records[] | VEP-BL evidence records | VEP 转录本/调控/motif/intergenic consequence、impact、overlap、canonical/MANE 和 exon/intron 信息。 | BND、方向未知 CNV 或超出区间上限时显式 not_applicable。 |
+| baseline_evidence.vep_evidence.{input_annotations,consequence_count,records_truncated,attempts,retrieved_at,limitations} | object | VEP 输入级最严重 consequence、原始计数、截断、尝试和预测边界。 | 失败显式 error，不转成无 consequence。 |
 | baseline_evidence.database_evidence.records[] | GNO-BL evidence records | gnomAD-SV 坐标、类型、AC/AN/AF、filters、匹配类别与指标。 | 成功无候选时为空数组。 |
 | baseline_evidence.database_evidence.{dataset,query_regions,breakpoint_windows,matching_query_regions} | object | build 对应数据集、实际检索区域与固定匹配窗口。 | API 失败时保留 query_errors。 |
 | baseline_evidence.database_evidence.{counts,query_errors,retrieved_at,limitations} | object | 筛选计数、失败、检索时间和同一事件判定限制。 | 始终保留状态。 |
@@ -62,6 +64,8 @@
 | baseline_evidence.clingen_dosage_evidence.{dataset_created_at,counts,retrieved_at,limitations} | object | ClinGen 下载文件日期、筛选计数、检索时间与临床解释边界。 | 下载或解析失败显式 error。 |
 | baseline_evidence.clinvar_evidence.records[] | CLV-BL evidence records | ClinVar VCV、临床分类、review status、性状、提交计数、坐标及区间匹配指标。 | 成功无候选时为空数组。 |
 | baseline_evidence.clinvar_evidence.{query_regions,search_terms,counts,query_errors,retrieved_at,limitations} | object | 实际检索区间和检索式、命中/返回计数、失败与 ClinVar 解释限制。 | 失败与无记录严格区分。 |
+| baseline_evidence.dbvar_evidence.records[] | DBV-BL evidence records | dbVar 变异/研究 accession、build placement、变异类型、方法、基因、临床字段及匹配指标。 | BND 显式 not_applicable；成功无候选为空数组。 |
+| baseline_evidence.dbvar_evidence.{query_regions,query_terms,search_counts,query_errors,retrieved_at,limitations} | object | dbVar 有界端点检索、总命中/截断、错误以及异质研究和 remap 限制。 | 失败与无记录严格区分。 |
 | baseline_evidence.dgv_evidence.records[] | DGV-BL evidence records | DGV Gold 变异类型、频率、样本/研究计数、来源摘要及区间匹配指标。 | 成功无候选时为空数组；BND 显式 not_applicable。 |
 | baseline_evidence.dgv_evidence.{dataset,backend,query_regions,counts,query_errors,retrieved_at,limitations} | object | DGV Gold/UCSC 后端、实际查询、筛选计数、失败和版本/覆盖限制。 | API 失败显式 error。 |
 | baseline_evidence.artifact_risk.{overall_risk,risk_items} | object | call rate、caller、repeat、mappability、reads、GQ、batch 的确定性初筛。 | 数据不足保持 unknown。 |
@@ -73,6 +77,10 @@
 - **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口的 gene、regulatory、repeat；相同区间复用，瞬时错误有限重试、全局限并发；保留错误、尝试次数、截断、URL 和 ENS-BL ID。
   - 分支/约束：CI 缺失使用带标签 ±500 bp fallback
   - 分支/约束：重试耗尽保留 error，不当作无注释
+- **Ensembl VEP consequence**（external-query）：将 build、区间、strand 和符号 DEL/DUP/INV/INS 提交给 VEP；按 impact、MANE、canonical 和覆盖率排序并压缩 consequence，添加 VEP-BL ID。
+  - 分支/约束：BND 与方向未知 CNV 返回 not_applicable
+  - 分支/约束：超过 SV_AGENT_MAX_VEP_INTERVAL_BP 返回 not_applicable
+  - 分支/约束：预测 consequence 不等于实验或临床结论
 - **gnomAD-SV 基线与固定匹配**（external-query）：重新校验已存候选坐标；按 build 选数据集，检索候选并用类型、重叠和断点规则分类；缺失 CI 时 ±500 bp 只扩展检索，不单独提升 high_similarity；添加 GNO-BL ID。
   - 分支/约束：BND 有 mate 比较双端；无 mate 只比较第一端且不能确认同一事件
 - **ClinGen Dosage 基因与区域证据**（external-query）：下载 ClinGen 当前基因与区域剂量敏感性表，按 build 解析区间并计算重叠；DEL 优先 HI、DUP 优先 TS，记录评分、报告链接、版本日期、匹配指标和 CGD-BL ID。
@@ -82,6 +90,11 @@
   - 分支/约束：大区间和返回数量均受硬限制
   - 分支/约束：BND 只比较当前可检索断点，不能仅凭命中确认同一邻接事件
   - 分支/约束：检索失败不当作无记录
+- **NCBI dbVar 结构变异记录**（external-query）：以 NCBI ESearch/ESummary 按染色体、端点、类型和对象检索，筛选 build-matched placement，计算固定匹配指标并添加 DBV-BL ID。
+  - 分支/约束：泛 CNV 对 DEL/DUP 仅标为方向不明
+  - 分支/约束：BND 因无可靠 mate adjacency 返回 not_applicable
+  - 分支/约束：端点检索可能漏掉完全包围候选的更大记录
+  - 分支/约束：remap 和坐标相同不证明事件同一或已验证
 - **DGV Gold 人群结构变异**（external-query）：通过 UCSC API 查询 build 对应的 dgvGold track，将 0-based half-open 坐标转为 1-based inclusive，按类型与区间匹配并压缩冗长样本/来源字段，添加 DGV-BL ID。
   - 分支/约束：BND 返回 not_applicable
   - 分支/约束：dgvGold 不是 DGV 完整当前发布，阴性结果不能证明数据库中不存在
@@ -105,7 +118,7 @@ LLM 选择 0–2 个后续动作并解释；工具原始结果另存 adaptive_to
 
 处理规则：
 
-- **识别缺口与选择动作**（model-controlled）：只有缺口明确、工具能减少不确定性、未重复、预算存在且可能改变解释时才计划动作；P0 数据库已在基线查询，不重复调用。
+- **识别缺口与选择动作**（model-controlled）：只有缺口明确、工具能减少不确定性、未重复、预算存在且可能改变解释时才计划动作；P0/P1 固定来源已在基线查询，不重复调用。
   - 分支/约束：无合格动作直接停止
 - **白名单、去重与硬预算**（deterministic）：先以短锁原子预留 ToolContext state 中的名额，再执行外部请求；强制最多 2 次并直接保存每次工具返回，拒绝非白名单和重复动作。
   - 分支/约束：拒绝项不执行外部查询
@@ -153,7 +166,9 @@ LLM 选择 PubMed 查询；工具硬性限制最多 3 个不同查询、每次�
 处理规则：
 
 - **原子 claim 与证据核验**（model-structured）：事实 claim 必须引用已有 ID；区分 observation/database_fact/inference/hypothesis 并拒绝过度解释。
+  - 分支/约束：VEP consequence 不能表述为已证实机制
   - 分支/约束：ClinVar review status 与冲突必须保留
+  - 分支/约束：dbVar overlap 不证明验证或临床意义
   - 分支/约束：ClinGen/DGV/gnomAD 不能被单独提升为个体致病或良性结论
   - 分支/约束：检索扩展不能改变匹配语义
   - 分支/约束：标题不能支持机制

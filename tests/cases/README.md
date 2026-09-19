@@ -19,10 +19,10 @@ under `expected/` is hidden until evaluation. Source metadata are kept in
 
 The interpretation cases are representative region-level CNVs, not patient
 records and not exact individual breakpoints. Their ClinGen conclusions are
-reference facts for later review, not an expectation that the current system
-must recover a label from a database it does not query. Until a ClinGen tool is
-implemented, success means acknowledging the missing clinical source and not
-over-interpreting Ensembl, gnomAD-SV, or PubMed metadata.
+reference facts for later review. The current baseline now queries ClinGen Dosage;
+success means retrieving and citing the relevant curation when available while still
+not treating region overlap as a patient-level diagnosis or over-interpreting
+Ensembl, population databases, or PubMed metadata.
 
 ## Coordinates
 
