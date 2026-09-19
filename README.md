@@ -9,13 +9,22 @@ variant. It does not call SVs from reads and does not replace expert review.
 AdaptiveInvestigationAgent → LiteratureAndFunctionAgent → EvidenceVerifierAgent →
 ReportWriterAgent`
 
-The root is a Google ADK `SequentialAgent`. Tool-using stages save JSON text through
-`output_key`; the verifier and writer have no tools and enforce Pydantic output
-schemas. The design is a deterministic baseline plus bounded adaptation: baseline
+The root is a Google ADK `SequentialAgent`. Tool wrappers write complete normalized,
+baseline, adaptive, and PubMed results directly to `ToolContext.state`; these raw
+records are not saved from the model's retelling. The adaptive and literature agents'
+`output_key` values contain their decisions and interpretations, while the verifier
+and writer have no tools and enforce Pydantic output schemas. The design is a
+deterministic baseline plus bounded adaptation: baseline
 Ensembl, gnomAD-SV, and artifact checks always run, after which one LLM stage may make
 zero, one, or two justified calls from a hard-coded whitelist. Missing evidence remains
 `unknown`, `not_found`, `unavailable`, `error`, or `not_queried` rather than being
 silently treated as negative evidence.
+
+The raw state keys are `normalized_sv`, `baseline_evidence`,
+`adaptive_tool_results`, and `literature_tool_results`. Later agents currently read
+the complete raw results, not compact summaries. Direct state storage protects record
+integrity but **does not reduce prompt length**; a separate summary/projection step
+would be needed for that, and is not implemented here.
 
 ## Interactive architecture map
 
@@ -44,7 +53,7 @@ See [`architecture/README.md`](architecture/README.md) for the maintenance contr
 Use Python 3.11 or newer in a virtual environment:
 
 ```powershell
-py -m pip install -r requirements-sv-agent.txt
+py -m pip install -e sv_investigator
 $env:GOOGLE_API_KEY="your-key"
 adk web
 ```
@@ -95,11 +104,14 @@ VCF breakpoint uncertainty is retained when supplied. `CIPOS` and `CIEND` may be
 two-element integer arrays or comma-separated integer offsets, either at the top level
 or under `source_record.INFO`; `IMPRECISE` is also retained. The normalizer stores both
 the original offsets and build-bounded absolute confidence intervals. It labels
-uncertainty as `complete`, `partial`, or `not_provided`. When a confidence interval is
-missing, downstream tools use a configurable fallback window (500 bp by default,
-controlled by `SV_AGENT_BREAKPOINT_TOLERANCE_BP`) only to retrieve nearby candidates.
-This fallback is explicitly marked as heuristic and is not presented as a measured
-confidence interval.
+uncertainty as `complete`, `partial`, or `not_provided`. If the VCF has no `CIPOS` or
+`CIEND`, omit those fields or pass `null`; do not substitute `[0, 0]`, which asserts a
+zero-width interval at the reported coordinate. When a confidence interval is missing,
+downstream tools use a configurable fallback window (500 bp by default, controlled by
+`SV_AGENT_BREAKPOINT_TOLERANCE_BP`) to retrieve nearby candidates. This fallback is
+explicitly marked as heuristic and cannot by itself make a non-exact gnomAD-SV record
+`high_similarity`; measured confidence intervals or exact coordinates are required
+for that label. Other overlap-based similarity classes can still apply.
 
 ## BaselineEvidenceCollectorAgent: fixed coverage
 
@@ -128,6 +140,15 @@ separately around the start and end breakpoint windows. These results are labell
 whether the window came from VCF confidence intervals or from the heuristic fallback;
 features found only in a fallback window are nearby candidates, not confirmed SV
 overlaps.
+
+Ensembl requests have a 30-second timeout and at most two attempts by default, with
+a one-second delay before retry. Only timeouts, connection errors, HTTP 429, and HTTP
+500/502/503/504 are retried; other HTTP errors and malformed responses are
+not. At most four Ensembl requests run concurrently. `attempts` records the number of
+tries for each feature or adaptive query. Exhausted retries remain explicit errors,
+not empty annotation results. These defaults can be changed with
+`SV_AGENT_ENSEMBL_HTTP_TIMEOUT`, `SV_AGENT_ENSEMBL_MAX_ATTEMPTS`,
+`SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS`, and `SV_AGENT_ENSEMBL_RETRY_BACKOFF`.
 
 The fixed baseline does not provide transcript, exon, CDS, MANE transcript,
 protein consequence, VEP consequence, affected-feature percentage,
@@ -192,9 +213,10 @@ The implemented whitelist is deliberately smaller than the conceptual roadmap:
 - gnomAD-SV retrieval expanded by 2 kb or 10 kb.
 
 An expanded gnomAD request changes only which records are retrieved. The original VCF
-confidence intervals—or the already declared fallback windows when CI is absent—remain
-the matching windows. Thus a newly retrieved distant record remains `nearby` and cannot
-be promoted simply because the search radius was widened.
+confidence intervals remain the measured matching windows; when CI is absent, the
+declared fallback expands retrieval only and does not by itself confer
+`high_similarity`. Thus a newly retrieved distant record cannot be promoted simply
+because the search radius was widened.
 
 VEP, DGV, dbVar, ClinGen, and ClinVar are not in the whitelist because there is no
 implemented, tested adapter for them. The agent must stop or record the limitation
@@ -206,6 +228,19 @@ remaining budget, non-duplication, and plausible effect on interpretation or nex
 steps are all present. Zero adaptive calls is a valid completed decision, not agent
 inactivity. Its plan, actions, stop reason, and remaining limitations are copied into
 the report's required `investigation_log`.
+
+## LiteratureAndFunctionAgent: bounded PubMed lookup
+
+The tool enforces at most three distinct PubMed searches per investigation; the
+limit is not prompt-only. Query deduplication ignores letter case and repeated
+whitespace. Each completed search, including an API error, consumes one slot;
+duplicate or over-budget requests are rejected without another API call. By default
+each search returns at most five records (`SV_AGENT_MAX_PUBMED_RECORDS`), and PMIDs
+already returned by an earlier search are removed from later results. Consequently
+the default maximum is 15 distinct citations, often fewer after deduplication.
+Records retain only the first three author names plus `author_count` and
+`authors_truncated`; full author objects are not needed for the current metadata-level
+investigation. Titles and metadata remain contextual rather than mechanistic proof.
 
 NCBI recommends identifying API clients used for PubMed. Set `NCBI_EMAIL` and
 optionally `NCBI_API_KEY`.
@@ -219,7 +254,7 @@ py -m sv_investigator.render_report report.json -o report.md
 ## Test
 
 ```powershell
-py -m unittest tests/test_sv_tools.py
+py -m unittest discover -s sv_investigator/tests
 py sv_investigator/scripts/generate_flow_diagram.py --check
 ```
 

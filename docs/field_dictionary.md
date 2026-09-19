@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `4b92d08d4c4b`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `b2bd4d819a29`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -10,7 +10,7 @@
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
 | input.{genome_build,chrom,start,end,sv_type} | object | 候选身份的五个必填字段。 | 任一缺失即 validation_error。 |
-| input.{CIPOS,CIEND,CIMATE,IMPRECISE} | object\|null | VCF 断点不确定性及不精确标志。 | 下游使用明确标记的 ±500 bp fallback。 |
+| input.{CIPOS,CIEND,CIMATE,IMPRECISE} | object\|null | VCF 断点不确定性及不精确标志；[0,0] 表示零宽区间，不表示缺失。 | 省略或设为 null；下游仅用带标签的 ±500 bp fallback 检索附近候选。 |
 | input.{ALT,mate_chrom,mate_pos,CHR2,END} | object\|null | BND mate 坐标与方向来源。 | BND 降级为 first-breakend-only。 |
 | input.{sv_id,length_bp,statistics,quality,source_record} | object\|null | 上游标识、长度、统计、质量和原 VCF 记录。 | 保留显式 warning 或空对象。 |
 
@@ -22,7 +22,7 @@
 
 ## 1. 确定性标准化
 
-统一 build、染色体与 SVTYPE，验证坐标，解析 CI 和 BND mate，同时保留原值。
+统一 build、染色体与 SVTYPE，验证坐标，解析 CI 和 BND mate；工具直接把完整结果写入状态。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
@@ -43,18 +43,18 @@
   - 分支/约束：缺 mate 保留 first-breakend-only
 - **保留原值与上下文**（deterministic）：记录别名映射，原样保留统计、质量和 source_record。
 
-实现位置：`prompts.py:INTAKE / tools.py:normalize_sv_input`
+实现位置：`prompts.py:INTAKE / state_pipeline.py:normalize_and_store`
 
 ## 2. 不可跳过的证据基线
 
-一次固定调用收集 Ensembl、gnomAD-SV 和技术风险；完整保留原始记录并加证据 ID。
+一次固定调用收集 Ensembl、gnomAD-SV 和技术风险；工具直接保存带证据 ID 的完整结果。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
 | baseline_evidence.{collection_policy,immutable_candidate_fields} | object | 声明基线不可跳过，并复制不得被自适应阶段修改的候选字段。 | 有效输入时产生。 |
 | baseline_evidence.region_annotation.features | gene/regulatory/repeat records\|null | 名义区间的 Ensembl 空间重叠；记录带 ENS-BL ID。 | 空数组=成功无记录；null=查询失败。 |
 | baseline_evidence.region_annotation.breakpoint_annotations.{start,end,mate} | object | 由 VCF CI 或带标签 fallback 构造的各断点窗口及 overlap 结果。 | 无 BND mate 时 mate 为 null。 |
-| baseline_evidence.region_annotation.{errors,truncated,source_urls,completeness,limitations} | object | Ensembl 逐类错误、截断、来源与空间重叠限制。 | 错误保持 error/null，不转成 not_found。 |
+| baseline_evidence.region_annotation.{errors,truncated,attempts,source_urls,completeness,limitations} | object | Ensembl 逐类错误、截断、尝试次数、来源与空间重叠限制。 | 重试耗尽仍保持 error/null，不转成 not_found。 |
 | baseline_evidence.database_evidence.records[] | GNO-BL evidence records | gnomAD-SV 坐标、类型、AC/AN/AF、filters、匹配类别与指标。 | 成功无候选时为空数组。 |
 | baseline_evidence.database_evidence.{dataset,query_regions,breakpoint_windows,matching_query_regions} | object | build 对应数据集、实际检索区域与固定匹配窗口。 | API 失败时保留 query_errors。 |
 | baseline_evidence.database_evidence.{counts,query_errors,retrieved_at,limitations} | object | 筛选计数、失败、检索时间和同一事件判定限制。 | 始终保留状态。 |
@@ -62,60 +62,68 @@
 
 处理规则：
 
-- **固定基线调用门**（model-controlled）：有效输入必须且只能调用 collect_baseline_evidence 一次；模型不能删减来源或重写记录。
+- **固定基线调用门**（deterministic）：工具从状态读取标准化输入，直接保存完整基线结果；无效输入记录 blocked，模型不负责转写。
   - 分支/约束：validation_error → blocked
-- **Ensembl 基线 overlap**（external-query）：查询名义区间及 start/end/mate 窗口的 gene、regulatory、repeat；保留错误、截断、URL 和 ENS-BL ID。
+- **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口的 gene、regulatory、repeat；相同区间复用，瞬时错误有限重试、全局限并发；保留错误、尝试次数、截断、URL 和 ENS-BL ID。
   - 分支/约束：CI 缺失使用带标签 ±500 bp fallback
-- **gnomAD-SV 基线与固定匹配**（external-query）：按 build 选数据集，检索候选并用固定窗口/类型/重叠/双断点规则分类，添加 GNO-BL ID。
+  - 分支/约束：重试耗尽保留 error，不当作无注释
+- **gnomAD-SV 基线与固定匹配**（external-query）：重新校验已存候选坐标；按 build 选数据集，检索候选并用类型、重叠和断点规则分类；缺失 CI 时 ±500 bp 只扩展检索，不单独提升 high_similarity；添加 GNO-BL ID。
   - 分支/约束：BND 有 mate 比较双端；无 mate 只比较第一端且不能确认同一事件
-- **确定性技术风险**（deterministic）：根据质量字段和断点 repeat 判断风险；缺数据保持 unknown。
+- **确定性技术风险**（deterministic）：根据质量字段和断点 repeat 判断风险；布尔伪数字或范围外 call rate 不参与数值判定。
+  - 分支/约束：缺失、类型错误或范围错误保持 unknown
 
-实现位置：`prompts.py:BASELINE / tools.py:collect_baseline_evidence`
+实现位置：`prompts.py:BASELINE / state_pipeline.py:baseline_and_store`
 
 ## 3. 受约束的自适应调查
 
-LLM 根据基线识别证据缺口，从真实工具白名单选择 0–2 个非重复后续动作。
+LLM 选择 0–2 个后续动作并解释；工具原始结果另存 adaptive_tool_results，不由模型转写。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
 | adaptive_investigation.identified_evidence_gaps | string[] | LLM 从基线中识别的具体未决问题。 | 没有实质缺口时为空。 |
 | adaptive_investigation.planned_actions | action[] | 每个候选动作的缺口、理由和预期信息增益。 | 没有合格动作时为空。 |
-| adaptive_investigation.executed_actions | audited action[] | 工具记录的执行/拒绝状态、预算使用和真实结果。 | 零调用时为空。 |
-| executed_actions[].result.Ensembl | ENS-ADP records | 可选最近基因、transcript、exon 或 BND mate transcript 空间重叠。 | 未选动作或无记录时为空。 |
-| executed_actions[].result.gnomAD-SV | GNO-ADP records | 扩大 2/10 kb 检索后取得的新候选；匹配窗口和阈值保持不变。 | 未选动作或无记录时为空。 |
+| adaptive_tool_results[] | audited action[] | 工具直接写入状态的完整执行/拒绝记录、预算与真实结果；模型不转写。 | 零调用时为空。 |
+| adaptive_tool_results[].result.result.Ensembl | ENS-ADP records | 可选最近基因、transcript、exon 或 BND mate transcript 空间重叠。 | 未选动作或无记录时为空。 |
+| adaptive_tool_results[].result.result.gnomAD-SV | GNO-ADP records | 扩大 2/10 kb 检索后取得的新候选；匹配窗口和阈值保持不变。 | 未选动作或无记录时为空。 |
 | adaptive_investigation.{stop_reason,remaining_limitations} | object | 为何停止以及工具白名单仍无法解决的问题。 | 必须给出 stop_reason。 |
 
 处理规则：
 
 - **识别缺口与选择动作**（model-controlled）：只有缺口明确、工具能减少不确定性、未重复、预算存在且可能改变解释时才计划动作。
   - 分支/约束：无合格动作直接停止
-- **白名单、去重与硬预算**（deterministic）：ToolContext state 强制最多 2 次；拒绝非白名单和重复动作；外部失败也消耗预算并进入审计。
+- **白名单、去重与硬预算**（deterministic）：先以短锁原子预留 ToolContext state 中的名额，再执行外部请求；强制最多 2 次并直接保存每次工具返回，拒绝非白名单和重复动作。
   - 分支/约束：拒绝项不执行外部查询
-- **可选 Ensembl 精化**（external-query）：按已选动作查询 10/50 kb 最近基因、transcript、exon 或 BND mate transcript，保留 ENS-ADP ID。
+  - 分支/约束：外部失败仍消耗已预留预算
+- **可选 Ensembl 精化**（external-query）：按已选动作查询 10/50 kb 最近基因、transcript、exon 或 BND mate transcript；瞬时错误有限重试，保留尝试次数和 ENS-ADP ID。
   - 分支/约束：BND mate action 无 mate 时 not_applicable
+  - 分支/约束：重试耗尽保留 error
   - 分支/约束：重叠不等于 consequence
 - **可选 gnomAD 检索扩展**（external-query）：只将 API 检索区域扩大 2 kb 或 10 kb；分类仍使用基线固定窗口与阈值。
   - 分支/约束：新取得但窗外的记录仍为 nearby
 - **停止与剩余限制**（model-controlled）：说明停止原因和白名单无法覆盖的剩余问题，不把未用预算描述为失败。
 
-实现位置：`prompts.py:ADAPTIVE / tools.py:run_budgeted_adaptive_action`
+实现位置：`prompts.py:ADAPTIVE / state_pipeline.py:adaptive_and_store`
 
 ## 4. 自适应文献检索
 
-根据候选区域以及实际查到的基因构造至多三个 PubMed 查询。
+LLM 选择 PubMed 查询；工具硬性限制最多 3 个不同查询、每次默认 5 篇并跨查询去重 PMID；结果另存 literature_tool_results。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
 | literature_evidence.queries | string[0..3] | 区域/SVTYPE 和实际返回基因驱动的透明 PubMed 查询。 | 无有用查询时为空。 |
-| literature_evidence.records[] | PMID metadata[] | PMID、标题、作者、期刊、日期、DOI 和 URL。 | 未命中为空；失败显式 error。 |
+| literature_tool_results[].records[] | PMID metadata[] | 工具保存去重后的 PMID、标题、前三位作者姓名、作者总数、期刊、日期、DOI、URL 和 PMID 证据 ID。 | 未命中为空；失败显式 error。 |
+| literature_tool_results[].{query_budget,queries_used,queries_remaining,duplicate_pmids_excluded,returned_record_count} | object | 程序级查询预算和跨查询 PMID 去重计数；被拒绝的调用不触发 API。 | 无查询时结果列表为空。 |
 | literature_evidence.{missing_sources,limitations} | object | 未实现来源和标题级证据限制。 | 按需产生。 |
 
 处理规则：
 
-- **证据驱动 PubMed 查询**（external-query）：使用区域/SVTYPE 和实际返回基因构造至多三个查询；保存 PMID 元数据和限制。
+- **证据驱动 PubMed 查询**（external-query）：以短锁原子预留查询名额并合并去重结果；限制最多 3 个不同查询、每次默认 5 篇，压缩作者信息并保存证据 ID、计数和错误。
+  - 分支/约束：重复查询或超预算拒绝且不访问 API
+  - 分支/约束：异常响应显式 error，不伪装为无记录
+  - 分支/约束：失败查询仍占一个名额
   - 分支/约束：不得从模型记忆补基因
 
-实现位置：`prompts.py:LITERATURE / tools.py:search_pubmed`
+实现位置：`prompts.py:LITERATURE / state_pipeline.py:literature_and_store`
 
 ## 5. 证据核验
 
@@ -150,7 +158,7 @@ LLM 根据基线识别证据缺口，从真实工具白名单选择 0–2 个非
 
 - **按证据编排报告**（model-structured）：只组合前序状态；复制调查审计；不恢复 rejected claim，不凭模型记忆补证据。
   - 分支/约束：输入无效 blocked；重要缺失 incomplete
-- **Pydantic 确定性验证**（schema-validation）：验证候选字段、证据 ID 引用唯一性以及 adaptive queries_used ≤ query_budget ≤ 2。
-  - 分支/约束：悬空 evidence ID 或超预算报告被拒绝
+- **Pydantic 确定性验证**（schema-validation）：验证候选坐标、证据 ID 引用唯一性以及固定为 2 的 adaptive 预算；queries_used 必须等于真正执行的动作数，拒绝动作只保留审计。
+  - 分支/约束：悬空 evidence ID、越界坐标、动作计数不一致或超预算报告被拒绝
 
 实现位置：`prompts.py:REPORT / schemas.py:SVReport`

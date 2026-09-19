@@ -5,19 +5,33 @@ from __future__ import annotations
 from google.adk.agents import Agent, SequentialAgent
 from google.adk.tools import ToolContext
 
-from .config import MODEL
+from .config import MAX_PUBMED_RECORDS, MODEL
 from .prompts import ADAPTIVE, BASELINE, INTAKE, LITERATURE, REPORT, VERIFY
 from .schemas import SVReport, VerificationOutput
-from .tools import (
-    collect_baseline_evidence,
-    normalize_sv_input,
-    run_budgeted_adaptive_action,
-    search_pubmed,
+from .state_pipeline import (
+    adaptive_and_store,
+    baseline_and_store,
+    literature_and_store,
+    normalize_and_store,
 )
 
 
+def normalize_sv_input_to_state(raw_input: str, tool_context: ToolContext) -> dict:
+    """Normalize the complete user input and save the unmodified tool result.
+
+    Args:
+        raw_input: Complete candidate-SV JSON supplied by the user.
+    """
+    return normalize_and_store(raw_input, tool_context.state)
+
+
+def collect_baseline_evidence_to_state(tool_context: ToolContext) -> dict:
+    """Collect the required baseline from the candidate saved in session state.
+    """
+    return baseline_and_store(tool_context.state)
+
+
 def adaptive_followup_query(
-    normalized_sv_json: str,
     action: str,
     evidence_gap: str,
     reason: str,
@@ -27,15 +41,12 @@ def adaptive_followup_query(
     """Run one budgeted, audited follow-up from the fixed action whitelist.
 
     Args:
-        normalized_sv_json: The complete JSON emitted by InputNormalizerAgent.
         action: One exact action name listed in the adaptive-agent instruction.
         evidence_gap: Specific unresolved question in the baseline evidence.
         reason: Why this action is appropriate for that gap.
         expected_information_gain: How the result could change interpretation.
-        tool_context: Injected ADK context; never supplied by the model.
     """
-    return run_budgeted_adaptive_action(
-        normalized_sv_json=normalized_sv_json,
+    return adaptive_and_store(
         action=action,
         evidence_gap=evidence_gap,
         reason=reason,
@@ -44,13 +55,26 @@ def adaptive_followup_query(
     )
 
 
+def search_pubmed_to_state(
+    query: str,
+    tool_context: ToolContext,
+    max_records: int = MAX_PUBMED_RECORDS,
+) -> dict:
+    """Search PubMed and save the complete metadata with stable evidence IDs.
+
+    Args:
+        query: A traceable PubMed query using coordinates, genes, or SV terms.
+        max_records: Maximum citation summaries to return.
+    """
+    return literature_and_store(query, max_records, tool_context.state)
+
+
 input_normalizer_agent = Agent(
     name="InputNormalizerAgent",
     model=MODEL,
     description="Validates and normalizes one candidate SV without inference.",
     instruction=INTAKE,
-    tools=[normalize_sv_input],
-    output_key="normalized_sv",
+    tools=[normalize_sv_input_to_state],
 )
 
 baseline_evidence_agent = Agent(
@@ -58,8 +82,7 @@ baseline_evidence_agent = Agent(
     model=MODEL,
     description="Runs the required deterministic Ensembl, gnomAD-SV, and QC baseline.",
     instruction=BASELINE,
-    tools=[collect_baseline_evidence],
-    output_key="baseline_evidence",
+    tools=[collect_baseline_evidence_to_state],
 )
 
 adaptive_investigation_agent = Agent(
@@ -76,7 +99,7 @@ literature_function_agent = Agent(
     model=MODEL,
     description="Runs traceable, evidence-guided PubMed searches.",
     instruction=LITERATURE,
-    tools=[search_pubmed],
+    tools=[search_pubmed_to_state],
     output_key="literature_evidence",
 )
 

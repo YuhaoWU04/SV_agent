@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 from typing import Any
+
+from .schemas import SVReport
 
 
 def _statements(title: str, items: list[dict[str, Any]]) -> list[str]:
@@ -112,7 +113,10 @@ def render_markdown(report: dict[str, Any]) -> str:
 
     lines += ["## Artifact risks", ""]
     for item in report.get("artifact_risks", []):
-        lines.append(f"- **{item.get('risk_type')} — {item.get('status')}**: {item.get('impact')} Recommended check: {item.get('recommended_check')}")
+        lines.append(
+            f"- **{item.get('risk_type')} — {item.get('status')}**: "
+            f"{item.get('impact')} Recommended check: {item.get('recommended_check')}"
+        )
     if not report.get("artifact_risks"):
         lines.append("No risk assessment recorded.")
 
@@ -137,7 +141,12 @@ def render_markdown(report: dict[str, Any]) -> str:
 
     lines += ["", "## Query provenance", ""]
     for item in report.get("query_provenance", []):
-        lines.append(f"- {item.get('source')}: {item.get('status')} — {item.get('query_summary')}")
+        lines.append(
+            f"- {item.get('source')}: {item.get('status')} — "
+            f"{item.get('query_summary')}"
+        )
+    if not report.get("query_provenance"):
+        lines.append("No query provenance recorded.")
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -146,7 +155,11 @@ def main() -> None:
     parser.add_argument("input", type=Path, help="SVReport JSON file")
     parser.add_argument("-o", "--output", type=Path, help="Markdown output path")
     args = parser.parse_args()
-    report = json.loads(args.input.read_text(encoding="utf-8"))
+    # The renderer is also a command-line boundary: reject malformed or internally
+    # inconsistent reports rather than making them look authoritative in Markdown.
+    report = SVReport.model_validate_json(
+        args.input.read_text(encoding="utf-8")
+    ).model_dump(mode="json")
     rendered = render_markdown(report)
     if args.output:
         args.output.write_text(rendered, encoding="utf-8")

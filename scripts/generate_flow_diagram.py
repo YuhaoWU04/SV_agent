@@ -20,6 +20,7 @@ HTML_PATH = PROJECT_DIR / "docs" / "system_flow.html"
 DICTIONARY_PATH = PROJECT_DIR / "docs" / "field_dictionary.md"
 SOURCE_PATHS = [
     PROJECT_DIR / "agent.py",
+    PROJECT_DIR / "state_pipeline.py",
     PROJECT_DIR / "prompts.py",
     PROJECT_DIR / "tools.py",
     PROJECT_DIR / "schemas.py",
@@ -96,15 +97,20 @@ def validate_manifest(data: dict[str, Any]) -> list[str]:
     if unproduced:
         errors.append(f"non-input fields without a producing transformation: {unproduced}")
 
-    # Confirm the sequential state keys documented in the manifest still exist in agent.py.
+    # A state key is either the LLM's output_key or a direct ToolContext.state write.
     agent_source = (PROJECT_DIR / "agent.py").read_text(encoding="utf-8")
+    state_source = (PROJECT_DIR / "state_pipeline.py").read_text(encoding="utf-8")
     for stage in stages:
         state_key = stage.get("state_key")
         if stage["id"] == "input":
             continue
-        if f'output_key="{state_key}"' not in agent_source:
+        if (
+            f'output_key="{state_key}"' not in agent_source
+            and f'state["{state_key}"]' not in state_source
+        ):
             errors.append(
-                f"stage {stage['id']} state_key {state_key!r} not found in agent.py"
+                f"stage {stage['id']} state_key {state_key!r} not found in agent.py "
+                "or state_pipeline.py"
             )
 
     if not consumed:
@@ -511,14 +517,12 @@ button.control:hover { border-color: var(--primary); }
   search.addEventListener('input', () => {
     const query = search.value.trim().toLocaleLowerCase();
     if (!query) { clearSelection(); return; }
-    let first = null;
     for (const [id, element] of nodes) {
       const item = fields.get(id) || transforms.get(id);
       const haystack = JSON.stringify(item).toLocaleLowerCase();
       const match = haystack.includes(query);
       element.classList.toggle('dim', !match);
       element.classList.toggle('related', match);
-      if (match && !first) first = id;
     }
     selected = null;
     detail.hidden = true;

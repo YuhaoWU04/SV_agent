@@ -6,9 +6,21 @@ import os
 
 
 MODEL = os.getenv("SV_AGENT_MODEL", "gemini-3.5-flash")
+
+# General APIs use the shared timeout. Ensembl has separate controls because its
+# overlap endpoint is queried concurrently and has shown intermittent latency.
 HTTP_TIMEOUT_SECONDS = float(os.getenv("SV_AGENT_HTTP_TIMEOUT", "20"))
+ENSEMBL_HTTP_TIMEOUT_SECONDS = float(os.getenv("SV_AGENT_ENSEMBL_HTTP_TIMEOUT", "30"))
+ENSEMBL_MAX_ATTEMPTS = max(1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_ATTEMPTS", "2")))
+ENSEMBL_MAX_CONCURRENT_REQUESTS = max(
+    1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS", "4"))
+)
+ENSEMBL_RETRY_BACKOFF_SECONDS = max(
+    0.0, float(os.getenv("SV_AGENT_ENSEMBL_RETRY_BACKOFF", "1"))
+)
 MAX_DATABASE_RECORDS = int(os.getenv("SV_AGENT_MAX_DATABASE_RECORDS", "10"))
-MAX_PUBMED_RECORDS = int(os.getenv("SV_AGENT_MAX_PUBMED_RECORDS", "8"))
+MAX_PUBMED_RECORDS = int(os.getenv("SV_AGENT_MAX_PUBMED_RECORDS", "5"))
+MAX_PUBMED_QUERIES = 3
 DEFAULT_BREAKPOINT_TOLERANCE_BP = int(
     os.getenv("SV_AGENT_BREAKPOINT_TOLERANCE_BP", "500")
 )

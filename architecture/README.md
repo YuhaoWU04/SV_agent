@@ -22,7 +22,8 @@ The check covers:
 - unique stage, field, and transformation IDs;
 - valid stage and field references;
 - a producer for every non-input field;
-- documented ADK state keys still present in `agent.py`;
+- documented ADK state keys still present as `output_key` in `agent.py` or
+  direct tool writes in `state_pipeline.py`;
 - generated HTML and field dictionary matching the manifest and implementation
   fingerprint.
 

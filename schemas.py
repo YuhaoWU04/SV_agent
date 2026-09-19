@@ -119,7 +119,7 @@ class InvestigationLog(BaseModel):
     identified_evidence_gaps: list[str] = Field(default_factory=list)
     planned_actions: list[InvestigationAction] = Field(default_factory=list)
     executed_actions: list[InvestigationAction] = Field(default_factory=list)
-    query_budget: int = 2
+    query_budget: Literal[2] = 2
     queries_used: int = 0
     stop_reason: str
     remaining_limitations: list[str] = Field(default_factory=list)
@@ -128,8 +128,13 @@ class InvestigationLog(BaseModel):
     def validate_budget(self) -> "InvestigationLog":
         if not 0 <= self.queries_used <= self.query_budget <= 2:
             raise ValueError("adaptive investigation query budget is invalid")
-        if len(self.executed_actions) > self.queries_used:
-            raise ValueError("executed action count exceeds queries_used")
+        # Rejected tool calls are retained in executed_actions for audit but do not
+        # consume query budget. Only calls that reached an external adapter count.
+        completed_calls = sum(
+            action.status == "executed" for action in self.executed_actions
+        )
+        if completed_calls != self.queries_used:
+            raise ValueError("executed action count does not match queries_used")
         return self
 
 
@@ -165,6 +170,13 @@ class SVReport(BaseModel):
                 raise ValueError("a valid report has an unsupported SV type")
             if self.sv_summary.start is None or self.sv_summary.end is None:
                 raise ValueError("a valid report requires coordinates")
+            if not 1 <= self.sv_summary.start <= self.sv_summary.end:
+                raise ValueError("valid report coordinates must be 1-based and ordered")
+            if (
+                self.sv_summary.chromosome_length_bp is not None
+                and self.sv_summary.end > self.sv_summary.chromosome_length_bp
+            ):
+                raise ValueError("valid report coordinates exceed chromosome length")
 
         catalog_ids = [item.evidence_id for item in self.evidence_catalog]
         if len(catalog_ids) != len(set(catalog_ids)):
