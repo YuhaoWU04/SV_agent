@@ -1,0 +1,28 @@
+{
+  "case_id": "giab_cmrg_ins_chr3_49404094_663bp",
+  "validation_layer": "technical_benchmark",
+  "truth_status": "benchmark_record",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "3",
+    "start": 49404094,
+    "end": 49404094,
+    "sv_type": "INS",
+    "length_bp": 663,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "source_assertions": {
+    "vcf_record_sha256": "0b7e04f06c9c233a80a06321f3be6e7e739f6da9f43b8367d34ecb10f60e5968",
+    "vcf_alt_sha256": "fc726a8aa79abf14b923a9632ffab04eaccc573cdbbb7b28365d9725316902df",
+    "coordinate_conversion": "The insertion occurs after the VCF anchor at POS 49404094; inserted length is len(ALT)-len(REF)=663."
+  },
+  "automatable_checks": [
+    "normalization accepts a point interval for INS",
+    "length_bp remains 663 rather than the one-base reference span",
+    "missing CI remains not_provided",
+    "identity fields are unchanged in the final report"
+  ],
+  "manual_review_checks": [
+    "the report distinguishes insertion length from reference interval length"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "sv_id": "TEST_GRCh38_16p12.2_population_region_DUP",
+  "genome_build": "GRCh38",
+  "chrom": "16",
+  "start": 21500755,
+  "end": 21584256,
+  "sv_type": "DUP",
+  "source_record": {
+    "case_kind": "synthetic_representative_region",
+    "phenotype": null,
+    "inheritance": null
+  }
+}

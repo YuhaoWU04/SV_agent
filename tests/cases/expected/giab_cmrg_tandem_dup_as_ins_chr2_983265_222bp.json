@@ -1,0 +1,29 @@
+{
+  "case_id": "giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp",
+  "validation_layer": "technical_benchmark",
+  "truth_status": "benchmark_record",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "2",
+    "start": 983265,
+    "end": 983265,
+    "sv_type": "INS",
+    "length_bp": 222,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "source_assertions": {
+    "vcf_record_sha256": "a34960961eeaada32e7c8e84d5f4109b5484c5298fd0e0fbf498fbe7752f409b",
+    "vcf_alt_sha256": "e4d122c8fa817dd0897e11a12ce5539310165935da28e95be8441b64925819d9",
+    "reptype": "DUP",
+    "representation_note": "GIAB encodes tandem duplications and tandem-repeat expansions as INS and annotates REPTYPE=DUP."
+  },
+  "automatable_checks": [
+    "normalization preserves canonical sv_type INS",
+    "source_record.reptype remains available for audit",
+    "length_bp remains 222",
+    "the system does not silently rewrite this point insertion into an interval DUP"
+  ],
+  "manual_review_checks": [
+    "the report explains the representation distinction if it discusses the DUP repeat type"
+  ]
+}

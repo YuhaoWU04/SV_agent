@@ -14,8 +14,10 @@ collect_baseline_evidence_to_state exactly once; it reads the normalized candida
 from session state and saves the complete baseline evidence there. It returns blocked
 without querying if input validation failed. Do not serialize the candidate into tool
 arguments, rewrite the tool result, or re-emit raw records. Respond only with a short
-status. You have no discretion to skip Ensembl, gnomAD-SV, or artifact-risk collection
-for valid input. A query error is evidence of failure, not evidence of absence.
+status. You have no discretion to skip Ensembl, gnomAD-SV, ClinGen Dosage, ClinVar,
+DGV Gold Standard, or artifact-risk collection for valid input. A source may return
+not_applicable for an incompatible SV type. A query error is evidence of failure, not
+evidence of absence.
 """
 
 ADAPTIVE = """
@@ -39,8 +41,10 @@ Each call must state evidence_gap, reason, and expected_information_gain. Never 
 the build, chromosome, coordinates, SV type, confidence intervals, exact-match rule,
 similarity thresholds, or allele-frequency values. Expanded gnomAD retrieval may find
 more candidates, but matching windows remain fixed; do not reinterpret a nearby record
-as a match. Do not request VEP, DGV, dbVar, ClinGen, ClinVar, or any other unavailable
-tool and do not fill missing evidence from memory.
+as a match. ClinGen Dosage, ClinVar, and DGV Gold Standard are already mandatory
+baseline sources: do not spend adaptive budget repeating them. Do not request VEP,
+dbVar, the complete current DGV release, or any other unavailable tool and do not fill
+missing evidence from memory.
 
 The tool directly saves every complete action result and audit in the session-state
 key adaptive_tool_results. Return only your decision, reasons, action names and
@@ -81,8 +85,10 @@ A paper title, coordinate overlap, nearest-gene result, or candidate database ma
 does not by itself support mechanism or causality. Distinguish observation,
 database_fact, inference, and hypothesis. Reject unsupported factual claims; flag
 build/type/match ambiguity, retrieval-padding versus fixed matching windows, failures,
-and contradictions. Never introduce new facts. Missing optional databases belong in
-limitations rather than invented results.
+and contradictions. ClinGen dosage overlap is not a patient diagnosis; ClinVar review
+status and conflicts must qualify its classifications; DGV/gnomAD frequency evidence
+does not prove benignity. Never introduce new facts. Missing optional databases belong
+in limitations rather than invented results.
 """
 
 REPORT = """

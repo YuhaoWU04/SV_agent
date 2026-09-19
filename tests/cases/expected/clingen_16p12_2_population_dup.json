@@ -1,0 +1,33 @@
+{
+  "case_id": "clingen_16p12_2_population_dup",
+  "validation_layer": "interpretation_reference",
+  "truth_status": "region_level_curated_reference",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "16",
+    "start": 21500755,
+    "end": 21584256,
+    "sv_type": "DUP",
+    "length_bp": 83502,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "hidden_reference": {
+    "curation_id": "ISCA-46691",
+    "region_name": "16p12.2 population region (DGV_Gold_Standard_June_2021_gssvG14372)",
+    "relevant_dosage_direction": "triplosensitivity",
+    "score": 40,
+    "evidence_strength": "Dosage Sensitivity Unlikely for Triplosensitivity",
+    "reported_population_allele_frequency": 0.1887,
+    "last_evaluated": "2021-08-04"
+  },
+  "automatable_checks": [
+    "normalization succeeds and computes length 83502",
+    "population frequency evidence is kept distinct from gene overlap",
+    "an API failure or absent gnomAD match is not described as proof of rarity"
+  ],
+  "manual_review_checks": [
+    "the report does not infer pathogenicity solely from genes or transcripts overlapped",
+    "the report treats high population frequency as evidence against dosage sensitivity when actually retrieved"
+  ],
+  "reference_scope_warning": "ClinGen labels the breakpoint type variable; these coordinates represent the curated population region rather than one exact sample event."
+}

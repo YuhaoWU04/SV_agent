@@ -7,6 +7,8 @@ it is represented by an explicit status and does not masquerade as no evidence.
 from __future__ import annotations
 
 import copy
+import csv
+import io
 import json
 import re
 import threading
@@ -47,6 +49,8 @@ _ENSEMBL_RETRYABLE_ERRORS = {
 _ADAPTIVE_STATE_LOCK = threading.Lock()
 GNOMAD_GRAPHQL = "https://gnomad.broadinstitute.org/api"
 NCBI_EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+CLINGEN_DOSAGE_CSV = "https://search.clinicalgenome.org/kb/gene-dosage/downloadall"
+UCSC_API = "https://api.genome.ucsc.edu"
 SUPPORTED_BUILDS = {"GRCh37", "GRCh38"}
 SUPPORTED_TYPES = {"DEL", "DUP", "INV", "INS", "BND", "CNV"}
 COORDINATE_SYSTEM = "1-based-inclusive"
@@ -141,6 +145,31 @@ def _json_request(
         return None, type(exc).__name__
     except json.JSONDecodeError:
         return None, "invalid_json_response"
+
+
+def _text_request(
+    url: str,
+    params: dict[str, Any] | None = None,
+    headers: dict[str, str] | None = None,
+    *,
+    timeout_seconds: float | None = None,
+) -> tuple[str | None, str | None]:
+    """Fetch a public text resource while preserving failure as explicit data."""
+    query = f"?{urlencode(params, doseq=True)}" if params else ""
+    request_headers = {"Accept": "text/plain,text/csv,*/*", "User-Agent": USER_AGENT}
+    if headers:
+        request_headers.update(headers)
+    request = Request(f"{url}{query}", headers=request_headers)
+    try:
+        timeout = HTTP_TIMEOUT_SECONDS if timeout_seconds is None else timeout_seconds
+        with urlopen(request, timeout=timeout) as response:
+            return response.read().decode("utf-8-sig"), None
+    except HTTPError as exc:
+        return None, f"HTTP {exc.code}"
+    except (URLError, TimeoutError) as exc:
+        return None, type(exc).__name__
+    except UnicodeDecodeError:
+        return None, "invalid_text_encoding"
 
 
 def _ensembl_json_request(
@@ -1033,6 +1062,531 @@ def _reciprocal_overlap(
     return overlap / length_a, overlap / length_b
 
 
+_MATCH_RANK = {
+    "exact": 5,
+    "high_similarity": 4,
+    "partial_overlap": 3,
+    "region_overlap": 2,
+    "nearby": 1,
+}
+
+
+def _interval_candidate_match(
+    sv: dict[str, Any],
+    db_start: int,
+    db_end: int,
+    start_window: dict[str, Any],
+    end_window: dict[str, Any],
+) -> dict[str, Any]:
+    """Classify an interval without treating heuristic padding as measured CI."""
+    start, end = sv["start"], sv["end"]
+    exact = db_start == start and db_end == end
+    start_in_window = (
+        start_window["is_measured_confidence_interval"]
+        and start_window["interval"][0] <= db_start <= start_window["interval"][1]
+    ) or db_start == start
+    end_in_window = (
+        end_window["is_measured_confidence_interval"]
+        and end_window["interval"][0] <= db_end <= end_window["interval"][1]
+    ) or db_end == end
+    overlap_query, overlap_database = _reciprocal_overlap(
+        start, end, db_start, db_end
+    )
+    query_length = max(1, end - start + 1)
+    database_length = max(1, db_end - db_start + 1)
+    size_similarity = min(query_length, database_length) / max(
+        query_length, database_length
+    )
+    if exact:
+        match_type = "exact"
+    elif start_in_window and end_in_window and size_similarity >= 0.70:
+        match_type = "high_similarity"
+    elif min(overlap_query, overlap_database) >= 0.50:
+        match_type = "partial_overlap"
+    elif overlap_query > 0 and overlap_database > 0:
+        match_type = "region_overlap"
+    else:
+        match_type = "nearby"
+    return {
+        "match_type": match_type,
+        "coordinate_exact": exact,
+        "same_event_established": False,
+        "match_metrics": {
+            "start_distance_bp": abs(db_start - start),
+            "end_distance_bp": abs(db_end - end),
+            "start_within_allowed_window": start_in_window,
+            "end_within_allowed_window": end_in_window,
+            "start_window_source": start_window["source"],
+            "end_window_source": end_window["source"],
+            "reciprocal_overlap_query": round(overlap_query, 6),
+            "reciprocal_overlap_database": round(overlap_database, 6),
+            "size_similarity": round(size_similarity, 6),
+        },
+    }
+
+
+def _interval_query_context(
+    sv: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]], str]:
+    """Return fixed match windows and bounded regions for external retrieval."""
+    chrom_length = CHROMOSOME_LENGTHS[sv["genome_build"]][sv["chrom"]]
+    start_window = _breakpoint_window(
+        sv["start"], sv.get("start_confidence_interval"), chrom_length
+    )
+    end_window = _breakpoint_window(
+        sv["end"], sv.get("end_confidence_interval"), chrom_length
+    )
+    expanded = [start_window["interval"][0], end_window["interval"][1]]
+    if expanded[1] - expanded[0] + 1 <= 5_000_000:
+        regions = [{"role": "nominal", "interval": expanded}]
+        strategy = "expanded_full_interval"
+    else:
+        regions = [
+            {"role": "start_breakpoint", "interval": start_window["interval"]},
+            {"role": "end_breakpoint", "interval": end_window["interval"]},
+        ]
+        if regions[0]["interval"] == regions[1]["interval"]:
+            regions = regions[:1]
+        strategy = "separate_breakpoint_windows_for_large_sv"
+    return start_window, end_window, regions, strategy
+
+
+def _clingen_score(label: str) -> int | None:
+    normalized = label.casefold()
+    labels = (
+        ("sufficient evidence", 3),
+        ("emerging evidence", 2),
+        ("little evidence", 1),
+        ("no evidence", 0),
+        ("autosomal recessive", 30),
+        ("dosage sensitivity unlikely", 40),
+    )
+    for phrase, score in labels:
+        if phrase in normalized:
+            return score
+    return None
+
+
+def query_clingen_dosage(
+    normalized_sv_json: str, max_records: int = MAX_DATABASE_RECORDS
+) -> dict[str, Any]:
+    """Query current ClinGen gene/region dosage curations by interval."""
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+        max_records = min(max(1, _parse_integer(max_records, "max_records")), 50)
+    except (ValueError, TypeError) as exc:
+        return {"source": "ClinGen Dosage", "status": "error", "error": str(exc)}
+    if sv["sv_type"] not in {"DEL", "DUP", "CNV"}:
+        return {
+            "source": "ClinGen Dosage", "status": "not_applicable",
+            "candidate_sv_type": sv["sv_type"], "records": [],
+            "retrieved_at": _now(),
+            "limitations": "Dosage sensitivity is queried only for DEL, DUP, and CNV.",
+        }
+
+    text, error = _text_request(CLINGEN_DOSAGE_CSV)
+    if error or text is None:
+        return {
+            "source": "ClinGen Dosage", "status": "error",
+            "error": error or "empty_response", "records": [],
+            "source_url": CLINGEN_DOSAGE_CSV, "retrieved_at": _now(),
+        }
+    rows = list(csv.reader(io.StringIO(text)))
+    created_at = ""
+    header_index = None
+    for index, row in enumerate(rows):
+        first = row[0].strip() if row else ""
+        if first.startswith("FILE CREATED:"):
+            created_at = first.partition(":")[2].strip()
+        if first == "GENE/REGION":
+            header_index = index
+            break
+    if header_index is None:
+        return {
+            "source": "ClinGen Dosage", "status": "error",
+            "error": "unrecognized_csv_header", "records": [],
+            "source_url": CLINGEN_DOSAGE_CSV, "retrieved_at": _now(),
+        }
+
+    build_column = sv["genome_build"]
+    start_window, end_window, _, _ = _interval_query_context(sv)
+    parsed: list[dict[str, Any]] = []
+    for values in rows[header_index + 1:]:
+        if len(values) < len(rows[header_index]):
+            continue
+        row = dict(zip(rows[header_index], values))
+        coordinate = row.get(build_column, "")
+        match = re.fullmatch(r"chr([^:]+):(\d+)-(\d+)", coordinate.strip())
+        if not match:
+            continue
+        try:
+            db_chrom = _clean_chrom(match.group(1))
+            db_start, db_end = int(match.group(2)), int(match.group(3))
+        except ValueError:
+            continue
+        if db_chrom != sv["chrom"] or db_end < sv["start"] or db_start > sv["end"]:
+            continue
+        hi = row.get("HAPLOINSUFFICIENCY", "")
+        ts = row.get("TRIPLOSENSITIVITY", "")
+        direction = "haploinsufficiency" if sv["sv_type"] == "DEL" else (
+            "triplosensitivity" if sv["sv_type"] == "DUP" else "both"
+        )
+        relevant = hi if direction == "haploinsufficiency" else (
+            ts if direction == "triplosensitivity" else None
+        )
+        interval_match = _interval_candidate_match(
+            sv, db_start, db_end, start_window, end_window,
+        )
+        identifier = row.get("HGNC/ISCA", "")
+        parsed.append({
+            "record_id": identifier,
+            "entity": row.get("GENE/REGION", ""),
+            "entity_type": "region" if identifier.startswith("ISCA-") else "gene",
+            "chrom": db_chrom, "start": db_start, "end": db_end,
+            "haploinsufficiency": {
+                "assessment": hi, "score": _clingen_score(hi),
+            },
+            "triplosensitivity": {
+                "assessment": ts, "score": _clingen_score(ts),
+            },
+            "relevant_dosage_direction": direction,
+            "relevant_assessment": relevant,
+            "curation_date": row.get("DATE", ""),
+            "source_url": row.get("ONLINE REPORT", ""),
+            **interval_match,
+        })
+    parsed.sort(key=lambda row: (
+        row["entity_type"] != "region",
+        -_MATCH_RANK[row["match_type"]],
+        -row["match_metrics"]["reciprocal_overlap_query"],
+        row["record_id"],
+    ))
+    records = parsed[:max_records]
+    return {
+        "source": "ClinGen Dosage", "status": "found" if records else "not_found",
+        "completeness": "complete", "genome_build": sv["genome_build"],
+        "candidate_sv_type": sv["sv_type"], "dataset_created_at": created_at,
+        "records": records, "overlapping_record_count": len(parsed),
+        "returned_record_count": len(records),
+        "records_truncated": len(parsed) > max_records,
+        "retrieved_at": _now(), "source_url": CLINGEN_DOSAGE_CSV,
+        "limitations": (
+            "ClinGen dosage scores are expert-curated gene/region evidence, not a "
+            "patient-level classification. Coordinate overlap does not establish "
+            "that recurrent breakpoints, copy state, phenotype, inheritance, or "
+            "structural configuration match the curated cases."
+        ),
+    }
+
+
+_CLINVAR_TYPE_TERMS = {
+    "DEL": "Deletion[vartype]",
+    "DUP": "Duplication[vartype]",
+    "INV": "Inversion[vartype]",
+    "INS": "Insertion[vartype]",
+    "BND": "Translocation[vartype]",
+    "CNV": "(Deletion[vartype] OR Duplication[vartype])",
+}
+
+
+def _clinvar_type_compatible(query_type: str, observed: Any) -> bool:
+    value = str(observed or "").casefold()
+    compatible = {
+        "DEL": ("deletion", "copy number loss"),
+        "DUP": ("duplication", "copy number gain"),
+        "INV": ("inversion",),
+        "INS": ("insertion",),
+        "BND": ("translocation",),
+        "CNV": ("deletion", "duplication", "copy number"),
+    }
+    return any(token in value for token in compatible[query_type])
+
+
+def _clinvar_location(summary: dict[str, Any], build: str) -> dict[str, Any] | None:
+    for variation in summary.get("variation_set") or []:
+        for location in variation.get("variation_loc") or []:
+            if location.get("assembly_name") != build:
+                continue
+            try:
+                return {
+                    "chrom": _clean_chrom(location.get("chr")),
+                    "start": _parse_integer(location.get("start"), "ClinVar start"),
+                    "end": _parse_integer(location.get("stop"), "ClinVar stop"),
+                    "inner_start": location.get("inner_start") or None,
+                    "inner_stop": location.get("inner_stop") or None,
+                    "outer_start": location.get("outer_start") or None,
+                    "outer_stop": location.get("outer_stop") or None,
+                    "assembly_accession": location.get("assembly_acc_ver") or "",
+                    "variant_type": variation.get("variant_type") or summary.get("obj_type"),
+                }
+            except (ValueError, TypeError):
+                continue
+    return None
+
+
+def query_clinvar(
+    normalized_sv_json: str, max_records: int = MAX_DATABASE_RECORDS
+) -> dict[str, Any]:
+    """Search ClinVar aggregate records and retain review status and conflicts."""
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+        max_records = min(max(1, _parse_integer(max_records, "max_records")), 50)
+        start_window, end_window, regions, strategy = _interval_query_context(sv)
+    except (ValueError, TypeError) as exc:
+        return {"source": "ClinVar", "status": "error", "error": str(exc)}
+
+    position_field = "chrpos38" if sv["genome_build"] == "GRCh38" else "chrpos37"
+    query_errors: list[dict[str, Any]] = []
+    ids: list[str] = []
+    query_terms: list[str] = []
+    search_limit = min(100, max(20, max_records * 5))
+    for region in regions:
+        interval = region["interval"]
+        length_clause = "" if sv["sv_type"] == "BND" else " AND 50:100000000[varlen]"
+        term = (
+            f"{sv['chrom']}[chr] AND {interval[0]}:{interval[1]}[{position_field}] "
+            f"AND {_CLINVAR_TYPE_TERMS[sv['sv_type']]}{length_clause}"
+        )
+        query_terms.append(term)
+        payload, error = _json_request(
+            f"{NCBI_EUTILS}/esearch.fcgi",
+            _ncbi_params({
+                "db": "clinvar", "term": term, "retmax": search_limit,
+            }),
+        )
+        result = payload.get("esearchresult") if isinstance(payload, dict) else None
+        found_ids = result.get("idlist") if isinstance(result, dict) else None
+        if error or not isinstance(found_ids, list):
+            query_errors.append({**region, "error": error or "invalid_search_response_shape"})
+            continue
+        for uid in found_ids:
+            if str(uid) not in ids:
+                ids.append(str(uid))
+
+    summaries: dict[str, Any] = {}
+    if ids:
+        payload, error = _json_request(
+            f"{NCBI_EUTILS}/esummary.fcgi",
+            _ncbi_params({"db": "clinvar", "id": ",".join(ids)}),
+        )
+        result = payload.get("result") if isinstance(payload, dict) else None
+        if error or not isinstance(result, dict):
+            query_errors.append({
+                "role": "summary", "error": error or "invalid_summary_response_shape"
+            })
+        else:
+            summaries = result
+
+    classified: list[dict[str, Any]] = []
+    for uid in ids:
+        summary = summaries.get(uid)
+        if not isinstance(summary, dict):
+            continue
+        location = _clinvar_location(summary, sv["genome_build"])
+        if not location or location["chrom"] != sv["chrom"]:
+            continue
+        if not _clinvar_type_compatible(sv["sv_type"], location["variant_type"]):
+            continue
+        interval_match = _interval_candidate_match(
+            sv, location["start"], location["end"], start_window, end_window
+        )
+        classification = summary.get("germline_classification") or {}
+        traits = [
+            item.get("trait_name", "")
+            for item in classification.get("trait_set") or []
+            if isinstance(item, dict) and item.get("trait_name")
+        ]
+        submissions = summary.get("supporting_submissions") or {}
+        accession = summary.get("accession_version") or summary.get("accession") or uid
+        classified.append({
+            "record_id": accession,
+            "variation_id": uid,
+            "title": summary.get("title", ""),
+            "variant_type": location["variant_type"],
+            "chrom": location["chrom"], "start": location["start"],
+            "end": location["end"],
+            "inner_start": location["inner_start"], "inner_stop": location["inner_stop"],
+            "outer_start": location["outer_start"], "outer_stop": location["outer_stop"],
+            "assembly_accession": location["assembly_accession"],
+            "germline_classification": classification.get("description") or "not_provided",
+            "review_status": classification.get("review_status") or "not_provided",
+            "last_evaluated": classification.get("last_evaluated") or "",
+            "traits": traits[:5], "trait_count": len(traits),
+            "supporting_scv_count": len(submissions.get("scv") or []),
+            "supporting_rcv_count": len(submissions.get("rcv") or []),
+            "genes": [
+                gene.get("symbol") for gene in summary.get("genes") or []
+                if isinstance(gene, dict) and gene.get("symbol")
+            ][:10],
+            "source_url": f"https://www.ncbi.nlm.nih.gov/clinvar/variation/{uid}/",
+            **interval_match,
+        })
+    classified.sort(key=lambda row: (
+        -_MATCH_RANK[row["match_type"]],
+        row["match_metrics"]["start_distance_bp"]
+        + row["match_metrics"]["end_distance_bp"],
+        row["record_id"],
+    ))
+    records = classified[:max_records]
+    successful_queries = len(regions) - sum(
+        error.get("role") != "summary" for error in query_errors
+    )
+    completeness = "complete" if not query_errors else (
+        "failed" if successful_queries <= 0 else "partial"
+    )
+    status = "found" if records else (
+        "not_found" if completeness == "complete" else "error"
+    )
+    return {
+        "source": "ClinVar", "status": status, "completeness": completeness,
+        "genome_build": sv["genome_build"], "candidate_sv_type": sv["sv_type"],
+        "query_strategy": strategy, "query_regions": regions,
+        "query_terms": query_terms, "breakpoint_windows": {
+            "start": start_window, "end": end_window,
+        },
+        "records": records, "search_uid_count": len(ids),
+        "compatible_record_count": len(classified),
+        "returned_record_count": len(records),
+        "records_truncated": len(classified) > max_records,
+        "query_errors": query_errors, "retrieved_at": _now(),
+        "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+        "limitations": (
+            "ClinVar contains submitted aggregate interpretations with different "
+            "review levels and possible conflicts. Exact displayed coordinates and "
+            "compatible type do not establish the same biological event. Inner/outer "
+            "bounds, condition, review status, and last evaluation must be considered; "
+            "absence from this bounded search does not establish novelty or benignity."
+        ),
+    }
+
+
+def _dgv_type_compatible(query_type: str, row: dict[str, Any]) -> bool:
+    observed = f"{row.get('variant_type', '')} {row.get('variant_sub_type', '')}".casefold()
+    compatible = {
+        "DEL": ("loss", "deletion"),
+        "DUP": ("gain", "duplication"),
+        "INV": ("inversion",),
+        "INS": ("insertion",),
+        "CNV": ("cnv", "gain", "loss", "duplication", "deletion"),
+    }
+    return any(token in observed for token in compatible.get(query_type, ()))
+
+
+def query_dgv(
+    normalized_sv_json: str, max_records: int = MAX_DATABASE_RECORDS
+) -> dict[str, Any]:
+    """Query the DGV Gold Standard hg19/hg38 track through the UCSC API."""
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+        max_records = min(max(1, _parse_integer(max_records, "max_records")), 50)
+        start_window, end_window, regions, strategy = _interval_query_context(sv)
+    except (ValueError, TypeError) as exc:
+        return {"source": "DGV Gold Standard", "status": "error", "error": str(exc)}
+    if sv["sv_type"] == "BND":
+        return {
+            "source": "DGV Gold Standard", "status": "not_applicable",
+            "candidate_sv_type": "BND", "records": [], "retrieved_at": _now(),
+            "limitations": "The DGV Gold Standard CNV track is not used for BND matching.",
+        }
+
+    genome = "hg38" if sv["genome_build"] == "GRCh38" else "hg19"
+    raw_records: dict[str, dict[str, Any]] = {}
+    query_errors: list[dict[str, Any]] = []
+    data_version = ""
+    for region in regions:
+        interval = region["interval"]
+        payload, error = _json_request(
+            f"{UCSC_API}/getData/track",
+            {
+                "genome": genome, "track": "dgvGold", "chrom": f"chr{sv['chrom']}",
+                "start": interval[0] - 1, "end": interval[1],
+            },
+        )
+        rows = payload.get("dgvGold") if isinstance(payload, dict) else None
+        if error or not isinstance(rows, list):
+            query_errors.append({**region, "error": error or "invalid_response_shape"})
+            continue
+        data_version = payload.get("dataTime") or data_version
+        for row in rows:
+            if isinstance(row, dict) and (row.get("dgvID") or row.get("name")):
+                raw_records[str(row.get("dgvID") or row.get("name"))] = row
+
+    classified: list[dict[str, Any]] = []
+    for record_id, row in raw_records.items():
+        if not _dgv_type_compatible(sv["sv_type"], row):
+            continue
+        try:
+            db_start = _parse_integer(row.get("chromStart"), "DGV chromStart") + 1
+            db_end = _parse_integer(row.get("chromEnd"), "DGV chromEnd")
+        except (ValueError, TypeError):
+            continue
+        interval_match = _interval_candidate_match(
+            sv, db_start, db_end, start_window, end_window
+        )
+        studies = [item.strip() for item in str(row.get("Studies") or "").split(",") if item.strip()]
+        platforms = [item.strip() for item in str(row.get("Platforms") or "").split(",") if item.strip()]
+        source_variants = [
+            item.strip() for item in str(row.get("variants") or "").split(",")
+            if item.strip()
+        ]
+        classified.append({
+            "record_id": record_id,
+            "variant_type": row.get("variant_type") or "",
+            "variant_sub_type": row.get("variant_sub_type") or "",
+            "chrom": sv["chrom"], "start": db_start, "end": db_end,
+            "frequency": row.get("Frequency") or "not_provided",
+            "num_unique_samples_tested": row.get("num_unique_samples_tested"),
+            "num_samples_with_variant": row.get("num_samples"),
+            "num_studies": row.get("num_studies"),
+            "studies": studies[:5], "study_names_truncated": len(studies) > 5,
+            "num_platforms": row.get("num_platforms"),
+            "platforms": platforms[:5], "platform_names_truncated": len(platforms) > 5,
+            "num_source_variants": row.get("num_variants"),
+            "source_variant_ids": source_variants[:5],
+            "source_variant_ids_truncated": len(source_variants) > 5,
+            "source_url": (
+                f"https://api.genome.ucsc.edu/getData/track?genome={genome};"
+                f"track=dgvGold;chrom=chr{sv['chrom']};start={db_start - 1};end={db_end}"
+            ),
+            **interval_match,
+        })
+    classified.sort(key=lambda row: (
+        -_MATCH_RANK[row["match_type"]],
+        row["match_metrics"]["start_distance_bp"]
+        + row["match_metrics"]["end_distance_bp"],
+        row["record_id"],
+    ))
+    records = classified[:max_records]
+    successful_queries = len(regions) - len(query_errors)
+    completeness = "complete" if not query_errors else (
+        "failed" if successful_queries == 0 else "partial"
+    )
+    status = "found" if records else (
+        "not_found" if completeness == "complete" else "error"
+    )
+    return {
+        "source": "DGV Gold Standard", "status": status,
+        "completeness": completeness, "genome_build": sv["genome_build"],
+        "candidate_sv_type": sv["sv_type"], "dataset": "dgvGold",
+        "access_backend": "UCSC Genome Browser API", "data_version": data_version,
+        "query_strategy": strategy, "query_regions": regions,
+        "breakpoint_windows": {"start": start_window, "end": end_window},
+        "records": records, "raw_region_record_count": len(raw_records),
+        "compatible_record_count": len(classified),
+        "returned_record_count": len(records),
+        "records_truncated": len(classified) > max_records,
+        "query_errors": query_errors, "retrieved_at": _now(),
+        "source_url": "https://dgv.tcag.ca/dgv/app/downloads",
+        "limitations": (
+            "This adapter queries the curated DGV Gold Standard track exposed by "
+            "UCSC, not the complete current DGV release. DGV aggregates healthy-control "
+            "studies with heterogeneous platforms and often imprecise boundaries. "
+            "Overlap or frequency is contextual population evidence, not proof of the "
+            "same event, benignity, or absence of clinical effect."
+        ),
+    }
+
+
 def _classify_gnomad_candidate(
     sv: dict[str, Any],
     row: dict[str, Any],
@@ -1729,22 +2283,45 @@ def _add_gnomad_evidence_ids(evidence: dict[str, Any], prefix: str) -> dict[str,
     return enriched
 
 
+def _add_database_evidence_ids(
+    evidence: dict[str, Any], source_prefix: str
+) -> dict[str, Any]:
+    """Attach local evidence IDs while keeping the adapter response intact."""
+    enriched = copy.deepcopy(evidence)
+    for index, row in enumerate(enriched.get("records") or [], start=1):
+        if isinstance(row, dict):
+            row.setdefault("evidence_id", f"{source_prefix}-BL-{index:03d}")
+    return enriched
+
+
 def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
-    """Collect the non-optional deterministic Ensembl, gnomAD-SV, and QC baseline."""
+    """Collect all non-optional annotation, population, clinical, and QC evidence."""
     try:
         sv = _validated_normalized_sv(normalized_sv_json)
     except (ValueError, TypeError) as exc:
         return {"status": "blocked", "error": str(exc)}
 
-    region = query_ensembl_region(
-        genome_build=sv["genome_build"], chrom=sv["chrom"],
-        start=sv["start"], end=sv["end"], sv_type=sv["sv_type"],
-        start_confidence_interval=sv.get("start_confidence_interval"),
-        end_confidence_interval=sv.get("end_confidence_interval"),
-        mate_chrom=sv.get("mate_chrom"), mate_pos=sv.get("mate_pos"),
-        mate_confidence_interval=sv.get("mate_confidence_interval"),
-    )
-    population = query_gnomad_sv(normalized_sv_json)
+    # Independent public sources run concurrently. The artifact assessment waits for
+    # Ensembl because repeat overlap is one of its deterministic risk inputs.
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        region_future = executor.submit(
+            query_ensembl_region,
+            genome_build=sv["genome_build"], chrom=sv["chrom"],
+            start=sv["start"], end=sv["end"], sv_type=sv["sv_type"],
+            start_confidence_interval=sv.get("start_confidence_interval"),
+            end_confidence_interval=sv.get("end_confidence_interval"),
+            mate_chrom=sv.get("mate_chrom"), mate_pos=sv.get("mate_pos"),
+            mate_confidence_interval=sv.get("mate_confidence_interval"),
+        )
+        gnomad_future = executor.submit(query_gnomad_sv, normalized_sv_json)
+        clingen_future = executor.submit(query_clingen_dosage, normalized_sv_json)
+        clinvar_future = executor.submit(query_clinvar, normalized_sv_json)
+        dgv_future = executor.submit(query_dgv, normalized_sv_json)
+        region = region_future.result()
+        population = gnomad_future.result()
+        clingen = clingen_future.result()
+        clinvar = clinvar_future.result()
+        dgv = dgv_future.result()
     artifact = assess_artifact_risk(normalized_sv_json, json.dumps(region))
     return {
         "status": "complete",
@@ -1758,11 +2335,17 @@ def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
         },
         "region_annotation": _add_ensembl_evidence_ids(region),
         "database_evidence": _add_gnomad_evidence_ids(population, "BL"),
+        "clingen_dosage_evidence": _add_database_evidence_ids(clingen, "CGD"),
+        "clinvar_evidence": _add_database_evidence_ids(clinvar, "CLV"),
+        "dgv_evidence": _add_database_evidence_ids(dgv, "DGV"),
         "artifact_risk": artifact,
         "retrieved_at": _now(),
         "limitations": [
             "Baseline Ensembl evidence is coordinate-overlap evidence.",
-            "Baseline population evidence is limited to gnomAD-SV.",
+            "Population evidence includes gnomAD-SV and the DGV Gold Standard track; "
+            "the latter is not the complete current DGV release.",
+            "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate "
+            "records, neither of which is a patient-level diagnosis.",
             "Missing source data and query failures remain explicit unknown/error states.",
         ],
     }

@@ -80,7 +80,10 @@ input_normalizer_agent = Agent(
 baseline_evidence_agent = Agent(
     name="BaselineEvidenceCollectorAgent",
     model=MODEL,
-    description="Runs the required deterministic Ensembl, gnomAD-SV, and QC baseline.",
+    description=(
+        "Runs the required deterministic Ensembl, gnomAD-SV, ClinGen, ClinVar, "
+        "DGV, and QC baseline."
+    ),
     instruction=BASELINE,
     tools=[collect_baseline_evidence_to_state],
 )

@@ -1,0 +1,57 @@
+{
+  "corpus_version": "0.1.0",
+  "created_at": "2026-09-20",
+  "reference_build": "GRCh38",
+  "coordinate_system": "1-based-inclusive",
+  "status": "collected_unverified",
+  "cases": [
+    {
+      "case_id": "giab_cmrg_del_chr4_1092990_1093039",
+      "category": "technical_benchmark",
+      "input": "inputs/giab_cmrg_del_chr4_1092990_1093039.json",
+      "expected": "expected/giab_cmrg_del_chr4_1092990_1093039.json",
+      "provenance": "provenance/giab_cmrg_v1.00.json",
+      "purpose": "Sequence-resolved 50 bp deletion and missing-CI handling"
+    },
+    {
+      "case_id": "giab_cmrg_ins_chr3_49404094_663bp",
+      "category": "technical_benchmark",
+      "input": "inputs/giab_cmrg_ins_chr3_49404094_663bp.json",
+      "expected": "expected/giab_cmrg_ins_chr3_49404094_663bp.json",
+      "provenance": "provenance/giab_cmrg_v1.00.json",
+      "purpose": "Sequence-resolved insertion represented as a point plus length"
+    },
+    {
+      "case_id": "giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp",
+      "category": "technical_benchmark",
+      "input": "inputs/giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp.json",
+      "expected": "expected/giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp.json",
+      "provenance": "provenance/giab_cmrg_v1.00.json",
+      "purpose": "GIAB tandem-duplication sequence represented as SVTYPE INS"
+    },
+    {
+      "case_id": "clingen_22q11_2_distal_type1_del",
+      "category": "interpretation_reference",
+      "input": "inputs/clingen_22q11_2_distal_type1_del.json",
+      "expected": "expected/clingen_22q11_2_distal_type1_del.json",
+      "provenance": "provenance/clingen_dosage_2026-09-20.json",
+      "purpose": "Deletion matching a recurrent region with sufficient HI evidence"
+    },
+    {
+      "case_id": "clingen_16p12_2_population_dup",
+      "category": "interpretation_reference",
+      "input": "inputs/clingen_16p12_2_population_dup.json",
+      "expected": "expected/clingen_16p12_2_population_dup.json",
+      "provenance": "provenance/clingen_dosage_2026-09-20.json",
+      "purpose": "Common population gain with dosage sensitivity unlikely"
+    },
+    {
+      "case_id": "clingen_22q11_21_ces_gain",
+      "category": "interpretation_reference",
+      "input": "inputs/clingen_22q11_21_ces_gain.json",
+      "expected": "expected/clingen_22q11_21_ces_gain.json",
+      "provenance": "provenance/clingen_dosage_2026-09-20.json",
+      "purpose": "Gain whose clinically supported copy state is not an ordinary single-copy duplication"
+    }
+  ]
+}

@@ -14,8 +14,8 @@ baseline, adaptive, and PubMed results directly to `ToolContext.state`; these ra
 records are not saved from the model's retelling. The adaptive and literature agents'
 `output_key` values contain their decisions and interpretations, while the verifier
 and writer have no tools and enforce Pydantic output schemas. The design is a
-deterministic baseline plus bounded adaptation: baseline
-Ensembl, gnomAD-SV, and artifact checks always run, after which one LLM stage may make
+deterministic baseline plus bounded adaptation: baseline Ensembl, gnomAD-SV, ClinGen
+Dosage, ClinVar, DGV Gold Standard, and artifact checks always run, after which one LLM stage may make
 zero, one, or two justified calls from a hard-coded whitelist. Missing evidence remains
 `unknown`, `not_found`, `unavailable`, `error`, or `not_queried` rather than being
 silently treated as negative evidence.
@@ -116,10 +116,19 @@ for that label. Other overlap-based similarity classes can still apply.
 ## BaselineEvidenceCollectorAgent: fixed coverage
 
 This stage calls one deterministic wrapper exactly once. The wrapper always performs
-the existing Ensembl region/breakpoint queries, the build-matched gnomAD-SV query, and
-the artifact-risk rules. The LLM wrapper cannot choose which baseline source to skip.
-Raw source fields are preserved, while stable `ENS-BL-*` and `GNO-BL-*` evidence IDs
-are added. Candidate identity fields are copied into an immutable-field audit block.
+Ensembl region/breakpoint queries, build-matched gnomAD-SV, ClinGen Dosage, ClinVar,
+DGV Gold Standard, and the artifact-risk rules. Independent remote sources run
+concurrently, but each result keeps its own success, partial-failure, or error state.
+The LLM wrapper cannot choose which baseline source to skip. Raw source fields are
+preserved or deterministically compacted, while stable `ENS-BL-*`, `GNO-BL-*`,
+`CGD-BL-*`, `CLV-BL-*`, and `DGV-BL-*` evidence IDs are added. Candidate identity
+fields are copied into an immutable-field audit block.
+
+The three new adapters use the shared `SV_AGENT_HTTP_TIMEOUT` setting (20 seconds by
+default) and currently make one attempt per endpoint; unlike Ensembl, they do not yet
+retry transient HTTP failures. Such a failure is stored as `error`, never as an empty
+or negative result. Each source returns at most `SV_AGENT_MAX_DATABASE_RECORDS`
+ranked records (10 by default), while retaining pre-limit counts and a truncation flag.
 
 ## Baseline Ensembl annotation: capability and limitations
 
@@ -161,8 +170,8 @@ that either breakpoint is unreliable.
 
 ## Baseline gnomAD-SV query and matching
 
-The database stage now queries the public gnomAD GraphQL API directly. GRCh38 input
-uses `gnomad_sv_r4`; GRCh37 input uses `gnomad_sv_r2_1`. ClinVar is not queried. The
+The population baseline queries the public gnomAD GraphQL API directly. GRCh38 input
+uses `gnomad_sv_r4`; GRCh37 input uses `gnomad_sv_r2_1`. The
 tool returns build-matched gnomAD-SV records with coordinates, SV type, allele count,
 allele number, allele frequency, homozygote/hemizygote counts, consequence, and filter
 flags.
@@ -186,16 +195,71 @@ bounded, then merges duplicate records. Results are capped at
 `SV_AGENT_MAX_DATABASE_RECORDS` after ranking. No result in gnomAD-SV does not prove
 novelty, pathogenicity, or technical validity.
 
-gnomAD-SV is the only population database available to the workflow. The prompts forbid results
-from ClinVar, dbVar, DGV, OMIM, GWAS Catalog, GO, Reactome, or model memory. If such a
-source would be useful, the agent may only list it as `not_queried` with reason
-`tool_not_available`; it may not claim that a query occurred. Static adapter
-availability is documented here rather than queried on every run.
+gnomAD-SV remains the primary frequency source, but it is no longer the only population
+database: DGV Gold Standard is also queried as described below. The prompts still
+forbid invented results from dbVar, OMIM, GWAS Catalog, GO, Reactome, or model memory.
 
 The GraphQL endpoint is the public gnomAD Browser's browser-facing API rather than a
 versioned contract maintained specifically for this project. Dataset IDs are pinned,
 but an upstream API schema change may require an adapter update and must be reported as
 an error rather than interpreted as no matching variants.
+
+## Baseline ClinGen Dosage query
+
+For `DEL`, `DUP`, and `CNV`, the tool downloads ClinGen's
+[current combined gene/region dosage-curation CSV](https://search.clinicalgenome.org/kb/downloads)
+and intersects the build-matched coordinates. A deletion selects
+haploinsufficiency as the relevant direction, a duplication selects
+triplosensitivity, and an unspecified CNV retains both. Results include the HGNC/ISCA
+identifier, entity type, coordinates, both assessments and normalized score when the
+standard ClinGen label maps to 0/1/2/3/30/40, curation date, report URL, reciprocal
+overlap, and breakpoint distances. Curated regions are ranked before individual genes
+so a recurrent-region result is not hidden by many overlapping gene records. Other SV
+types return `not_applicable` rather than a misleading negative result.
+
+ClinGen evidence is region- or gene-level dosage evidence, not a patient-specific
+classification. Matching coordinates do not prove the same recurrent breakpoints,
+absolute copy number, structural configuration, phenotype, inheritance, penetrance,
+or expressivity. The live combined CSV is not pinned to a historical release, so each
+result records the file creation date and retrieval time.
+
+## Baseline ClinVar query
+
+The ClinVar adapter uses [NCBI E-utilities](https://www.ncbi.nlm.nih.gov/clinvar/docs/maintenance_use/)
+with a build-specific coordinate field,
+compatible structural-variant type, and a minimum 50 bp variant-length filter (except
+for BND/translocation searches). It fetches aggregate VCV summaries and retains the
+Variation ID, accession version, displayed GRCh coordinates, any inner/outer bounds,
+classification, review status, last evaluation, conditions, genes, and counts of SCV
+and RCV support. It never converts an exact displayed-coordinate match into proof that
+two biological events are identical.
+
+ClinVar contains submitted interpretations with unequal review status and possible
+conflicts. A pathogenic label with no assertion criteria is not equivalent to an
+expert-panel-reviewed record. The bounded E-utilities search can be truncated, large
+SVs use separate breakpoint regions, and absence from the returned records does not
+prove novelty or benignity. Configure `NCBI_EMAIL` and optionally `NCBI_API_KEY` for
+NCBI requests.
+
+## Baseline DGV query
+
+The DGV adapter queries the `dgvGold` GRCh37/GRCh38 track through the
+[UCSC public API](https://genome.ucsc.edu/goldenPath/help/api.html), while the
+[DGV downloads page](https://dgv.tcag.ca/dgv/app/downloads) remains the provenance
+link for the complete source database.
+It converts UCSC's 0-based half-open coordinates back to the project's 1-based
+inclusive convention, filters compatible types, calculates the same deterministic
+overlap metrics, and returns compact records. Frequencies, tested/observed sample
+counts, study and platform counts, and short capped identifier lists are retained;
+the potentially enormous full sample and supporting-variant lists are deliberately
+not copied into ADK state.
+
+This is the curated **DGV Gold Standard track**, not the complete current DGV release.
+DGV combines healthy-control studies with heterogeneous technologies and often
+imprecise boundaries, so overlap and population frequency are contextual evidence,
+not automatic benign classification or proof of event identity. BND returns
+`not_applicable`. Large intervals use separate breakpoint queries, and results are
+capped by `SV_AGENT_MAX_DATABASE_RECORDS`.
 
 ## AdaptiveInvestigationAgent: bounded freedom
 
@@ -218,9 +282,11 @@ declared fallback expands retrieval only and does not by itself confer
 `high_similarity`. Thus a newly retrieved distant record cannot be promoted simply
 because the search radius was widened.
 
-VEP, DGV, dbVar, ClinGen, and ClinVar are not in the whitelist because there is no
-implemented, tested adapter for them. The agent must stop or record the limitation
-rather than simulate such a query from model knowledge. Transcript/exon actions remain
+ClinGen Dosage, ClinVar, and DGV are mandatory baseline sources, not adaptive actions;
+the agent must use their stored results rather than spend its two calls repeating them.
+VEP, dbVar, the complete current DGV release, OMIM, phenotype matching, and regulatory
+effect resources remain unavailable. The agent must stop or record those limitations
+rather than simulate a query from model knowledge. Transcript/exon actions remain
 coordinate-overlap observations and do not predict molecular consequence.
 
 The stage makes no call unless a named evidence gap, a relevant available action,

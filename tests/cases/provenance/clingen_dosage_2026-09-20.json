@@ -1,0 +1,35 @@
+{
+  "source_id": "ClinGen_Dosage_Sensitivity_region_pages_2026-09-20",
+  "source_name": "ClinGen Dosage Sensitivity Curation",
+  "source_organization": "Clinical Genome Resource",
+  "retrieved_at": "2026-09-20",
+  "assembly": "GRCh38",
+  "records": [
+    {
+      "curation_id": "ISCA-37397",
+      "url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37397",
+      "displayed_region": "chr22:21562828-22620608",
+      "last_evaluated": "2026-03-16"
+    },
+    {
+      "curation_id": "ISCA-46691",
+      "url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46691",
+      "displayed_region": "chr16:21500755-21584256",
+      "last_evaluated": "2021-08-04"
+    },
+    {
+      "curation_id": "ISCA-37393",
+      "url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37393",
+      "displayed_region": "chr22:16912063-18109094",
+      "last_evaluated": "2026-08-14"
+    }
+  ],
+  "validation_scope": "Expert-curated region-level dosage sensitivity evidence used as a hidden interpretation reference.",
+  "limitations": [
+    "The cases are synthetic CNVs matching displayed regions, not de-identified patient variants.",
+    "Displayed recurrent-region coordinates may describe unique sequence or a critical interval rather than exact individual breakpoints.",
+    "A region score does not replace case-level assessment of phenotype, inheritance, penetrance, expressivity, copy number, or structural configuration.",
+    "The current SV Investigator does not query ClinGen, so exact score recovery is not an automated pass criterion."
+  ],
+  "safety_note": "The source states that its information is not intended for direct diagnostic use without review by a genetics professional."
+}

@@ -1,0 +1,32 @@
+{
+  "source_id": "GIAB_HG002_CMRG_GRCh38_SV_v1.00",
+  "source_name": "NIST Genome in a Bottle Challenging Medically Relevant Gene benchmark",
+  "source_organization": "National Institute of Standards and Technology",
+  "sample": "HG002 / NA24385",
+  "assembly": "GRCh38",
+  "version": "CMRG v1.00",
+  "retrieved_at": "2026-09-20",
+  "urls": {
+    "dataset_readme": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/README_GIAB_medical_gene_benchmark.md",
+    "vcf": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/GRCh38/StructuralVariant/HG002_GRCh38_CMRG_SV_v1.00.vcf.gz",
+    "checksums": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/CMRG_v1.00/chksum.md5",
+    "dataset_doi": "https://doi.org/10.18434/mds2-2475"
+  },
+  "file_integrity": {
+    "official_md5": "98b9719a3228f2b5c0919654a0b57cc5",
+    "observed_md5": "98b9719a3228f2b5c0919654a0b57cc5",
+    "observed_sha256": "06a8740ad93dd0ede325fcf04c85f687a835699da715c72bdcfade5d588fd19e"
+  },
+  "validation_scope": "Manually curated HG002 benchmark records suitable for variant-calling comparison in the paired benchmark regions.",
+  "limitations": [
+    "The benchmark contains isolated insertions and deletions only.",
+    "It is restricted to autosomes and selected challenging medically relevant genes, so it is not representative of genome-wide performance.",
+    "Being a benchmark record establishes technical truth for HG002, not clinical pathogenicity.",
+    "Tandem duplications may be represented as SVTYPE=INS with REPTYPE=DUP."
+  ],
+  "coordinate_derivation": {
+    "deletion": "Affected interval excludes the left VCF anchor: POS+1 through POS+len(REF)-1.",
+    "insertion": "Point is recorded at VCF POS and length is len(ALT)-len(REF)."
+  },
+  "license_note": "NIST employee work is made available as a public service; see the dataset README for the complete notice."
+}

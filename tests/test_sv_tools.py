@@ -13,6 +13,9 @@ from sv_investigator.tools import (
     collect_baseline_evidence,
     execute_adaptive_action,
     normalize_sv_input,
+    query_clingen_dosage,
+    query_clinvar,
+    query_dgv,
     query_ensembl_region,
     query_gnomad_sv,
     run_budgeted_adaptive_action,
@@ -543,6 +546,120 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(result["retrieval_padding_bp"], 2000)
         self.assertEqual(result["records"][0]["match_type"], "nearby")
 
+    @patch("sv_investigator.tools._text_request")
+    def test_clingen_dosage_parses_current_csv_and_relevant_direction(self, request):
+        request.return_value = (\
+            '"CLINGEN DOSAGE SENSITIVITY CURATIONS (FULL)"\n'
+            '"FILE CREATED: 2026-09-18"\n'
+            '"GENE/REGION","HGNC/ISCA","GRCh37","GRCh38",'
+            '"HAPLOINSUFFICIENCY","TRIPLOSENSITIVITY","ONLINE REPORT","DATE"\n'
+            '"test region","ISCA-1","chr1:900-2100","chr1:900-2100",'
+            '"Sufficient Evidence for Haploinsufficiency",'
+            '"No Evidence for Triplosensitivity","https://example.test/ISCA-1",'
+            '"2026-01-01"\n',
+            None,
+        )
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL",
+        }))
+        result = query_clingen_dosage(json.dumps(sv))
+        self.assertEqual(result["status"], "found")
+        self.assertEqual(result["dataset_created_at"], "2026-09-18")
+        record = result["records"][0]
+        self.assertEqual(record["record_id"], "ISCA-1")
+        self.assertEqual(record["relevant_dosage_direction"], "haploinsufficiency")
+        self.assertEqual(record["haploinsufficiency"]["score"], 3)
+        self.assertFalse(record["same_event_established"])
+
+    @patch("sv_investigator.tools._json_request")
+    def test_clinvar_retains_review_status_and_interval_metrics(self, request):
+        request.side_effect = [
+            ({"esearchresult": {"idlist": ["123"]}}, None),
+            ({"result": {"uids": ["123"], "123": {
+                "uid": "123", "obj_type": "Deletion",
+                "accession": "VCV000000123", "accession_version": "VCV000000123.2",
+                "title": "GRCh38 chr1 deletion", "variation_set": [{
+                    "variant_type": "Deletion", "variation_loc": [{
+                        "assembly_name": "GRCh38", "chr": "1",
+                        "start": "990", "stop": "2020",
+                        "inner_start": "", "inner_stop": "",
+                        "outer_start": "", "outer_stop": "",
+                        "assembly_acc_ver": "GCF_000001405.38",
+                    }],
+                }],
+                "supporting_submissions": {"scv": ["SCV1", "SCV2"], "rcv": ["RCV1"]},
+                "germline_classification": {
+                    "description": "Pathogenic",
+                    "review_status": "criteria provided, multiple submitters, no conflicts",
+                    "last_evaluated": "2026/01/02 00:00",
+                    "trait_set": [{"trait_name": "example disorder"}],
+                },
+                "genes": [{"symbol": "GENE1"}],
+            }}}, None),
+        ]
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL", "CIPOS": [-20, 20],
+            "CIEND": [-30, 30],
+        }))
+        result = query_clinvar(json.dumps(sv))
+        self.assertEqual(result["status"], "found")
+        self.assertIn("50:100000000[varlen]", result["query_terms"][0])
+        record = result["records"][0]
+        self.assertEqual(record["record_id"], "VCV000000123.2")
+        self.assertEqual(record["germline_classification"], "Pathogenic")
+        self.assertEqual(record["supporting_scv_count"], 2)
+        self.assertEqual(record["match_type"], "high_similarity")
+        self.assertFalse(record["same_event_established"])
+
+    @patch("sv_investigator.tools._json_request")
+    def test_dgv_uses_zero_based_api_but_returns_one_based_compact_records(self, request):
+        request.return_value = ({
+            "dataTime": "2026-01-01", "dgvGold": [{
+                "chrom": "chr1", "chromStart": 999, "chromEnd": 2000,
+                "dgvID": "gssvG1", "variant_type": "CNV",
+                "variant_sub_type": "Gain", "Frequency": "12.5%",
+                "num_unique_samples_tested": 1000, "num_samples": 125,
+                "num_studies": 2, "Studies": "StudyA, StudyB",
+                "num_platforms": 1, "Platforms": "Array",
+                "num_variants": 8,
+                "variants": "v1, v2, v3, v4, v5, v6, v7, v8",
+                "samples": "large sample list must not be copied",
+            }],
+        }, None)
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DUP",
+        }))
+        result = query_dgv(json.dumps(sv))
+        self.assertEqual(result["status"], "found")
+        params = request.call_args.args[1]
+        self.assertEqual(params["start"], 499)
+        record = result["records"][0]
+        self.assertEqual((record["start"], record["end"]), (1000, 2000))
+        self.assertEqual(record["match_type"], "exact")
+        self.assertTrue(record["source_variant_ids_truncated"])
+        self.assertNotIn("samples", record)
+
+    def test_new_database_failures_are_not_reported_as_negative_results(self):
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL",
+        }))
+        payload = json.dumps(sv)
+        with patch("sv_investigator.tools._text_request", return_value=(None, "TimeoutError")):
+            clingen = query_clingen_dosage(payload)
+        with patch("sv_investigator.tools._json_request", return_value=(None, "HTTP 503")):
+            clinvar = query_clinvar(payload)
+            dgv = query_dgv(payload)
+
+        self.assertEqual(clingen["status"], "error")
+        self.assertEqual(clinvar["status"], "error")
+        self.assertEqual(clinvar["completeness"], "failed")
+        self.assertEqual(dgv["status"], "error")
+        self.assertEqual(dgv["completeness"], "failed")
+
     def test_adaptive_action_whitelist_and_budget_are_enforced(self):
         sv = normalize_sv_input(json.dumps({
             "genome_build": "GRCh38", "chrom": "1", "start": 1000,
@@ -576,11 +693,14 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(over_budget["rejection_reason"], "query_budget_exhausted")
         self.assertEqual(execute.call_count, 2)
 
+    @patch("sv_investigator.tools.query_dgv")
+    @patch("sv_investigator.tools.query_clinvar")
+    @patch("sv_investigator.tools.query_clingen_dosage")
     @patch("sv_investigator.tools.assess_artifact_risk")
     @patch("sv_investigator.tools.query_gnomad_sv")
     @patch("sv_investigator.tools.query_ensembl_region")
     def test_baseline_collection_adds_ids_without_losing_records(
-        self, ensembl, gnomad, artifact
+        self, ensembl, gnomad, artifact, clingen, clinvar, dgv
     ):
         ensembl.return_value = {
             "source": "Ensembl", "status": "found",
@@ -590,6 +710,18 @@ class SVToolsTest(unittest.TestCase):
         gnomad.return_value = {
             "source": "gnomAD-SV", "status": "found",
             "records": [{"variant_id": "v1", "af": 0.1}],
+        }
+        clingen.return_value = {
+            "source": "ClinGen Dosage", "status": "found",
+            "records": [{"record_id": "ISCA-1"}],
+        }
+        clinvar.return_value = {
+            "source": "ClinVar", "status": "found",
+            "records": [{"record_id": "VCV1"}],
+        }
+        dgv.return_value = {
+            "source": "DGV Gold Standard", "status": "found",
+            "records": [{"record_id": "gssv1"}],
         }
         artifact.return_value = {"overall_risk": "unknown", "risk_items": []}
         sv = normalize_sv_input(json.dumps({
@@ -603,6 +735,18 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(
             result["database_evidence"]["records"][0]["evidence_id"],
             "GNO-BL-001",
+        )
+        self.assertEqual(
+            result["clingen_dosage_evidence"]["records"][0]["evidence_id"],
+            "CGD-BL-001",
+        )
+        self.assertEqual(
+            result["clinvar_evidence"]["records"][0]["evidence_id"],
+            "CLV-BL-001",
+        )
+        self.assertEqual(
+            result["dgv_evidence"]["records"][0]["evidence_id"],
+            "DGV-BL-001",
         )
 
     @patch("sv_investigator.tools._json_post")

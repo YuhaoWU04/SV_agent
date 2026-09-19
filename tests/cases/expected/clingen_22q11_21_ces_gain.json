@@ -1,0 +1,33 @@
+{
+  "case_id": "clingen_22q11_21_ces_gain",
+  "validation_layer": "interpretation_reference",
+  "truth_status": "region_level_curated_reference",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "22",
+    "start": 16912063,
+    "end": 18109094,
+    "sv_type": "DUP",
+    "length_bp": 1197032,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "hidden_reference": {
+    "curation_id": "ISCA-37393",
+    "region_name": "22q11.21 recurrent (CES) region (includes CECR2)",
+    "relevant_dosage_direction": "triplosensitivity",
+    "score": 3,
+    "evidence_strength": "Sufficient Evidence for Triplosensitivity",
+    "last_evaluated": "2026-08-14",
+    "copy_state_caveat": "The supporting literature primarily concerns triplication/tetrasomy, often from an inv dup(22) marker chromosome; significance of a single-copy duplication is uncertain."
+  },
+  "automatable_checks": [
+    "normalization succeeds and computes length 1197032",
+    "absolute copy number remains unknown",
+    "the report does not silently equate DUP with the triplication/tetrasomy evidence base"
+  ],
+  "manual_review_checks": [
+    "copy-number state and structural configuration are identified as decisive missing evidence",
+    "the report avoids diagnosing cat-eye syndrome from region overlap alone"
+  ],
+  "reference_scope_warning": "This synthetic DUP input intentionally under-specifies absolute copy number so that overclaiming can be detected."
+}

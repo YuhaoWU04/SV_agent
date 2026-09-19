@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `b2bd4d819a29`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `67f3da94a264`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -47,7 +47,7 @@
 
 ## 2. 不可跳过的证据基线
 
-一次固定调用收集 Ensembl、gnomAD-SV 和技术风险；工具直接保存带证据 ID 的完整结果。
+一次固定调用并发收集 Ensembl、gnomAD-SV、ClinGen Dosage、ClinVar、DGV Gold 和技术风险；工具直接保存带证据 ID 的完整结果。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
@@ -58,6 +58,12 @@
 | baseline_evidence.database_evidence.records[] | GNO-BL evidence records | gnomAD-SV 坐标、类型、AC/AN/AF、filters、匹配类别与指标。 | 成功无候选时为空数组。 |
 | baseline_evidence.database_evidence.{dataset,query_regions,breakpoint_windows,matching_query_regions} | object | build 对应数据集、实际检索区域与固定匹配窗口。 | API 失败时保留 query_errors。 |
 | baseline_evidence.database_evidence.{counts,query_errors,retrieved_at,limitations} | object | 筛选计数、失败、检索时间和同一事件判定限制。 | 始终保留状态。 |
+| baseline_evidence.clingen_dosage_evidence.records[] | CGD-BL evidence records | ClinGen 基因/区域的 HI、TS 评分、在线报告与区间匹配指标。 | 成功无重叠时为空数组；不适用 SVTYPE 显式 not_applicable。 |
+| baseline_evidence.clingen_dosage_evidence.{dataset_created_at,counts,retrieved_at,limitations} | object | ClinGen 下载文件日期、筛选计数、检索时间与临床解释边界。 | 下载或解析失败显式 error。 |
+| baseline_evidence.clinvar_evidence.records[] | CLV-BL evidence records | ClinVar VCV、临床分类、review status、性状、提交计数、坐标及区间匹配指标。 | 成功无候选时为空数组。 |
+| baseline_evidence.clinvar_evidence.{query_regions,search_terms,counts,query_errors,retrieved_at,limitations} | object | 实际检索区间和检索式、命中/返回计数、失败与 ClinVar 解释限制。 | 失败与无记录严格区分。 |
+| baseline_evidence.dgv_evidence.records[] | DGV-BL evidence records | DGV Gold 变异类型、频率、样本/研究计数、来源摘要及区间匹配指标。 | 成功无候选时为空数组；BND 显式 not_applicable。 |
+| baseline_evidence.dgv_evidence.{dataset,backend,query_regions,counts,query_errors,retrieved_at,limitations} | object | DGV Gold/UCSC 后端、实际查询、筛选计数、失败和版本/覆盖限制。 | API 失败显式 error。 |
 | baseline_evidence.artifact_risk.{overall_risk,risk_items} | object | call rate、caller、repeat、mappability、reads、GQ、batch 的确定性初筛。 | 数据不足保持 unknown。 |
 
 处理规则：
@@ -69,6 +75,16 @@
   - 分支/约束：重试耗尽保留 error，不当作无注释
 - **gnomAD-SV 基线与固定匹配**（external-query）：重新校验已存候选坐标；按 build 选数据集，检索候选并用类型、重叠和断点规则分类；缺失 CI 时 ±500 bp 只扩展检索，不单独提升 high_similarity；添加 GNO-BL ID。
   - 分支/约束：BND 有 mate 比较双端；无 mate 只比较第一端且不能确认同一事件
+- **ClinGen Dosage 基因与区域证据**（external-query）：下载 ClinGen 当前基因与区域剂量敏感性表，按 build 解析区间并计算重叠；DEL 优先 HI、DUP 优先 TS，记录评分、报告链接、版本日期、匹配指标和 CGD-BL ID。
+  - 分支/约束：非 CNV 类型返回 not_applicable
+  - 分支/约束：空间重叠和剂量评分不能直接诊断当前个体
+- **ClinVar 临床变异记录**（external-query）：使用 NCBI E-utilities 按 build、区间、SV 类型和长度检索 VCV，提取临床分类、review status、性状、提交计数与坐标，再以统一规则计算 overlap/断点指标并添加 CLV-BL ID。
+  - 分支/约束：大区间和返回数量均受硬限制
+  - 分支/约束：BND 只比较当前可检索断点，不能仅凭命中确认同一邻接事件
+  - 分支/约束：检索失败不当作无记录
+- **DGV Gold 人群结构变异**（external-query）：通过 UCSC API 查询 build 对应的 dgvGold track，将 0-based half-open 坐标转为 1-based inclusive，按类型与区间匹配并压缩冗长样本/来源字段，添加 DGV-BL ID。
+  - 分支/约束：BND 返回 not_applicable
+  - 分支/约束：dgvGold 不是 DGV 完整当前发布，阴性结果不能证明数据库中不存在
 - **确定性技术风险**（deterministic）：根据质量字段和断点 repeat 判断风险；布尔伪数字或范围外 call rate 不参与数值判定。
   - 分支/约束：缺失、类型错误或范围错误保持 unknown
 
@@ -89,7 +105,7 @@ LLM 选择 0–2 个后续动作并解释；工具原始结果另存 adaptive_to
 
 处理规则：
 
-- **识别缺口与选择动作**（model-controlled）：只有缺口明确、工具能减少不确定性、未重复、预算存在且可能改变解释时才计划动作。
+- **识别缺口与选择动作**（model-controlled）：只有缺口明确、工具能减少不确定性、未重复、预算存在且可能改变解释时才计划动作；P0 数据库已在基线查询，不重复调用。
   - 分支/约束：无合格动作直接停止
 - **白名单、去重与硬预算**（deterministic）：先以短锁原子预留 ToolContext state 中的名额，再执行外部请求；强制最多 2 次并直接保存每次工具返回，拒绝非白名单和重复动作。
   - 分支/约束：拒绝项不执行外部查询
@@ -137,6 +153,8 @@ LLM 选择 PubMed 查询；工具硬性限制最多 3 个不同查询、每次�
 处理规则：
 
 - **原子 claim 与证据核验**（model-structured）：事实 claim 必须引用已有 ID；区分 observation/database_fact/inference/hypothesis 并拒绝过度解释。
+  - 分支/约束：ClinVar review status 与冲突必须保留
+  - 分支/约束：ClinGen/DGV/gnomAD 不能被单独提升为个体致病或良性结论
   - 分支/约束：检索扩展不能改变匹配语义
   - 分支/约束：标题不能支持机制
 

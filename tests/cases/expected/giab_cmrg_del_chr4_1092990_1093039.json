@@ -1,0 +1,29 @@
+{
+  "case_id": "giab_cmrg_del_chr4_1092990_1093039",
+  "validation_layer": "technical_benchmark",
+  "truth_status": "benchmark_record",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "4",
+    "start": 1092990,
+    "end": 1093039,
+    "sv_type": "DEL",
+    "length_bp": 50,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "source_assertions": {
+    "vcf_record_sha256": "15d6f87e090b29291e9623f0d9545c56969c4035e5fb920275e435fb41573ac1",
+    "vcf_ref": "CCAGGGTCTGCGTGCTCAGTGCTGACGCAGCCTGTGGTAGGGCAGAGGCTG",
+    "vcf_alt": "C",
+    "coordinate_conversion": "The VCF anchor at POS 1092989 is excluded; the 50 deleted bases are 1092990-1093039."
+  },
+  "automatable_checks": [
+    "normalization succeeds",
+    "identity fields are unchanged in the final report",
+    "missing CI remains not_provided and is not converted to [0,0]",
+    "external query errors are explicit rather than reported as no evidence"
+  ],
+  "manual_review_checks": [
+    "the report does not call this variant clinically pathogenic merely because it is a GIAB benchmark record"
+  ]
+}

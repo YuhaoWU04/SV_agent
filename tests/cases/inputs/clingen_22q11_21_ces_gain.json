@@ -1,0 +1,14 @@
+{
+  "sv_id": "TEST_GRCh38_22q11.21_CES_region_gain",
+  "genome_build": "GRCh38",
+  "chrom": "22",
+  "start": 16912063,
+  "end": 18109094,
+  "sv_type": "DUP",
+  "source_record": {
+    "case_kind": "synthetic_representative_region",
+    "phenotype": null,
+    "inheritance": null,
+    "absolute_copy_number": null
+  }
+}

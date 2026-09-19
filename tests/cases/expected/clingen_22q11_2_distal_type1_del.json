@@ -1,0 +1,32 @@
+{
+  "case_id": "clingen_22q11_2_distal_type1_del",
+  "validation_layer": "interpretation_reference",
+  "truth_status": "region_level_curated_reference",
+  "expected_normalized": {
+    "genome_build": "GRCh38",
+    "chrom": "22",
+    "start": 21562828,
+    "end": 22620608,
+    "sv_type": "DEL",
+    "length_bp": 1057781,
+    "breakpoint_uncertainty_status": "not_provided"
+  },
+  "hidden_reference": {
+    "curation_id": "ISCA-37397",
+    "region_name": "22q11.2 recurrent region (distal type I, D-E or D-F)",
+    "relevant_dosage_direction": "haploinsufficiency",
+    "score": 3,
+    "evidence_strength": "Sufficient Evidence for Haploinsufficiency",
+    "last_evaluated": "2026-03-16"
+  },
+  "automatable_checks": [
+    "normalization succeeds and computes length 1057781",
+    "the report marks missing phenotype, inheritance, and measured CI as limitations",
+    "the report does not present an unqueried ClinGen conclusion as tool-derived evidence"
+  ],
+  "manual_review_checks": [
+    "region overlap is not treated as proof that an individual patient has the syndrome",
+    "a clinical conclusion, if offered, is qualified by the lack of phenotype and inheritance data"
+  ],
+  "reference_scope_warning": "The displayed coordinates are the unique-sequence critical interval between recurrent LCR breakpoints, not an individual patient's measured breakpoints."
+}
