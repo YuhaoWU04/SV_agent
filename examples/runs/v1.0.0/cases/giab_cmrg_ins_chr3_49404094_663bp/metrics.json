@@ -1,0 +1,71 @@
+{
+  "case_id": "giab_cmrg_ins_chr3_49404094_663bp",
+  "category": "technical_benchmark",
+  "run_status": "complete",
+  "report_status": "incomplete",
+  "schema_valid": true,
+  "elapsed_seconds": 226.875,
+  "event_count": 23,
+  "state_character_count": 132619,
+  "state_keys": [
+    "adaptive_investigation",
+    "adaptive_tool_results",
+    "baseline_evidence",
+    "claim_synthesis",
+    "evidence_view",
+    "final_report",
+    "literature_evidence",
+    "literature_query_keys",
+    "literature_tool_results",
+    "normalized_sv",
+    "verification"
+  ],
+  "token_usage": {
+    "candidates_token_count": 7111,
+    "prompt_token_count": 225086,
+    "thoughts_token_count": 16216,
+    "total_token_count": 248413,
+    "cached_content_token_count": 114514
+  },
+  "sources": {
+    "ensembl_overlap": {
+      "status": "error",
+      "record_count": 0,
+      "state_key_present": true
+    },
+    "ensembl_vep": {
+      "status": "error",
+      "record_count": 0,
+      "state_key_present": true
+    },
+    "gnomad_sv": {
+      "status": "found",
+      "record_count": 1,
+      "state_key_present": true
+    },
+    "clingen_dosage": {
+      "status": "not_applicable",
+      "record_count": 0,
+      "state_key_present": true
+    },
+    "clinvar": {
+      "status": "not_found",
+      "record_count": 0,
+      "state_key_present": true
+    },
+    "dbvar": {
+      "status": "found",
+      "record_count": 10,
+      "state_key_present": true
+    },
+    "dgv": {
+      "status": "not_found",
+      "record_count": 0,
+      "state_key_present": true
+    }
+  },
+  "adaptive_result_count": 2,
+  "literature_query_count": 3,
+  "error_type": null,
+  "completed_at": "2026-09-24T08:40:13.885444+00:00"
+}

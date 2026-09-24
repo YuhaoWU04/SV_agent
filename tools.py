@@ -112,6 +112,8 @@ SV_TYPE_ALIASES = {
 }
 
 
+# Shared HTTP, parsing, and input normalization
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -634,6 +636,8 @@ def normalize_sv_input(raw_input: str) -> dict[str, Any]:
     except (ValueError, TypeError, json.JSONDecodeError) as exc:
         return {"status": "validation_error", "error": str(exc), "raw_input": raw_input}
 
+
+# Ensembl region, breakpoint, VEP, and adaptive annotation
 
 def _breakpoint_window(
     center: int,
@@ -1193,6 +1197,8 @@ def _ensembl_adaptive_query(sv: dict[str, Any], action: str) -> dict[str, Any]:
         ),
     }
 
+
+# Population and clinical database adapters
 
 def _ncbi_params(extra: dict[str, Any]) -> dict[str, Any]:
     params = {**extra, "retmode": "json", "tool": "sv_investigator"}
@@ -2384,6 +2390,8 @@ def query_gnomad_sv(
     }
 
 
+# Literature and deterministic technical-risk evidence
+
 def search_pubmed(query: str, max_records: int = MAX_PUBMED_RECORDS) -> dict[str, Any]:
     """Search PubMed and return citation metadata.
 
@@ -2656,6 +2664,8 @@ def assess_artifact_risk(
     )
     return {"overall_risk": overall, "risk_items": items}
 
+
+# Baseline and adaptive orchestration
 
 def _add_ensembl_evidence_ids(annotation: dict[str, Any]) -> dict[str, Any]:
     """Add stable local IDs without deleting or summarizing source fields."""

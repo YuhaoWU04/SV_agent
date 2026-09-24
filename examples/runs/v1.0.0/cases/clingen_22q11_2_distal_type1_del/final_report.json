@@ -1,0 +1,1567 @@
+{
+  "report_version": "1.0.0",
+  "report_status": "incomplete",
+  "sv_summary": {
+    "validation_status": "valid",
+    "sv_id": "TEST_GRCh38_22q11.2_distal_type1_region_DEL",
+    "genome_build": "GRCh38",
+    "genome_build_original": "GRCh38",
+    "chrom": "22",
+    "start": 21562828,
+    "end": 22620608,
+    "coordinate_system": "1-based-inclusive",
+    "chromosome_length_bp": 50818468,
+    "cipos": null,
+    "ciend": null,
+    "start_confidence_interval": null,
+    "end_confidence_interval": null,
+    "breakpoint_uncertainty_status": "not_provided",
+    "imprecise": false,
+    "bnd_mate_status": "not_applicable",
+    "mate_chrom": null,
+    "mate_pos": null,
+    "mate_confidence_interval": null,
+    "local_orientation": null,
+    "mate_orientation": null,
+    "sv_type": "DEL",
+    "sv_type_original": "DEL",
+    "sv_subtype": null,
+    "length_bp": 1057781
+  },
+  "statistical_signals": [],
+  "gene_region_annotation": [
+    {
+      "statement": "The genomic region coordinates contain several annotated genes and transcripts, including non-coding RNA genes such as lncRNAs and miRNAs.",
+      "evidence_ids": [
+        "ENS-BL-NOMINAL-GENE-001",
+        "ENS-BL-NOMINAL-GENE-002",
+        "ENS-BL-NOMINAL-GENE-003",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-001",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-002",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-003"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "Multiple regulatory features, including promoters and enhancers, are annotated within the deleted interval.",
+      "evidence_ids": [
+        "ENS-BL-NOMINAL-REGULATORY-001",
+        "ENS-BL-NOMINAL-REGULATORY-002",
+        "ENS-BL-NOMINAL-REGULATORY-003",
+        "ENS-BL-NOMINAL-REGULATORY-004",
+        "ENS-BL-NOMINAL-REGULATORY-005"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    }
+  ],
+  "population_evidence": [
+    {
+      "statement": "Multiple partially overlapping deletion variants are recorded in gnomAD-SV at very low allele frequencies.",
+      "evidence_ids": [
+        "GNO-BL-001",
+        "GNO-BL-002",
+        "GNO-BL-003",
+        "GNO-BL-004",
+        "GNO-BL-005",
+        "GNO-BL-006",
+        "GNO-BL-007",
+        "GNO-BL-008",
+        "GNO-BL-009",
+        "GNO-BL-010"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "Overlapping copy number losses are observed in healthy control cohorts compiled in the DGV Gold Standard dataset.",
+      "evidence_ids": [
+        "DGV-BL-001",
+        "DGV-BL-002",
+        "DGV-BL-003",
+        "DGV-BL-004",
+        "DGV-BL-005",
+        "DGV-BL-006",
+        "DGV-BL-007",
+        "DGV-BL-008",
+        "DGV-BL-009",
+        "DGV-BL-010"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "Multiple small sequence-resolved copy number variants in dbVar overlap individual genes like MAPK1 or YPEL1 within this genomic region.",
+      "evidence_ids": [
+        "DBV-BL-002",
+        "DBV-BL-003",
+        "DBV-BL-004",
+        "DBV-BL-005",
+        "DBV-BL-006",
+        "DBV-BL-007",
+        "DBV-BL-008",
+        "DBV-BL-009",
+        "DBV-BL-010"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    }
+  ],
+  "clinical_phenotype_evidence": [
+    {
+      "statement": "The 22q11.2 recurrent region (distal type I, D-E or D-F) has sufficient evidence for haploinsufficiency (score 3) based on expert ClinGen curation.",
+      "evidence_ids": [
+        "CGD-BL-001"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "The TOP3B gene has no evidence for haploinsufficiency (score 0) according to ClinGen expert curation.",
+      "evidence_ids": [
+        "CGD-BL-002"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "A partially overlapping deletion variant in ClinVar is classified as likely pathogenic for Schizophrenia.",
+      "evidence_ids": [
+        "CLV-BL-001"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "A partially overlapping deletion variant in ClinVar is classified as likely pathogenic for Autism.",
+      "evidence_ids": [
+        "CLV-BL-002"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    },
+    {
+      "statement": "A partially overlapping copy number variation variant in dbVar is classified as of uncertain significance.",
+      "evidence_ids": [
+        "DBV-BL-001"
+      ],
+      "confidence": "high",
+      "kind": "database_fact"
+    }
+  ],
+  "literature_evidence": [],
+  "artifact_risks": [
+    {
+      "risk_type": "low_call_rate",
+      "status": "unknown",
+      "impact": "Missingness can produce spurious population differences.",
+      "evidence_ids": [
+        "QC-BL-001"
+      ],
+      "recommended_check": "Calculate call rate per cohort."
+    },
+    {
+      "risk_type": "single_caller_support",
+      "status": "unknown",
+      "impact": "A call from one algorithm may reflect caller-specific bias.",
+      "evidence_ids": [
+        "QC-BL-002"
+      ],
+      "recommended_check": "Validate with an orthogonal caller or experimental assay."
+    },
+    {
+      "risk_type": "repeat_region",
+      "status": "present",
+      "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+      "evidence_ids": [
+        "QC-BL-003"
+      ],
+      "recommended_check": "Confirm both breakpoints against a curated repeat track."
+    },
+    {
+      "risk_type": "low_mappability",
+      "status": "unknown",
+      "impact": "Low-mappability sequence can create ambiguous alignments.",
+      "evidence_ids": [
+        "QC-BL-004"
+      ],
+      "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+    },
+    {
+      "risk_type": "supporting_reads",
+      "status": "unknown",
+      "impact": "Weak read support increases false-positive risk.",
+      "evidence_ids": [
+        "QC-BL-005"
+      ],
+      "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+    },
+    {
+      "risk_type": "genotype_quality",
+      "status": "unknown",
+      "impact": "Low or missing genotype quality weakens frequency estimates.",
+      "evidence_ids": [
+        "QC-BL-006"
+      ],
+      "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+    },
+    {
+      "risk_type": "batch_effect",
+      "status": "unknown",
+      "impact": "Unequal pipelines or batches can mimic population differentiation.",
+      "evidence_ids": [
+        "QC-BL-007"
+      ],
+      "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+    }
+  ],
+  "possible_interpretations": [
+    {
+      "statement": "The deletion is predicted by VEP to cause complete transcript ablation of multiple protein-coding genes, including MAPK1, TOP3B, and UBE2L3.",
+      "evidence_ids": [
+        "VEP-BL-001",
+        "VEP-BL-002",
+        "VEP-BL-003",
+        "VEP-BL-004",
+        "VEP-BL-005",
+        "VEP-BL-006",
+        "VEP-BL-007",
+        "VEP-BL-008",
+        "VEP-BL-009",
+        "VEP-BL-010"
+      ],
+      "confidence": "high",
+      "kind": "inference"
+    },
+    {
+      "statement": "The high density of repeat sequences at both breakpoints presents a potential risk of low-accuracy alignment or breakpoint misplacement.",
+      "evidence_ids": [
+        "QC-BL-003"
+      ],
+      "confidence": "high",
+      "kind": "inference"
+    }
+  ],
+  "contradictions": [],
+  "limitations": [
+    "Baseline Ensembl evidence is coordinate-overlap evidence.",
+    "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+    "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+    "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+    "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+    "Missing source data and query failures remain explicit unknown/error states.",
+    "The retrieved DGV Gold Standard dataset represents healthy controls using historical cohorts and may suffer from boundary imprecision.",
+    "PubMed findings represent association and annotation metadata and do not provide direct experimental proof of pathogenesis for this specific structural variant.",
+    "gnomAD-SV dataset has filtering annotations (e.g., IGH_MHC_OVERLAP) that might suggest alignment complexity in overlapping regions.",
+    "Conservatively qualified claim C012: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+    "Conservatively qualified claim C013: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+    "Conservatively qualified claim C014: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+    "Ensembl query was incomplete (found)."
+  ],
+  "recommended_next_steps": [
+    "Resolve evidence gap: Baseline gene annotations and VEP predicted consequences are truncated in the raw response, limiting complete characterization of all transcripts across the 1.05 Mb region.",
+    "Resolve evidence gap: No experimental expression or patient-specific RNA-seq data is available within the collected evidence to confirm downstream impact on protein levels for ablated transcripts."
+  ],
+  "verified_claims": [
+    {
+      "claim_id": "C001",
+      "text": "The 22q11.2 recurrent region (distal type I, D-E or D-F) has sufficient evidence for haploinsufficiency (score 3) based on expert ClinGen curation.",
+      "claim_type": "database_fact",
+      "report_section": "clinical_phenotype_evidence",
+      "evidence_ids": [
+        "CGD-BL-001"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Directly supported by ClinGen Dosage record ISCA-37397 showing sufficient evidence for haploinsufficiency with a score of 3."
+    },
+    {
+      "claim_id": "C002",
+      "text": "The TOP3B gene has no evidence for haploinsufficiency (score 0) according to ClinGen expert curation.",
+      "claim_type": "database_fact",
+      "report_section": "clinical_phenotype_evidence",
+      "evidence_ids": [
+        "CGD-BL-002"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Directly supported by ClinGen Dosage record HGNC:11993 showing no evidence of haploinsufficiency."
+    },
+    {
+      "claim_id": "C003",
+      "text": "A partially overlapping deletion variant in ClinVar is classified as likely pathogenic for Schizophrenia.",
+      "claim_type": "database_fact",
+      "report_section": "clinical_phenotype_evidence",
+      "evidence_ids": [
+        "CLV-BL-001"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by ClinVar record VCV000545270.1, which reports a likely pathogenic deletion associated with Schizophrenia."
+    },
+    {
+      "claim_id": "C004",
+      "text": "A partially overlapping deletion variant in ClinVar is classified as likely pathogenic for Autism.",
+      "claim_type": "database_fact",
+      "report_section": "clinical_phenotype_evidence",
+      "evidence_ids": [
+        "CLV-BL-002"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by ClinVar record VCV000545271.1, which reports a likely pathogenic deletion associated with Autism."
+    },
+    {
+      "claim_id": "C005",
+      "text": "A partially overlapping copy number variation variant in dbVar is classified as of uncertain significance.",
+      "claim_type": "database_fact",
+      "report_section": "clinical_phenotype_evidence",
+      "evidence_ids": [
+        "DBV-BL-001"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by dbVar variant nsv7907941, which partially overlaps the query interval and has a clinical significance of Uncertain significance."
+    },
+    {
+      "claim_id": "C006",
+      "text": "The deletion is predicted by VEP to cause complete transcript ablation of multiple protein-coding genes, including MAPK1, TOP3B, and UBE2L3.",
+      "claim_type": "inference",
+      "report_section": "possible_interpretations",
+      "evidence_ids": [
+        "VEP-BL-001",
+        "VEP-BL-002",
+        "VEP-BL-003",
+        "VEP-BL-004",
+        "VEP-BL-005",
+        "VEP-BL-006",
+        "VEP-BL-007",
+        "VEP-BL-008",
+        "VEP-BL-009",
+        "VEP-BL-010"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "VEP predicts high impact transcript ablation with 100% overlap for the canonical protein-coding transcripts of MAPK1, TOP3B, UBE2L3, and other genes."
+    },
+    {
+      "claim_id": "C007",
+      "text": "Multiple partially overlapping deletion variants are recorded in gnomAD-SV at very low allele frequencies.",
+      "claim_type": "database_fact",
+      "report_section": "population_evidence",
+      "evidence_ids": [
+        "GNO-BL-001",
+        "GNO-BL-002",
+        "GNO-BL-003",
+        "GNO-BL-004",
+        "GNO-BL-005",
+        "GNO-BL-006",
+        "GNO-BL-007",
+        "GNO-BL-008",
+        "GNO-BL-009",
+        "GNO-BL-010"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by multiple gnomAD-SV records showing overlapping deletions with allele frequencies between 8e-06 and 0.000119."
+    },
+    {
+      "claim_id": "C008",
+      "text": "Overlapping copy number losses are observed in healthy control cohorts compiled in the DGV Gold Standard dataset.",
+      "claim_type": "database_fact",
+      "report_section": "population_evidence",
+      "evidence_ids": [
+        "DGV-BL-001",
+        "DGV-BL-002",
+        "DGV-BL-003",
+        "DGV-BL-004",
+        "DGV-BL-005",
+        "DGV-BL-006",
+        "DGV-BL-007",
+        "DGV-BL-008",
+        "DGV-BL-009",
+        "DGV-BL-010"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by DGV Gold Standard dataset containing various copy number losses overlapping this interval."
+    },
+    {
+      "claim_id": "C009",
+      "text": "The genomic region coordinates contain several annotated genes and transcripts, including non-coding RNA genes such as lncRNAs and miRNAs.",
+      "claim_type": "database_fact",
+      "report_section": "gene_region_annotation",
+      "evidence_ids": [
+        "ENS-BL-NOMINAL-GENE-001",
+        "ENS-BL-NOMINAL-GENE-002",
+        "ENS-BL-NOMINAL-GENE-003",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-001",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-002",
+        "ENS-ADP-NOMINAL-TRANSCRIPT-003"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by Ensembl annotations specifying lncRNA and miRNA genes and transcripts in the nominal interval."
+    },
+    {
+      "claim_id": "C010",
+      "text": "Multiple regulatory features, including promoters and enhancers, are annotated within the deleted interval.",
+      "claim_type": "database_fact",
+      "report_section": "gene_region_annotation",
+      "evidence_ids": [
+        "ENS-BL-NOMINAL-REGULATORY-001",
+        "ENS-BL-NOMINAL-REGULATORY-002",
+        "ENS-BL-NOMINAL-REGULATORY-003",
+        "ENS-BL-NOMINAL-REGULATORY-004",
+        "ENS-BL-NOMINAL-REGULATORY-005"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by Ensembl regulatory annotations detailing promoters and enhancers inside the nominal interval."
+    },
+    {
+      "claim_id": "C011",
+      "text": "Repeat sequences, such as Alu elements and simple repeats, are annotated near both the start and end breakpoints of this genomic region.",
+      "claim_type": "database_fact",
+      "report_section": "gene_region_annotation",
+      "evidence_ids": [
+        "ENS-BL-START-REPEAT-001",
+        "ENS-BL-START-REPEAT-002",
+        "ENS-BL-START-REPEAT-003",
+        "ENS-BL-END-REPEAT-001",
+        "ENS-BL-END-REPEAT-002",
+        "ENS-BL-END-REPEAT-003"
+      ],
+      "confidence": "high",
+      "verification_status": "partially_supported",
+      "notes": "Partially supported. While multiple Alu elements (AluY, AluSx1) and other repeat sequences (ERV3, MLT2C2) are annotated at both breakpoints, no 'simple repeats' are explicitly present in the referenced Ensembl repeat annotations."
+    },
+    {
+      "claim_id": "C012",
+      "text": "Published clinical literature describes patients with distal 22q11.2 deletions presenting with phenotypes such as congenital heart defects, immunodeficiency, or craniofacial microsomia.",
+      "claim_type": "database_fact",
+      "report_section": "literature_evidence",
+      "evidence_ids": [
+        "PMID-22318985",
+        "PMID-25123976",
+        "PMID-29288792",
+        "PMID-32256297",
+        "PMID-41165438"
+      ],
+      "confidence": "medium",
+      "verification_status": "partially_supported",
+      "notes": "Supported by the provided PMIDs which map directly to distal deletions and these clinical phenotypes (e.g., PMID-22318985 for congenital heart defects, PMID-32256297 for immunodeficiency, and PMID-29288792 for craniofacial microsomia).; Only PubMed citation metadata was retrieved; full-text support was not checked."
+    },
+    {
+      "claim_id": "C013",
+      "text": "Published literature links deletion or loss of TOP3B with cognitive impairment, facial dysmorphism, autism susceptibility, or genome instability.",
+      "claim_type": "database_fact",
+      "report_section": "literature_evidence",
+      "evidence_ids": [
+        "PMID-27880953",
+        "PMID-31795919",
+        "PMID-32028044"
+      ],
+      "confidence": "medium",
+      "verification_status": "partially_supported",
+      "notes": "Supported by the referenced PMIDs associating TOP3B loss with cognitive impairment, facial dysmorphism, autism, and genomic instability.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+    },
+    {
+      "claim_id": "C014",
+      "text": "Scientific literature outlines functional roles of UBE2L3 in inflammation and its association with copy number variations.",
+      "claim_type": "database_fact",
+      "report_section": "literature_evidence",
+      "evidence_ids": [
+        "PMID-37474493",
+        "PMID-37372436",
+        "PMID-10760570"
+      ],
+      "confidence": "medium",
+      "verification_status": "partially_supported",
+      "notes": "Supported by literature abstracts linking UBE2L3 to IL-1beta/inflammation regulation and copy number variation studies.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+    },
+    {
+      "claim_id": "C015",
+      "text": "The high density of repeat sequences at both breakpoints presents a potential risk of low-accuracy alignment or breakpoint misplacement.",
+      "claim_type": "inference",
+      "report_section": "possible_interpretations",
+      "evidence_ids": [
+        "QC-BL-003"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Directly supported by the artifact risk check QC-BL-003, which flags high repeat counts at both breakpoints as a risk for mapping accuracy."
+    },
+    {
+      "claim_id": "C016",
+      "text": "Multiple small sequence-resolved copy number variants in dbVar overlap individual genes like MAPK1 or YPEL1 within this genomic region.",
+      "claim_type": "database_fact",
+      "report_section": "population_evidence",
+      "evidence_ids": [
+        "DBV-BL-002",
+        "DBV-BL-003",
+        "DBV-BL-004",
+        "DBV-BL-005",
+        "DBV-BL-006",
+        "DBV-BL-007",
+        "DBV-BL-008",
+        "DBV-BL-009",
+        "DBV-BL-010"
+      ],
+      "confidence": "high",
+      "verification_status": "supported",
+      "notes": "Supported by dbVar sequencing-derived records that resolve small CNVs overlapping specific genes including MAPK1 and YPEL1."
+    }
+  ],
+  "evidence_catalog": [
+    {
+      "evidence_id": "CGD-BL-001",
+      "source": "ClinGen Dosage",
+      "status": "found",
+      "record_id": "ISCA-37397",
+      "match_type": "exact",
+      "support_direction": "contextual",
+      "summary": "ClinGen Dosage record ISCA-37397",
+      "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37397",
+      "retrieved_at": "2026-09-24T08:43:16.614901+00:00",
+      "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+    },
+    {
+      "evidence_id": "CGD-BL-002",
+      "source": "ClinGen Dosage",
+      "status": "found",
+      "record_id": "HGNC:11993",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "ClinGen Dosage record HGNC:11993",
+      "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:11993",
+      "retrieved_at": "2026-09-24T08:43:16.614901+00:00",
+      "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+    },
+    {
+      "evidence_id": "CLV-BL-001",
+      "source": "ClinVar",
+      "status": "found",
+      "record_id": "VCV000545270.1",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "NC_000022.11:g.(?_21956007)_(22224188_?)del",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/545270/",
+      "retrieved_at": "2026-09-24T08:43:12.126881+00:00",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    {
+      "evidence_id": "CLV-BL-002",
+      "source": "ClinVar",
+      "status": "found",
+      "record_id": "VCV000545271.1",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "NC_000022.11:g.(?_21959229)_(22218520_?)del",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/545271/",
+      "retrieved_at": "2026-09-24T08:43:12.126881+00:00",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    {
+      "evidence_id": "DBV-BL-001",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7907941",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7907941",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7907941/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-002",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7844015",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7844015",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7844015/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-003",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7842013",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7842013",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7842013/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-004",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7841961",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7841961",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7841961/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-005",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7842069",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7842069",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7842069/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-006",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7844947",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7844947",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7844947/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-007",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7854090",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7854090",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7854090/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-008",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7869251",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7869251",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7869251/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-009",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7841714",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7841714",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7841714/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DBV-BL-010",
+      "source": "dbVar",
+      "status": "found",
+      "record_id": "nsv7855412",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "dbVar record nsv7855412",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7855412/",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    {
+      "evidence_id": "DGV-BL-001",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76611",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76611",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=21960704;end=22916199",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-002",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76614",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76614",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=21943274;end=22245870",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-003",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76616",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76616",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22315110;end=22604355",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-004",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76619",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76619",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22099154;end=22340029",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-005",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76618",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76618",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=21955958;end=22168231",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-006",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76621",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76621",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22039206;end=22207925",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-007",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76623",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76623",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22228239;end=22331920",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-008",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76627",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76627",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22162643;end=22247403",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-009",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76632",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76632",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=22086417;end=22168342",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "DGV-BL-010",
+      "source": "DGV Gold",
+      "status": "found",
+      "record_id": "gssvL76633",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "DGV Gold record gssvL76633",
+      "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=21960939;end=22027424",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    {
+      "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-001",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENST00000609038",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Ensembl record ENST00000609038",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:45:00.503060+00:00",
+      "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence."
+    },
+    {
+      "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-002",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENST00000390813",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "MIR301B-201",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:45:00.503060+00:00",
+      "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence."
+    },
+    {
+      "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-003",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENST00000385018",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "MIR130B-201",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:45:00.503060+00:00",
+      "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence."
+    },
+    {
+      "evidence_id": "ENS-BL-END-REPEAT-001",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-END-REPEAT-001",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "ERV3-16A3_I-int",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-END-REPEAT-002",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-END-REPEAT-002",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "AluSx1",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-END-REPEAT-003",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-END-REPEAT-003",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "MLT2C2",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSG00000273342",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "novel transcript",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSG00000212102",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "microRNA 301b [Source:HGNC Symbol;Acc:HGNC:33667]",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-GENE-003",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSG00000283871",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "microRNA 130b [Source:HGNC Symbol;Acc:HGNC:31515]",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-REGULATORY-001",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSR22_9BK5L",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "promoter",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-REGULATORY-002",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSR22_C45R7",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "enhancer",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-REGULATORY-003",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSR22_9BK6B",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "enhancer",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-REGULATORY-004",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSR22_9BK6N",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "enhancer",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-NOMINAL-REGULATORY-005",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENSR22_8M5D9",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "enhancer",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-START-REPEAT-001",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-START-REPEAT-001",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "AluY",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-START-REPEAT-002",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-START-REPEAT-002",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "AluY",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "ENS-BL-START-REPEAT-003",
+      "source": "Ensembl",
+      "status": "found",
+      "record_id": "ENS-BL-START-REPEAT-003",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "AluY",
+      "source_url": "",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    {
+      "evidence_id": "GNO-BL-001",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_393105dd",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_393105dd?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-002",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_6e78a7ae",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_6e78a7ae?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-003",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_503eb8a7",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_503eb8a7?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-004",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_15bd4ecb",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_15bd4ecb?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-005",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_9ca092b0",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_9ca092b0?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-006",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_445d78e6",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_445d78e6?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-007",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_38d70944",
+      "match_type": "partial_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_38d70944?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-008",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_153c96e2",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_153c96e2?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-009",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_70b1a5e8",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_70b1a5e8?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "GNO-BL-010",
+      "source": "gnomAD-SV",
+      "status": "found",
+      "record_id": "DEL_chr22_a1666a1d",
+      "match_type": "region_overlap",
+      "support_direction": "contextual",
+      "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+      "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr22_a1666a1d?dataset=gnomad_sv_r4",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    {
+      "evidence_id": "PMID-10760570",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "10760570",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Promoter analysis of the human ubiquitin-conjugating enzyme gene family UBE2L1-4, including UBE2L3 which encodes UbcH7.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/10760570/",
+      "retrieved_at": "2026-09-24T08:45:26.810409+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-22318985",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "22318985",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Congenital heart defects in a novel recurrent 22q11.2 deletion harboring the genes CRKL and MAPK1.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/22318985/",
+      "retrieved_at": "2026-09-24T08:45:18.510753+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-25123976",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "25123976",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Central 22q11.2 deletions.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/25123976/",
+      "retrieved_at": "2026-09-24T08:45:18.510753+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-27880953",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "27880953",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Deletion of TOP3B Is Associated with Cognitive Impairment and Facial Dysmorphism.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/27880953/",
+      "retrieved_at": "2026-09-24T08:45:15.653573+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-29288792",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "29288792",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Distal deletion at 22q11.2 as differential diagnosis in Craniofacial Microsomia: Case report and literature review.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/29288792/",
+      "retrieved_at": "2026-09-24T08:45:18.510753+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-31795919",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "31795919",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Loss of TOP3B leads to increased R-loop formation and genome instability.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/31795919/",
+      "retrieved_at": "2026-09-24T08:45:15.653573+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-32028044",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "32028044",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Further evidence of GABRA4 and TOP3B as autism susceptibility genes.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/32028044/",
+      "retrieved_at": "2026-09-24T08:45:15.653573+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-32256297",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "32256297",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Immunodeficiency in a Patient with 22q11.2 Distal Deletion Syndrome and a p.Ala7dup Variant in the MAPK1 Gene.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/32256297/",
+      "retrieved_at": "2026-09-24T08:45:18.510753+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-37372436",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "37372436",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Genomic Landscape of Copy Number Variations and Their Associations with Climatic Variables in the World's Sheep.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37372436/",
+      "retrieved_at": "2026-09-24T08:45:26.810409+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-37474493",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "37474493",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "IL-1β turnover by the UBE2L3 ubiquitin conjugating enzyme and HECT E3 ligases limits inflammation.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37474493/",
+      "retrieved_at": "2026-09-24T08:45:26.810409+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "PMID-41165438",
+      "source": "PubMed",
+      "status": "found",
+      "record_id": "41165438",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "Mexican Patients With Suspected 22q11.2 Deletion Syndrome: Clinical Characterization and Molecular Findings by Fluorescence In Situ Hybridization and Multiplex Ligation-Dependent Probe Amplification.",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/41165438/",
+      "retrieved_at": "2026-09-24T08:45:15.653573+00:00",
+      "limitations": "Metadata does not prove that the full text supports a biological claim."
+    },
+    {
+      "evidence_id": "QC-BL-001",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-001",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "low_call_rate",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-002",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-002",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "single_caller_support",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-003",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-003",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "repeat_region",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-004",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-004",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "low_mappability",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-005",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-005",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "supporting_reads",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-006",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-006",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "genotype_quality",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "QC-BL-007",
+      "source": "Artifact-risk rules",
+      "status": "found",
+      "record_id": "QC-BL-007",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "batch_effect",
+      "source_url": "",
+      "retrieved_at": "",
+      "limitations": ""
+    },
+    {
+      "evidence_id": "VEP-BL-001",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000215832",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "MAPK1",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-002",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000248958",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "SDF2L1",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-003",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000263212",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "PPM1F",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-004",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000292778",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "YDJC",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-005",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000292779",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "CCDC116",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-006",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000302097",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "ZNF280A",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-007",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000339468",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "YPEL1",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-008",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000342192",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "UBE2L3",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-009",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000357179",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "TOP3B",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    {
+      "evidence_id": "VEP-BL-010",
+      "source": "Ensembl VEP",
+      "status": "found",
+      "record_id": "ENST00000398831",
+      "match_type": "contextual",
+      "support_direction": "contextual",
+      "summary": "PPIL2",
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:21562828-22620608:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    }
+  ],
+  "query_provenance": [
+    {
+      "source": "Ensembl",
+      "status": "found",
+      "query_summary": "{\"query_region\": \"22:21562828-22620608\"}",
+      "retrieved_at": "2026-09-24T08:44:06.458472+00:00"
+    },
+    {
+      "source": "Ensembl VEP",
+      "status": "found",
+      "query_summary": "{\"query_region\": \"22:21562828-22620608\"}",
+      "retrieved_at": "2026-09-24T08:43:16.330842+00:00"
+    },
+    {
+      "source": "gnomAD-SV",
+      "status": "found",
+      "query_summary": "{\"dataset\": \"gnomad_sv_r4\", \"query_regions\": [{\"role\": \"nominal\", \"chrom\": \"22\", \"interval\": [21562328, 22621108]}], \"query_strategy\": \"expanded_full_interval\"}",
+      "retrieved_at": "2026-09-24T08:43:13.220907+00:00"
+    },
+    {
+      "source": "ClinGen Dosage",
+      "status": "found",
+      "query_summary": "{}",
+      "retrieved_at": "2026-09-24T08:43:16.614901+00:00"
+    },
+    {
+      "source": "ClinVar",
+      "status": "found",
+      "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [21562328, 22621108]}], \"query_strategy\": \"expanded_full_interval\"}",
+      "retrieved_at": "2026-09-24T08:43:12.126881+00:00"
+    },
+    {
+      "source": "NCBI dbVar",
+      "status": "found",
+      "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [21562328, 22621108]}], \"query_strategy\": \"expanded_full_interval\"}",
+      "retrieved_at": "2026-09-24T08:43:13.327506+00:00"
+    },
+    {
+      "source": "DGV Gold Standard",
+      "status": "found",
+      "query_summary": "{\"dataset\": \"dgvGold\", \"query_regions\": [{\"role\": \"nominal\", \"interval\": [21562328, 22621108]}], \"query_strategy\": \"expanded_full_interval\"}",
+      "retrieved_at": "2026-09-24T08:43:12.473060+00:00"
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query_summary": "(TOP3B) AND deletion",
+      "retrieved_at": "2026-09-24T08:45:15.653573+00:00"
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query_summary": "(MAPK1) AND deletion AND (22q11.2)",
+      "retrieved_at": "2026-09-24T08:45:18.510753+00:00"
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query_summary": "(UBE2L3) AND deletion",
+      "retrieved_at": "2026-09-24T08:45:26.810409+00:00"
+    }
+  ],
+  "investigation_log": {
+    "identified_evidence_gaps": [
+      "The baseline gene annotations (region_annotation['features']['gene']) and VEP consequences (vep_evidence['records']) are both truncated, leaving an incomplete profile of the protein-coding genes and transcripts fully or partially ablated in this 1.05 Mb deletion region.",
+      "Baseline gene annotations and VEP predicted consequences are truncated in the raw response, limiting complete characterization of all transcripts across the 1.05 Mb region.",
+      "No experimental expression or patient-specific RNA-seq data is available within the collected evidence to confirm downstream impact on protein levels for ablated transcripts."
+    ],
+    "planned_actions": [
+      {
+        "action": "QUERY_TRANSCRIPTS",
+        "evidence_gap": "The baseline gene annotations (region_annotation['features']['gene']) and VEP consequences (vep_evidence['records']) are both truncated, leaving an incomplete profile of the protein-coding genes and transcripts fully or partially ablated in this 1.05 Mb deletion region.",
+        "reason": "Querying transcripts across the 1.05 Mb deletion interval will fetch the full set of canonical/MANE transcripts to resolve the truncation in baseline annotations.",
+        "expected_information_gain": "Provides a complete, non-truncated list of canonical and MANE Select transcripts within the 22q11.2 distal type I region to fully characterize the gene content of the deletion.",
+        "status": "planned",
+        "result_status": "found",
+        "rejection_reason": ""
+      }
+    ],
+    "executed_actions": [
+      {
+        "action": "QUERY_TRANSCRIPTS",
+        "evidence_gap": "The baseline gene annotations (region_annotation['features']['gene']) and VEP consequences (vep_evidence['records']) are both truncated, leaving an incomplete profile of the protein-coding genes and transcripts fully or partially ablated in this 1.05 Mb deletion region.",
+        "reason": "Querying transcripts across the 1.05 Mb deletion interval will fetch the full set of canonical/MANE transcripts to resolve the truncation in baseline annotations.",
+        "expected_information_gain": "Provides a complete, non-truncated list of canonical and MANE Select transcripts within the 22q11.2 distal type I region to fully characterize the gene content of the deletion.",
+        "status": "executed",
+        "result_status": "found",
+        "rejection_reason": ""
+      }
+    ],
+    "query_budget": 2,
+    "queries_used": 1,
+    "stop_reason": "No further whitelisted actions will materially resolve the remaining truncation limits or change the clinical interpretation of this well-characterized 22q11.2 recurrent distal microdeletion.",
+    "remaining_limitations": [
+      "Ensembl API result size limits prevent retrieval of all canonical transcripts within the full 1.05 Mb nominal interval.",
+      "The retrieved DGV Gold Standard dataset represents healthy controls using historical cohorts and may suffer from boundary imprecision.",
+      "PubMed findings represent association and annotation metadata and do not provide direct experimental proof of pathogenesis for this specific structural variant.",
+      "gnomAD-SV dataset has filtering annotations (e.g., IGH_MHC_OVERLAP) that might suggest alignment complexity in overlapping regions."
+    ]
+  }
+}

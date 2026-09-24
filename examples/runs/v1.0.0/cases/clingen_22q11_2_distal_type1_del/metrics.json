@@ -1,0 +1,71 @@
+{
+  "case_id": "clingen_22q11_2_distal_type1_del",
+  "category": "interpretation_reference",
+  "run_status": "complete",
+  "report_status": "incomplete",
+  "schema_valid": true,
+  "elapsed_seconds": 211.562,
+  "event_count": 21,
+  "state_character_count": 247897,
+  "state_keys": [
+    "adaptive_investigation",
+    "adaptive_tool_results",
+    "baseline_evidence",
+    "claim_synthesis",
+    "evidence_view",
+    "final_report",
+    "literature_evidence",
+    "literature_query_keys",
+    "literature_tool_results",
+    "normalized_sv",
+    "verification"
+  ],
+  "token_usage": {
+    "candidates_token_count": 7185,
+    "prompt_token_count": 490380,
+    "thoughts_token_count": 13878,
+    "total_token_count": 511443,
+    "cached_content_token_count": 249701
+  },
+  "sources": {
+    "ensembl_overlap": {
+      "status": "found",
+      "record_count": 30,
+      "state_key_present": true
+    },
+    "ensembl_vep": {
+      "status": "found",
+      "record_count": 10,
+      "state_key_present": true
+    },
+    "gnomad_sv": {
+      "status": "found",
+      "record_count": 10,
+      "state_key_present": true
+    },
+    "clingen_dosage": {
+      "status": "found",
+      "record_count": 2,
+      "state_key_present": true
+    },
+    "clinvar": {
+      "status": "found",
+      "record_count": 2,
+      "state_key_present": true
+    },
+    "dbvar": {
+      "status": "found",
+      "record_count": 10,
+      "state_key_present": true
+    },
+    "dgv": {
+      "status": "found",
+      "record_count": 10,
+      "state_key_present": true
+    }
+  },
+  "adaptive_result_count": 1,
+  "literature_query_count": 3,
+  "error_type": null,
+  "completed_at": "2026-09-24T08:46:38.390744+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "sv_id": "TEST_GRCh38_22q11.2_distal_type1_region_DEL",
+  "genome_build": "GRCh38",
+  "chrom": "22",
+  "start": 21562828,
+  "end": 22620608,
+  "sv_type": "DEL",
+  "source_record": {
+    "case_kind": "synthetic_representative_region",
+    "phenotype": null,
+    "inheritance": null
+  }
+}

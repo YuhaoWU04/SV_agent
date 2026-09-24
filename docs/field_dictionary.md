@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `89e4ddcc1d99`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `b27c47f6534f`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -105,7 +105,7 @@
 
 ## 3. 受约束的自适应调查
 
-LLM 选择 0–2 个后续动作并解释；工具原始结果另存 adaptive_tool_results，不由模型转写。
+LLM 只选择 0–2 个后续动作并记录决策审计；工具原始结果另存 adaptive_tool_results，后续 synthesis 不依赖其生物学复述。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
@@ -135,11 +135,11 @@ LLM 选择 0–2 个后续动作并解释；工具原始结果另存 adaptive_to
 
 ## 4. 自适应文献检索
 
-LLM 选择 PubMed 查询；工具硬性限制最多 3 个不同查询、每次默认 5 篇并跨查询去重 PMID；结果另存 literature_tool_results。
+LLM 只选择 PubMed 查询并返回简短审计；坐标查询必须保留精确位点和 SVTYPE，不得放宽成染色体区带或综合征；工具硬限最多 3 个查询、每次默认 5 篇、跨查询去重 PMID。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
-| literature_evidence.queries | string[0..3] | 区域/SVTYPE 和实际返回基因驱动的透明 PubMed 查询。 | 无有用查询时为空。 |
+| literature_evidence.queries | string[0..3] | 精确位点/SVTYPE 和实际返回基因驱动的透明 PubMed 查询；不放宽为区带或综合征。 | 无有用查询时为空。 |
 | literature_tool_results[].records[] | PMID metadata[] | 工具保存去重后的 PMID、标题、前三位作者姓名、作者总数、期刊、日期、DOI、URL 和 PMID 证据 ID。 | 未命中为空；失败显式 error。 |
 | literature_tool_results[].{query_budget,queries_used,queries_remaining,duplicate_pmids_excluded,returned_record_count} | object | 程序级查询预算和跨查询 PMID 去重计数；被拒绝的调用不触发 API。 | 无查询时结果列表为空。 |
 | literature_evidence.{missing_sources,limitations} | object | 未实现来源和标题级证据限制。 | 按需产生。 |
@@ -154,44 +154,65 @@ LLM 选择 PubMed 查询；工具硬性限制最多 3 个不同查询、每次�
 
 实现位置：`prompts.py:LITERATURE / state_pipeline.py:literature_and_store`
 
-## 5. 证据核验
+## 5. 证据综合
 
-把陈述拆成原子 claim，核验 evidence ID，拒绝无证据事实与过度解释。
+程序先将工具证据按 ID 确定性索引，模型再总结现有证据能说明什么并产生原子候选 claim。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
-| verification.{supported_claims,rejected_claims} | VerifiedClaim[] | 带 evidence ID、claim 类型、置信度和核验状态的原子陈述。 | 默认空数组。 |
+| evidence_view.{records_by_id,source_context} | object | 程序从三份工具状态生成的 ID→原记录索引和精简的来源状态、错误、计数与限制上下文。 | 无命中时 records_by_id 为空，失败和未查状态仍保留在 source_context。 |
+| claim_synthesis.{candidate_claims,evidence_gaps,limitations} | SynthesisOutput | 带引用的原子候选 claim；每条 claim 预先指定 report_section，尚未核验。不额外生成自由文本总结，避免重复和放大结论。 | 无可支持陈述时 candidate_claims 为空。 |
+
+处理规则：
+
+- **确定性证据投影**（deterministic）：before-agent callback 遍历工具状态，将每条原记录按 evidence_id 唯一索引；原记录从 source_context 移出以避免 prompt 重复。
+  - 分支/约束：完整原工具结果仍保留在 session state
+  - 分支/约束：后三个 LLM agent 使用 include_contents=none，不重放工具历史
+- **证据总结与原子 claim**（model-structured）：总结现有证据能说明什么，将陈述拆为原子候选 claim 并引用索引中的 ID；不做最终支持度裁决。
+  - 分支/约束：事实候选 claim 无 evidence ID 时由 schema 边界丢弃并记入 limitation，不中止 workflow
+  - 分支/约束：不从模型记忆补充事实
+
+实现位置：`agent.py:prepare_evidence_view / state_pipeline.py:build_evidence_view / prompts.py:SYNTHESIS / schemas.py:SynthesisOutput`
+
+## 6. 证据核验
+
+模型逐条裁决 claim；程序再按 claim_id 绑定回 synthesis 原文和证据，并将假设、仅有 PubMed 元数据支持的实体结论、以及非精确记录支持的同一性断言保守降为 partially_supported。
+
+| 字段路径 | 类型 | 含义 | 缺失或失败时 |
+|---|---|---|---|
+| verification.{supported_claims,rejected_claims} | VerifiedClaim[] | 对候选 claim 的逐条裁决；程序按 claim_id 恢复 synthesis 原文、分区、类型和 evidence ID，丢弃新增或改写。 | 默认空数组；漏裁决会阻止 complete 发布。 |
 | verification.{publication_allowed,contradictions,missing_evidence,warnings} | object | 发布门、矛盾、缺证和核验警告。 | schema 要求 publication_allowed。 |
 
 处理规则：
 
-- **原子 claim 与证据核验**（model-structured）：事实 claim 必须引用已有 ID；区分 observation/database_fact/inference/hypothesis 并拒绝过度解释。
+- **候选 claim 证据核验**（model-structured + deterministic guard）：模型直接查看 ID 对应原记录并裁决；程序恢复原 claim 字段，拒绝新增或改写，并对可形式化的过度结论强制保守降级。
+  - 分支/约束：假设不能成为 established finding
+  - 分支/约束：推断型良性/致病/无功能影响结论最多 partially_supported
+  - 分支/约束：仅 PubMed 元数据支持的实体结论最多 partially_supported
+  - 分支/约束：非 exact/high_similarity 记录不能支持同一性断言
   - 分支/约束：VEP consequence 不能表述为已证实机制
-  - 分支/约束：ClinVar review status 与冲突必须保留
-  - 分支/约束：dbVar overlap 不证明验证或临床意义
-  - 分支/约束：ClinGen/DGV/gnomAD 不能被单独提升为个体致病或良性结论
-  - 分支/约束：检索扩展不能改变匹配语义
-  - 分支/约束：标题不能支持机制
 
-实现位置：`prompts.py:VERIFY / schemas.py:VerificationOutput`
+实现位置：`prompts.py:VERIFY / agent.py:bind_verification_to_synthesis / state_pipeline.py:reconcile_verification_from_state / schemas.py:VerificationOutput`
 
-## 6. 最终报告
+## 7. 最终报告
 
-生成带证据目录、来源和自适应调查日志的结构化报告，并做确定性 schema 校验。
+无 LLM 调用；程序将精确 supported claim 放入预定分区，保留 partially_supported 及限定，从 evidence gap 生成下一步，并组装、校验最终报告。
 
 | 字段路径 | 类型 | 含义 | 缺失或失败时 |
 |---|---|---|---|
 | final_report.sv_summary | SVSummary | 只复制标准化候选身份、CI 和 BND 字段。 | 无效输入保留可用原字段并 blocked。 |
-| final_report.*_evidence/artifact_risks/possible_interpretations | ReportStatement[] | 按统计、区域、人群、文献、功能、技术风险和解释组织的有证据陈述。 | 默认空数组。 |
-| final_report.{evidence_catalog,query_provenance} | object | 被引用证据与外部查询来源目录；ID 必须唯一且可解析。 | 无引用时为空。 |
+| final_report.{gene_region_annotation,population_evidence,clinical_phenotype_evidence,literature_evidence,possible_interpretations,recommended_next_steps} | object | 程序将精确 supported claim 按 synthesis 指定分区组装；partially_supported 只留在核验记录，下一步由 evidence gap 生成。当前未实装独立功能数据库，因此不伪设 functional_evidence 栏目。 | 无 supported claim 时对应分区为空。 |
+| final_report.{statistical_signals,artifact_risks,verified_claims,contradictions} | object | 程序从 normalized/baseline/verification state 直接复制或格式化，不接受模型改写。 | 源字段缺失时为空。 |
+| final_report.{evidence_catalog,query_provenance} | object | 程序从工具状态生成查询来源和被引用证据目录并去重。 | 无引用时为空；未知 ID 被移除并写入 limitations。 |
 | final_report.investigation_log | InvestigationLog | 复制证据缺口、计划、执行动作、2 次预算、停止原因和剩余限制。 | 必填并经 schema 校验。 |
 | final_report.{report_version,report_status,limitations,recommended_next_steps} | object | 报告版本、完成状态、限制和可复现下一步。 | schema 强制状态。 |
 
 处理规则：
 
-- **按证据编排报告**（model-structured）：只组合前序状态；复制调查审计；不恢复 rejected claim，不凭模型记忆补证据。
-  - 分支/约束：输入无效 blocked；重要缺失 incomplete
+- **确定性报告组装**（deterministic）：ReportAssemblyAgent 直接将精确 supported claim 按 report_section 组装进正文，保留 partially_supported 及核验注释；从 evidence gap 生成下一步，并组装 SV 摘要、技术风险、查询审计、状态、限制和 evidence catalog。
+  - 分支/约束：无最终 LLM 调用
+  - 分支/约束：预算只根据 adaptive_tool_results 中的 executed 动作计数
 - **Pydantic 确定性验证**（schema-validation）：验证候选坐标、证据 ID 引用唯一性以及固定为 2 的 adaptive 预算；queries_used 必须等于真正执行的动作数，拒绝动作只保留审计。
   - 分支/约束：悬空 evidence ID、越界坐标、动作计数不一致或超预算报告被拒绝
 
-实现位置：`prompts.py:REPORT / schemas.py:SVReport`
+实现位置：`agent.py:ReportAssemblyAgent / state_pipeline.py:finalize_report_from_state / schemas.py:SVReport`

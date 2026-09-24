@@ -1,0 +1,73 @@
+{
+  "project_version": "1.0.0",
+  "runner_version": "1.0.0",
+  "started_at": "2026-09-24T08:24:24.128947+00:00",
+  "source_manifest": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\manifest.json",
+  "corpus_version": "0.1.0",
+  "model": "gemini-3.5-flash",
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "google_adk": "2.9.1"
+  },
+  "git": {
+    "commit": "3258122feccf4ae5e65a778d7b8d2ef3260b2982",
+    "branch": "main",
+    "dirty": true
+  },
+  "selected_cases": [
+    {
+      "case_id": "giab_cmrg_del_chr4_1092990_1093039",
+      "category": "technical_benchmark",
+      "purpose": "Sequence-resolved 50 bp deletion and missing-CI handling",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\giab_cmrg_del_chr4_1092990_1093039.json"
+    },
+    {
+      "case_id": "giab_cmrg_ins_chr3_49404094_663bp",
+      "category": "technical_benchmark",
+      "purpose": "Sequence-resolved insertion represented as a point plus length",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\giab_cmrg_ins_chr3_49404094_663bp.json"
+    },
+    {
+      "case_id": "giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp",
+      "category": "technical_benchmark",
+      "purpose": "GIAB tandem-duplication sequence represented as SVTYPE INS",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp.json"
+    },
+    {
+      "case_id": "clingen_22q11_2_distal_type1_del",
+      "category": "interpretation_reference",
+      "purpose": "Deletion matching a recurrent region with sufficient HI evidence",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\clingen_22q11_2_distal_type1_del.json"
+    },
+    {
+      "case_id": "clingen_16p12_2_population_dup",
+      "category": "interpretation_reference",
+      "purpose": "Common population gain with dosage sensitivity unlikely",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\clingen_16p12_2_population_dup.json"
+    },
+    {
+      "case_id": "clingen_22q11_21_ces_gain",
+      "category": "interpretation_reference",
+      "purpose": "Gain whose clinically supported copy state is not an ordinary single-copy duplication",
+      "input": "D:\\Documents\\卒研\\sv_investigator\\tests\\cases\\inputs\\clingen_22q11_21_ces_gain.json"
+    }
+  ],
+  "config": {
+    "case_timeout_seconds": 900.0,
+    "save_events": "summary",
+    "fail_fast": false
+  },
+  "resume_history": [
+    "2026-09-24T08:33:25.750333+00:00"
+  ],
+  "finished_at": "2026-09-24T08:53:22.351806+00:00",
+  "summary": {
+    "total_artifacts": 6,
+    "selected_case_count": 6,
+    "status_counts": {
+      "complete": 6
+    },
+    "stopped_early": false
+  }
+}

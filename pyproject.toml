@@ -4,13 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sv-investigator"
-version = "0.4.0"
+version = "1.0.0"
 description = "A bounded multi-agent workflow for investigating candidate structural variants."
 requires-python = ">=3.11"
 dependencies = [
   "google-adk>=2.0,<3.0",
   "pydantic>=2.7,<3.0",
+  "python-dotenv>=1.0,<2.0",
 ]
+
+[project.scripts]
+sv-runner = "sv_investigator.runner:main"
 
 [tool.setuptools]
 packages = ["sv_investigator"]

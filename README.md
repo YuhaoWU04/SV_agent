@@ -1,31 +1,52 @@
 # SV Investigator (Google ADK)
 
-This is an early research prototype for investigating one pre-screened structural
+Current prototype release: **v1.0.0**.
+
+The six-case v1.0.0 reference run is stored in
+[`examples/runs/v1.0.0`](examples/runs/v1.0.0). It includes complete session state,
+validated reports, Markdown renderings, compact event logs, and aggregate metrics.
+
+This is a research prototype for investigating one pre-screened structural
 variant. It does not call SVs from reads and does not replace expert review.
 
 ## Workflow
 
 `InputNormalizerAgent → BaselineEvidenceCollectorAgent →
-AdaptiveInvestigationAgent → LiteratureAndFunctionAgent → EvidenceVerifierAgent →
-ReportWriterAgent`
+AdaptiveInvestigationAgent → LiteratureAgent → EvidenceSynthesisAgent →
+EvidenceVerifierAgent → ReportAssemblyAgent`
 
 The root is a Google ADK `SequentialAgent`. Tool wrappers write complete normalized,
 baseline, adaptive, and PubMed results directly to `ToolContext.state`; these raw
 records are not saved from the model's retelling. The adaptive and literature agents'
-`output_key` values contain their decisions and interpretations, while the verifier
-and writer have no tools and enforce Pydantic output schemas. The design is a
-deterministic baseline plus bounded adaptation: baseline Ensembl overlap/VEP,
+`output_key` values contain compact query decisions and audits, while synthesis and
+verification have no tools and enforce Pydantic output schemas. The final
+`ReportAssemblyAgent` is deterministic and makes no model call. The design is a
+deterministic baseline plus bounded adaptation: Ensembl overlap/VEP,
 gnomAD-SV, ClinGen Dosage, ClinVar, dbVar, DGV Gold Standard, and artifact checks
 always run, after which one LLM stage may make
 zero, one, or two justified calls from a hard-coded whitelist. Missing evidence remains
 `unknown`, `not_found`, `not_applicable`, `unavailable`, `error`, or `not_queried`
 rather than being silently treated as negative evidence.
 
+Synthesis assigns every atomic claim a report section, and the verifier judges its
+exact wording. A callback binds verdicts back to the original claim fields so the
+verifier cannot rewrite them. `ReportAssemblyAgent` then admits only exactly supported
+claims into those sections, derives status and next steps, builds provenance and the
+evidence catalog, and validates the result as `SVReport`. Partially supported claims
+remain visible with their qualifications instead of becoming unqualified prose.
+
 The raw state keys are `normalized_sv`, `baseline_evidence`,
-`adaptive_tool_results`, and `literature_tool_results`. Later agents currently read
-the complete raw results, not compact summaries. Direct state storage protects record
-integrity but **does not reduce prompt length**; a separate summary/projection step
-would be needed for that, and is not implemented here.
+`adaptive_tool_results`, and `literature_tool_results`. Immediately before synthesis,
+a deterministic callback builds `evidence_view`: `records_by_id` maps every real
+evidence ID to the exact tool-owned record, while `source_context` retains status,
+errors, counts, limitations, and query audits without repeating those records. The
+complete raw state is still preserved for audit. Synthesis, verification, and report
+agents use `include_contents="none"` and receive only explicitly injected state, so
+earlier tool responses are not replayed into each prompt. This reduces repeated prompt
+content. Before verification the same view is narrowed to IDs cited by candidate
+claims, so unrelated records are not sent again. Adaptive and literature summaries
+are not replayed into synthesis; it reads tool-owned records directly. This does not
+reduce saved raw state size or make semantic support judgment deterministic.
 
 ## Interactive architecture map
 
@@ -345,7 +366,7 @@ steps are all present. Zero adaptive calls is a valid completed decision, not ag
 inactivity. Its plan, actions, stop reason, and remaining limitations are copied into
 the report's required `investigation_log`.
 
-## LiteratureAndFunctionAgent: bounded PubMed lookup
+## LiteratureAgent: bounded PubMed lookup
 
 The tool enforces at most three distinct PubMed searches per investigation; the
 limit is not prompt-only. Query deduplication ignores letter case and repeated
@@ -357,15 +378,93 @@ the default maximum is 15 distinct citations, often fewer after deduplication.
 Records retain only the first three author names plus `author_count` and
 `authors_truncated`; full author objects are not needed for the current metadata-level
 investigation. Titles and metadata remain contextual rather than mechanistic proof.
+Coordinate searches must keep the exact locus and SV type; the agent may not broaden
+a small event into a cytoband-, chromosome-arm-, syndrome-, or generic-deletion query.
 
 NCBI recommends identifying API clients used for PubMed. Set `NCBI_EMAIL` and
 optionally `NCBI_API_KEY`.
 
-The final ADK response is structured JSON. Save it and render a review copy with:
+## EvidenceSynthesisAgent and EvidenceVerifierAgent
+
+These are separate roles. `EvidenceSynthesisAgent` reads the normalized candidate and
+the deterministic `evidence_view`, then emits atomic `CandidateClaim` objects. It does
+not emit a second free-text summary because that would duplicate and potentially
+amplify the same claims. Factual candidates must carry evidence IDs; the synthesis
+stage does not decide whether its own wording is adequately supported.
+
+`EvidenceVerifierAgent` receives those candidates plus the same ID-to-record view. It
+must preserve each candidate's ID and text, inspect the actual cited records, and mark
+the claim supported, partially supported, unsupported, or conflicting. It may not add
+new claims. ID lookup and record integrity are deterministic; scientific entailment,
+overinterpretation checks, and conflict assessment remain model judgments and still
+require expert review for consequential use.
+
+The program applies conservative floors after model verification: hypotheses
+cannot become established findings; claims supported only by PubMed citation metadata
+remain partially supported until the underlying paper is checked; and wording that
+asserts variant identity cannot be fully supported by records lacking an exact or
+high-similarity match. Inference-level benign/pathogenic or no-effect conclusions are
+also qualified because this prototype is not a clinical classifier. These claims stay
+visible under qualified findings rather than being discarded or promoted into the
+main narrative.
+
+The deterministic final ADK response is structured JSON. Save it and render a review
+copy with:
 
 ```powershell
 py -m sv_investigator.render_report report.json -o report.md
 ```
+
+## Batch runner
+
+`runner` executes a case manifest end to end. Every case gets an independent ADK
+session and is run sequentially so API failures, rate limits, and saved state remain
+easy to attribute. A failed or timed-out case is recorded and the next case still
+runs unless `--fail-fast` is supplied.
+
+Only the file named by a case's `input` field is sent to the agent. The runner does
+not load or expose the corpus's `expected` or `provenance` documents to the model.
+It records operational and structural facts (for example schema validity, source
+statuses, state size, event count, token counts, and elapsed time); it does not score
+whether a biological claim is scientifically correct.
+
+List the built-in cases without calling a model:
+
+```powershell
+py -m sv_investigator.runner --list
+```
+
+Run the full corpus, or select cases by ID or category:
+
+```powershell
+py -m sv_investigator.runner
+py -m sv_investigator.runner --case giab_cmrg_del_chr4_1092990_1093039
+py -m sv_investigator.runner --category technical_benchmark
+```
+
+After an editable/package install, the equivalent short command is `sv-runner`.
+The model is selected by `SV_AGENT_MODEL`. The runner loads the package-local `.env`
+without overriding variables already present in the process environment, matching
+the usual ADK Web setup. Useful controls include:
+
+```powershell
+sv-runner --case-timeout 900 --save-events full
+sv-runner --run-dir runs/<run-name> --resume
+sv-runner --run-dir runs/<run-name> --rerun-completed
+```
+
+`--resume` skips cases whose saved `metrics.json` has `run_status=complete` and
+retries incomplete cases. `--rerun-completed` reruns every selected case in the
+explicit run directory. Event saving can be `full` (default), `summary`, or `none`.
+Generated `runs/` directories are ignored by Git.
+
+Each run contains `run_manifest.json`, `summary.json`, and `summary.tsv`. Each case
+directory contains the exact `input.json`, final `state.json`, `final_response.txt`,
+`metrics.json`, and, when available, `events.jsonl`, validated `final_report.json`,
+and the human-readable `report.md`. Failures additionally contain `error.json` with
+the exception and traceback. A valid but intentionally `incomplete` or `blocked`
+SV report still has runner status `complete`; `report_status` records that scientific
+distinction separately.
 
 ## Test
 

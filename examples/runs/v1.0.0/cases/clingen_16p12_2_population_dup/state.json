@@ -1,0 +1,4580 @@
+{
+  "normalized_sv": {
+    "status": "valid",
+    "sv_id": "TEST_GRCh38_16p12.2_population_region_DUP",
+    "genome_build": "GRCh38",
+    "genome_build_original": "GRCh38",
+    "chrom": "16",
+    "start": 21500755,
+    "end": 21584256,
+    "coordinate_system": "1-based-inclusive",
+    "chromosome_length_bp": 90338345,
+    "cipos": null,
+    "ciend": null,
+    "start_confidence_interval": null,
+    "end_confidence_interval": null,
+    "breakpoint_uncertainty_status": "not_provided",
+    "imprecise": false,
+    "bnd_mate_status": "not_applicable",
+    "mate_chrom": null,
+    "mate_pos": null,
+    "mate_confidence_interval": null,
+    "local_orientation": null,
+    "mate_orientation": null,
+    "bnd_alt": null,
+    "bnd_mate_source": null,
+    "breakpoint_fallback_tolerance_bp": 500,
+    "breakpoint_fallback_policy": "Used only to retrieve and label nearby candidates when a VCF confidence interval is absent; it is not a measured confidence interval.",
+    "sv_type": "DUP",
+    "sv_type_original": "DUP",
+    "sv_subtype": null,
+    "length_bp": 83502,
+    "statistics": {},
+    "quality": {},
+    "source_record": {
+      "case_kind": "synthetic_representative_region",
+      "phenotype": null,
+      "inheritance": null
+    },
+    "warnings": [
+      "breakpoint_confidence_intervals_not_provided",
+      "statistics_not_provided",
+      "quality_not_provided"
+    ],
+    "normalizations": []
+  },
+  "baseline_evidence": {
+    "status": "complete",
+    "collection_policy": "deterministic_non_optional_baseline",
+    "immutable_candidate_fields": {
+      "genome_build": "GRCh38",
+      "chrom": "16",
+      "start": 21500755,
+      "end": 21584256,
+      "sv_type": "DUP",
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null
+    },
+    "region_annotation": {
+      "source": "Ensembl",
+      "status": "found",
+      "completeness": "partial",
+      "genome_build": "GRCh38",
+      "query_region": "16:21500755-21584256",
+      "sv_type": "DUP",
+      "annotation_mode": "spatial_overlap_only",
+      "match_type": "region_overlap",
+      "features": {
+        "gene": [
+          {
+            "external_name": "MIR3680-1",
+            "id": "ENSG00000265462",
+            "logic_name": "ncrna_homo_sapiens",
+            "feature_type": "gene",
+            "version": 1,
+            "start": 21506049,
+            "end": 21506135,
+            "gene_id": "ENSG00000265462",
+            "source": "mirbase",
+            "canonical_transcript": "ENST00000581433.1",
+            "description": "microRNA 3680-1 [Source:HGNC Symbol;Acc:HGNC:38989]",
+            "strand": -1,
+            "assembly_name": "GRCh38",
+            "biotype": "miRNA",
+            "seq_region_name": "16",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "id": "ENSG00000287809",
+            "feature_type": "gene",
+            "version": 1,
+            "start": 21511635,
+            "logic_name": "havana_tagene_homo_sapiens",
+            "end": 21515131,
+            "description": "novel transcript",
+            "canonical_transcript": "ENST00000654954.1",
+            "strand": 1,
+            "source": "havana_tagene",
+            "gene_id": "ENSG00000287809",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "16",
+            "biotype": "lncRNA",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 21520365,
+            "feature_type": "gene",
+            "version": 2,
+            "start": 21519830,
+            "logic_name": "havana_homo_sapiens",
+            "id": "ENSG00000258186",
+            "external_name": "SLC7A5P2",
+            "seq_region_name": "16",
+            "biotype": "transcribed_processed_pseudogene",
+            "assembly_name": "GRCh38",
+            "strand": -1,
+            "canonical_transcript": "ENST00000553010.2",
+            "description": "solute carrier family 7 member 5 pseudogene 2 [Source:HGNC Symbol;Acc:HGNC:24951]",
+            "source": "havana",
+            "gene_id": "ENSG00000258186",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-003",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "gene_id": "ENSG00000271609",
+            "source": "havana",
+            "canonical_transcript": "ENST00000605544.1",
+            "description": "ribosomal protein S10 (RPS10) pseudogene",
+            "strand": 1,
+            "assembly_name": "GRCh38",
+            "biotype": "processed_pseudogene",
+            "seq_region_name": "16",
+            "id": "ENSG00000271609",
+            "logic_name": "havana_homo_sapiens",
+            "version": 1,
+            "feature_type": "gene",
+            "start": 21538487,
+            "end": 21538794,
+            "evidence_id": "ENS-BL-NOMINAL-GENE-004",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "16",
+            "biotype": "transcribed_unprocessed_pseudogene",
+            "canonical_transcript": "ENST00000522480.5",
+            "description": "SMG1 pseudogene 3 [Source:HGNC Symbol;Acc:HGNC:49860]",
+            "strand": -1,
+            "gene_id": "ENSG00000180747",
+            "source": "havana",
+            "assembly_name": "GRCh38",
+            "feature_type": "gene",
+            "start": 21447078,
+            "version": 16,
+            "logic_name": "havana_homo_sapiens",
+            "end": 21501886,
+            "external_name": "SMG1P3",
+            "id": "ENSG00000180747",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-005",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "16",
+            "biotype": "transcribed_unprocessed_pseudogene",
+            "assembly_name": "GRCh38",
+            "strand": -1,
+            "canonical_transcript": "ENST00000550637.1",
+            "description": "carbonic anhydrase VA, mitochondrial (CA5A) pseudogene",
+            "source": "havana",
+            "gene_id": "ENSG00000257639",
+            "end": 21550373,
+            "feature_type": "gene",
+            "version": 1,
+            "start": 21532945,
+            "logic_name": "havana_homo_sapiens",
+            "id": "ENSG00000257639",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-006",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "canonical_transcript": "ENST00000789757.1",
+            "description": "novel transcript",
+            "strand": -1,
+            "gene_id": "ENSG00000291073",
+            "source": "havana",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "16",
+            "biotype": "lncRNA",
+            "id": "ENSG00000291073",
+            "version": 2,
+            "feature_type": "gene",
+            "start": 21446683,
+            "logic_name": "havana_homo_sapiens",
+            "end": 21520458,
+            "evidence_id": "ENS-BL-NOMINAL-GENE-007",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "logic_name": "havana_tagene_homo_sapiens",
+            "feature_type": "gene",
+            "version": 1,
+            "start": 21501787,
+            "end": 21509291,
+            "id": "ENSG00000302877",
+            "biotype": "lncRNA",
+            "seq_region_name": "16",
+            "gene_id": "ENSG00000302877",
+            "source": "havana_tagene",
+            "canonical_transcript": "ENST00000790193.1",
+            "description": "novel transcript",
+            "strand": 1,
+            "assembly_name": "GRCh38",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-008",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 21522908,
+            "feature_type": "gene",
+            "version": 1,
+            "start": 21520765,
+            "logic_name": "havana_tagene_homo_sapiens",
+            "id": "ENSG00000305577",
+            "seq_region_name": "16",
+            "biotype": "lncRNA",
+            "assembly_name": "GRCh38",
+            "description": "novel transcript",
+            "canonical_transcript": "ENST00000811758.1",
+            "strand": 1,
+            "source": "havana_tagene",
+            "gene_id": "ENSG00000305577",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-009",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "id": "ENSG00000305553",
+            "version": 1,
+            "feature_type": "gene",
+            "start": 21521152,
+            "logic_name": "havana_tagene_homo_sapiens",
+            "end": 21523801,
+            "description": "novel transcript",
+            "canonical_transcript": "ENST00000811682.1",
+            "strand": -1,
+            "source": "havana_tagene",
+            "gene_id": "ENSG00000305553",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "16",
+            "biotype": "lncRNA",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-010",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "regulatory": [
+          {
+            "extended_start": 21500892,
+            "end": 21501797,
+            "feature_type": "regulatory",
+            "strand": 0,
+            "extended_end": 21501797,
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "description": "promoter",
+            "start": 21501297,
+            "id": "ENSR16_9BJFH",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "id": "ENSR16_9BJFM",
+            "start": 21501798,
+            "description": "enhancer",
+            "feature_type": "regulatory",
+            "end": 21502230,
+            "extended_end": 21502230,
+            "strand": 0,
+            "extended_start": 21501798,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-002",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "id": "ENSR16_B697W",
+            "start": 21502231,
+            "description": "promoter",
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "extended_start": 21502231,
+            "extended_end": 21503185,
+            "strand": 0,
+            "feature_type": "regulatory",
+            "end": 21502750,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-003",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "extended_start": 21502858,
+            "feature_type": "regulatory",
+            "end": 21502879,
+            "extended_end": 21502879,
+            "strand": 1,
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "id": "ENSR16_573K3B",
+            "start": 21502858,
+            "description": "CTCF_binding_site",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-004",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 21504118,
+            "feature_type": "regulatory",
+            "strand": 0,
+            "extended_end": 21504118,
+            "extended_start": 21503582,
+            "source": "Ensembl",
+            "seq_region_name": "16",
+            "description": "enhancer",
+            "id": "ENSR16_B6984",
+            "start": 21503582,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-005",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "start": 21506310,
+            "id": "ENSR16_9BJGX",
+            "description": "enhancer",
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "extended_end": 21506627,
+            "strand": 0,
+            "end": 21506627,
+            "feature_type": "regulatory",
+            "extended_start": 21506310,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-006",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 21508380,
+            "feature_type": "regulatory",
+            "strand": 0,
+            "extended_end": 21508380,
+            "extended_start": 21506740,
+            "seq_region_name": "16",
+            "source": "Ensembl",
+            "description": "enhancer",
+            "start": 21506740,
+            "id": "ENSR16_C45LR",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-007",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "extended_start": 21506966,
+            "end": 21506987,
+            "feature_type": "regulatory",
+            "strand": -1,
+            "extended_end": 21506987,
+            "source": "Ensembl",
+            "seq_region_name": "16",
+            "description": "CTCF_binding_site",
+            "id": "ENSR16_573KQC",
+            "start": 21506966,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-008",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "source": "Ensembl",
+            "seq_region_name": "16",
+            "description": "CTCF_binding_site",
+            "start": 21507312,
+            "id": "ENSR16_573KRX",
+            "extended_start": 21507312,
+            "end": 21507333,
+            "feature_type": "regulatory",
+            "strand": 1,
+            "extended_end": 21507333,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-009",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "source": "Ensembl",
+            "seq_region_name": "16",
+            "description": "enhancer",
+            "start": 21508495,
+            "id": "ENSR16_D33RZ",
+            "extended_start": 21508495,
+            "feature_type": "regulatory",
+            "end": 21510672,
+            "strand": 0,
+            "extended_end": 21510672,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-010",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "repeat": null
+      },
+      "errors": {
+        "repeat": "TimeoutError"
+      },
+      "truncated": {
+        "gene": true,
+        "regulatory": true,
+        "repeat": false
+      },
+      "attempts": {
+        "gene": 2,
+        "regulatory": 2,
+        "repeat": 2
+      },
+      "source_urls": {
+        "gene": "https://rest.ensembl.org/overlap/region/human/16:21500755-21584256?feature=gene",
+        "regulatory": "https://rest.ensembl.org/overlap/region/human/16:21500755-21584256?feature=regulatory",
+        "repeat": "https://rest.ensembl.org/overlap/region/human/16:21500755-21584256?feature=repeat"
+      },
+      "breakpoint_annotations": {
+        "start": {
+          "interval": [
+            21500255,
+            21501255
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "16:21500255-21501255",
+          "features": {
+            "gene": null,
+            "regulatory": [],
+            "repeat": null
+          },
+          "errors": {
+            "gene": "TimeoutError",
+            "repeat": "TimeoutError"
+          },
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 2,
+            "regulatory": 1,
+            "repeat": 2
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/16:21500255-21501255?feature=gene",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/16:21500255-21501255?feature=regulatory",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/16:21500255-21501255?feature=repeat"
+          },
+          "completeness": "partial"
+        },
+        "end": {
+          "interval": [
+            21583756,
+            21584756
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "16:21583756-21584756",
+          "features": {
+            "gene": [],
+            "regulatory": [
+              {
+                "end": 21584469,
+                "id": "ENSR16_9BKBF",
+                "description": "enhancer",
+                "feature_type": "regulatory",
+                "source": "Ensembl",
+                "start": 21584039,
+                "strand": 0,
+                "seq_region_name": "16",
+                "extended_end": 21584469,
+                "extended_start": 21584039,
+                "evidence_id": "ENS-BL-END-REGULATORY-001",
+                "breakpoint_role": "end"
+              },
+              {
+                "extended_end": 21584176,
+                "extended_start": 21584155,
+                "strand": -1,
+                "seq_region_name": "16",
+                "end": 21584176,
+                "description": "CTCF_binding_site",
+                "id": "ENSR16_5743ZN",
+                "source": "Ensembl",
+                "feature_type": "regulatory",
+                "start": 21584155,
+                "evidence_id": "ENS-BL-END-REGULATORY-002",
+                "breakpoint_role": "end"
+              }
+            ],
+            "repeat": [
+              {
+                "start": 21583708,
+                "feature_type": "repeat",
+                "description": "AluJr",
+                "seq_region_name": "16",
+                "end": 21583826,
+                "strand": 1,
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-001",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "seq_region_name": "16",
+                "description": "AluSq2",
+                "start": 21583831,
+                "end": 21584127,
+                "strand": -1,
+                "evidence_id": "ENS-BL-END-REPEAT-002",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "MIR",
+                "seq_region_name": "16",
+                "end": 21584235,
+                "start": 21584170,
+                "evidence_id": "ENS-BL-END-REPEAT-003",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "AluJb",
+                "start": 21584236,
+                "seq_region_name": "16",
+                "end": 21584530,
+                "evidence_id": "ENS-BL-END-REPEAT-004",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "MIR",
+                "start": 21584531,
+                "seq_region_name": "16",
+                "end": 21584668,
+                "evidence_id": "ENS-BL-END-REPEAT-005",
+                "breakpoint_role": "end"
+              },
+              {
+                "description": "AluSz",
+                "feature_type": "repeat",
+                "end": 21584970,
+                "seq_region_name": "16",
+                "start": 21584669,
+                "strand": 1,
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-006",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "strand": 0,
+                "end": 21584530,
+                "feature_type": "repeat",
+                "description": "dust",
+                "seq_region_name": "16",
+                "start": 21584516,
+                "evidence_id": "ENS-BL-END-REPEAT-007",
+                "breakpoint_role": "end"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "seq_region_name": "16",
+                "feature_type": "repeat",
+                "description": "dust",
+                "start": 21584132,
+                "end": 21584140,
+                "strand": 0,
+                "evidence_id": "ENS-BL-END-REPEAT-008",
+                "breakpoint_role": "end"
+              },
+              {
+                "feature_type": "repeat",
+                "description": "dust",
+                "start": 21583831,
+                "seq_region_name": "16",
+                "end": 21583845,
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-009",
+                "breakpoint_role": "end"
+              },
+              {
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "AluJr",
+                "start": 21583708,
+                "seq_region_name": "16",
+                "end": 21583826,
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-010",
+                "breakpoint_role": "end"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": true
+          },
+          "attempts": {
+            "gene": 2,
+            "regulatory": 2,
+            "repeat": 1
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/16:21583756-21584756?feature=gene",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/16:21583756-21584756?feature=regulatory",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/16:21583756-21584756?feature=repeat"
+          },
+          "completeness": "complete"
+        },
+        "mate": null
+      },
+      "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    "database_evidence": {
+      "source": "gnomAD-SV",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "dataset": "gnomad_sv_r4",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_intervals": [
+        [
+          21500255,
+          21584756
+        ]
+      ],
+      "query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "16",
+          "interval": [
+            21500255,
+            21584756
+          ]
+        }
+      ],
+      "matching_query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "16",
+          "interval": [
+            21500255,
+            21584756
+          ]
+        }
+      ],
+      "retrieval_padding_bp": 0,
+      "matching_windows_unchanged": true,
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            21500255,
+            21501255
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            21583756,
+            21584756
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "mate": null
+      },
+      "records": [
+        {
+          "variant_id": "DUP_chr16_7371ee55",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21576078,
+          "end": 21576965,
+          "pos2": null,
+          "end2": null,
+          "length": 887,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 20,
+          "an": 126092,
+          "af": 0.000159,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 75323,
+            "end_distance_bp": 7291,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.010634,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.010634
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_7371ee55?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-001"
+        },
+        {
+          "variant_id": "DUP_chr16_6602690e",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21496486,
+          "end": 21505893,
+          "pos2": null,
+          "end2": null,
+          "length": 9407,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 25363,
+          "an": 45648,
+          "af": 0.555621,
+          "ac_hom": 9301,
+          "ac_hemi": 0,
+          "filters": [
+            "HIGH_NCR"
+          ],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 4269,
+            "end_distance_bp": 78363,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.061543,
+            "reciprocal_overlap_database": 0.546237,
+            "size_similarity": 0.112668
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_6602690e?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-002"
+        },
+        {
+          "variant_id": "DUP_chr16_893590be",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21524713,
+          "end": 21525289,
+          "pos2": null,
+          "end2": null,
+          "length": 576,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 6,
+          "an": 125994,
+          "af": 4.8e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 23958,
+            "end_distance_bp": 58967,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.00691,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.00691
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_893590be?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-003"
+        },
+        {
+          "variant_id": "DUP_chr16_d5cb8295",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21572789,
+          "end": 21572997,
+          "pos2": null,
+          "end2": null,
+          "length": 208,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 7,
+          "an": 125170,
+          "af": 5.6e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 72034,
+            "end_distance_bp": 11259,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.002503,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.002503
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_d5cb8295?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-004"
+        },
+        {
+          "variant_id": "DUP_chr16_5b11758f",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21507544,
+          "end": 21507628,
+          "pos2": null,
+          "end2": null,
+          "length": 84,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 6,
+          "an": 121528,
+          "af": 4.9e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 6789,
+            "end_distance_bp": 76628,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.001018,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.001018
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_5b11758f?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-005"
+        },
+        {
+          "variant_id": "DUP_chr16_9e3b66dd",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21573871,
+          "end": 21573939,
+          "pos2": null,
+          "end2": null,
+          "length": 68,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 1,
+          "an": 126088,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 73116,
+            "end_distance_bp": 10317,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.000826,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.000826
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_9e3b66dd?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-006"
+        },
+        {
+          "variant_id": "DUP_chr16_494000a2",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21541004,
+          "end": 21541065,
+          "pos2": null,
+          "end2": null,
+          "length": 61,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 3,
+          "an": 126086,
+          "af": 2.4e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 40249,
+            "end_distance_bp": 43191,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.000742,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.000742
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_494000a2?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-007"
+        },
+        {
+          "variant_id": "DUP_chr16_e2083be9",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21564571,
+          "end": 21564629,
+          "pos2": null,
+          "end2": null,
+          "length": 58,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 14,
+          "an": 126086,
+          "af": 0.000111,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 63816,
+            "end_distance_bp": 19627,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.000707,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.000707
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_e2083be9?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-008"
+        },
+        {
+          "variant_id": "DUP_chr16_ac985419",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21581743,
+          "end": 21590486,
+          "pos2": null,
+          "end2": null,
+          "length": 8743,
+          "type": "DUP",
+          "consequence": "intergenic",
+          "ac": 97,
+          "an": 123444,
+          "af": 0.000786,
+          "ac_hom": 11,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 80988,
+            "end_distance_bp": 6230,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.030107,
+            "reciprocal_overlap_database": 0.287511,
+            "size_similarity": 0.104716
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_ac985419?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-009"
+        },
+        {
+          "variant_id": "DUP_chr16_5f3f07b6",
+          "chrom": "16",
+          "chrom2": "16",
+          "pos": 21582486,
+          "end": 21626486,
+          "pos2": null,
+          "end2": null,
+          "length": 44000,
+          "type": "DUP",
+          "consequence": "tss_dup",
+          "ac": 2,
+          "an": 125970,
+          "af": 1.6e-05,
+          "ac_hom": 1,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_distance_bp": 81731,
+            "end_distance_bp": 42230,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.021209,
+            "reciprocal_overlap_database": 0.040249,
+            "size_similarity": 0.526945
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_5f3f07b6?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-010"
+        }
+      ],
+      "raw_region_record_count": 187,
+      "compatible_record_count": 12,
+      "returned_record_count": 10,
+      "type_incompatible_records_excluded": 175,
+      "bnd_topology_or_coordinate_records_excluded": 0,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-24T08:46:43.937615+00:00",
+      "source_url": "https://gnomad.broadinstitute.org/",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    "vep_evidence": {
+      "source": "Ensembl VEP",
+      "status": "error",
+      "error": "TimeoutError",
+      "records": [],
+      "attempts": 2,
+      "source_url": "https://rest.ensembl.org/vep/human/region/16:21500755-21584256:1/DUP?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-24T08:47:47.053348+00:00"
+    },
+    "clingen_dosage_evidence": {
+      "source": "ClinGen Dosage",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "dataset_created_at": "2026-09-24",
+      "records": [
+        {
+          "record_id": "ISCA-46691",
+          "entity": "16p12.2 population region (DGV_Gold_Standard_June_2021_gssvG14372)",
+          "entity_type": "region",
+          "chrom": "16",
+          "start": 21500755,
+          "end": 21584256,
+          "haploinsufficiency": {
+            "assessment": "No Evidence for Haploinsufficiency",
+            "score": 0
+          },
+          "triplosensitivity": {
+            "assessment": "",
+            "score": null
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "",
+          "curation_date": "2021-08-04T15:10:21-04:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46691",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 0,
+            "end_distance_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "CGD-BL-001"
+        },
+        {
+          "record_id": "ISCA-46297",
+          "entity": "16p12.2 recurrent region (distal, BP1-BP2) (includes OTOA)",
+          "entity_type": "region",
+          "chrom": "16",
+          "start": 21558792,
+          "end": 21729102,
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "",
+            "score": null
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "",
+          "curation_date": "2025-07-18T22:05:30-04:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46297",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 58037,
+            "end_distance_bp": 144846,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.304963,
+            "reciprocal_overlap_database": 0.149521,
+            "size_similarity": 0.490291
+          },
+          "evidence_id": "CGD-BL-002"
+        }
+      ],
+      "overlapping_record_count": 2,
+      "returned_record_count": 2,
+      "records_truncated": false,
+      "retrieved_at": "2026-09-24T08:46:46.856787+00:00",
+      "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/downloadall",
+      "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+    },
+    "clinvar_evidence": {
+      "source": "ClinVar",
+      "status": "not_found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            21500255,
+            21584756
+          ]
+        }
+      ],
+      "query_terms": [
+        "16[chr] AND 21500255:21584756[chrpos38] AND Duplication[vartype] AND 50:100000000[varlen]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            21500255,
+            21501255
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            21583756,
+            21584756
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [],
+      "search_uid_count": 0,
+      "compatible_record_count": 0,
+      "returned_record_count": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-24T08:46:43.553627+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    "dbvar_evidence": {
+      "source": "NCBI dbVar",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            21500255,
+            21584756
+          ]
+        }
+      ],
+      "query_terms": [
+        "16[Chr] AND (21500255:21584756[ChrPos] OR 21500255:21584756[ChrEnd]) AND ((\"duplication\"[Variant Type]) OR (\"copy number gain\"[Variant Type]) OR (\"copy number variation\"[Variant Type])) AND \"variant\"[Object Type]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            21500255,
+            21501255
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            21583756,
+            21584756
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "search_counts": [
+        {
+          "role": "nominal",
+          "interval": [
+            21500255,
+            21584756
+          ],
+          "total_count": 656,
+          "uid_count_returned": 50,
+          "search_truncated": true
+        }
+      ],
+      "records": [
+        {
+          "record_id": "nsv6507443",
+          "uid": "54176888",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21501301,
+          "end": 21584300,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            },
+            {
+              "id": 100500917,
+              "name": "MIR3680-1"
+            },
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            },
+            {
+              "id": 100271836,
+              "name": "SMG1P3"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6507443/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 546,
+            "end_distance_bp": 44,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.993461,
+            "reciprocal_overlap_database": 0.99947,
+            "size_similarity": 0.993988
+          },
+          "evidence_id": "DBV-BL-001"
+        },
+        {
+          "record_id": "nsv6509590",
+          "uid": "54179035",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21501801,
+          "end": 21584300,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 100500917,
+              "name": "MIR3680-1"
+            },
+            {
+              "id": 100271836,
+              "name": "SMG1P3"
+            },
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            },
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6509590/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 1046,
+            "end_distance_bp": 44,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.987473,
+            "reciprocal_overlap_database": 0.999467,
+            "size_similarity": 0.988
+          },
+          "evidence_id": "DBV-BL-002"
+        },
+        {
+          "record_id": "nsv6499184",
+          "uid": "54168629",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21500301,
+          "end": 21583100,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            },
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            },
+            {
+              "id": 100271836,
+              "name": "SMG1P3"
+            },
+            {
+              "id": 100500917,
+              "name": "MIR3680-1"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6499184/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 454,
+            "end_distance_bp": 1156,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.986156,
+            "reciprocal_overlap_database": 0.994517,
+            "size_similarity": 0.991593
+          },
+          "evidence_id": "DBV-BL-003"
+        },
+        {
+          "record_id": "nsv6501992",
+          "uid": "54171437",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21501401,
+          "end": 21600400,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 51108,
+              "name": "METTL9"
+            },
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            },
+            {
+              "id": 100271836,
+              "name": "SMG1P3"
+            },
+            {
+              "id": 100500917,
+              "name": "MIR3680-1"
+            },
+            {
+              "id": 101927814,
+              "name": "LOC101927814"
+            },
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6501992/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 646,
+            "end_distance_bp": 16144,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.992264,
+            "reciprocal_overlap_database": 0.836929,
+            "size_similarity": 0.843455
+          },
+          "evidence_id": "DBV-BL-004"
+        },
+        {
+          "record_id": "nsv6511878",
+          "uid": "54181323",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21478301,
+          "end": 21578700,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            },
+            {
+              "id": 100500917,
+              "name": "MIR3680-1"
+            },
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            },
+            {
+              "id": 100271836,
+              "name": "SMG1P3"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6511878/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 22454,
+            "end_distance_bp": 5556,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.933463,
+            "reciprocal_overlap_database": 0.776355,
+            "size_similarity": 0.831693
+          },
+          "evidence_id": "DBV-BL-005"
+        },
+        {
+          "record_id": "nsv7685969",
+          "uid": "57307821",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21507793,
+          "end": 21558405,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387254,
+              "name": "SLC7A5P2"
+            },
+            {
+              "id": 646828,
+              "name": "LOC646828"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7685969/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 7038,
+            "end_distance_bp": 25851,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.606129,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.606129
+          },
+          "evidence_id": "DBV-BL-006"
+        },
+        {
+          "record_id": "nsv6983400",
+          "uid": "55157178",
+          "study_id": "nstd229",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21553937,
+          "end": 21563565,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6983400/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 53182,
+            "end_distance_bp": 20691,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.115315,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.115315
+          },
+          "evidence_id": "DBV-BL-007"
+        },
+        {
+          "record_id": "nsv6997950",
+          "uid": "55171728",
+          "study_id": "nstd229",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21554957,
+          "end": 21561689,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6997950/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 54202,
+            "end_distance_bp": 22567,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.080633,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.080633
+          },
+          "evidence_id": "DBV-BL-008"
+        },
+        {
+          "record_id": "nsv6503113",
+          "uid": "54172558",
+          "study_id": "nstd223",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21576342,
+          "end": 21577793,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6503113/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 75587,
+            "end_distance_bp": 6463,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.017389,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.017389
+          },
+          "evidence_id": "DBV-BL-009"
+        },
+        {
+          "record_id": "nsv7693200",
+          "uid": "57315052",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "16",
+          "start": 21567067,
+          "end": 21601241,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 5,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 51108,
+              "name": "METTL9"
+            },
+            {
+              "id": 101927814,
+              "name": "LOC101927814"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7693200/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 66312,
+            "end_distance_bp": 16985,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.205863,
+            "reciprocal_overlap_database": 0.502999,
+            "size_similarity": 0.409272
+          },
+          "evidence_id": "DBV-BL-010"
+        }
+      ],
+      "search_uid_count": 50,
+      "search_results_truncated": true,
+      "compatible_record_count": 50,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-24T08:46:45.336915+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    "dgv_evidence": {
+      "source": "DGV Gold Standard",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "dataset": "dgvGold",
+      "access_backend": "UCSC Genome Browser API",
+      "data_version": "",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            21500255,
+            21584756
+          ]
+        }
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            21500255,
+            21501255
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            21583756,
+            21584756
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [
+        {
+          "record_id": "gssvG14123",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21518370,
+          "end": 21583079,
+          "frequency": "12.5%",
+          "num_unique_samples_tested": 32,
+          "num_samples_with_variant": 4,
+          "num_studies": 3,
+          "studies": [
+            "Park2010",
+            "Dogan2014",
+            "Kim2009"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 2,
+          "platforms": [
+            "Illumina_HiSeq",
+            "Agilent24M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 4,
+          "source_variant_ids": [
+            "nssv1422204",
+            "nssv1422983",
+            "nssv1418744",
+            "nssv3000051"
+          ],
+          "source_variant_ids_truncated": false,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21518369;end=21583079",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 17615,
+            "end_distance_bp": 1177,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.774951,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.774951
+          },
+          "evidence_id": "DGV-BL-001"
+        },
+        {
+          "record_id": "gssvG14113",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21469824,
+          "end": 21599245,
+          "frequency": "18.8652%",
+          "num_unique_samples_tested": 1410,
+          "num_samples_with_variant": 266,
+          "num_studies": 6,
+          "studies": [
+            "McCarroll2008",
+            "Vogler2010",
+            "Park2010",
+            "Perry2008",
+            "Conrad2009"
+          ],
+          "study_names_truncated": true,
+          "num_platforms": 5,
+          "platforms": [
+            "SOLiD",
+            "NimbleGen42M",
+            "AgilentCustom_015685+015686+244K",
+            "Affymetrix6.0",
+            "Agilent24M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 290,
+          "source_variant_ids": [
+            "essv60541",
+            "essv66162",
+            "essv53404",
+            "essv48851",
+            "essv66657"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21469823;end=21599245",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 30931,
+            "end_distance_bp": 14989,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.645192,
+            "size_similarity": 0.645192
+          },
+          "evidence_id": "DGV-BL-002"
+        },
+        {
+          "record_id": "gssvG14136",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21530364,
+          "end": 21558973,
+          "frequency": "97.2951%",
+          "num_unique_samples_tested": 2514,
+          "num_samples_with_variant": 2446,
+          "num_studies": 2,
+          "studies": [
+            "Sudmant2013",
+            "1000GenomesPhase3"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 2,
+          "platforms": [
+            "Multiple_NGS_Sequencing",
+            "Illumina_HiSeq"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 2465,
+          "source_variant_ids": [
+            "essv15408942",
+            "essv15408943",
+            "essv15408944",
+            "essv15408945",
+            "essv15408946"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21530363;end=21558973",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 29609,
+            "end_distance_bp": 25283,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.342627,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.342627
+          },
+          "evidence_id": "DGV-BL-003"
+        },
+        {
+          "record_id": "gssvG14147",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21557858,
+          "end": 21570813,
+          "frequency": "72.4279%",
+          "num_unique_samples_tested": 3674,
+          "num_samples_with_variant": 2661,
+          "num_studies": 3,
+          "studies": [
+            "Perry2008",
+            "Campbell2011",
+            "1000GenomesPhase3"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 3,
+          "platforms": [
+            "AgilentCustom_015685+015686+244K",
+            "AgilentCustom180K_v2.1+v3.0",
+            "Multiple_NGS_Sequencing"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 2944,
+          "source_variant_ids": [
+            "nssv2818696",
+            "nssv2818697",
+            "nssv2818698",
+            "nssv2818699",
+            "nssv2818700"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21557857;end=21570813",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 57103,
+            "end_distance_bp": 13443,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.155158,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.155158
+          },
+          "evidence_id": "DGV-BL-004"
+        },
+        {
+          "record_id": "gssvG14107",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21354234,
+          "end": 21592048,
+          "frequency": "13.6986%",
+          "num_unique_samples_tested": 73,
+          "num_samples_with_variant": 10,
+          "num_studies": 3,
+          "studies": [
+            "Park2010",
+            "Conrad2009",
+            "Cooper2008"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 3,
+          "platforms": [
+            "NimbleGen42M",
+            "Illumina1M",
+            "Agilent24M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 10,
+          "source_variant_ids": [
+            "nssv463318",
+            "nssv1427091",
+            "nssv1428678",
+            "nssv1429442",
+            "essv62520"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21354233;end=21592048",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 146521,
+            "end_distance_bp": 7792,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.351122,
+            "size_similarity": 0.351122
+          },
+          "evidence_id": "DGV-BL-005"
+        },
+        {
+          "record_id": "gssvG14106",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21522983,
+          "end": 21828019,
+          "frequency": "0.111337%",
+          "num_unique_samples_tested": 15269,
+          "num_samples_with_variant": 17,
+          "num_studies": 4,
+          "studies": [
+            "Coe2014",
+            "Cooper2011",
+            "1000GenomesPhase3",
+            "Perry2008"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 4,
+          "platforms": [
+            "Affymetrix_6.0",
+            "Custom_Illumina_1.2M",
+            "AgilentCustom_015685+015686+244K",
+            "Multiple_NGS_Sequencing"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 18,
+          "source_variant_ids": [
+            "nssv3548140",
+            "nssv26078",
+            "nssv3548142",
+            "nssv3548155",
+            "nssv3719308"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21522982;end=21828019",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 22228,
+            "end_distance_bp": 243763,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.733803,
+            "reciprocal_overlap_database": 0.200874,
+            "size_similarity": 0.273744
+          },
+          "evidence_id": "DGV-BL-006"
+        },
+        {
+          "record_id": "gssvG14104",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "16",
+          "start": 21348981,
+          "end": 21935026,
+          "frequency": "0.135542%",
+          "num_unique_samples_tested": 13280,
+          "num_samples_with_variant": 18,
+          "num_studies": 5,
+          "studies": [
+            "Uddin2014",
+            "Coe2014",
+            "Vogler2010",
+            "Conrad2009",
+            "Cooper2008"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 5,
+          "platforms": [
+            "CytoScanHD_2.7M",
+            "Affymetrix6.0",
+            "Affymetrix_6.0",
+            "Illumina1M",
+            "NimbleGen42M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 19,
+          "source_variant_ids": [
+            "nssv463319",
+            "nssv3548052",
+            "nssv3548053",
+            "nssv3548062",
+            "nssv3548063"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21348980;end=21935026",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_distance_bp": 151774,
+            "end_distance_bp": 350770,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.142484,
+            "size_similarity": 0.142484
+          },
+          "evidence_id": "DGV-BL-007"
+        }
+      ],
+      "raw_region_record_count": 12,
+      "compatible_record_count": 7,
+      "returned_record_count": 7,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+      "source_url": "https://dgv.tcag.ca/dgv/app/downloads",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    "artifact_risk": {
+      "overall_risk": "medium",
+      "risk_items": [
+        {
+          "risk_type": "low_call_rate",
+          "status": "unknown",
+          "impact": "Missingness can produce spurious population differences.",
+          "recommended_check": "Calculate call rate per cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "single_caller_support",
+          "status": "unknown",
+          "impact": "A call from one algorithm may reflect caller-specific bias.",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay.",
+          "evidence": null
+        },
+        {
+          "risk_type": "repeat_region",
+          "status": "present",
+          "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+          "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": null,
+            "end_repeat_count": 10
+          }
+        },
+        {
+          "risk_type": "low_mappability",
+          "status": "unknown",
+          "impact": "Low-mappability sequence can create ambiguous alignments.",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track.",
+          "evidence": null
+        },
+        {
+          "risk_type": "supporting_reads",
+          "status": "unknown",
+          "impact": "Weak read support increases false-positive risk.",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds.",
+          "evidence": null
+        },
+        {
+          "risk_type": "genotype_quality",
+          "status": "unknown",
+          "impact": "Low or missing genotype quality weakens frequency estimates.",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "batch_effect",
+          "status": "unknown",
+          "impact": "Unequal pipelines or batches can mimic population differentiation.",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts.",
+          "evidence": null
+        }
+      ]
+    },
+    "retrieved_at": "2026-09-24T08:47:47.054324+00:00",
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states."
+    ]
+  },
+  "adaptive_tool_results": [
+    {
+      "action": "QUERY_TRANSCRIPTS",
+      "evidence_gap": "The baseline Ensembl gene overlap list was truncated, and VEP timed out. It is currently unclear if any protein-coding genes or transcripts are located within the 83.5 kb duplication region (GRCh38 16:21500755-21584256), which is critical for determining the biological and clinical relevance of this variant.",
+      "reason": "Querying transcripts directly across the nominal interval will resolve the truncation and timeout gaps from the baseline Ensembl gene and VEP queries.",
+      "expected_information_gain": "Identifying any protein-coding transcripts inside this region would help determine if the duplication overlaps functional coding exons, which could point to potential dosage sensitivity (triplosensitivity) or disrupt a gene, as opposed to only containing pseudogenes and non-coding RNAs.",
+      "attempted_at": "2026-09-24T08:47:59.289962+00:00",
+      "status": "executed",
+      "result_status": "found",
+      "queries_used": 1,
+      "queries_remaining": 1,
+      "result": {
+        "status": "executed",
+        "action": "QUERY_TRANSCRIPTS",
+        "candidate_fields_unchanged": true,
+        "result": {
+          "source": "Ensembl",
+          "action": "QUERY_TRANSCRIPTS",
+          "status": "found",
+          "results": [
+            {
+              "role": "nominal",
+              "query_region": "16:21500755-21584256",
+              "feature": "transcript",
+              "status": "found",
+              "records": [
+                {
+                  "strand": -1,
+                  "start": 21506049,
+                  "logic_name": "ncrna_homo_sapiens",
+                  "is_canonical": 1,
+                  "version": 1,
+                  "id": "ENST00000581433",
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "Parent": "ENSG00000265462",
+                  "transcript_support_level": "NA",
+                  "biotype": "miRNA",
+                  "source": "mirbase",
+                  "transcript_id": "ENST00000581433",
+                  "external_name": "MIR3680-1-201",
+                  "seq_region_name": "16",
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "end": 21506135,
+                  "feature_type": "transcript",
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-001",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "seq_region_name": "16",
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "feature_type": "transcript",
+                  "end": 21515131,
+                  "biotype": "lncRNA",
+                  "Parent": "ENSG00000287809",
+                  "transcript_id": "ENST00000654954",
+                  "source": "havana_tagene",
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "id": "ENST00000654954",
+                  "version": 1,
+                  "is_canonical": 1,
+                  "strand": 1,
+                  "logic_name": "havana_tagene_homo_sapiens",
+                  "start": 21511635,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-002",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "biotype": "transcribed_processed_pseudogene",
+                  "transcript_support_level": "NA",
+                  "Parent": "ENSG00000258186",
+                  "transcript_id": "ENST00000553010",
+                  "source": "havana",
+                  "external_name": "SLC7A5P2-201",
+                  "seq_region_name": "16",
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "feature_type": "transcript",
+                  "end": 21520365,
+                  "is_canonical": 1,
+                  "strand": -1,
+                  "logic_name": "havana_homo_sapiens",
+                  "start": 21519830,
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "id": "ENST00000553010",
+                  "version": 2,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-003",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "source": "havana",
+                  "transcript_id": "ENST00000605544",
+                  "Parent": "ENSG00000271609",
+                  "transcript_support_level": "NA",
+                  "biotype": "processed_pseudogene",
+                  "end": 21538794,
+                  "feature_type": "transcript",
+                  "seq_region_name": "16",
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "strand": 1,
+                  "start": 21538487,
+                  "logic_name": "havana_homo_sapiens",
+                  "is_canonical": 1,
+                  "version": 1,
+                  "id": "ENST00000605544",
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-004",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "feature_type": "transcript",
+                  "end": 21501886,
+                  "external_name": "SMG1P3-201",
+                  "seq_region_name": "16",
+                  "description": null,
+                  "assembly_name": "GRCh38",
+                  "transcript_id": "ENST00000522480",
+                  "source": "havana",
+                  "biotype": "transcribed_unprocessed_pseudogene",
+                  "transcript_support_level": "NA",
+                  "Parent": "ENSG00000180747",
+                  "id": "ENST00000522480",
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "version": 5,
+                  "is_canonical": 1,
+                  "strand": -1,
+                  "logic_name": "havana_homo_sapiens",
+                  "start": 21447078,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-005",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "description": null,
+                  "assembly_name": "GRCh38",
+                  "seq_region_name": "16",
+                  "feature_type": "transcript",
+                  "end": 21550373,
+                  "biotype": "transcribed_unprocessed_pseudogene",
+                  "transcript_support_level": "NA",
+                  "Parent": "ENSG00000257639",
+                  "transcript_id": "ENST00000550637",
+                  "source": "havana",
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "id": "ENST00000550637",
+                  "version": 1,
+                  "is_canonical": 1,
+                  "start": 21532945,
+                  "logic_name": "havana_homo_sapiens",
+                  "strand": -1,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-006",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "tag": [
+                    "gencode_basic"
+                  ],
+                  "id": "ENST00000520823",
+                  "version": 7,
+                  "is_canonical": 0,
+                  "strand": -1,
+                  "start": 21446683,
+                  "logic_name": "havana_tagene_homo_sapiens",
+                  "seq_region_name": "16",
+                  "description": null,
+                  "assembly_name": "GRCh38",
+                  "feature_type": "transcript",
+                  "end": 21502260,
+                  "biotype": "lncRNA",
+                  "transcript_support_level": "5 (assigned to previous version 6)",
+                  "Parent": "ENSG00000291073",
+                  "transcript_id": "ENST00000520823",
+                  "source": "havana_tagene",
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-007",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "feature_type": "transcript",
+                  "end": 21520143,
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "seq_region_name": "16",
+                  "source": "havana_tagene",
+                  "transcript_id": "ENST00000789757",
+                  "Parent": "ENSG00000291073",
+                  "biotype": "lncRNA",
+                  "version": 1,
+                  "tag": [
+                    "gencode_basic",
+                    "Ensembl_canonical",
+                    "gencode_primary"
+                  ],
+                  "id": "ENST00000789757",
+                  "logic_name": "havana_tagene_homo_sapiens",
+                  "start": 21453008,
+                  "strand": -1,
+                  "is_canonical": 1,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-008",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "feature_type": "transcript",
+                  "end": 21520444,
+                  "assembly_name": "GRCh38",
+                  "description": null,
+                  "seq_region_name": "16",
+                  "source": "havana",
+                  "transcript_id": "ENST00000522841",
+                  "Parent": "ENSG00000291073",
+                  "transcript_support_level": "2",
+                  "biotype": "lncRNA",
+                  "version": 6,
+                  "tag": [
+                    "gencode_basic"
+                  ],
+                  "id": "ENST00000522841",
+                  "start": 21463205,
+                  "logic_name": "havana_homo_sapiens",
+                  "strand": -1,
+                  "is_canonical": 0,
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-009",
+                  "breakpoint_role": "nominal"
+                },
+                {
+                  "Parent": "ENSG00000291073",
+                  "biotype": "lncRNA",
+                  "strand": -1,
+                  "start": 21463537,
+                  "source": "havana_tagene",
+                  "logic_name": "havana_tagene_homo_sapiens",
+                  "is_canonical": 0,
+                  "transcript_id": "ENST00000789769",
+                  "seq_region_name": "16",
+                  "description": null,
+                  "assembly_name": "GRCh38",
+                  "version": 1,
+                  "end": 21502243,
+                  "feature_type": "transcript",
+                  "id": "ENST00000789769",
+                  "evidence_id": "ENS-ADP-NOMINAL-TRANSCRIPT-010",
+                  "breakpoint_role": "nominal"
+                }
+              ],
+              "error": null,
+              "source_url": "https://rest.ensembl.org/overlap/region/human/16:21500755-21584256?feature=transcript",
+              "truncated": true,
+              "attempts": 1
+            }
+          ],
+          "retrieved_at": "2026-09-24T08:48:08.540309+00:00",
+          "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence."
+        }
+      }
+    },
+    {
+      "action": "QUERY_NEAREST_GENE_50KB",
+      "evidence_gap": "Since the baseline Ensembl VEP query timed out and the region overlap results only showed non-coding RNAs and pseudogenes inside the duplication, we lack proximity data for any nearby protein-coding genes (such as OTOA, which is noted in the overlapping ClinGen region) that may be located close to the breakpoints.",
+      "reason": "Querying nearest genes within 50 kb will identify any adjacent protein-coding genes, providing context for potential positional effects or overlap with the nearby ClinGen recurrent region.",
+      "expected_information_gain": "Identifying protein-coding genes within 50 kb of the duplication boundaries (such as OTOA or METTL9, seen in dbVar records) will help clarify whether the duplication breakpoints could disrupt nearby genes or their regulatory elements.",
+      "attempted_at": "2026-09-24T08:48:16.084494+00:00",
+      "status": "executed",
+      "result_status": "error",
+      "queries_used": 2,
+      "queries_remaining": 0,
+      "result": {
+        "status": "executed",
+        "action": "QUERY_NEAREST_GENE_50KB",
+        "candidate_fields_unchanged": true,
+        "result": {
+          "source": "Ensembl",
+          "action": "QUERY_NEAREST_GENE_50KB",
+          "status": "error",
+          "retrieval_padding_bp": 50000,
+          "results": [
+            {
+              "role": "expanded_region",
+              "query_region": "16:21450755-21634256",
+              "feature": "gene",
+              "status": "error",
+              "records": null,
+              "error": "HTTP 500",
+              "source_url": "https://rest.ensembl.org/overlap/region/human/16:21450755-21634256?feature=gene",
+              "truncated": false,
+              "attempts": 2
+            }
+          ],
+          "retrieved_at": "2026-09-24T08:48:21.044815+00:00",
+          "limitations": "Nearest means coordinate distance within the requested search radius; it does not imply regulation or causality."
+        }
+      }
+    }
+  ],
+  "literature_tool_results": [
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query": "21500755 OR 21584256 OR gssvG14372 OR ISCA-46691",
+      "records": [
+        {
+          "pmid": "21584256",
+          "title": "Brainstorm: a user-friendly application for MEG/EEG analysis.",
+          "authors": [
+            "Tadel F",
+            "Baillet S",
+            "Mosher JC"
+          ],
+          "author_count": 5,
+          "authors_truncated": true,
+          "source": "Comput Intell Neurosci",
+          "pubdate": "2011",
+          "doi": "10.1155/2011/879716",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/21584256/",
+          "evidence_id": "PMID-21584256"
+        },
+        {
+          "pmid": "21500755",
+          "title": "Improving identification and documentation of pressure ulcers at an urban academic hospital.",
+          "authors": [
+            "Dahlstrom M",
+            "Best T",
+            "Baker C"
+          ],
+          "author_count": 7,
+          "authors_truncated": true,
+          "source": "Jt Comm J Qual Patient Saf",
+          "pubdate": "2011 Mar",
+          "doi": "10.1016/s1553-7250(11)37015-8",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/21500755/",
+          "evidence_id": "PMID-21500755"
+        }
+      ],
+      "retrieved_at": "2026-09-24T08:48:33.993713+00:00",
+      "summary_records_missing": 0,
+      "limitations": "Metadata does not prove that the full text supports a biological claim.",
+      "query_budget": 3,
+      "queries_used": 1,
+      "queries_remaining": 2,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 2
+    },
+    {
+      "source": "PubMed",
+      "status": "not_found",
+      "query": "(SMG1P3 OR SLC7A5P2 OR MIR3680) AND (duplication OR \"copy number\")",
+      "records": [],
+      "retrieved_at": "2026-09-24T08:48:37.839699+00:00",
+      "query_budget": 3,
+      "queries_used": 2,
+      "queries_remaining": 1,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 0
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query": "OTOA AND (duplication OR \"copy number\")",
+      "records": [
+        {
+          "pmid": "28000701",
+          "title": "The diagnostic yield of whole-exome sequencing targeting a gene panel for hearing impairment in The Netherlands.",
+          "authors": [
+            "Zazo Seco C",
+            "Wesdorp M",
+            "Feenstra I"
+          ],
+          "author_count": 30,
+          "authors_truncated": true,
+          "source": "Eur J Hum Genet",
+          "pubdate": "2017 Feb",
+          "doi": "10.1038/ejhg.2016.182",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/28000701/",
+          "evidence_id": "PMID-28000701"
+        },
+        {
+          "pmid": "36147510",
+          "title": "Genomic study of nonsyndromic hearing loss in unaffected individuals: Frequency of pathogenic and likely pathogenic variants in a Brazilian cohort of 2,097 genomes.",
+          "authors": [
+            "Quaio CRAC",
+            "Coelho AVC",
+            "Moura LMS"
+          ],
+          "author_count": 27,
+          "authors_truncated": true,
+          "source": "Front Genet",
+          "pubdate": "2022",
+          "doi": "10.3389/fgene.2022.921324",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36147510/",
+          "evidence_id": "PMID-36147510"
+        },
+        {
+          "pmid": "27068579",
+          "title": "DNA Diagnostics of Hereditary Hearing Loss: A Targeted Resequencing Approach Combined with a Mutation Classification System.",
+          "authors": [
+            "Sommen M",
+            "Schrauwen I",
+            "Vandeweyer G"
+          ],
+          "author_count": 20,
+          "authors_truncated": true,
+          "source": "Hum Mutat",
+          "pubdate": "2016 Aug",
+          "doi": "10.1002/humu.22999",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27068579/",
+          "evidence_id": "PMID-27068579"
+        },
+        {
+          "pmid": "31527525",
+          "title": "Mid-Frequency Hearing Loss Is Characteristic Clinical Feature of OTOA-Associated Hearing Loss.",
+          "authors": [
+            "Sugiyama K",
+            "Moteki H",
+            "Kitajiri SI"
+          ],
+          "author_count": 15,
+          "authors_truncated": true,
+          "source": "Genes (Basel)",
+          "pubdate": "2019 Sep 16",
+          "doi": "10.3390/genes10090715",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/31527525/",
+          "evidence_id": "PMID-31527525"
+        },
+        {
+          "pmid": "37114731",
+          "title": "[Phenotype-genotype analysis of the autosomal recessive hereditary hearing loss caused by OTOA variations].",
+          "authors": [
+            "Yang JY",
+            "Wang QQ",
+            "Han MY"
+          ],
+          "author_count": 9,
+          "authors_truncated": true,
+          "source": "Zhonghua Er Bi Yan Hou Tou Jing Wai Ke Za Zhi",
+          "pubdate": "2023 May 7",
+          "doi": "10.3760/cma.j.cn115330-20220620-00361",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/37114731/",
+          "evidence_id": "PMID-37114731"
+        }
+      ],
+      "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+      "summary_records_missing": 0,
+      "limitations": "Metadata does not prove that the full text supports a biological claim.",
+      "query_budget": 3,
+      "queries_used": 3,
+      "queries_remaining": 0,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 5
+    }
+  ],
+  "literature_query_keys": [
+    "21500755 or 21584256 or gssvg14372 or isca-46691",
+    "(smg1p3 or slc7a5p2 or mir3680) and (duplication or \"copy number\")",
+    "otoa and (duplication or \"copy number\")"
+  ],
+  "adaptive_investigation": "```json\n{\n  \"decision\": \"stop\",\n  \"evidence_gaps\": [\n    \"The baseline Ensembl gene overlap was truncated, and the VEP query timed out, leaving ambiguity about the presence of protein-coding transcripts within the duplication.\",\n    \"Proximity to nearby functional genes (such as OTOA in the overlapping ClinGen recurrent region) remains partially uncharacterized due to server-side query errors.\"\n  ],\n  \"executed_actions\": [\n    \"QUERY_TRANSCRIPTS\",\n    \"QUERY_NEAREST_GENE_50KB\"\n  ],\n  \"stop_reason\": \"The two-call adaptive inquiry budget has been fully exhausted.\",\n  \"remaining_limitations\": [\n    \"Ensembl transcript results were truncated due to REST API limits, though they confirmed multiple lncRNAs, pseudogenes, and miRNAs within the region.\",\n    \"The 50 kb nearest-gene query failed with an HTTP 500 error from the Ensembl REST API, meaning nearby coding genes outside the duplication coordinates are not exhaustively annotated in this session.\"\n  ]\n}\n```",
+  "literature_evidence": "```json\n{\n  \"queries\": [\n    {\n      \"query\": \"21500755 OR 21584256 OR gssvG14123 OR ISCA-46691\",\n      \"reason\": \"Search for coordinate match numbers or ClinGen dosage region identifiers to find exact structural variant reference papers.\",\n      \"evidence_ids\": [\n        \"PMID-21584256\",\n        \"PMID-21500755\"\n      ]\n    },\n    {\n      \"query\": \"(SMG1P3 OR SLC7A5P2 OR MIR3680) AND (duplication OR \\\"copy number\\\")\",\n      \"reason\": \"Search for duplication papers involving the non-coding and pseudogene features located directly inside the duplication interval.\",\n      \"evidence_ids\": []\n    },\n    {\n      \"query\": \"OTOA AND (duplication OR \\\"copy number\\\")\",\n      \"reason\": \"Search for duplication or copy number variants in the adjacent OTOA gene which is part of the overlapping ClinGen 16p12.2 recurrent distal region (BP1-BP2).\",\n      \"evidence_ids\": [\n        \"PMID-28000701\",\n        \"PMID-36147510\",\n        \"PMID-27068579\",\n        \"PMID-31527525\",\n        \"PMID-37114731\"\n      ]\n    }\n  ],\n  \"missing_sources\": [\n    \"GO\",\n    \"Reactome\",\n    \"GWAS Catalog\"\n  ],\n  \"limitations\": [\n    \"Searching PubMed directly using exact genomic coordinate numbers (e.g., 21500755, 21584256) returns false-positive publications where the coordinates match the PMID numbers (PMID-21500755 and PMID-21584256 are completely unrelated to chromosome 16 microduplications).\",\n    \"No direct peer-reviewed literature was found specifically describing duplications of the internal non-coding genes or pseudogenes (SMG1P3, SLC7A5P2, MIR3680-1) inside this population region.\",\n    \"The OTOA search yields literature on hereditary hearing loss and copy number variations in the region, but these primarily reflect the overlapping pathogenic distal recurrent region (ISCA-46297) rather than proving clinical significance for this specific benign/population duplication (ISCA-46691).\"\n  ]\n}\n```",
+  "evidence_view": {
+    "status": "ready",
+    "record_count": 21,
+    "total_record_count": 85,
+    "records_by_id": {
+      "CGD-BL-001": {
+        "record_id": "ISCA-46691",
+        "entity": "16p12.2 population region (DGV_Gold_Standard_June_2021_gssvG14372)",
+        "entity_type": "region",
+        "chrom": "16",
+        "start": 21500755,
+        "end": 21584256,
+        "haploinsufficiency": {
+          "assessment": "No Evidence for Haploinsufficiency",
+          "score": 0
+        },
+        "triplosensitivity": {
+          "assessment": "",
+          "score": null
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "",
+        "curation_date": "2021-08-04T15:10:21-04:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46691",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 0,
+          "end_distance_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "CGD-BL-001"
+      },
+      "CGD-BL-002": {
+        "record_id": "ISCA-46297",
+        "entity": "16p12.2 recurrent region (distal, BP1-BP2) (includes OTOA)",
+        "entity_type": "region",
+        "chrom": "16",
+        "start": 21558792,
+        "end": 21729102,
+        "haploinsufficiency": {
+          "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+          "score": 30
+        },
+        "triplosensitivity": {
+          "assessment": "",
+          "score": null
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "",
+        "curation_date": "2025-07-18T22:05:30-04:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46297",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 58037,
+          "end_distance_bp": 144846,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.304963,
+          "reciprocal_overlap_database": 0.149521,
+          "size_similarity": 0.490291
+        },
+        "evidence_id": "CGD-BL-002"
+      },
+      "DGV-BL-001": {
+        "record_id": "gssvG14123",
+        "variant_type": "CNV",
+        "variant_sub_type": "Gain",
+        "chrom": "16",
+        "start": 21518370,
+        "end": 21583079,
+        "frequency": "12.5%",
+        "num_unique_samples_tested": 32,
+        "num_samples_with_variant": 4,
+        "num_studies": 3,
+        "studies": [
+          "Park2010",
+          "Dogan2014",
+          "Kim2009"
+        ],
+        "study_names_truncated": false,
+        "num_platforms": 2,
+        "platforms": [
+          "Illumina_HiSeq",
+          "Agilent24M"
+        ],
+        "platform_names_truncated": false,
+        "num_source_variants": 4,
+        "source_variant_ids": [
+          "nssv1422204",
+          "nssv1422983",
+          "nssv1418744",
+          "nssv3000051"
+        ],
+        "source_variant_ids_truncated": false,
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21518369;end=21583079",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 17615,
+          "end_distance_bp": 1177,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.774951,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.774951
+        },
+        "evidence_id": "DGV-BL-001"
+      },
+      "DGV-BL-002": {
+        "record_id": "gssvG14113",
+        "variant_type": "CNV",
+        "variant_sub_type": "Gain",
+        "chrom": "16",
+        "start": 21469824,
+        "end": 21599245,
+        "frequency": "18.8652%",
+        "num_unique_samples_tested": 1410,
+        "num_samples_with_variant": 266,
+        "num_studies": 6,
+        "studies": [
+          "McCarroll2008",
+          "Vogler2010",
+          "Park2010",
+          "Perry2008",
+          "Conrad2009"
+        ],
+        "study_names_truncated": true,
+        "num_platforms": 5,
+        "platforms": [
+          "SOLiD",
+          "NimbleGen42M",
+          "AgilentCustom_015685+015686+244K",
+          "Affymetrix6.0",
+          "Agilent24M"
+        ],
+        "platform_names_truncated": false,
+        "num_source_variants": 290,
+        "source_variant_ids": [
+          "essv60541",
+          "essv66162",
+          "essv53404",
+          "essv48851",
+          "essv66657"
+        ],
+        "source_variant_ids_truncated": true,
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21469823;end=21599245",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 30931,
+          "end_distance_bp": 14989,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.645192,
+          "size_similarity": 0.645192
+        },
+        "evidence_id": "DGV-BL-002"
+      },
+      "DGV-BL-003": {
+        "record_id": "gssvG14136",
+        "variant_type": "CNV",
+        "variant_sub_type": "Gain",
+        "chrom": "16",
+        "start": 21530364,
+        "end": 21558973,
+        "frequency": "97.2951%",
+        "num_unique_samples_tested": 2514,
+        "num_samples_with_variant": 2446,
+        "num_studies": 2,
+        "studies": [
+          "Sudmant2013",
+          "1000GenomesPhase3"
+        ],
+        "study_names_truncated": false,
+        "num_platforms": 2,
+        "platforms": [
+          "Multiple_NGS_Sequencing",
+          "Illumina_HiSeq"
+        ],
+        "platform_names_truncated": false,
+        "num_source_variants": 2465,
+        "source_variant_ids": [
+          "essv15408942",
+          "essv15408943",
+          "essv15408944",
+          "essv15408945",
+          "essv15408946"
+        ],
+        "source_variant_ids_truncated": true,
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21530363;end=21558973",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 29609,
+          "end_distance_bp": 25283,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.342627,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.342627
+        },
+        "evidence_id": "DGV-BL-003"
+      },
+      "DGV-BL-004": {
+        "record_id": "gssvG14147",
+        "variant_type": "CNV",
+        "variant_sub_type": "Gain",
+        "chrom": "16",
+        "start": 21557858,
+        "end": 21570813,
+        "frequency": "72.4279%",
+        "num_unique_samples_tested": 3674,
+        "num_samples_with_variant": 2661,
+        "num_studies": 3,
+        "studies": [
+          "Perry2008",
+          "Campbell2011",
+          "1000GenomesPhase3"
+        ],
+        "study_names_truncated": false,
+        "num_platforms": 3,
+        "platforms": [
+          "AgilentCustom_015685+015686+244K",
+          "AgilentCustom180K_v2.1+v3.0",
+          "Multiple_NGS_Sequencing"
+        ],
+        "platform_names_truncated": false,
+        "num_source_variants": 2944,
+        "source_variant_ids": [
+          "nssv2818696",
+          "nssv2818697",
+          "nssv2818698",
+          "nssv2818699",
+          "nssv2818700"
+        ],
+        "source_variant_ids_truncated": true,
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21557857;end=21570813",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_distance_bp": 57103,
+          "end_distance_bp": 13443,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.155158,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.155158
+        },
+        "evidence_id": "DGV-BL-004"
+      },
+      "ENS-BL-END-REGULATORY-001": {
+        "end": 21584469,
+        "id": "ENSR16_9BKBF",
+        "description": "enhancer",
+        "feature_type": "regulatory",
+        "source": "Ensembl",
+        "start": 21584039,
+        "strand": 0,
+        "seq_region_name": "16",
+        "extended_end": 21584469,
+        "extended_start": 21584039,
+        "evidence_id": "ENS-BL-END-REGULATORY-001",
+        "breakpoint_role": "end"
+      },
+      "ENS-BL-END-REGULATORY-002": {
+        "extended_end": 21584176,
+        "extended_start": 21584155,
+        "strand": -1,
+        "seq_region_name": "16",
+        "end": 21584176,
+        "description": "CTCF_binding_site",
+        "id": "ENSR16_5743ZN",
+        "source": "Ensembl",
+        "feature_type": "regulatory",
+        "start": 21584155,
+        "evidence_id": "ENS-BL-END-REGULATORY-002",
+        "breakpoint_role": "end"
+      },
+      "ENS-BL-END-REPEAT-001": {
+        "start": 21583708,
+        "feature_type": "repeat",
+        "description": "AluJr",
+        "seq_region_name": "16",
+        "end": 21583826,
+        "strand": 1,
+        "assembly_name": "GRCh38",
+        "evidence_id": "ENS-BL-END-REPEAT-001",
+        "breakpoint_role": "end"
+      },
+      "ENS-BL-NOMINAL-GENE-001": {
+        "external_name": "MIR3680-1",
+        "id": "ENSG00000265462",
+        "logic_name": "ncrna_homo_sapiens",
+        "feature_type": "gene",
+        "version": 1,
+        "start": 21506049,
+        "end": 21506135,
+        "gene_id": "ENSG00000265462",
+        "source": "mirbase",
+        "canonical_transcript": "ENST00000581433.1",
+        "description": "microRNA 3680-1 [Source:HGNC Symbol;Acc:HGNC:38989]",
+        "strand": -1,
+        "assembly_name": "GRCh38",
+        "biotype": "miRNA",
+        "seq_region_name": "16",
+        "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+        "breakpoint_role": "nominal"
+      },
+      "ENS-BL-NOMINAL-GENE-003": {
+        "end": 21520365,
+        "feature_type": "gene",
+        "version": 2,
+        "start": 21519830,
+        "logic_name": "havana_homo_sapiens",
+        "id": "ENSG00000258186",
+        "external_name": "SLC7A5P2",
+        "seq_region_name": "16",
+        "biotype": "transcribed_processed_pseudogene",
+        "assembly_name": "GRCh38",
+        "strand": -1,
+        "canonical_transcript": "ENST00000553010.2",
+        "description": "solute carrier family 7 member 5 pseudogene 2 [Source:HGNC Symbol;Acc:HGNC:24951]",
+        "source": "havana",
+        "gene_id": "ENSG00000258186",
+        "evidence_id": "ENS-BL-NOMINAL-GENE-003",
+        "breakpoint_role": "nominal"
+      },
+      "ENS-BL-NOMINAL-GENE-005": {
+        "seq_region_name": "16",
+        "biotype": "transcribed_unprocessed_pseudogene",
+        "canonical_transcript": "ENST00000522480.5",
+        "description": "SMG1 pseudogene 3 [Source:HGNC Symbol;Acc:HGNC:49860]",
+        "strand": -1,
+        "gene_id": "ENSG00000180747",
+        "source": "havana",
+        "assembly_name": "GRCh38",
+        "feature_type": "gene",
+        "start": 21447078,
+        "version": 16,
+        "logic_name": "havana_homo_sapiens",
+        "end": 21501886,
+        "external_name": "SMG1P3",
+        "id": "ENSG00000180747",
+        "evidence_id": "ENS-BL-NOMINAL-GENE-005",
+        "breakpoint_role": "nominal"
+      },
+      "GNO-BL-002": {
+        "variant_id": "DUP_chr16_6602690e",
+        "chrom": "16",
+        "chrom2": "16",
+        "pos": 21496486,
+        "end": 21505893,
+        "pos2": null,
+        "end2": null,
+        "length": 9407,
+        "type": "DUP",
+        "consequence": "intergenic",
+        "ac": 25363,
+        "an": 45648,
+        "af": 0.555621,
+        "ac_hom": 9301,
+        "ac_hemi": 0,
+        "filters": [
+          "HIGH_NCR"
+        ],
+        "match_type": "region_overlap",
+        "match_metrics": {
+          "start_distance_bp": 4269,
+          "end_distance_bp": 78363,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.061543,
+          "reciprocal_overlap_database": 0.546237,
+          "size_similarity": 0.112668
+        },
+        "same_event_established": false,
+        "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+        "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_6602690e?dataset=gnomad_sv_r4",
+        "evidence_id": "GNO-BL-002"
+      },
+      "PMID-21500755": {
+        "pmid": "21500755",
+        "title": "Improving identification and documentation of pressure ulcers at an urban academic hospital.",
+        "authors": [
+          "Dahlstrom M",
+          "Best T",
+          "Baker C"
+        ],
+        "author_count": 7,
+        "authors_truncated": true,
+        "source": "Jt Comm J Qual Patient Saf",
+        "pubdate": "2011 Mar",
+        "doi": "10.1016/s1553-7250(11)37015-8",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/21500755/",
+        "evidence_id": "PMID-21500755"
+      },
+      "PMID-21584256": {
+        "pmid": "21584256",
+        "title": "Brainstorm: a user-friendly application for MEG/EEG analysis.",
+        "authors": [
+          "Tadel F",
+          "Baillet S",
+          "Mosher JC"
+        ],
+        "author_count": 5,
+        "authors_truncated": true,
+        "source": "Comput Intell Neurosci",
+        "pubdate": "2011",
+        "doi": "10.1155/2011/879716",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/21584256/",
+        "evidence_id": "PMID-21584256"
+      },
+      "PMID-27068579": {
+        "pmid": "27068579",
+        "title": "DNA Diagnostics of Hereditary Hearing Loss: A Targeted Resequencing Approach Combined with a Mutation Classification System.",
+        "authors": [
+          "Sommen M",
+          "Schrauwen I",
+          "Vandeweyer G"
+        ],
+        "author_count": 20,
+        "authors_truncated": true,
+        "source": "Hum Mutat",
+        "pubdate": "2016 Aug",
+        "doi": "10.1002/humu.22999",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27068579/",
+        "evidence_id": "PMID-27068579"
+      },
+      "PMID-28000701": {
+        "pmid": "28000701",
+        "title": "The diagnostic yield of whole-exome sequencing targeting a gene panel for hearing impairment in The Netherlands.",
+        "authors": [
+          "Zazo Seco C",
+          "Wesdorp M",
+          "Feenstra I"
+        ],
+        "author_count": 30,
+        "authors_truncated": true,
+        "source": "Eur J Hum Genet",
+        "pubdate": "2017 Feb",
+        "doi": "10.1038/ejhg.2016.182",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28000701/",
+        "evidence_id": "PMID-28000701"
+      },
+      "PMID-31527525": {
+        "pmid": "31527525",
+        "title": "Mid-Frequency Hearing Loss Is Characteristic Clinical Feature of OTOA-Associated Hearing Loss.",
+        "authors": [
+          "Sugiyama K",
+          "Moteki H",
+          "Kitajiri SI"
+        ],
+        "author_count": 15,
+        "authors_truncated": true,
+        "source": "Genes (Basel)",
+        "pubdate": "2019 Sep 16",
+        "doi": "10.3390/genes10090715",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31527525/",
+        "evidence_id": "PMID-31527525"
+      },
+      "PMID-36147510": {
+        "pmid": "36147510",
+        "title": "Genomic study of nonsyndromic hearing loss in unaffected individuals: Frequency of pathogenic and likely pathogenic variants in a Brazilian cohort of 2,097 genomes.",
+        "authors": [
+          "Quaio CRAC",
+          "Coelho AVC",
+          "Moura LMS"
+        ],
+        "author_count": 27,
+        "authors_truncated": true,
+        "source": "Front Genet",
+        "pubdate": "2022",
+        "doi": "10.3389/fgene.2022.921324",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/36147510/",
+        "evidence_id": "PMID-36147510"
+      },
+      "PMID-37114731": {
+        "pmid": "37114731",
+        "title": "[Phenotype-genotype analysis of the autosomal recessive hereditary hearing loss caused by OTOA variations].",
+        "authors": [
+          "Yang JY",
+          "Wang QQ",
+          "Han MY"
+        ],
+        "author_count": 9,
+        "authors_truncated": true,
+        "source": "Zhonghua Er Bi Yan Hou Tou Jing Wai Ke Za Zhi",
+        "pubdate": "2023 May 7",
+        "doi": "10.3760/cma.j.cn115330-20220620-00361",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37114731/",
+        "evidence_id": "PMID-37114731"
+      },
+      "QC-BL-003": {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+        "evidence": {
+          "scope": "breakpoint_windows",
+          "start_repeat_count": null,
+          "end_repeat_count": 10
+        },
+        "evidence_id": "QC-BL-003"
+      }
+    },
+    "source_context": {
+      "baseline_evidence": {
+        "status": "complete",
+        "collection_policy": "deterministic_non_optional_baseline",
+        "region_annotation": {
+          "source": "Ensembl",
+          "status": "found",
+          "completeness": "partial",
+          "errors": {
+            "repeat": "TimeoutError"
+          },
+          "truncated": {
+            "gene": true,
+            "regulatory": true,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 2,
+            "regulatory": 2,
+            "repeat": 2
+          },
+          "breakpoint_annotations": {
+            "start": {
+              "source": "heuristic_fallback",
+              "errors": {
+                "gene": "TimeoutError",
+                "repeat": "TimeoutError"
+              },
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": false
+              },
+              "attempts": {
+                "gene": 2,
+                "regulatory": 1,
+                "repeat": 2
+              },
+              "completeness": "partial"
+            },
+            "end": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": true
+              },
+              "attempts": {
+                "gene": 2,
+                "regulatory": 2,
+                "repeat": 1
+              },
+              "completeness": "complete"
+            }
+          },
+          "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+          "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+        },
+        "database_evidence": {
+          "source": "gnomAD-SV",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "gnomad_sv_r4",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-24T08:46:43.937615+00:00",
+          "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+        },
+        "vep_evidence": {
+          "source": "Ensembl VEP",
+          "status": "error",
+          "error": "TimeoutError",
+          "attempts": 2,
+          "retrieved_at": "2026-09-24T08:47:47.053348+00:00"
+        },
+        "clingen_dosage_evidence": {
+          "source": "ClinGen Dosage",
+          "status": "found",
+          "completeness": "complete",
+          "returned_record_count": 2,
+          "records_truncated": false,
+          "retrieved_at": "2026-09-24T08:46:46.856787+00:00",
+          "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+        },
+        "clinvar_evidence": {
+          "source": "ClinVar",
+          "status": "not_found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 0,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-24T08:46:43.553627+00:00",
+          "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+        },
+        "dbvar_evidence": {
+          "source": "NCBI dbVar",
+          "status": "found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-24T08:46:45.336915+00:00",
+          "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+        },
+        "dgv_evidence": {
+          "source": "DGV Gold Standard",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "dgvGold",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 7,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+          "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+        },
+        "artifact_risk": {
+          "overall_risk": "medium",
+          "risk_items": [
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "present"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            }
+          ]
+        },
+        "retrieved_at": "2026-09-24T08:47:47.054324+00:00",
+        "limitations": [
+          "Baseline Ensembl evidence is coordinate-overlap evidence.",
+          "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+          "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+          "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+          "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+          "Missing source data and query failures remain explicit unknown/error states."
+        ]
+      },
+      "adaptive_tool_results": [
+        {
+          "action": "QUERY_TRANSCRIPTS",
+          "evidence_gap": "The baseline Ensembl gene overlap list was truncated, and VEP timed out. It is currently unclear if any protein-coding genes or transcripts are located within the 83.5 kb duplication region (GRCh38 16:21500755-21584256), which is critical for determining the biological and clinical relevance of this variant.",
+          "reason": "Querying transcripts directly across the nominal interval will resolve the truncation and timeout gaps from the baseline Ensembl gene and VEP queries.",
+          "expected_information_gain": "Identifying any protein-coding transcripts inside this region would help determine if the duplication overlaps functional coding exons, which could point to potential dosage sensitivity (triplosensitivity) or disrupt a gene, as opposed to only containing pseudogenes and non-coding RNAs.",
+          "status": "executed",
+          "queries_used": 1,
+          "queries_remaining": 1,
+          "result": {
+            "status": "executed",
+            "action": "QUERY_TRANSCRIPTS",
+            "result": {
+              "source": "Ensembl",
+              "action": "QUERY_TRANSCRIPTS",
+              "status": "found",
+              "results": [
+                {
+                  "status": "found",
+                  "error": null,
+                  "truncated": true,
+                  "attempts": 1
+                }
+              ],
+              "retrieved_at": "2026-09-24T08:48:08.540309+00:00",
+              "limitations": "Coordinate overlap with a transcript or exon is not a predicted molecular consequence."
+            }
+          }
+        },
+        {
+          "action": "QUERY_NEAREST_GENE_50KB",
+          "evidence_gap": "Since the baseline Ensembl VEP query timed out and the region overlap results only showed non-coding RNAs and pseudogenes inside the duplication, we lack proximity data for any nearby protein-coding genes (such as OTOA, which is noted in the overlapping ClinGen region) that may be located close to the breakpoints.",
+          "reason": "Querying nearest genes within 50 kb will identify any adjacent protein-coding genes, providing context for potential positional effects or overlap with the nearby ClinGen recurrent region.",
+          "expected_information_gain": "Identifying protein-coding genes within 50 kb of the duplication boundaries (such as OTOA or METTL9, seen in dbVar records) will help clarify whether the duplication breakpoints could disrupt nearby genes or their regulatory elements.",
+          "status": "executed",
+          "queries_used": 2,
+          "queries_remaining": 0,
+          "result": {
+            "status": "executed",
+            "action": "QUERY_NEAREST_GENE_50KB",
+            "result": {
+              "source": "Ensembl",
+              "action": "QUERY_NEAREST_GENE_50KB",
+              "status": "error",
+              "results": [
+                {
+                  "status": "error",
+                  "error": "HTTP 500",
+                  "truncated": false,
+                  "attempts": 2
+                }
+              ],
+              "retrieved_at": "2026-09-24T08:48:21.044815+00:00",
+              "limitations": "Nearest means coordinate distance within the requested search radius; it does not imply regulation or causality."
+            }
+          }
+        }
+      ],
+      "literature_tool_results": [
+        {
+          "source": "PubMed",
+          "status": "found",
+          "query": "21500755 OR 21584256 OR gssvG14372 OR ISCA-46691",
+          "retrieved_at": "2026-09-24T08:48:33.993713+00:00",
+          "limitations": "Metadata does not prove that the full text supports a biological claim.",
+          "query_budget": 3,
+          "queries_used": 1,
+          "queries_remaining": 2,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 2
+        },
+        {
+          "source": "PubMed",
+          "status": "not_found",
+          "query": "(SMG1P3 OR SLC7A5P2 OR MIR3680) AND (duplication OR \"copy number\")",
+          "retrieved_at": "2026-09-24T08:48:37.839699+00:00",
+          "query_budget": 3,
+          "queries_used": 2,
+          "queries_remaining": 1,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 0
+        },
+        {
+          "source": "PubMed",
+          "status": "found",
+          "query": "OTOA AND (duplication OR \"copy number\")",
+          "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+          "limitations": "Metadata does not prove that the full text supports a biological claim.",
+          "query_budget": 3,
+          "queries_used": 3,
+          "queries_remaining": 0,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 5
+        }
+      ]
+    }
+  },
+  "claim_synthesis": {
+    "candidate_claims": [
+      {
+        "claim_id": "C001",
+        "text": "Ensembl annotates the nominal interval of the duplication with non-coding and pseudogene elements including MIR3680-1, SMG1P3, and SLC7A5P2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "ENS-BL-NOMINAL-GENE-003",
+          "ENS-BL-NOMINAL-GENE-005"
+        ],
+        "evidence_basis": "The baseline Ensembl gene query maps these non-coding RNAs and pseudogenes directly within the structural variant's nominal interval."
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication exactly matches a region curated by ClinGen as a 16p12.2 population region with no evidence for haploinsufficiency.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "evidence_basis": "ClinGen Dosage record ISCA-46691 represents an exact match with a score of 0 (No Evidence) for haploinsufficiency."
+      },
+      {
+        "claim_id": "C003",
+        "text": "High-frequency overlapping structural variant gains are documented in the DGV Gold Standard track, with some reporting frequency up to 97.29%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DGV-BL-001",
+          "DGV-BL-002",
+          "DGV-BL-003",
+          "DGV-BL-004"
+        ],
+        "evidence_basis": "DGV Gold Standard records demonstrate multiple overlapping gains with high population frequency in healthy cohorts."
+      },
+      {
+        "claim_id": "C004",
+        "text": "gnomAD-SV database lists multiple overlapping duplications, including a highly frequent variant with an allele frequency of approximately 55.56%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-002"
+        ],
+        "evidence_basis": "gnomAD-SV details variant DUP_chr16_6602690e with an allele frequency of 0.555621 overlapping the duplication region."
+      },
+      {
+        "claim_id": "C005",
+        "text": "ClinGen catalogs a nearby, partially overlapping 16p12.2 recurrent distal region associated with autosomal recessive phenotypes.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-002"
+        ],
+        "evidence_basis": "ClinGen Dosage record ISCA-46297 is a recurrent region containing OTOA that overlaps the SV on its distal end but is distinct from the population region."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Publications PMID-21500755 and PMID-21584256 are unrelated to chromosome 16 microduplications and were retrieved because their PubMed IDs match the genomic coordinates of the SV.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-21500755",
+          "PMID-21584256"
+        ],
+        "evidence_basis": "The PMIDs correspond exactly to the coordinates 21500755 and 21584256 and discuss unrelated clinical and computational topics."
+      },
+      {
+        "claim_id": "C007",
+        "text": "Publications describing OTOA-associated hearing loss do not provide direct phenotypic or clinical evidence for this specific duplication.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-27068579",
+          "PMID-28000701",
+          "PMID-31527525",
+          "PMID-36147510",
+          "PMID-37114731"
+        ],
+        "evidence_basis": "These literature records describe mutations and variants of OTOA causing autosomal recessive hearing loss, which is relevant to the distal recurrent region rather than this population duplication."
+      },
+      {
+        "claim_id": "C008",
+        "text": "The end breakpoint of the duplication overlaps annotated repeat regions and regulatory elements, which can affect placement reliability.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-END-REPEAT-001",
+          "ENS-BL-END-REGULATORY-001",
+          "ENS-BL-END-REGULATORY-002",
+          "QC-BL-003"
+        ],
+        "evidence_basis": "Repeat and regulatory tracks show multiple features in the end breakpoint window, and QC-BL-003 flags an artifact risk due to repeat regions."
+      },
+      {
+        "claim_id": "C009",
+        "text": "This duplication is likely a benign population variant based on its high prevalence in healthy control cohorts and its curation as a population region.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "DGV-BL-003",
+          "GNO-BL-002"
+        ],
+        "evidence_basis": "The high allele frequencies in gnomAD and DGV, combined with the ClinGen classification of the exact region as a population variant, support a benign interpretation."
+      },
+      {
+        "claim_id": "C010",
+        "text": "The duplication is not expected to cause OTOA-associated hearing loss as it is distinct from the pathogenic recessive recurrent region containing OTOA.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "CGD-BL-002",
+          "PMID-31527525"
+        ],
+        "evidence_basis": "The duplication corresponds to a benign population region that is distinct from the recurrent distal region associated with autosomal recessive hearing loss."
+      }
+    ],
+    "evidence_gaps": [
+      "The Ensembl VEP consequence query timed out, leaving potential downstream transcript-level effects unpredicted.",
+      "The Ensembl nearest gene within 50 kb query failed due to an HTTP 500 error, leaving the exact proximity to adjacent protein-coding genes unannotated.",
+      "No ClinVar records were identified within the precise genomic coordinates of this structural variant.",
+      "No peer-reviewed literature was found specifically describing duplications of the internal non-coding genes (SMG1P3, SLC7A5P2, MIR3680-1)."
+    ],
+    "limitations": [
+      "Heuristic breakpoint windows were used to retrieve overlapping database variants in the absence of VCF confidence intervals.",
+      "Coincidence-based PubMed retrieval occurred where genomic start and end coordinates matched unrelated PMIDs.",
+      "Overlapping recurrent region literature concerning OTOA does not establish clinical pathogenicity for this population variant.",
+      "Artifact risk quality indicators flag repeat regions at the end breakpoint window, which can impact variant sizing and alignment accuracy."
+    ]
+  },
+  "verification": {
+    "publication_allowed": true,
+    "supported_claims": [
+      {
+        "claim_id": "C001",
+        "text": "Ensembl annotates the nominal interval of the duplication with non-coding and pseudogene elements including MIR3680-1, SMG1P3, and SLC7A5P2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "ENS-BL-NOMINAL-GENE-003",
+          "ENS-BL-NOMINAL-GENE-005"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against baseline Ensembl gene query records mapping MIR3680-1, SLC7A5P2, and SMG1P3 inside the nominal interval."
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication exactly matches a region curated by ClinGen as a 16p12.2 population region with no evidence for haploinsufficiency.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against ClinGen record ISCA-46691, representing an exact coordinate match with an HI score of 0 (No Evidence)."
+      },
+      {
+        "claim_id": "C003",
+        "text": "High-frequency overlapping structural variant gains are documented in the DGV Gold Standard track, with some reporting frequency up to 97.29%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DGV-BL-001",
+          "DGV-BL-002",
+          "DGV-BL-003",
+          "DGV-BL-004"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against multiple DGV Gold Standard records of type CNV Gain, with gssvG14136 showing a frequency of 97.2951%."
+      },
+      {
+        "claim_id": "C004",
+        "text": "gnomAD-SV database lists multiple overlapping duplications, including a highly frequent variant with an allele frequency of approximately 55.56%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against gnomAD-SV record DUP_chr16_6602690e which has a reported allele frequency of 0.555621."
+      },
+      {
+        "claim_id": "C005",
+        "text": "ClinGen catalogs a nearby, partially overlapping 16p12.2 recurrent distal region associated with autosomal recessive phenotypes.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against ClinGen record ISCA-46297, which covers the distal recurrent region containing OTOA and is associated with autosomal recessive phenotype (score 30)."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Publications PMID-21500755 and PMID-21584256 are unrelated to chromosome 16 microduplications and were retrieved because their PubMed IDs match the genomic coordinates of the SV.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-21500755",
+          "PMID-21584256"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Verified that these PMIDs discuss unrelated clinical and computational topics and were retrieved solely due to coincidence of coordinates with PMIDs.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C007",
+        "text": "Publications describing OTOA-associated hearing loss do not provide direct phenotypic or clinical evidence for this specific duplication.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-27068579",
+          "PMID-28000701",
+          "PMID-31527525",
+          "PMID-36147510",
+          "PMID-37114731"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the OTOA papers describe mutations and variants associated with recessive hearing loss rather than this benign population duplication.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C008",
+        "text": "The end breakpoint of the duplication overlaps annotated repeat regions and regulatory elements, which can affect placement reliability.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-END-REPEAT-001",
+          "ENS-BL-END-REGULATORY-001",
+          "ENS-BL-END-REGULATORY-002",
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against repeat and regulatory features present in the end breakpoint window and the artifact risk flag QC-BL-003."
+      },
+      {
+        "claim_id": "C009",
+        "text": "This duplication is likely a benign population variant based on its high prevalence in healthy control cohorts and its curation as a population region.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "DGV-BL-003",
+          "GNO-BL-002"
+        ],
+        "confidence": "low",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the high allele frequencies in healthy cohorts and ClinGen 0 HI score support benign classification.; Available evidence does not establish a clinical or functional classification."
+      },
+      {
+        "claim_id": "C010",
+        "text": "The duplication is not expected to cause OTOA-associated hearing loss as it is distinct from the pathogenic recessive recurrent region containing OTOA.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "CGD-BL-002",
+          "PMID-31527525"
+        ],
+        "confidence": "low",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the duplication region (ISCA-46691) is distinct from the distal recurrent region containing OTOA (ISCA-46297).; Available evidence does not establish a clinical or functional classification."
+      }
+    ],
+    "rejected_claims": [],
+    "contradictions": [],
+    "missing_evidence": [
+      "The Ensembl VEP consequence query timed out, leaving potential downstream transcript-level effects unpredicted.",
+      "The Ensembl nearest gene within 50 kb query failed due to an HTTP 500 error, leaving the exact proximity to adjacent protein-coding genes unannotated.",
+      "No ClinVar records were identified within the precise genomic coordinates of this structural variant.",
+      "No peer-reviewed literature was found specifically describing duplications of the internal non-coding genes (SMG1P3, SLC7A5P2, MIR3680-1)."
+    ],
+    "warnings": [
+      "Heuristic breakpoint windows were used to retrieve overlapping database variants in the absence of VCF confidence intervals.",
+      "Coincidence-based PubMed retrieval occurred where genomic start and end coordinates matched unrelated PMIDs.",
+      "Overlapping recurrent region literature concerning OTOA does not establish clinical pathogenicity for this population variant.",
+      "Artifact risk quality indicators flag repeat regions at the end breakpoint window, which can impact variant sizing and alignment accuracy.",
+      "Conservatively qualified claim C006: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+      "Conservatively qualified claim C007: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+      "Conservatively qualified claim C009: Available evidence does not establish a clinical or functional classification.",
+      "Conservatively qualified claim C010: Available evidence does not establish a clinical or functional classification."
+    ]
+  },
+  "final_report": {
+    "report_version": "1.0.0",
+    "report_status": "incomplete",
+    "sv_summary": {
+      "validation_status": "valid",
+      "sv_id": "TEST_GRCh38_16p12.2_population_region_DUP",
+      "genome_build": "GRCh38",
+      "genome_build_original": "GRCh38",
+      "chrom": "16",
+      "start": 21500755,
+      "end": 21584256,
+      "coordinate_system": "1-based-inclusive",
+      "chromosome_length_bp": 90338345,
+      "cipos": null,
+      "ciend": null,
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "breakpoint_uncertainty_status": "not_provided",
+      "imprecise": false,
+      "bnd_mate_status": "not_applicable",
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null,
+      "local_orientation": null,
+      "mate_orientation": null,
+      "sv_type": "DUP",
+      "sv_type_original": "DUP",
+      "sv_subtype": null,
+      "length_bp": 83502
+    },
+    "statistical_signals": [],
+    "gene_region_annotation": [
+      {
+        "statement": "Ensembl annotates the nominal interval of the duplication with non-coding and pseudogene elements including MIR3680-1, SMG1P3, and SLC7A5P2.",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "ENS-BL-NOMINAL-GENE-003",
+          "ENS-BL-NOMINAL-GENE-005"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "The end breakpoint of the duplication overlaps annotated repeat regions and regulatory elements, which can affect placement reliability.",
+        "evidence_ids": [
+          "ENS-BL-END-REPEAT-001",
+          "ENS-BL-END-REGULATORY-001",
+          "ENS-BL-END-REGULATORY-002",
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "kind": "observation"
+      }
+    ],
+    "population_evidence": [
+      {
+        "statement": "The duplication exactly matches a region curated by ClinGen as a 16p12.2 population region with no evidence for haploinsufficiency.",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "High-frequency overlapping structural variant gains are documented in the DGV Gold Standard track, with some reporting frequency up to 97.29%.",
+        "evidence_ids": [
+          "DGV-BL-001",
+          "DGV-BL-002",
+          "DGV-BL-003",
+          "DGV-BL-004"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "gnomAD-SV database lists multiple overlapping duplications, including a highly frequent variant with an allele frequency of approximately 55.56%.",
+        "evidence_ids": [
+          "GNO-BL-002"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "clinical_phenotype_evidence": [
+      {
+        "statement": "ClinGen catalogs a nearby, partially overlapping 16p12.2 recurrent distal region associated with autosomal recessive phenotypes.",
+        "evidence_ids": [
+          "CGD-BL-002"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "literature_evidence": [],
+    "artifact_risks": [
+      {
+        "risk_type": "low_call_rate",
+        "status": "unknown",
+        "impact": "Missingness can produce spurious population differences.",
+        "evidence_ids": [
+          "QC-BL-001"
+        ],
+        "recommended_check": "Calculate call rate per cohort."
+      },
+      {
+        "risk_type": "single_caller_support",
+        "status": "unknown",
+        "impact": "A call from one algorithm may reflect caller-specific bias.",
+        "evidence_ids": [
+          "QC-BL-002"
+        ],
+        "recommended_check": "Validate with an orthogonal caller or experimental assay."
+      },
+      {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "recommended_check": "Confirm both breakpoints against a curated repeat track."
+      },
+      {
+        "risk_type": "low_mappability",
+        "status": "unknown",
+        "impact": "Low-mappability sequence can create ambiguous alignments.",
+        "evidence_ids": [
+          "QC-BL-004"
+        ],
+        "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+      },
+      {
+        "risk_type": "supporting_reads",
+        "status": "unknown",
+        "impact": "Weak read support increases false-positive risk.",
+        "evidence_ids": [
+          "QC-BL-005"
+        ],
+        "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+      },
+      {
+        "risk_type": "genotype_quality",
+        "status": "unknown",
+        "impact": "Low or missing genotype quality weakens frequency estimates.",
+        "evidence_ids": [
+          "QC-BL-006"
+        ],
+        "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+      },
+      {
+        "risk_type": "batch_effect",
+        "status": "unknown",
+        "impact": "Unequal pipelines or batches can mimic population differentiation.",
+        "evidence_ids": [
+          "QC-BL-007"
+        ],
+        "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+      }
+    ],
+    "possible_interpretations": [],
+    "contradictions": [],
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states.",
+      "Heuristic breakpoint windows were used to retrieve overlapping database variants in the absence of VCF confidence intervals.",
+      "Coincidence-based PubMed retrieval occurred where genomic start and end coordinates matched unrelated PMIDs.",
+      "Overlapping recurrent region literature concerning OTOA does not establish clinical pathogenicity for this population variant.",
+      "Artifact risk quality indicators flag repeat regions at the end breakpoint window, which can impact variant sizing and alignment accuracy.",
+      "The Ensembl VEP consequence query timed out, leaving potential downstream transcript-level effects unpredicted.",
+      "The Ensembl nearest gene within 50 kb query failed due to an HTTP 500 error, leaving the exact proximity to adjacent protein-coding genes unannotated.",
+      "No ClinVar records were identified within the precise genomic coordinates of this structural variant.",
+      "No peer-reviewed literature was found specifically describing duplications of the internal non-coding genes (SMG1P3, SLC7A5P2, MIR3680-1).",
+      "Conservatively qualified claim C006: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+      "Conservatively qualified claim C007: Only PubMed citation metadata was retrieved; full-text support was not checked.",
+      "Conservatively qualified claim C009: Available evidence does not establish a clinical or functional classification.",
+      "Conservatively qualified claim C010: Available evidence does not establish a clinical or functional classification.",
+      "Ensembl query was incomplete (found).",
+      "Ensembl VEP query was incomplete (error)."
+    ],
+    "recommended_next_steps": [
+      "Resolve evidence gap: The Ensembl VEP consequence query timed out, leaving potential downstream transcript-level effects unpredicted.",
+      "Resolve evidence gap: The Ensembl nearest gene within 50 kb query failed due to an HTTP 500 error, leaving the exact proximity to adjacent protein-coding genes unannotated.",
+      "Resolve evidence gap: No ClinVar records were identified within the precise genomic coordinates of this structural variant.",
+      "Resolve evidence gap: No peer-reviewed literature was found specifically describing duplications of the internal non-coding genes (SMG1P3, SLC7A5P2, MIR3680-1)."
+    ],
+    "verified_claims": [
+      {
+        "claim_id": "C001",
+        "text": "Ensembl annotates the nominal interval of the duplication with non-coding and pseudogene elements including MIR3680-1, SMG1P3, and SLC7A5P2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "ENS-BL-NOMINAL-GENE-003",
+          "ENS-BL-NOMINAL-GENE-005"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against baseline Ensembl gene query records mapping MIR3680-1, SLC7A5P2, and SMG1P3 inside the nominal interval."
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication exactly matches a region curated by ClinGen as a 16p12.2 population region with no evidence for haploinsufficiency.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against ClinGen record ISCA-46691, representing an exact coordinate match with an HI score of 0 (No Evidence)."
+      },
+      {
+        "claim_id": "C003",
+        "text": "High-frequency overlapping structural variant gains are documented in the DGV Gold Standard track, with some reporting frequency up to 97.29%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DGV-BL-001",
+          "DGV-BL-002",
+          "DGV-BL-003",
+          "DGV-BL-004"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against multiple DGV Gold Standard records of type CNV Gain, with gssvG14136 showing a frequency of 97.2951%."
+      },
+      {
+        "claim_id": "C004",
+        "text": "gnomAD-SV database lists multiple overlapping duplications, including a highly frequent variant with an allele frequency of approximately 55.56%.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against gnomAD-SV record DUP_chr16_6602690e which has a reported allele frequency of 0.555621."
+      },
+      {
+        "claim_id": "C005",
+        "text": "ClinGen catalogs a nearby, partially overlapping 16p12.2 recurrent distal region associated with autosomal recessive phenotypes.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against ClinGen record ISCA-46297, which covers the distal recurrent region containing OTOA and is associated with autosomal recessive phenotype (score 30)."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Publications PMID-21500755 and PMID-21584256 are unrelated to chromosome 16 microduplications and were retrieved because their PubMed IDs match the genomic coordinates of the SV.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-21500755",
+          "PMID-21584256"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Verified that these PMIDs discuss unrelated clinical and computational topics and were retrieved solely due to coincidence of coordinates with PMIDs.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C007",
+        "text": "Publications describing OTOA-associated hearing loss do not provide direct phenotypic or clinical evidence for this specific duplication.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-27068579",
+          "PMID-28000701",
+          "PMID-31527525",
+          "PMID-36147510",
+          "PMID-37114731"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the OTOA papers describe mutations and variants associated with recessive hearing loss rather than this benign population duplication.; Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C008",
+        "text": "The end breakpoint of the duplication overlaps annotated repeat regions and regulatory elements, which can affect placement reliability.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-END-REPEAT-001",
+          "ENS-BL-END-REGULATORY-001",
+          "ENS-BL-END-REGULATORY-002",
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": "Verified against repeat and regulatory features present in the end breakpoint window and the artifact risk flag QC-BL-003."
+      },
+      {
+        "claim_id": "C009",
+        "text": "This duplication is likely a benign population variant based on its high prevalence in healthy control cohorts and its curation as a population region.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "DGV-BL-003",
+          "GNO-BL-002"
+        ],
+        "confidence": "low",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the high allele frequencies in healthy cohorts and ClinGen 0 HI score support benign classification.; Available evidence does not establish a clinical or functional classification."
+      },
+      {
+        "claim_id": "C010",
+        "text": "The duplication is not expected to cause OTOA-associated hearing loss as it is distinct from the pathogenic recessive recurrent region containing OTOA.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "CGD-BL-001",
+          "CGD-BL-002",
+          "PMID-31527525"
+        ],
+        "confidence": "low",
+        "verification_status": "partially_supported",
+        "notes": "Verified that the duplication region (ISCA-46691) is distinct from the distal recurrent region containing OTOA (ISCA-46297).; Available evidence does not establish a clinical or functional classification."
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "evidence_id": "CGD-BL-001",
+        "source": "ClinGen Dosage",
+        "status": "found",
+        "record_id": "ISCA-46691",
+        "match_type": "exact",
+        "support_direction": "contextual",
+        "summary": "ClinGen Dosage record ISCA-46691",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46691",
+        "retrieved_at": "2026-09-24T08:46:46.856787+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "CGD-BL-002",
+        "source": "ClinGen Dosage",
+        "status": "found",
+        "record_id": "ISCA-46297",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "ClinGen Dosage record ISCA-46297",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-46297",
+        "retrieved_at": "2026-09-24T08:46:46.856787+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "DGV-BL-001",
+        "source": "DGV Gold",
+        "status": "found",
+        "record_id": "gssvG14123",
+        "match_type": "partial_overlap",
+        "support_direction": "contextual",
+        "summary": "DGV Gold record gssvG14123",
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21518369;end=21583079",
+        "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+        "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+      },
+      {
+        "evidence_id": "DGV-BL-002",
+        "source": "DGV Gold",
+        "status": "found",
+        "record_id": "gssvG14113",
+        "match_type": "partial_overlap",
+        "support_direction": "contextual",
+        "summary": "DGV Gold record gssvG14113",
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21469823;end=21599245",
+        "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+        "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+      },
+      {
+        "evidence_id": "DGV-BL-003",
+        "source": "DGV Gold",
+        "status": "found",
+        "record_id": "gssvG14136",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "DGV Gold record gssvG14136",
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21530363;end=21558973",
+        "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+        "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+      },
+      {
+        "evidence_id": "DGV-BL-004",
+        "source": "DGV Gold",
+        "status": "found",
+        "record_id": "gssvG14147",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "DGV Gold record gssvG14147",
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr16;start=21557857;end=21570813",
+        "retrieved_at": "2026-09-24T08:46:44.242749+00:00",
+        "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+      },
+      {
+        "evidence_id": "ENS-BL-END-REGULATORY-001",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENSR16_9BKBF",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "enhancer",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-END-REGULATORY-002",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENSR16_5743ZN",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "CTCF_binding_site",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-END-REPEAT-001",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENS-BL-END-REPEAT-001",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "AluJr",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENSG00000265462",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "microRNA 3680-1 [Source:HGNC Symbol;Acc:HGNC:38989]",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-GENE-003",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENSG00000258186",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "solute carrier family 7 member 5 pseudogene 2 [Source:HGNC Symbol;Acc:HGNC:24951]",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-GENE-005",
+        "source": "Ensembl",
+        "status": "found",
+        "record_id": "ENSG00000180747",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "SMG1 pseudogene 3 [Source:HGNC Symbol;Acc:HGNC:49860]",
+        "source_url": "",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "GNO-BL-002",
+        "source": "gnomAD-SV",
+        "status": "found",
+        "record_id": "DUP_chr16_6602690e",
+        "match_type": "region_overlap",
+        "support_direction": "contextual",
+        "summary": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+        "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr16_6602690e?dataset=gnomad_sv_r4",
+        "retrieved_at": "2026-09-24T08:46:43.937615+00:00",
+        "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+      },
+      {
+        "evidence_id": "PMID-21500755",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "21500755",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "Improving identification and documentation of pressure ulcers at an urban academic hospital.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/21500755/",
+        "retrieved_at": "2026-09-24T08:48:33.993713+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-21584256",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "21584256",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "Brainstorm: a user-friendly application for MEG/EEG analysis.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/21584256/",
+        "retrieved_at": "2026-09-24T08:48:33.993713+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-27068579",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "27068579",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "DNA Diagnostics of Hereditary Hearing Loss: A Targeted Resequencing Approach Combined with a Mutation Classification System.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/27068579/",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-28000701",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "28000701",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "The diagnostic yield of whole-exome sequencing targeting a gene panel for hearing impairment in The Netherlands.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/28000701/",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-31527525",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "31527525",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "Mid-Frequency Hearing Loss Is Characteristic Clinical Feature of OTOA-Associated Hearing Loss.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/31527525/",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-36147510",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "36147510",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "Genomic study of nonsyndromic hearing loss in unaffected individuals: Frequency of pathogenic and likely pathogenic variants in a Brazilian cohort of 2,097 genomes.",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/36147510/",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-37114731",
+        "source": "PubMed",
+        "status": "found",
+        "record_id": "37114731",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "[Phenotype-genotype analysis of the autosomal recessive hereditary hearing loss caused by OTOA variations].",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/37114731/",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "QC-BL-001",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-001",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "low_call_rate",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-002",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-002",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "single_caller_support",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-003",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-003",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "repeat_region",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-004",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-004",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "low_mappability",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-005",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-005",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "supporting_reads",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-006",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-006",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "genotype_quality",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-007",
+        "source": "Artifact-risk rules",
+        "status": "found",
+        "record_id": "QC-BL-007",
+        "match_type": "contextual",
+        "support_direction": "contextual",
+        "summary": "batch_effect",
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      }
+    ],
+    "query_provenance": [
+      {
+        "source": "Ensembl",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"16:21500755-21584256\"}",
+        "retrieved_at": "2026-09-24T08:47:46.787473+00:00"
+      },
+      {
+        "source": "Ensembl VEP",
+        "status": "error",
+        "query_summary": "{}",
+        "retrieved_at": "2026-09-24T08:47:47.053348+00:00"
+      },
+      {
+        "source": "gnomAD-SV",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"gnomad_sv_r4\", \"query_regions\": [{\"role\": \"nominal\", \"chrom\": \"16\", \"interval\": [21500255, 21584756]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-24T08:46:43.937615+00:00"
+      },
+      {
+        "source": "ClinGen Dosage",
+        "status": "found",
+        "query_summary": "{}",
+        "retrieved_at": "2026-09-24T08:46:46.856787+00:00"
+      },
+      {
+        "source": "ClinVar",
+        "status": "not_found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [21500255, 21584756]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-24T08:46:43.553627+00:00"
+      },
+      {
+        "source": "NCBI dbVar",
+        "status": "found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [21500255, 21584756]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-24T08:46:45.336915+00:00"
+      },
+      {
+        "source": "DGV Gold Standard",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"dgvGold\", \"query_regions\": [{\"role\": \"nominal\", \"interval\": [21500255, 21584756]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-24T08:46:44.242749+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "found",
+        "query_summary": "21500755 OR 21584256 OR gssvG14372 OR ISCA-46691",
+        "retrieved_at": "2026-09-24T08:48:33.993713+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "not_found",
+        "query_summary": "(SMG1P3 OR SLC7A5P2 OR MIR3680) AND (duplication OR \"copy number\")",
+        "retrieved_at": "2026-09-24T08:48:37.839699+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "found",
+        "query_summary": "OTOA AND (duplication OR \"copy number\")",
+        "retrieved_at": "2026-09-24T08:48:41.071914+00:00"
+      }
+    ],
+    "investigation_log": {
+      "identified_evidence_gaps": [
+        "The baseline Ensembl gene overlap list was truncated, and VEP timed out. It is currently unclear if any protein-coding genes or transcripts are located within the 83.5 kb duplication region (GRCh38 16:21500755-21584256), which is critical for determining the biological and clinical relevance of this variant.",
+        "Since the baseline Ensembl VEP query timed out and the region overlap results only showed non-coding RNAs and pseudogenes inside the duplication, we lack proximity data for any nearby protein-coding genes (such as OTOA, which is noted in the overlapping ClinGen region) that may be located close to the breakpoints.",
+        "The Ensembl VEP consequence query timed out, leaving potential downstream transcript-level effects unpredicted.",
+        "The Ensembl nearest gene within 50 kb query failed due to an HTTP 500 error, leaving the exact proximity to adjacent protein-coding genes unannotated.",
+        "No ClinVar records were identified within the precise genomic coordinates of this structural variant.",
+        "No peer-reviewed literature was found specifically describing duplications of the internal non-coding genes (SMG1P3, SLC7A5P2, MIR3680-1)."
+      ],
+      "planned_actions": [
+        {
+          "action": "QUERY_TRANSCRIPTS",
+          "evidence_gap": "The baseline Ensembl gene overlap list was truncated, and VEP timed out. It is currently unclear if any protein-coding genes or transcripts are located within the 83.5 kb duplication region (GRCh38 16:21500755-21584256), which is critical for determining the biological and clinical relevance of this variant.",
+          "reason": "Querying transcripts directly across the nominal interval will resolve the truncation and timeout gaps from the baseline Ensembl gene and VEP queries.",
+          "expected_information_gain": "Identifying any protein-coding transcripts inside this region would help determine if the duplication overlaps functional coding exons, which could point to potential dosage sensitivity (triplosensitivity) or disrupt a gene, as opposed to only containing pseudogenes and non-coding RNAs.",
+          "status": "planned",
+          "result_status": "found",
+          "rejection_reason": ""
+        },
+        {
+          "action": "QUERY_NEAREST_GENE_50KB",
+          "evidence_gap": "Since the baseline Ensembl VEP query timed out and the region overlap results only showed non-coding RNAs and pseudogenes inside the duplication, we lack proximity data for any nearby protein-coding genes (such as OTOA, which is noted in the overlapping ClinGen region) that may be located close to the breakpoints.",
+          "reason": "Querying nearest genes within 50 kb will identify any adjacent protein-coding genes, providing context for potential positional effects or overlap with the nearby ClinGen recurrent region.",
+          "expected_information_gain": "Identifying protein-coding genes within 50 kb of the duplication boundaries (such as OTOA or METTL9, seen in dbVar records) will help clarify whether the duplication breakpoints could disrupt nearby genes or their regulatory elements.",
+          "status": "planned",
+          "result_status": "error",
+          "rejection_reason": ""
+        }
+      ],
+      "executed_actions": [
+        {
+          "action": "QUERY_TRANSCRIPTS",
+          "evidence_gap": "The baseline Ensembl gene overlap list was truncated, and VEP timed out. It is currently unclear if any protein-coding genes or transcripts are located within the 83.5 kb duplication region (GRCh38 16:21500755-21584256), which is critical for determining the biological and clinical relevance of this variant.",
+          "reason": "Querying transcripts directly across the nominal interval will resolve the truncation and timeout gaps from the baseline Ensembl gene and VEP queries.",
+          "expected_information_gain": "Identifying any protein-coding transcripts inside this region would help determine if the duplication overlaps functional coding exons, which could point to potential dosage sensitivity (triplosensitivity) or disrupt a gene, as opposed to only containing pseudogenes and non-coding RNAs.",
+          "status": "executed",
+          "result_status": "found",
+          "rejection_reason": ""
+        },
+        {
+          "action": "QUERY_NEAREST_GENE_50KB",
+          "evidence_gap": "Since the baseline Ensembl VEP query timed out and the region overlap results only showed non-coding RNAs and pseudogenes inside the duplication, we lack proximity data for any nearby protein-coding genes (such as OTOA, which is noted in the overlapping ClinGen region) that may be located close to the breakpoints.",
+          "reason": "Querying nearest genes within 50 kb will identify any adjacent protein-coding genes, providing context for potential positional effects or overlap with the nearby ClinGen recurrent region.",
+          "expected_information_gain": "Identifying protein-coding genes within 50 kb of the duplication boundaries (such as OTOA or METTL9, seen in dbVar records) will help clarify whether the duplication breakpoints could disrupt nearby genes or their regulatory elements.",
+          "status": "executed",
+          "result_status": "error",
+          "rejection_reason": ""
+        }
+      ],
+      "query_budget": 2,
+      "queries_used": 2,
+      "stop_reason": "The two-call adaptive inquiry budget has been fully exhausted.",
+      "remaining_limitations": [
+        "Ensembl transcript results were truncated due to REST API limits, though they confirmed multiple lncRNAs, pseudogenes, and miRNAs within the region.",
+        "The 50 kb nearest-gene query failed with an HTTP 500 error from the Ensembl REST API, meaning nearby coding genes outside the duplication coordinates are not exhaustively annotated in this session.",
+        "Heuristic breakpoint windows were used to retrieve overlapping database variants in the absence of VCF confidence intervals.",
+        "Coincidence-based PubMed retrieval occurred where genomic start and end coordinates matched unrelated PMIDs.",
+        "Overlapping recurrent region literature concerning OTOA does not establish clinical pathogenicity for this population variant.",
+        "Artifact risk quality indicators flag repeat regions at the end breakpoint window, which can impact variant sizing and alignment accuracy."
+      ]
+    }
+  }
+}

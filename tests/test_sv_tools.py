@@ -338,6 +338,40 @@ class SVToolsTest(unittest.TestCase):
         })
         self.assertIn("ENS001", markdown)
         self.assertIn("incomplete", markdown)
+        self.assertIn("| SV type | DEL |", markdown)
+        self.assertIn("| Position | chr1:10-20 |", markdown)
+
+    def test_report_renderer_summarizes_baseline_source_results(self):
+        markdown = render_markdown({
+            "report_status": "incomplete",
+            "sv_summary": {
+                "sv_id": "sv1", "genome_build": "GRCh38", "chrom": "1",
+                "start": 10, "end": 20, "sv_type": "DEL",
+            },
+            "query_provenance": [
+                {"source": "gnomAD-SV", "status": "found"},
+                {"source": "ClinVar", "status": "not_found"},
+                {"source": "PubMed", "status": "found"},
+            ],
+        })
+        self.assertIn("## Baseline source checks", markdown)
+        self.assertIn("| gnomAD-SV | Found |", markdown)
+        self.assertIn("| ClinVar | No record found |", markdown)
+        self.assertNotIn("| PubMed | Found |", markdown)
+
+    def test_report_renderer_keeps_partial_claim_with_qualification(self):
+        markdown = render_markdown({
+            "report_status": "incomplete",
+            "sv_summary": {},
+            "verified_claims": [{
+                "text": "A nearby candidate may represent the same event.",
+                "evidence_ids": ["GNO-BL-001"],
+                "verification_status": "partially_supported",
+                "notes": "The start coordinate differs by 1 bp.",
+            }],
+        })
+        self.assertIn("## Qualified findings", markdown)
+        self.assertIn("The start coordinate differs by 1 bp.", markdown)
 
     def test_report_renderer_shows_normalization_metadata(self):
         markdown = render_markdown({
@@ -393,6 +427,28 @@ class SVToolsTest(unittest.TestCase):
             },
         })
         self.assertEqual(len(report.investigation_log.executed_actions), 2)
+
+    def test_report_schema_derives_budget_fields_from_executed_actions(self):
+        report = SVReport.model_validate({
+            "report_status": "incomplete",
+            "sv_summary": {
+                "validation_status": "valid", "sv_id": "sv1",
+                "genome_build": "GRCh38", "chrom": "1", "start": 10,
+                "end": 20, "sv_type": "DEL",
+            },
+            "investigation_log": {
+                "executed_actions": [
+                    {"action": "QUERY_EXONS", "status": "executed"},
+                    {"action": "duplicate", "status": "rejected"},
+                ],
+                # Model-written counters are ignored in favor of the audit list.
+                "query_budget": 0,
+                "queries_used": 99,
+                "stop_reason": "test deterministic derivation",
+            },
+        })
+        self.assertEqual(report.investigation_log.query_budget, 2)
+        self.assertEqual(report.investigation_log.queries_used, 1)
 
     def test_report_schema_preserves_not_applicable_source_status(self):
         report = SVReport.model_validate({

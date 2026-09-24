@@ -23,6 +23,16 @@ def _statements(title: str, items: list[dict[str, Any]]) -> list[str]:
     return lines + [""]
 
 
+_STATUS_LABELS = {
+    "found": "Found",
+    "not_found": "No record found",
+    "not_applicable": "Not applicable",
+    "unavailable": "Unavailable",
+    "error": "Query failed",
+    "not_queried": "Not queried",
+}
+
+
 def render_markdown(report: dict[str, Any]) -> str:
     """Convert a validated report-shaped dictionary to Markdown."""
     sv = report.get("sv_summary", {})
@@ -44,23 +54,31 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         f"**Status:** {report.get('report_status', 'unknown')}",
         "",
-        f"**SV:** {sv.get('sv_id', 'unknown')} — {sv.get('genome_build', '?')} "
-        f"{sv.get('chrom', '?')}:{sv.get('start', '?')}-{sv.get('end', '?')} "
-        f"{sv.get('sv_type', '?')}",
+        "## Variant summary",
+        "",
+        "| Field | Value |",
+        "|---|---|",
+        f"| SV ID | `{sv.get('sv_id', 'unknown')}` |",
+        f"| Reference build | {sv.get('genome_build', '?')} |",
+        f"| Position | chr{sv.get('chrom', '?')}:{sv.get('start', '?')}-"
+        f"{sv.get('end', '?')} |",
+        f"| SV type | {sv.get('sv_type', '?')} |",
         "",
     ]
     if sv.get("coordinate_system"):
-        lines += [f"**Coordinate system:** {sv['coordinate_system']}", ""]
+        lines.insert(-1, f"| Coordinate system | {sv['coordinate_system']} |")
+    if sv.get("length_bp") is not None:
+        lines.insert(-1, f"| Length | {sv['length_bp']} bp |")
     uncertainty_status = sv.get("breakpoint_uncertainty_status")
     if uncertainty_status:
         start_ci = sv.get("start_confidence_interval")
         end_ci = sv.get("end_confidence_interval")
-        lines += [
-            "**Breakpoint uncertainty:** "
+        lines.insert(
+            -1,
+            "| Breakpoint uncertainty | "
             f"{uncertainty_status}; start CI={start_ci or 'not provided'}; "
-            f"end CI={end_ci or 'not provided'}",
-            "",
-        ]
+            f"end CI={end_ci or 'not provided'} |",
+        )
     if sv.get("sv_type") == "BND":
         if sv.get("mate_chrom") and sv.get("mate_pos") is not None:
             orientation = ""
@@ -77,10 +95,26 @@ def render_markdown(report: dict[str, Any]) -> str:
             ]
         else:
             lines += ["**BND mate:** not provided; first-breakend-only analysis", ""]
-    if sv.get("length_bp") is not None:
-        lines += [f"**SV length:** {sv['length_bp']} bp", ""]
     if normalization_notes:
         lines += [f"**Input normalization:** {'; '.join(normalization_notes)}", ""]
+
+    baseline_rows = [
+        item for item in report.get("query_provenance", [])
+        if item.get("source") != "PubMed"
+    ]
+    if baseline_rows:
+        lines += [
+            "## Baseline source checks",
+            "",
+            "| Database or resource | Result |",
+            "|---|---|",
+        ]
+        lines.extend(
+            f"| {item.get('source', 'unknown')} | "
+            f"{_STATUS_LABELS.get(item.get('status'), item.get('status', 'unknown'))} |"
+            for item in baseline_rows
+        )
+        lines.append("")
 
     investigation = report.get("investigation_log", {})
     if investigation:
@@ -102,14 +136,30 @@ def render_markdown(report: dict[str, Any]) -> str:
     sections = (
         ("Statistical signals", "statistical_signals"),
         ("Gene and region annotation", "gene_region_annotation"),
-        ("Population evidence", "population_evidence"),
-        ("Clinical and phenotype evidence", "clinical_phenotype_evidence"),
+        ("Population and variant-database evidence", "population_evidence"),
+        ("Clinical evidence and phenotype associations", "clinical_phenotype_evidence"),
         ("Literature evidence", "literature_evidence"),
-        ("Functional evidence", "functional_evidence"),
         ("Possible interpretations", "possible_interpretations"),
     )
     for title, key in sections:
         lines.extend(_statements(title, report.get(key, [])))
+
+    qualified = [
+        claim for claim in report.get("verified_claims", [])
+        if claim.get("verification_status") == "partially_supported"
+    ]
+    lines += ["## Qualified findings", ""]
+    if qualified:
+        for claim in qualified:
+            evidence = ", ".join(claim.get("evidence_ids", [])) or "none"
+            lines.append(
+                f"- {claim.get('text', '')} "
+                f"(evidence: {evidence}; qualification: "
+                f"{claim.get('notes') or 'partially supported'})"
+            )
+    else:
+        lines.append("No partially supported claims recorded.")
+    lines.append("")
 
     lines += ["## Artifact risks", ""]
     for item in report.get("artifact_risks", []):

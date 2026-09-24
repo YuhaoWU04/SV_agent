@@ -12,16 +12,65 @@ Confidence = Literal["high", "medium", "low", "unknown"]
 VerificationStatus = Literal[
     "supported", "partially_supported", "unsupported", "conflicting"
 ]
+ReportSection = Literal[
+    "gene_region_annotation",
+    "population_evidence",
+    "clinical_phenotype_evidence",
+    "literature_evidence",
+    "possible_interpretations",
+]
 
 
 class VerifiedClaim(BaseModel):
     claim_id: str = Field(description="Stable identifier such as C001.")
     text: str
     claim_type: ClaimType
+    report_section: ReportSection
     evidence_ids: list[str] = Field(default_factory=list)
     confidence: Confidence
     verification_status: VerificationStatus
     notes: str = ""
+
+
+class CandidateClaim(BaseModel):
+    claim_id: str = Field(description="Stable identifier such as C001.")
+    text: str = Field(description="One atomic claim, not a compound conclusion.")
+    claim_type: ClaimType
+    report_section: ReportSection = Field(
+        description="Final report section for this claim if verification supports it."
+    )
+    evidence_ids: list[str] = Field(default_factory=list)
+    evidence_basis: str = Field(
+        default="",
+        description="Brief explanation of what the cited records directly establish.",
+    )
+
+
+class SynthesisOutput(BaseModel):
+    candidate_claims: list[CandidateClaim] = Field(default_factory=list)
+    evidence_gaps: list[str] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def clean_candidate_claims(self) -> "SynthesisOutput":
+        dropped = [
+            claim.claim_id
+            for claim in self.candidate_claims
+            if claim.claim_type in {"observation", "database_fact"}
+            and not claim.evidence_ids
+        ]
+        if dropped:
+            self.candidate_claims = [
+                claim for claim in self.candidate_claims if claim.claim_id not in dropped
+            ]
+            self.limitations.append(
+                "Dropped factual candidate claims without evidence IDs: "
+                + ", ".join(dropped)
+            )
+        claim_ids = [claim.claim_id for claim in self.candidate_claims]
+        if len(claim_ids) != len(set(claim_ids)):
+            raise ValueError("candidate claim IDs must be unique")
+        return self
 
 
 class VerificationOutput(BaseModel):
@@ -125,10 +174,35 @@ class InvestigationLog(BaseModel):
     identified_evidence_gaps: list[str] = Field(default_factory=list)
     planned_actions: list[InvestigationAction] = Field(default_factory=list)
     executed_actions: list[InvestigationAction] = Field(default_factory=list)
-    query_budget: Literal[2] = 2
+    # Google GenAI's response-schema converter only accepts string-valued
+    # ``Literal`` members. Equal min/max bounds preserve the fixed value while
+    # remaining compatible with structured output generation.
+    query_budget: int = Field(default=2, ge=2, le=2)
     queries_used: int = 0
     stop_reason: str
     remaining_limitations: list[str] = Field(default_factory=list)
+
+    @model_validator(mode="before")
+    @classmethod
+    def derive_budget_counts(cls, data: object) -> object:
+        """Derive deterministic budget fields instead of trusting model copies."""
+        if not isinstance(data, dict):
+            return data
+        normalized = dict(data)
+        actions = normalized.get("executed_actions")
+        if not isinstance(actions, list):
+            actions = []
+        normalized["query_budget"] = 2
+        normalized["queries_used"] = sum(
+            (
+                action.get("status")
+                if isinstance(action, dict)
+                else getattr(action, "status", None)
+            )
+            == "executed"
+            for action in actions
+        )
+        return normalized
 
     @model_validator(mode="after")
     def validate_budget(self) -> "InvestigationLog":
@@ -145,7 +219,7 @@ class InvestigationLog(BaseModel):
 
 
 class SVReport(BaseModel):
-    report_version: str = "1.1.0"
+    report_version: str = "1.0.0"
     report_status: Literal["complete", "incomplete", "blocked"]
     sv_summary: SVSummary
     statistical_signals: list[ReportStatement] = Field(default_factory=list)
@@ -153,7 +227,6 @@ class SVReport(BaseModel):
     population_evidence: list[ReportStatement] = Field(default_factory=list)
     clinical_phenotype_evidence: list[ReportStatement] = Field(default_factory=list)
     literature_evidence: list[ReportStatement] = Field(default_factory=list)
-    functional_evidence: list[ReportStatement] = Field(default_factory=list)
     artifact_risks: list[ArtifactRiskItem] = Field(default_factory=list)
     possible_interpretations: list[ReportStatement] = Field(default_factory=list)
     contradictions: list[str] = Field(default_factory=list)
@@ -195,7 +268,6 @@ class SVReport(BaseModel):
             self.population_evidence,
             self.clinical_phenotype_evidence,
             self.literature_evidence,
-            self.functional_evidence,
             self.possible_interpretations,
         )
         for group in statement_groups:
