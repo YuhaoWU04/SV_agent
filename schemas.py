@@ -219,7 +219,7 @@ class InvestigationLog(BaseModel):
 
 
 class SVReport(BaseModel):
-    report_version: str = "1.0.0"
+    report_version: str = "1.0.1"
     report_status: Literal["complete", "incomplete", "blocked"]
     sv_summary: SVSummary
     statistical_signals: list[ReportStatement] = Field(default_factory=list)

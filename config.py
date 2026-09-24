@@ -13,14 +13,14 @@ MODEL = os.getenv("SV_AGENT_MODEL", "gemini-3.5-flash")
 # overlap endpoint is queried concurrently and has shown intermittent latency.
 HTTP_TIMEOUT_SECONDS = max(1.0, float(os.getenv("SV_AGENT_HTTP_TIMEOUT", "20")))
 ENSEMBL_HTTP_TIMEOUT_SECONDS = max(
-    1.0, float(os.getenv("SV_AGENT_ENSEMBL_HTTP_TIMEOUT", "30"))
+    1.0, float(os.getenv("SV_AGENT_ENSEMBL_HTTP_TIMEOUT", "60"))
 )
-ENSEMBL_MAX_ATTEMPTS = max(1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_ATTEMPTS", "2")))
+ENSEMBL_MAX_ATTEMPTS = max(1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_ATTEMPTS", "3")))
 ENSEMBL_MAX_CONCURRENT_REQUESTS = max(
-    1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS", "4"))
+    1, int(os.getenv("SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS", "2"))
 )
 ENSEMBL_RETRY_BACKOFF_SECONDS = max(
-    0.0, float(os.getenv("SV_AGENT_ENSEMBL_RETRY_BACKOFF", "1"))
+    0.0, float(os.getenv("SV_AGENT_ENSEMBL_RETRY_BACKOFF", "2"))
 )
 MAX_DATABASE_RECORDS = max(1, int(os.getenv("SV_AGENT_MAX_DATABASE_RECORDS", "10")))
 MAX_VEP_INTERVAL_BP = max(

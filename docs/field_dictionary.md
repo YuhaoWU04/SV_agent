@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `b27c47f6534f`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `197f244f3450`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -74,10 +74,10 @@
 
 - **固定基线调用门**（deterministic）：工具从状态读取标准化输入，直接保存完整基线结果；无效输入记录 blocked，模型不负责转写。
   - 分支/约束：validation_error → blocked
-- **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口的 gene、regulatory、repeat；相同区间复用，瞬时错误有限重试、全局限并发；保留错误、尝试次数、截断、URL 和 ENS-BL ID。
+- **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口；每个坐标范围用一次请求合并取回 gene、regulatory、repeat，相同区间复用，瞬时错误有限重试、全局限并发；保留错误、尝试次数、截断、URL 和 ENS-BL ID。
   - 分支/约束：CI 缺失使用带标签 ±500 bp fallback
   - 分支/约束：重试耗尽保留 error，不当作无注释
-- **Ensembl VEP consequence**（external-query）：将 build、区间、strand 和符号 DEL/DUP/INV/INS 提交给 VEP；按 impact、MANE、canonical 和覆盖率排序并压缩 consequence，添加 VEP-BL ID。
+- **Ensembl VEP consequence**（external-query）：将 build、区间、strand 和符号 DEL/DUP/INV/INS 提交给 VEP，其中点状 INS 转为 VEP 的 start=end+1 表示；按 impact、MANE、canonical 和覆盖率排序并压缩 consequence，添加 VEP-BL ID。
   - 分支/约束：BND 与方向未知 CNV 返回 not_applicable
   - 分支/约束：超过 SV_AGENT_MAX_VEP_INTERVAL_BP 返回 not_applicable
   - 分支/约束：预测 consequence 不等于实验或临床结论

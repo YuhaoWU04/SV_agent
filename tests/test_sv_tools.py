@@ -9,6 +9,7 @@ from sv_investigator.render_report import render_markdown
 from sv_investigator.schemas import SVReport
 from sv_investigator.tools import (
     _ensembl_json_request,
+    _json_request,
     assess_artifact_risk,
     collect_baseline_evidence,
     execute_adaptive_action,
@@ -97,9 +98,24 @@ class SVToolsTest(unittest.TestCase):
         payload, error, attempts = _ensembl_json_request("https://example.org", {"feature": "gene"})
         self.assertIsNone(payload)
         self.assertEqual(error, "HTTP 503")
+        self.assertEqual(attempts, 3)
+        self.assertEqual(request.call_count, 3)
+        self.assertEqual(sleep.call_count, 2)
+
+    @patch("sv_investigator.tools._json_request")
+    def test_ensembl_requests_explicit_json_and_retries_disconnects(self, request):
+        request.side_effect = [(None, "ConnectionError"), ([], None)]
+        payload, error, attempts = _ensembl_json_request("https://example.org", {})
+        self.assertEqual(payload, [])
+        self.assertIsNone(error)
         self.assertEqual(attempts, 2)
-        self.assertEqual(request.call_count, 2)
-        sleep.assert_called_once()
+        self.assertEqual(request.call_args.args[1]["content-type"], "application/json")
+
+    @patch("sv_investigator.tools.urlopen", side_effect=ConnectionResetError)
+    def test_json_request_normalizes_dropped_connection(self, _urlopen):
+        payload, error = _json_request("https://example.org")
+        self.assertIsNone(payload)
+        self.assertEqual(error, "ConnectionError")
 
     def test_normalize_valid_sv(self):
         result = normalize_sv_input(json.dumps({
@@ -472,15 +488,22 @@ class SVToolsTest(unittest.TestCase):
     @patch("sv_investigator.tools._json_request")
     def test_ensembl_region_preserves_sv_type_and_query_scope(self, request):
         request.side_effect = [
-            ([{"id": "ENSG1"}], None),
+            ([
+                {"id": "ENSG1", "feature_type": "gene"},
+                {"id": "ENSR1", "feature_type": "regulatory"},
+                {"id": "REP1", "feature_type": "repeat"},
+            ], None),
             ([], None),
             ([], None),
-        ] + [( [], None)] * 6
+        ]
         result = query_ensembl_region("GRCh38", "1", 10, 20, "deletion")
         self.assertEqual(result["status"], "found")
         self.assertEqual(result["completeness"], "complete")
         self.assertEqual(result["sv_type"], "DEL")
         self.assertEqual(result["annotation_mode"], "spatial_overlap_only")
+        self.assertEqual(len(result["features"]["gene"]), 1)
+        self.assertEqual(len(result["features"]["regulatory"]), 1)
+        self.assertEqual(len(result["features"]["repeat"]), 1)
         self.assertIn("?feature=gene", result["source_urls"]["gene"])
         self.assertEqual(
             result["breakpoint_annotations"]["start"]["source"],
@@ -491,7 +514,7 @@ class SVToolsTest(unittest.TestCase):
     def test_ensembl_partial_failure_is_not_not_found(self, request):
         def response(url, params, headers, **kwargs):
             del headers, kwargs
-            if params["feature"] == "repeat" and "1:10-20" not in url:
+            if "1:10-20" not in url:
                 return None, "HTTP 503"
             return [], None
 
@@ -502,7 +525,7 @@ class SVToolsTest(unittest.TestCase):
         self.assertIsNone(
             result["breakpoint_annotations"]["start"]["features"]["repeat"]
         )
-        self.assertEqual(result["breakpoint_annotations"]["start"]["attempts"]["repeat"], 2)
+        self.assertEqual(result["breakpoint_annotations"]["start"]["attempts"]["repeat"], 3)
 
         risks = assess_artifact_risk(json.dumps({
             "quality": {},
@@ -533,9 +556,9 @@ class SVToolsTest(unittest.TestCase):
             "GRCh38", "1", 1000, 1000, "INS", [1000, 1000], [1000, 1000]
         )
         self.assertEqual(result["status"], "not_found")
-        # Nominal, start and end all resolve to the same interval: three feature
-        # requests are sufficient instead of repeating them for every role.
-        self.assertEqual(request.call_count, 3)
+        # Nominal, start and end resolve to the same interval, and all baseline
+        # feature types share one Ensembl request.
+        self.assertEqual(request.call_count, 1)
 
     @patch("sv_investigator.tools._json_post")
     def test_gnomad_sv_uses_build_matched_dataset_and_match_metrics(self, post):
@@ -749,6 +772,17 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(result["input_annotations"][0]["most_severe_consequence"],
                          "transcript_ablation")
         self.assertIn("/vep/human/region/1:1000-2000:1/DEL", request.call_args.args[0])
+
+    @patch("sv_investigator.tools._ensembl_json_request")
+    def test_vep_uses_between_base_coordinates_for_point_insertion(self, request):
+        request.return_value = ([], None, 1)
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "3", "start": 100,
+            "end": 100, "sv_type": "INS", "length_bp": 10,
+        }))
+        result = query_ensembl_vep(json.dumps(sv))
+        self.assertEqual(result["status"], "not_found")
+        self.assertIn("/vep/human/region/3:101-100:1/INS", request.call_args.args[0])
 
     @patch("sv_investigator.tools._json_request")
     def test_dbvar_filters_build_and_labels_direction_ambiguity(self, request):

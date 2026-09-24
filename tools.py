@@ -42,8 +42,8 @@ ENSEMBL_REST = "https://rest.ensembl.org"
 # simultaneous investigations from multiplying the load sent to Ensembl.
 _ENSEMBL_REQUEST_SLOTS = threading.BoundedSemaphore(ENSEMBL_MAX_CONCURRENT_REQUESTS)
 _ENSEMBL_RETRYABLE_ERRORS = {
-    "TimeoutError", "URLError", "HTTP 429", "HTTP 500", "HTTP 502",
-    "HTTP 503", "HTTP 504",
+    "TimeoutError", "URLError", "ConnectionError", "HTTP 429", "HTTP 500",
+    "HTTP 502", "HTTP 503", "HTTP 504",
 }
 # Tool calls emitted together by a model may run concurrently. Reserve adaptive
 # budget under a short lock; external requests themselves run outside this lock.
@@ -137,7 +137,10 @@ def _json_request(
     *,
     timeout_seconds: float | None = None,
 ) -> tuple[Any | None, str | None]:
-    query = f"?{urlencode(params, doseq=True)}" if params else ""
+    query = (
+        f"{'&' if '?' in url else '?'}{urlencode(params, doseq=True)}"
+        if params else ""
+    )
     request_headers = {"Accept": "application/json", "User-Agent": USER_AGENT}
     if headers:
         request_headers.update(headers)
@@ -148,8 +151,12 @@ def _json_request(
             return json.loads(response.read().decode("utf-8")), None
     except HTTPError as exc:
         return None, f"HTTP {exc.code}"
-    except (URLError, TimeoutError) as exc:
-        return None, type(exc).__name__
+    except (URLError, TimeoutError, ConnectionError) as exc:
+        if isinstance(exc, TimeoutError):
+            return None, "TimeoutError"
+        if isinstance(exc, URLError):
+            return None, "URLError"
+        return None, "ConnectionError"
     except json.JSONDecodeError:
         return None, "invalid_json_response"
 
@@ -183,6 +190,7 @@ def _ensembl_json_request(
     url: str, params: dict[str, Any]
 ) -> tuple[Any | None, str | None, int]:
     """Retry transient Ensembl failures and return the number of attempts used."""
+    params = {**params, "content-type": "application/json"}
     for attempt in range(1, ENSEMBL_MAX_ATTEMPTS + 1):
         with _ENSEMBL_REQUEST_SLOTS:
             payload, error = _json_request(
@@ -198,15 +206,14 @@ def _ensembl_json_request(
 
 
 def _ensembl_overlap_request(
-    host: str, chrom: str, interval: list[int], feature: str
+    host: str, chrom: str, interval: list[int], features: tuple[str, ...]
 ) -> tuple[Any | None, str | None, int, str]:
-    """Build one overlap request consistently for baseline and adaptive queries."""
+    """Build one overlap request for one or more Ensembl feature types."""
     region = quote(f"{chrom}:{interval[0]}-{interval[1]}", safe=":-")
-    endpoint = f"{host}/overlap/region/human/{region}"
-    payload, error, attempts = _ensembl_json_request(
-        endpoint, {"feature": feature}
-    )
-    return payload, error, attempts, f"{endpoint}?feature={feature}"
+    feature_query = ";".join(f"feature={feature}" for feature in features)
+    endpoint = f"{host}/overlap/region/human/{region}?{feature_query}"
+    payload, error, attempts = _ensembl_json_request(endpoint, {})
+    return payload, error, attempts, f"{endpoint}&content-type=application/json"
 
 
 def _json_post(url: str, payload: dict[str, Any]) -> tuple[Any | None, str | None]:
@@ -680,15 +687,15 @@ def _query_ensembl_feature_set(
     attempts_by_feature: dict[str, int] = {}
     feature_names = ("gene", "regulatory", "repeat")
 
-    def fetch(feature: str) -> tuple[str, Any, str | None, int, str]:
-        payload, error, attempts, source_url = _ensembl_overlap_request(
-            host, chrom, interval, feature
-        )
-        return feature, payload, error, attempts, source_url
-
-    with ThreadPoolExecutor(max_workers=len(feature_names)) as executor:
-        results = list(executor.map(fetch, feature_names))
-    for feature, payload, error, attempts, source_url in results:
+    payload, error, attempts, source_url = _ensembl_overlap_request(
+        host, chrom, interval, feature_names
+    )
+    rows_by_feature = {feature: [] for feature in feature_names}
+    if isinstance(payload, list):
+        for row in payload:
+            if isinstance(row, dict) and row.get("feature_type") in rows_by_feature:
+                rows_by_feature[row["feature_type"]].append(row)
+    for feature in feature_names:
         attempts_by_feature[feature] = attempts
         source_urls[feature] = source_url
         if error:
@@ -700,8 +707,9 @@ def _query_ensembl_feature_set(
             features[feature] = None
             truncated[feature] = False
         else:
-            features[feature] = payload[:MAX_DATABASE_RECORDS]
-            truncated[feature] = len(payload) > MAX_DATABASE_RECORDS
+            feature_rows = rows_by_feature[feature]
+            features[feature] = feature_rows[:MAX_DATABASE_RECORDS]
+            truncated[feature] = len(feature_rows) > MAX_DATABASE_RECORDS
     has_successful_query = any(rows is not None for rows in features.values())
     completeness = "complete" if not errors else (
         "partial" if has_successful_query else "failed"
@@ -863,7 +871,8 @@ def query_ensembl_region(
             "Spatial overlap only: sv_type is retained for provenance but does not "
             "change this query. Nominal-interval and breakpoint-window results are "
             "reported separately; a parsed BND mate is also queried separately. "
-            "A heuristic breakpoint window retrieves nearby "
+            "Each scope combines gene, regulatory, and repeat features in one "
+            "request. A heuristic breakpoint window retrieves nearby "
             "features but is not a measured confidence interval. Results are capped "
             "per feature type; transcript, "
             "consequence, breakpoint, nearest-gene, and mappability annotation are "
@@ -968,9 +977,12 @@ def query_ensembl_vep(
         "https://grch37.rest.ensembl.org"
         if sv["genome_build"] == "GRCh37" else ENSEMBL_REST
     )
-    region = quote(
-        f"{sv['chrom']}:{sv['start']}-{sv['end']}:1", safe=":-"
-    )
+    vep_start, vep_end = sv["start"], sv["end"]
+    # VEP represents an insertion between bases as start=end+1. The normalized
+    # input retains the original point coordinate for every other tool.
+    if sv["sv_type"] == "INS" and vep_start == vep_end:
+        vep_start += 1
+    region = quote(f"{sv['chrom']}:{vep_start}-{vep_end}:1", safe=":-")
     endpoint = f"{host}/vep/human/region/{region}/{sv['sv_type']}"
     payload, error, attempts = _ensembl_json_request(
         endpoint, {"canonical": 1, "mane": 1, "numbers": 1}
@@ -1054,7 +1066,7 @@ def _query_ensembl_single_feature(
 ) -> dict[str, Any]:
     """Run one explicit Ensembl overlap query for an adaptive action."""
     payload, error, attempts, source_url = _ensembl_overlap_request(
-        host, chrom, interval, feature
+        host, chrom, interval, (feature,)
     )
     query_region = f"{chrom}:{interval[0]}-{interval[1]}"
     response_error = error or (

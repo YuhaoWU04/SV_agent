@@ -1,6 +1,6 @@
 # SV Investigator (Google ADK)
 
-Current prototype release: **v1.0.0**.
+Current prototype release: **v1.0.1**.
 
 The six-case v1.0.0 reference run is stored in
 [`examples/runs/v1.0.0`](examples/runs/v1.0.0). It includes complete session state,
@@ -157,8 +157,9 @@ pre-limit counts and a truncation flag.
 
 ## Baseline Ensembl annotation: capability and limitations
 
-The region stage uses only the Ensembl REST API. It performs three coordinate-overlap
-queries for `gene`, `regulatory`, and `repeat` features. It returns the normalized
+The region stage uses only the Ensembl REST API. For each coordinate scope it combines
+`gene`, `regulatory`, and `repeat` features in one overlap request, reducing load and
+correlated failures. It returns the normalized
 build, region, and SV type for provenance, but the overlap operation itself is not
 SV-type-aware: the same interval produces the same overlap features for DEL, DUP,
 INV, INS, BND, and CNV. These results support statements such as "the interval overlaps
@@ -166,7 +167,8 @@ this Ensembl feature" only; they do not establish a molecular consequence, dosag
 effect, phenotype, pathogenicity, or causal mechanism.
 
 Each feature type is capped at `SV_AGENT_MAX_DATABASE_RECORDS` records (10 by default),
-and the response reports whether truncation occurred. Feature lists are independent:
+and the response reports whether truncation occurred. Feature lists are separated
+after retrieval:
 an empty list means a successful query with no records, while `null` means that query
 failed. `completeness` is `complete`, `partial`, or `failed`; a partially failed query
 must not be interpreted as comprehensive absence. The same features are also queried
@@ -175,10 +177,10 @@ whether the window came from VCF confidence intervals or from the heuristic fall
 features found only in a fallback window are nearby candidates, not confirmed SV
 overlaps.
 
-Ensembl requests have a 30-second timeout and at most two attempts by default, with
-a one-second delay before retry. Only timeouts, connection errors, HTTP 429, and HTTP
-500/502/503/504 are retried; other HTTP errors and malformed responses are
-not. At most four Ensembl requests run concurrently. `attempts` records the number of
+Ensembl requests have a 60-second timeout and at most three attempts by default, with
+backoff delays starting at two seconds. Only timeouts, connection errors, HTTP 429,
+and HTTP 500/502/503/504 are retried; other HTTP errors and malformed responses are
+not. At most two Ensembl requests run concurrently. `attempts` records the number of
 tries for each feature or adaptive query. Exhausted retries remain explicit errors,
 not empty annotation results. These defaults can be changed with
 `SV_AGENT_ENSEMBL_HTTP_TIMEOUT`, `SV_AGENT_ENSEMBL_MAX_ATTEMPTS`,
@@ -199,6 +201,8 @@ that either breakpoint is unreliable.
 The VEP adapter submits the normalized build, interval, strand, and symbolic `DEL`,
 `DUP`, `INV`, or `INS` allele to the official
 [Ensembl VEP region endpoint](https://rest.ensembl.org/documentation/info/vep_region_get).
+Point insertions are translated to VEP's between-base `start=end+1` representation
+without changing the normalized coordinates used by other tools.
 It retains the input-level most-severe consequence and a ranked, compact set of
 transcript, regulatory, motif, and intergenic consequences. Transcript records can
 include gene/transcript IDs, symbols, biotype, canonical and MANE flags, exon/intron

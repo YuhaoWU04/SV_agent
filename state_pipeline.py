@@ -644,7 +644,7 @@ def finalize_report_from_state(
     report["contradictions"] = list(verification.get("contradictions") or [])
     report["investigation_log"] = _investigation_log(report, state)
     report["query_provenance"] = _query_provenance(state)
-    report["report_version"] = "1.0.0"
+    report["report_version"] = "1.0.1"
     source_failures = [
         f"{source.get('source') or key} query was incomplete ({source.get('status') or source.get('completeness')})."
         for key in (

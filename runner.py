@@ -584,7 +584,7 @@ async def run_batch(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
     else:
         run_manifest = {
             "project_version": __version__,
-            "runner_version": "1.0.0",
+            "runner_version": "1.0.1",
             "started_at": _utc_now(),
             "source_manifest": str(manifest_path),
             "corpus_version": manifest.get("corpus_version"),
