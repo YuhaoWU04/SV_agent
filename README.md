@@ -89,3 +89,9 @@ field-level workflow map. Its editable source is
 - Alternate contigs, liftover, inserted sequence, and comprehensive phenotype or
   functional databases are outside the current MVP.
 - Final interpretations require human review, especially for clinical use.
+
+## License
+
+The project code is released under the [MIT License](LICENSE). External database
+records and annotations remain subject to their respective providers' terms and
+citation requirements; this license does not relicense those sources.
