@@ -7,6 +7,5 @@ __pycache__/
 .vs/
 /runs/
 /output/
-.ppt_build/
 /docs/development_notes.md
 test/
