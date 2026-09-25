@@ -1,6 +1,6 @@
 # SV Investigator 字段词典
 
-> 自动生成自 `architecture/data_lineage.json`；源指纹 `197f244f3450`。
+> 自动生成自 `architecture/data_lineage.json`；源指纹 `4b3517edaf84`。
 > 请勿直接编辑本文件。
 
 ## 0. 用户输入
@@ -74,14 +74,15 @@
 
 - **固定基线调用门**（deterministic）：工具从状态读取标准化输入，直接保存完整基线结果；无效输入记录 blocked，模型不负责转写。
   - 分支/约束：validation_error → blocked
-- **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口；每个坐标范围用一次请求合并取回 gene、regulatory、repeat，相同区间复用，瞬时错误有限重试、全局限并发；保留错误、尝试次数、截断、URL 和 ENS-BL ID。
+- **Ensembl 基线 overlap**（external-query）：重新校验坐标后查询名义区间及 start/end/mate 窗口；每个范围先合并取回 gene、regulatory、repeat，失败后串行拆分查询以保留部分结果；所有 Ensembl 请求全局串行并共享指数退避冷却，保留错误、尝试次数、截断、URL 和 ENS-BL ID。
   - 分支/约束：CI 缺失使用带标签 ±500 bp fallback
+  - 分支/约束：合并查询失败后降级为逐类查询
   - 分支/约束：重试耗尽保留 error，不当作无注释
 - **Ensembl VEP consequence**（external-query）：将 build、区间、strand 和符号 DEL/DUP/INV/INS 提交给 VEP，其中点状 INS 转为 VEP 的 start=end+1 表示；按 impact、MANE、canonical 和覆盖率排序并压缩 consequence，添加 VEP-BL ID。
   - 分支/约束：BND 与方向未知 CNV 返回 not_applicable
   - 分支/约束：超过 SV_AGENT_MAX_VEP_INTERVAL_BP 返回 not_applicable
   - 分支/约束：预测 consequence 不等于实验或临床结论
-- **gnomAD-SV 基线与固定匹配**（external-query）：重新校验已存候选坐标；按 build 选数据集，检索候选并用类型、重叠和断点规则分类；缺失 CI 时 ±500 bp 只扩展检索，不单独提升 high_similarity；添加 GNO-BL ID。
+- **gnomAD-SV 基线与固定匹配**（external-query）：重新校验已存候选坐标；按 build 选数据集，检索候选并用类型、重叠和断点规则分类；起止偏移按数据库坐标减输入坐标保留正负方向，排序使用绝对值；缺失 CI 时 ±500 bp 只扩展检索，不单独提升 high_similarity；添加 GNO-BL ID。
   - 分支/约束：BND 有 mate 比较双端；无 mate 只比较第一端且不能确认同一事件
 - **ClinGen Dosage 基因与区域证据**（external-query）：下载 ClinGen 当前基因与区域剂量敏感性表，按 build 解析区间并计算重叠；DEL 优先 HI、DUP 优先 TS，记录评分、报告链接、版本日期、匹配指标和 CGD-BL ID。
   - 分支/约束：非 CNV 类型返回 not_applicable
@@ -203,7 +204,7 @@ LLM 只选择 PubMed 查询并返回简短审计；坐标查询必须保留精�
 | final_report.sv_summary | SVSummary | 只复制标准化候选身份、CI 和 BND 字段。 | 无效输入保留可用原字段并 blocked。 |
 | final_report.{gene_region_annotation,population_evidence,clinical_phenotype_evidence,literature_evidence,possible_interpretations,recommended_next_steps} | object | 程序将精确 supported claim 按 synthesis 指定分区组装；partially_supported 只留在核验记录，下一步由 evidence gap 生成。当前未实装独立功能数据库，因此不伪设 functional_evidence 栏目。 | 无 supported claim 时对应分区为空。 |
 | final_report.{statistical_signals,artifact_risks,verified_claims,contradictions} | object | 程序从 normalized/baseline/verification state 直接复制或格式化，不接受模型改写。 | 源字段缺失时为空。 |
-| final_report.{evidence_catalog,query_provenance} | object | 程序从工具状态生成查询来源和被引用证据目录并去重。 | 无引用时为空；未知 ID 被移除并写入 limitations。 |
+| final_report.{evidence_catalog,query_provenance} | object | 程序从工具状态生成来源感知的被引用证据目录并去重；目录明确区分检索状态与实际发现状态，提取关键事实并记录 used_by 引用位置。 | 无引用时为空；未知 ID 被移除并写入 limitations。 |
 | final_report.investigation_log | InvestigationLog | 复制证据缺口、计划、执行动作、2 次预算、停止原因和剩余限制。 | 必填并经 schema 校验。 |
 | final_report.{report_version,report_status,limitations,recommended_next_steps} | object | 报告版本、完成状态、限制和可复现下一步。 | schema 强制状态。 |
 

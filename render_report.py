@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 from typing import Any
 
@@ -180,13 +181,39 @@ def render_markdown(report: dict[str, Any]) -> str:
         lines.extend([f"- {value}" for value in values] or ["None recorded."])
 
     lines += ["", "## Evidence catalog", ""]
-    for item in report.get("evidence_catalog", []):
-        link = f" — {item.get('source_url')}" if item.get("source_url") else ""
-        lines.append(
-            f"- **{item.get('evidence_id')}** [{item.get('source')}; "
-            f"{item.get('match_type')}]: {item.get('summary')}{link}"
-        )
-    if not report.get("evidence_catalog"):
+    catalog = report.get("evidence_catalog", [])
+    for source in dict.fromkeys(item.get("source", "Unknown") for item in catalog):
+        source_items = [
+            item for item in catalog if item.get("source", "Unknown") == source
+        ]
+        lines += [f"### {source}", ""]
+        for item in source_items:
+            qualifiers = list(dict.fromkeys(
+                value for value in (item.get("finding_status"), item.get("match_type"))
+                if value
+            ))
+            suffix = f" ({'; '.join(qualifiers)})" if qualifiers else ""
+            lines.append(f"- **{item.get('evidence_id')}**{suffix}: {item.get('summary')}")
+            facts = item.get("key_facts") or {}
+            if facts:
+                rendered = "; ".join(
+                    f"{key}={json.dumps(value, ensure_ascii=False)}"
+                    for key, value in facts.items()
+                )
+                lines.append(f"  - Key facts: {rendered}")
+            if item.get("used_by"):
+                lines.append(f"  - Used by: {', '.join(item['used_by'])}")
+            if item.get("retrieval_status") != "found":
+                lines.append(f"  - Retrieval: {item.get('retrieval_status')}")
+            if item.get("source_url"):
+                lines.append(f"  - Source: {item.get('source_url')}")
+        source_limitations = list(dict.fromkeys(
+            item.get("limitations") for item in source_items if item.get("limitations")
+        ))
+        for limitation in source_limitations:
+            lines.append(f"- **Source limitation:** {limitation}")
+        lines.append("")
+    if not catalog:
         lines.append("No evidence records retained.")
 
     lines += ["", "## Query provenance", ""]

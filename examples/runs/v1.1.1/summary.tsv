@@ -1,0 +1,7 @@
+case_id	category	run_status	report_status	schema_valid	elapsed_seconds	event_count	state_character_count	adaptive_result_count	literature_query_count	error_type
+giab_cmrg_del_chr4_1092990_1093039	technical_benchmark	complete	complete	True	93.61	17	127832	0	2	
+giab_cmrg_ins_chr3_49404094_663bp	technical_benchmark	complete	complete	True	66.219	13	111746	0	0	
+giab_cmrg_tandem_dup_as_ins_chr2_983265_222bp	technical_benchmark	complete	complete	True	93.578	17	115729	0	2	
+clingen_22q11_2_distal_type1_del	interpretation_reference	complete	complete	True	89.75	13	143747	0	0	
+clingen_16p12_2_population_dup	interpretation_reference	complete	complete	True	123.0	13	190726	0	0	
+clingen_22q11_21_ces_gain	interpretation_reference	complete	complete	True	472.969	19	127920	0	3	

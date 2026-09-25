@@ -1,0 +1,24 @@
+{
+  "sv_id": "GIAB_CMRG_GRCh38_chr3_49404094_INS663",
+  "genome_build": "GRCh38",
+  "chrom": "3",
+  "start": 49404094,
+  "end": 49404094,
+  "sv_type": "INS",
+  "length_bp": 663,
+  "quality": {
+    "vcf_qual": 30,
+    "filter": ".",
+    "genotype": "0|1",
+    "callset": "GIAB_CMRG_v1.00"
+  },
+  "source_record": {
+    "vcf_chrom": "chr3",
+    "vcf_pos": 49404094,
+    "ref_length": 1,
+    "alt_length": 664,
+    "reptype": "SIMPLEINS",
+    "breaksimlength": 1,
+    "refwidened": "chr3:49404095-49404095"
+  }
+}

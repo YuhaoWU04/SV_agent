@@ -10,6 +10,7 @@ import copy
 import csv
 import io
 import json
+import random
 import re
 import threading
 import time
@@ -24,7 +25,6 @@ from .config import (
     DEFAULT_BREAKPOINT_TOLERANCE_BP,
     ENSEMBL_HTTP_TIMEOUT_SECONDS,
     ENSEMBL_MAX_ATTEMPTS,
-    ENSEMBL_MAX_CONCURRENT_REQUESTS,
     ENSEMBL_RETRY_BACKOFF_SECONDS,
     HTTP_TIMEOUT_SECONDS,
     MAX_ADAPTIVE_QUERIES,
@@ -38,9 +38,10 @@ from .config import (
 
 
 ENSEMBL_REST = "https://rest.ensembl.org"
-# Several baseline scopes are executed in parallel. This process-wide gate prevents
-# simultaneous investigations from multiplying the load sent to Ensembl.
-_ENSEMBL_REQUEST_SLOTS = threading.BoundedSemaphore(ENSEMBL_MAX_CONCURRENT_REQUESTS)
+# Ensembl is the least stable upstream used here. Serializing its requests also makes
+# retry cooldowns apply to region, VEP, and adaptive queries as one shared stream.
+_ENSEMBL_REQUEST_LOCK = threading.Lock()
+_ENSEMBL_NOT_BEFORE = 0.0
 _ENSEMBL_RETRYABLE_ERRORS = {
     "TimeoutError", "URLError", "ConnectionError", "HTTP 429", "HTTP 500",
     "HTTP 502", "HTTP 503", "HTTP 504",
@@ -187,32 +188,49 @@ def _text_request(
 
 
 def _ensembl_json_request(
-    url: str, params: dict[str, Any]
+    url: str, params: dict[str, Any], *, max_attempts: int | None = None
 ) -> tuple[Any | None, str | None, int]:
-    """Retry transient Ensembl failures and return the number of attempts used."""
+    """Serialize Ensembl traffic and retry transient failures after shared cooldowns."""
+    global _ENSEMBL_NOT_BEFORE
     params = {**params, "content-type": "application/json"}
-    for attempt in range(1, ENSEMBL_MAX_ATTEMPTS + 1):
-        with _ENSEMBL_REQUEST_SLOTS:
+    attempt_limit = (
+        ENSEMBL_MAX_ATTEMPTS if max_attempts is None else max(1, max_attempts)
+    )
+    for attempt in range(1, attempt_limit + 1):
+        with _ENSEMBL_REQUEST_LOCK:
+            wait_seconds = max(0.0, _ENSEMBL_NOT_BEFORE - time.monotonic())
+            if wait_seconds:
+                time.sleep(wait_seconds)
+            _ENSEMBL_NOT_BEFORE = 0.0
             payload, error = _json_request(
                 url, params, {"Content-Type": "application/json"},
                 timeout_seconds=ENSEMBL_HTTP_TIMEOUT_SECONDS,
             )
-        if error not in _ENSEMBL_RETRYABLE_ERRORS or attempt == ENSEMBL_MAX_ATTEMPTS:
+            if error in _ENSEMBL_RETRYABLE_ERRORS:
+                base_delay = ENSEMBL_RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1))
+                _ENSEMBL_NOT_BEFORE = (
+                    time.monotonic() + base_delay + random.uniform(0.0, base_delay * 0.25)
+                )
+        if error not in _ENSEMBL_RETRYABLE_ERRORS or attempt == attempt_limit:
             return payload, error, attempt
-        # Wait outside the semaphore so another request can use the released slot.
-        if ENSEMBL_RETRY_BACKOFF_SECONDS:
-            time.sleep(ENSEMBL_RETRY_BACKOFF_SECONDS * attempt)
     raise AssertionError("unreachable")
 
 
 def _ensembl_overlap_request(
-    host: str, chrom: str, interval: list[int], features: tuple[str, ...]
+    host: str,
+    chrom: str,
+    interval: list[int],
+    features: tuple[str, ...],
+    *,
+    max_attempts: int | None = None,
 ) -> tuple[Any | None, str | None, int, str]:
     """Build one overlap request for one or more Ensembl feature types."""
     region = quote(f"{chrom}:{interval[0]}-{interval[1]}", safe=":-")
     feature_query = ";".join(f"feature={feature}" for feature in features)
     endpoint = f"{host}/overlap/region/human/{region}?{feature_query}"
-    payload, error, attempts = _ensembl_json_request(endpoint, {})
+    payload, error, attempts = _ensembl_json_request(
+        endpoint, {}, max_attempts=max_attempts
+    )
     return payload, error, attempts, f"{endpoint}&content-type=application/json"
 
 
@@ -687,29 +705,38 @@ def _query_ensembl_feature_set(
     attempts_by_feature: dict[str, int] = {}
     feature_names = ("gene", "regulatory", "repeat")
 
-    payload, error, attempts, source_url = _ensembl_overlap_request(
-        host, chrom, interval, feature_names
+    payload, combined_error, combined_attempts, combined_url = _ensembl_overlap_request(
+        host, chrom, interval, feature_names, max_attempts=1
     )
-    rows_by_feature = {feature: [] for feature in feature_names}
-    if isinstance(payload, list):
+    combined_error = combined_error or (
+        None if isinstance(payload, list) else "invalid_response_shape"
+    )
+    fallback_used = combined_error is not None
+    if fallback_used:
+        for feature in feature_names:
+            rows, error, attempts, source_url = _ensembl_overlap_request(
+                host, chrom, interval, (feature,)
+            )
+            attempts_by_feature[feature] = combined_attempts + attempts
+            source_urls[feature] = source_url
+            if error or not isinstance(rows, list):
+                errors[feature] = error or "invalid_response_shape"
+                features[feature] = None
+                truncated[feature] = False
+            else:
+                features[feature] = rows[:MAX_DATABASE_RECORDS]
+                truncated[feature] = len(rows) > MAX_DATABASE_RECORDS
+    else:
+        rows_by_feature = {feature: [] for feature in feature_names}
         for row in payload:
             if isinstance(row, dict) and row.get("feature_type") in rows_by_feature:
                 rows_by_feature[row["feature_type"]].append(row)
-    for feature in feature_names:
-        attempts_by_feature[feature] = attempts
-        source_urls[feature] = source_url
-        if error:
-            errors[feature] = error
-            features[feature] = None
-            truncated[feature] = False
-        elif not isinstance(payload, list):
-            errors[feature] = "invalid_response_shape"
-            features[feature] = None
-            truncated[feature] = False
-        else:
+        for feature in feature_names:
             feature_rows = rows_by_feature[feature]
             features[feature] = feature_rows[:MAX_DATABASE_RECORDS]
             truncated[feature] = len(feature_rows) > MAX_DATABASE_RECORDS
+            attempts_by_feature[feature] = combined_attempts
+            source_urls[feature] = combined_url
     has_successful_query = any(rows is not None for rows in features.values())
     completeness = "complete" if not errors else (
         "partial" if has_successful_query else "failed"
@@ -721,6 +748,8 @@ def _query_ensembl_feature_set(
         "truncated": truncated,
         "attempts": attempts_by_feature,
         "source_urls": source_urls,
+        "query_strategy": "individual_fallback" if fallback_used else "combined",
+        "combined_query_error": combined_error,
         "completeness": completeness,
     }
 
@@ -858,6 +887,8 @@ def query_ensembl_region(
         "truncated": nominal["truncated"],
         "attempts": nominal["attempts"],
         "source_urls": nominal["source_urls"],
+        "query_strategy": nominal["query_strategy"],
+        "combined_query_error": nominal["combined_query_error"],
         "breakpoint_annotations": {
             "start": {**start_window, **start_annotation},
             "end": {**end_window, **end_annotation},
@@ -871,8 +902,9 @@ def query_ensembl_region(
             "Spatial overlap only: sv_type is retained for provenance but does not "
             "change this query. Nominal-interval and breakpoint-window results are "
             "reported separately; a parsed BND mate is also queried separately. "
-            "Each scope combines gene, regulatory, and repeat features in one "
-            "request. A heuristic breakpoint window retrieves nearby "
+            "Each scope first combines gene, regulatory, and repeat features; a "
+            "failed combined request falls back to serialized per-feature queries. "
+            "A heuristic breakpoint window retrieves nearby "
             "features but is not a measured confidence interval. Results are capped "
             "per feature type; transcript, "
             "consequence, breakpoint, nearest-gene, and mappability annotation are "
@@ -1325,8 +1357,8 @@ def _interval_candidate_match(
         "coordinate_exact": exact,
         "same_event_established": False,
         "match_metrics": {
-            "start_distance_bp": abs(db_start - start),
-            "end_distance_bp": abs(db_end - end),
+            "start_offset_bp": db_start - start,
+            "end_offset_bp": db_end - end,
             "start_within_allowed_window": start_in_window,
             "end_within_allowed_window": end_in_window,
             "start_window_source": start_window["source"],
@@ -1636,8 +1668,8 @@ def query_clinvar(
         })
     classified.sort(key=lambda row: (
         -_MATCH_RANK[row["match_type"]],
-        row["match_metrics"]["start_distance_bp"]
-        + row["match_metrics"]["end_distance_bp"],
+        abs(row["match_metrics"]["start_offset_bp"])
+        + abs(row["match_metrics"]["end_offset_bp"]),
         row["record_id"],
     ))
     records = classified[:max_records]
@@ -1851,8 +1883,8 @@ def query_dbvar(
     classified.sort(key=lambda row: (
         row["type_compatibility"] != "compatible",
         -_MATCH_RANK[row["match_type"]],
-        row["match_metrics"]["start_distance_bp"]
-        + row["match_metrics"]["end_distance_bp"],
+        abs(row["match_metrics"]["start_offset_bp"])
+        + abs(row["match_metrics"]["end_offset_bp"]),
         row["record_id"],
     ))
     records = classified[:max_records]
@@ -1983,8 +2015,8 @@ def query_dgv(
         })
     classified.sort(key=lambda row: (
         -_MATCH_RANK[row["match_type"]],
-        row["match_metrics"]["start_distance_bp"]
-        + row["match_metrics"]["end_distance_bp"],
+        abs(row["match_metrics"]["start_offset_bp"])
+        + abs(row["match_metrics"]["end_offset_bp"]),
         row["record_id"],
     ))
     records = classified[:max_records]
@@ -2039,8 +2071,8 @@ def _classify_gnomad_candidate(
 
     start = sv["start"]
     end = sv["end"]
-    start_distance = abs(db_start - start)
-    end_distance = abs(db_end - end)
+    start_offset = db_start - start
+    end_offset = db_end - end
     # A heuristic fallback widens retrieval, but is not a measured confidence
     # interval and must not by itself upgrade a candidate's similarity class.
     start_in_window = (
@@ -2054,8 +2086,8 @@ def _classify_gnomad_candidate(
     exact = db_start == start and db_end == end
 
     metrics: dict[str, Any] = {
-        "start_distance_bp": start_distance,
-        "end_distance_bp": end_distance,
+        "start_offset_bp": start_offset,
+        "end_offset_bp": end_offset,
         "start_within_allowed_window": start_in_window,
         "end_within_allowed_window": end_in_window,
         "start_window_source": start_window["source"],
@@ -2342,8 +2374,8 @@ def query_gnomad_sv(
     classified.sort(
         key=lambda row: (
             -row["_rank"],
-            row["match_metrics"].get("start_distance_bp", 0)
-            + row["match_metrics"].get("end_distance_bp", 0)
+            abs(row["match_metrics"].get("start_offset_bp", 0))
+            + abs(row["match_metrics"].get("end_offset_bp", 0))
             + row["match_metrics"].get("local_breakpoint_distance_bp", 0)
             + row["match_metrics"].get("mate_breakpoint_distance_bp", 0),
             str(row.get("variant_id")),

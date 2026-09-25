@@ -1,0 +1,4417 @@
+{
+  "normalized_sv": {
+    "status": "valid",
+    "sv_id": "GIAB_CMRG_GRCh38_chr4_1092989_DEL50",
+    "genome_build": "GRCh38",
+    "genome_build_original": "GRCh38",
+    "chrom": "4",
+    "start": 1092990,
+    "end": 1093039,
+    "coordinate_system": "1-based-inclusive",
+    "chromosome_length_bp": 190214555,
+    "cipos": null,
+    "ciend": null,
+    "start_confidence_interval": null,
+    "end_confidence_interval": null,
+    "breakpoint_uncertainty_status": "not_provided",
+    "imprecise": false,
+    "bnd_mate_status": "not_applicable",
+    "mate_chrom": null,
+    "mate_pos": null,
+    "mate_confidence_interval": null,
+    "local_orientation": null,
+    "mate_orientation": null,
+    "bnd_alt": null,
+    "bnd_mate_source": null,
+    "breakpoint_fallback_tolerance_bp": 500,
+    "breakpoint_fallback_policy": "Used only to retrieve and label nearby candidates when a VCF confidence interval is absent; it is not a measured confidence interval.",
+    "sv_type": "DEL",
+    "sv_type_original": "DEL",
+    "sv_subtype": null,
+    "length_bp": 50,
+    "statistics": {},
+    "quality": {
+      "vcf_qual": 30,
+      "filter": ".",
+      "genotype": "1|1",
+      "callset": "GIAB_CMRG_v1.00"
+    },
+    "source_record": {
+      "vcf_chrom": "chr4",
+      "vcf_pos": 1092989,
+      "ref_length": 51,
+      "alt_length": 1,
+      "reptype": "SIMPLEDEL",
+      "breaksimlength": 0,
+      "refwidened": "chr4:1092988-1093040"
+    },
+    "warnings": [
+      "breakpoint_confidence_intervals_not_provided",
+      "statistics_not_provided"
+    ],
+    "normalizations": []
+  },
+  "baseline_evidence": {
+    "status": "complete",
+    "collection_policy": "deterministic_non_optional_baseline",
+    "immutable_candidate_fields": {
+      "genome_build": "GRCh38",
+      "chrom": "4",
+      "start": 1092990,
+      "end": 1093039,
+      "sv_type": "DEL",
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null
+    },
+    "region_annotation": {
+      "source": "Ensembl",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "query_region": "4:1092990-1093039",
+      "sv_type": "DEL",
+      "annotation_mode": "spatial_overlap_only",
+      "match_type": "region_overlap",
+      "features": {
+        "gene": [
+          {
+            "gene_id": "ENSG00000178222",
+            "external_name": "RNF212",
+            "feature_type": "gene",
+            "source": "ensembl_havana",
+            "strand": -1,
+            "assembly_name": "GRCh38",
+            "biotype": "protein_coding",
+            "end": 1113697,
+            "id": "ENSG00000178222",
+            "seq_region_name": "4",
+            "canonical_transcript": "ENST00000433731.7",
+            "start": 1056247,
+            "logic_name": "ensembl_havana_gene_homo_sapiens",
+            "version": 15,
+            "description": "ring finger protein 212 [Source:HGNC Symbol;Acc:HGNC:27729]",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "regulatory": [],
+        "repeat": []
+      },
+      "errors": {},
+      "truncated": {
+        "gene": false,
+        "regulatory": false,
+        "repeat": false
+      },
+      "attempts": {
+        "gene": 1,
+        "regulatory": 1,
+        "repeat": 1
+      },
+      "source_urls": {
+        "gene": "https://rest.ensembl.org/overlap/region/human/4:1092990-1093039?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+        "regulatory": "https://rest.ensembl.org/overlap/region/human/4:1092990-1093039?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+        "repeat": "https://rest.ensembl.org/overlap/region/human/4:1092990-1093039?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+      },
+      "query_strategy": "combined",
+      "combined_query_error": null,
+      "breakpoint_annotations": {
+        "start": {
+          "interval": [
+            1092490,
+            1093490
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "4:1092490-1093490",
+          "features": {
+            "gene": [
+              {
+                "canonical_transcript": "ENST00000433731.7",
+                "biotype": "protein_coding",
+                "strand": -1,
+                "source": "ensembl_havana",
+                "logic_name": "ensembl_havana_gene_homo_sapiens",
+                "start": 1056247,
+                "seq_region_name": "4",
+                "external_name": "RNF212",
+                "description": "ring finger protein 212 [Source:HGNC Symbol;Acc:HGNC:27729]",
+                "gene_id": "ENSG00000178222",
+                "assembly_name": "GRCh38",
+                "version": 15,
+                "end": 1113697,
+                "feature_type": "gene",
+                "id": "ENSG00000178222",
+                "evidence_id": "ENS-BL-START-GENE-001",
+                "breakpoint_role": "start"
+              }
+            ],
+            "regulatory": [
+              {
+                "feature_type": "regulatory",
+                "extended_end": 1092550,
+                "end": 1092550,
+                "id": "ENSR4_8TF7",
+                "seq_region_name": "4",
+                "extended_start": 1092388,
+                "description": "enhancer",
+                "strand": 0,
+                "source": "Ensembl",
+                "start": 1092388,
+                "evidence_id": "ENS-BL-START-REGULATORY-001",
+                "breakpoint_role": "start"
+              }
+            ],
+            "repeat": [
+              {
+                "strand": -1,
+                "start": 1093186,
+                "feature_type": "repeat",
+                "end": 1093371,
+                "seq_region_name": "4",
+                "assembly_name": "GRCh38",
+                "description": "Charlie1a",
+                "evidence_id": "ENS-BL-START-REPEAT-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "end": 1093371,
+                "strand": -1,
+                "start": 1093186,
+                "seq_region_name": "4",
+                "description": "Charlie1a",
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-START-REPEAT-002",
+                "breakpoint_role": "start"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/4:1092490-1093490?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/4:1092490-1093490?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/4:1092490-1093490?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "combined",
+          "combined_query_error": null,
+          "completeness": "complete"
+        },
+        "end": {
+          "interval": [
+            1092539,
+            1093539
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "4:1092539-1093539",
+          "features": {
+            "gene": [
+              {
+                "id": "ENSG00000178222",
+                "external_name": "RNF212",
+                "end": 1113697,
+                "logic_name": "ensembl_havana_gene_homo_sapiens",
+                "version": 15,
+                "feature_type": "gene",
+                "start": 1056247,
+                "assembly_name": "GRCh38",
+                "gene_id": "ENSG00000178222",
+                "source": "ensembl_havana",
+                "description": "ring finger protein 212 [Source:HGNC Symbol;Acc:HGNC:27729]",
+                "canonical_transcript": "ENST00000433731.7",
+                "strand": -1,
+                "biotype": "protein_coding",
+                "seq_region_name": "4",
+                "evidence_id": "ENS-BL-END-GENE-001",
+                "breakpoint_role": "end"
+              }
+            ],
+            "regulatory": [
+              {
+                "end": 1092550,
+                "feature_type": "regulatory",
+                "start": 1092388,
+                "id": "ENSR4_8TF7",
+                "extended_start": 1092388,
+                "seq_region_name": "4",
+                "description": "enhancer",
+                "strand": 0,
+                "extended_end": 1092550,
+                "source": "Ensembl",
+                "evidence_id": "ENS-BL-END-REGULATORY-001",
+                "breakpoint_role": "end"
+              }
+            ],
+            "repeat": [
+              {
+                "seq_region_name": "4",
+                "feature_type": "repeat",
+                "start": 1093186,
+                "end": 1093371,
+                "strand": -1,
+                "description": "Charlie1a",
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-001",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 1093371,
+                "seq_region_name": "4",
+                "feature_type": "repeat",
+                "start": 1093186,
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "description": "Charlie1a",
+                "evidence_id": "ENS-BL-END-REPEAT-002",
+                "breakpoint_role": "end"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/4:1092539-1093539?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/4:1092539-1093539?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/4:1092539-1093539?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "combined",
+          "combined_query_error": null,
+          "completeness": "complete"
+        },
+        "mate": null
+      },
+      "retrieved_at": "2026-09-25T02:57:02.443369+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    "database_evidence": {
+      "source": "gnomAD-SV",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "dataset": "gnomad_sv_r4",
+      "candidate_sv_type": "DEL",
+      "query_strategy": "expanded_full_interval",
+      "query_intervals": [
+        [
+          1092490,
+          1093539
+        ]
+      ],
+      "query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "4",
+          "interval": [
+            1092490,
+            1093539
+          ]
+        }
+      ],
+      "matching_query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "4",
+          "interval": [
+            1092490,
+            1093539
+          ]
+        }
+      ],
+      "retrieval_padding_bp": 0,
+      "matching_windows_unchanged": true,
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            1092490,
+            1093490
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            1092539,
+            1093539
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "mate": null
+      },
+      "records": [
+        {
+          "variant_id": "DEL_chr4_09a860e6",
+          "chrom": "4",
+          "chrom2": "4",
+          "pos": 1092989,
+          "end": 1093039,
+          "pos2": null,
+          "end2": null,
+          "length": 50,
+          "type": "DEL",
+          "consequence": "intronic",
+          "ac": 72835,
+          "an": 126092,
+          "af": 0.577634,
+          "ac_hom": 22318,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "partial_overlap",
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_09a860e6?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-001"
+        },
+        {
+          "variant_id": "DEL_chr4_21171cbd",
+          "chrom": "4",
+          "chrom2": "4",
+          "pos": 1092811,
+          "end": 1093550,
+          "pos2": null,
+          "end2": null,
+          "length": 739,
+          "type": "DEL",
+          "consequence": "intronic",
+          "ac": 1,
+          "an": 125544,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [
+            "LOWQUAL_WHAM_SR_DEL",
+            "OUTLIER_SAMPLE_ENRICHED"
+          ],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": -179,
+            "end_offset_bp": 511,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.067568,
+            "size_similarity": 0.067568
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_21171cbd?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-002"
+        },
+        {
+          "variant_id": "DEL_chr4_96a2470b",
+          "chrom": "4",
+          "chrom2": "4",
+          "pos": 1083605,
+          "end": 1093231,
+          "pos2": null,
+          "end2": null,
+          "length": 9626,
+          "type": "DEL",
+          "consequence": "lof",
+          "ac": 2,
+          "an": 126092,
+          "af": 1.6e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": -9385,
+            "end_offset_bp": 192,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.005194,
+            "size_similarity": 0.005194
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_96a2470b?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-003"
+        },
+        {
+          "variant_id": "DEL_chr4_4bf02753",
+          "chrom": "4",
+          "chrom2": "4",
+          "pos": 478629,
+          "end": 1782701,
+          "pos2": null,
+          "end2": null,
+          "length": 1304072,
+          "type": "DEL",
+          "consequence": "lof",
+          "ac": 1,
+          "an": 126092,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [
+            "UNRESOLVED"
+          ],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": -614361,
+            "end_offset_bp": 689662,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 3.8e-05,
+            "size_similarity": 3.8e-05
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_4bf02753?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-004"
+        }
+      ],
+      "raw_region_record_count": 8,
+      "compatible_record_count": 4,
+      "returned_record_count": 4,
+      "type_incompatible_records_excluded": 4,
+      "bnd_topology_or_coordinate_records_excluded": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:55:48.573962+00:00",
+      "source_url": "https://gnomad.broadinstitute.org/",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    "vep_evidence": {
+      "source": "Ensembl VEP",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DEL",
+      "query_region": "4:1092990-1093039",
+      "input_annotations": [
+        {
+          "id": "4_1092990_deletion",
+          "assembly_name": "GRCh38",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "allele_string": "deletion",
+          "most_severe_consequence": "intron_variant"
+        }
+      ],
+      "records": [
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000433731",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000433731",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001131034.4",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "3/9",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-001"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "non_coding_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.35,
+          "record_id": "ENST00000512552",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000512552",
+          "biotype": "retained_intron",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "2/3",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-002"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000382968",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000382968",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "3/9",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-003"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000508428",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000508428",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "2/7",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-004"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000510715",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000510715",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "4/7",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-005"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000511620",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000511620",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "3/6",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-006"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000984828",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000984828",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "4/10",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-007"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00000984829",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00000984829",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "3/6",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-008"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00001049740",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00001049740",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "2/7",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-009"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "deletion",
+          "bp_overlap": 50,
+          "percentage_overlap": 0.12,
+          "record_id": "ENST00001138440",
+          "gene_id": "ENSG00000178222",
+          "gene_symbol": "RNF212",
+          "transcript_id": "ENST00001138440",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "3/9",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-010"
+        }
+      ],
+      "consequence_count": 26,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "attempts": 1,
+      "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    "clingen_dosage_evidence": {
+      "source": "ClinGen Dosage",
+      "status": "not_found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DEL",
+      "dataset_created_at": "2026-09-25",
+      "records": [],
+      "overlapping_record_count": 0,
+      "returned_record_count": 0,
+      "records_truncated": false,
+      "retrieved_at": "2026-09-25T02:55:53.204867+00:00",
+      "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/downloadall",
+      "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+    },
+    "clinvar_evidence": {
+      "source": "ClinVar",
+      "status": "not_found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DEL",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            1092490,
+            1093539
+          ]
+        }
+      ],
+      "query_terms": [
+        "4[chr] AND 1092490:1093539[chrpos38] AND Deletion[vartype] AND 50:100000000[varlen]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            1092490,
+            1093490
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            1092539,
+            1093539
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [],
+      "search_uid_count": 0,
+      "compatible_record_count": 0,
+      "returned_record_count": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:55:48.619536+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    "dbvar_evidence": {
+      "source": "NCBI dbVar",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DEL",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            1092490,
+            1093539
+          ]
+        }
+      ],
+      "query_terms": [
+        "4[Chr] AND (1092490:1093539[ChrPos] OR 1092490:1093539[ChrEnd]) AND ((\"deletion\"[Variant Type]) OR (\"copy number loss\"[Variant Type]) OR (\"copy number variation\"[Variant Type])) AND \"variant\"[Object Type]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            1092490,
+            1093490
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            1092539,
+            1093539
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "search_counts": [
+        {
+          "role": "nominal",
+          "interval": [
+            1092490,
+            1093539
+          ],
+          "total_count": 48,
+          "uid_count_returned": 48,
+          "search_truncated": false
+        }
+      ],
+      "records": [
+        {
+          "record_id": "esv3833873",
+          "uid": "45721335",
+          "study_id": "estd219",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1914,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3833873/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-001"
+        },
+        {
+          "record_id": "nsv2809287",
+          "uid": "45906579",
+          "study_id": "nstd137",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv2809287/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-002"
+        },
+        {
+          "record_id": "nsv3392756",
+          "uid": "47595353",
+          "study_id": "nstd162",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 8,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3392756/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-003"
+        },
+        {
+          "record_id": "nsv4390961",
+          "uid": "49486072",
+          "study_id": "nstd171",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4390961/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-004"
+        },
+        {
+          "record_id": "nsv4651823",
+          "uid": "50220985",
+          "study_id": "nstd186",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Curated"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4651823/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-005"
+        },
+        {
+          "record_id": "dsv2402",
+          "uid": "57420186",
+          "study_id": "dstd1",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092989,
+          "end": 1093039,
+          "assembly": "GRCh38.p14",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/dsv2402/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "evidence_id": "DBV-BL-006"
+        },
+        {
+          "record_id": "esv1191684",
+          "uid": "7638762",
+          "study_id": "estd22",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092989,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv1191684/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "evidence_id": "DBV-BL-007"
+        },
+        {
+          "record_id": "esv3046033",
+          "uid": "14263180",
+          "study_id": "estd209",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092989,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3046033/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "evidence_id": "DBV-BL-008"
+        },
+        {
+          "record_id": "esv3494989",
+          "uid": "16930649",
+          "study_id": "estd59",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092990,
+          "end": 1093040,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3494989/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 1,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "evidence_id": "DBV-BL-009"
+        },
+        {
+          "record_id": "esv3563229",
+          "uid": "17289398",
+          "study_id": "estd215",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "4",
+          "start": 1092989,
+          "end": 1093039,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3563229/",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "evidence_id": "DBV-BL-010"
+        }
+      ],
+      "search_uid_count": 48,
+      "search_results_truncated": false,
+      "compatible_record_count": 48,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    "dgv_evidence": {
+      "source": "DGV Gold Standard",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DEL",
+      "dataset": "dgvGold",
+      "access_backend": "UCSC Genome Browser API",
+      "data_version": "",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            1092490,
+            1093539
+          ]
+        }
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            1092490,
+            1093490
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            1092539,
+            1093539
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [
+        {
+          "record_id": "gssvL87089",
+          "variant_type": "CNV",
+          "variant_sub_type": "Loss",
+          "chrom": "4",
+          "start": 1092989,
+          "end": 1093058,
+          "frequency": "0.462963%",
+          "num_unique_samples_tested": 864,
+          "num_samples_with_variant": 4,
+          "num_studies": 3,
+          "studies": [
+            "Wong2012b",
+            "Boomsma2014",
+            "Levy2007"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 3,
+          "platforms": [
+            "Illumina_GA",
+            "Illumina_HiSeq",
+            "SangerSequencing"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 4,
+          "source_variant_ids": [
+            "essv6848166",
+            "essv6962698",
+            "essv3710136",
+            "essv9761976"
+          ],
+          "source_variant_ids_truncated": false,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr4;start=1092988;end=1093058",
+          "match_type": "partial_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 19,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.714286,
+            "size_similarity": 0.714286
+          },
+          "evidence_id": "DGV-BL-001"
+        }
+      ],
+      "raw_region_record_count": 2,
+      "compatible_record_count": 1,
+      "returned_record_count": 1,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:55:48.813661+00:00",
+      "source_url": "https://dgv.tcag.ca/dgv/app/downloads",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    "artifact_risk": {
+      "overall_risk": "medium",
+      "risk_items": [
+        {
+          "risk_type": "low_call_rate",
+          "status": "unknown",
+          "impact": "Missingness can produce spurious population differences.",
+          "recommended_check": "Calculate call rate per cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "single_caller_support",
+          "status": "unknown",
+          "impact": "A call from one algorithm may reflect caller-specific bias.",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay.",
+          "evidence": null
+        },
+        {
+          "risk_type": "repeat_region",
+          "status": "present",
+          "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+          "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 2,
+            "end_repeat_count": 2
+          }
+        },
+        {
+          "risk_type": "low_mappability",
+          "status": "unknown",
+          "impact": "Low-mappability sequence can create ambiguous alignments.",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track.",
+          "evidence": null
+        },
+        {
+          "risk_type": "supporting_reads",
+          "status": "unknown",
+          "impact": "Weak read support increases false-positive risk.",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds.",
+          "evidence": null
+        },
+        {
+          "risk_type": "genotype_quality",
+          "status": "unknown",
+          "impact": "Low or missing genotype quality weakens frequency estimates.",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "batch_effect",
+          "status": "unknown",
+          "impact": "Unequal pipelines or batches can mimic population differentiation.",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts.",
+          "evidence": null
+        }
+      ]
+    },
+    "retrieved_at": "2026-09-25T02:57:02.443369+00:00",
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states."
+    ]
+  },
+  "adaptive_tool_results": [],
+  "literature_tool_results": [
+    {
+      "source": "PubMed",
+      "status": "not_found",
+      "query": "\"RNF212\" AND \"deletion\" AND \"intron\"",
+      "records": [],
+      "retrieved_at": "2026-09-25T02:57:07.359078+00:00",
+      "query_budget": 3,
+      "queries_used": 1,
+      "queries_remaining": 2,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 0
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query": "\"RNF212\" AND \"recombination\"",
+      "records": [
+        {
+          "pmid": "41565805",
+          "title": "Common variation in meiosis genes shapes human recombination and aneuploidy.",
+          "authors": [
+            "Carioscia SA",
+            "Biddanda A",
+            "Starostik MR"
+          ],
+          "author_count": 7,
+          "authors_truncated": true,
+          "source": "Nature",
+          "pubdate": "2026 Mar",
+          "doi": "10.1038/s41586-025-09964-2",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41565805/",
+          "evidence_id": "PMID-41565805"
+        },
+        {
+          "pmid": "35596132",
+          "title": "Recombination rates in pigs differ between breeds, sexes and individuals, and are associated with the RNF212, SYCP2, PRDM7, MEI1 and MSH4 loci.",
+          "authors": [
+            "Brekke C",
+            "Berg P",
+            "Gjuvsland AB"
+          ],
+          "author_count": 4,
+          "authors_truncated": true,
+          "source": "Genet Sel Evol",
+          "pubdate": "2022 May 20",
+          "doi": "10.1186/s12711-022-00723-9",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/35596132/",
+          "evidence_id": "PMID-35596132"
+        },
+        {
+          "pmid": "24390283",
+          "title": "Antagonistic roles of ubiquitin ligase HEI10 and SUMO ligase RNF212 regulate meiotic recombination.",
+          "authors": [
+            "Qiao H",
+            "Prasada Rao HB",
+            "Yang Y"
+          ],
+          "author_count": 14,
+          "authors_truncated": true,
+          "source": "Nat Genet",
+          "pubdate": "2014 Feb",
+          "doi": "10.1038/ng.2858",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/24390283/",
+          "evidence_id": "PMID-24390283"
+        },
+        {
+          "pmid": "27516620",
+          "title": "Coding and noncoding variants in HFM1, MLH3, MSH4, MSH5, RNF212, and RNF212B affect recombination rate in cattle.",
+          "authors": [
+            "Kadri NK",
+            "Harland C",
+            "Faux P"
+          ],
+          "author_count": 14,
+          "authors_truncated": true,
+          "source": "Genome Res",
+          "pubdate": "2016 Oct",
+          "doi": "10.1101/gr.204214.116",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27516620/",
+          "evidence_id": "PMID-27516620"
+        },
+        {
+          "pmid": "22844258",
+          "title": "Genetic variants in REC8, RNF212, and PRDM9 influence male recombination in cattle.",
+          "authors": [
+            "Sandor C",
+            "Li W",
+            "Coppieters W"
+          ],
+          "author_count": 6,
+          "authors_truncated": true,
+          "source": "PLoS Genet",
+          "pubdate": "2012",
+          "doi": "10.1371/journal.pgen.1002854",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/22844258/",
+          "evidence_id": "PMID-22844258"
+        }
+      ],
+      "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+      "summary_records_missing": 0,
+      "limitations": "Metadata does not prove that the full text supports a biological claim.",
+      "query_budget": 3,
+      "queries_used": 2,
+      "queries_remaining": 1,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 5
+    }
+  ],
+  "literature_query_keys": [
+    "\"rnf212\" and \"deletion\" and \"intron\"",
+    "\"rnf212\" and \"recombination\""
+  ],
+  "adaptive_investigation": "{\n  \"decision\": \"No action needed\",\n  \"evidence_gaps\": [],\n  \"executed_action_names\": [],\n  \"stop_reason\": \"The variant is a small 50bp deletion in an intronic region of RNF212. Baseline evidence, including high-frequency gnomAD records, indicates it is a common polymorphism. Further investigation into transcripts or genes is unlikely to change the interpretation as the variant is clearly non-coding and well-represented in population databases.\",\n  \"remaining_limitations\": [\n    \"Baseline Ensembl evidence is coordinate-overlap evidence.\",\n    \"Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.\",\n    \"Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.\",\n    \"dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.\",\n    \"Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.\",\n    \"Missing source data and query failures remain explicit unknown/error states.\"\n  ]\n}",
+  "literature_evidence": "```json\n{\n  \"queries\": [\n    {\n      \"query\": \"\\\"RNF212\\\" AND \\\"deletion\\\" AND \\\"intron\\\"\",\n      \"reason\": \"Verify if specific intronic deletions in RNF212 have been reported or characterized in literature.\",\n      \"evidence_ids\": [],\n      \"missing_sources\": [\n        \"PubMed\"\n      ],\n      \"limitations\": [\n        \"PubMed query returned no results for the specific variant configuration.\"\n      ]\n    },\n    {\n      \"query\": \"\\\"RNF212\\\" AND \\\"recombination\\\"\",\n      \"reason\": \"RNF212 is a well-known meiotic recombination gene; assess if the locus is known for high variability or functional non-coding polymorphisms.\",\n      \"evidence_ids\": [\n        \"PMID-41565805\",\n        \"PMID-35596132\",\n        \"PMID-24390283\",\n        \"PMID-27516620\",\n        \"PMID-22844258\"\n      ],\n      \"missing_sources\": [],\n      \"limitations\": [\n        \"Metadata does not prove that the full text supports a biological claim.\"\n      ]\n    }\n  ],\n  \"limitations\": [\n    \"Literature search is confined to PubMed and limited by the relevance of RNF212's role in recombination to this specific, high-frequency, non-coding, 50bp deletion.\",\n    \"Functional impact of specific small indels in the RNF212 intronic region remains uncharacterized in primary literature.\"\n  ]\n}\n```",
+  "evidence_view": {
+    "status": "ready",
+    "record_count": 28,
+    "total_record_count": 46,
+    "records_by_id": {
+      "DBV-BL-001": {
+        "record_id": "esv3833873",
+        "uid": "45721335",
+        "study_id": "estd219",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1914,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Merging"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3833873/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-001"
+      },
+      "DBV-BL-002": {
+        "record_id": "nsv2809287",
+        "uid": "45906579",
+        "study_id": "nstd137",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093039,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv2809287/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-002"
+      },
+      "DBV-BL-003": {
+        "record_id": "nsv3392756",
+        "uid": "47595353",
+        "study_id": "nstd162",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093039,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 8,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3392756/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-003"
+      },
+      "DBV-BL-004": {
+        "record_id": "nsv4390961",
+        "uid": "49486072",
+        "study_id": "nstd171",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Merging"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4390961/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-004"
+      },
+      "DBV-BL-005": {
+        "record_id": "nsv4651823",
+        "uid": "50220985",
+        "study_id": "nstd186",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Curated"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4651823/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-005"
+      },
+      "DBV-BL-006": {
+        "record_id": "dsv2402",
+        "uid": "57420186",
+        "study_id": "dstd1",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092989,
+        "end": 1093039,
+        "assembly": "GRCh38.p14",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/dsv2402/",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "evidence_id": "DBV-BL-006"
+      },
+      "DBV-BL-007": {
+        "record_id": "esv1191684",
+        "uid": "7638762",
+        "study_id": "estd22",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092989,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv1191684/",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "evidence_id": "DBV-BL-007"
+      },
+      "DBV-BL-008": {
+        "record_id": "esv3046033",
+        "uid": "14263180",
+        "study_id": "estd209",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092989,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3046033/",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "evidence_id": "DBV-BL-008"
+      },
+      "DBV-BL-009": {
+        "record_id": "esv3494989",
+        "uid": "16930649",
+        "study_id": "estd59",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092990,
+        "end": 1093040,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3494989/",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 1,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "evidence_id": "DBV-BL-009"
+      },
+      "DBV-BL-010": {
+        "record_id": "esv3563229",
+        "uid": "17289398",
+        "study_id": "estd215",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "copy number variation"
+        ],
+        "type_compatibility": "ambiguous_cnv_direction",
+        "chrom": "4",
+        "start": 1092989,
+        "end": 1093039,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 285498,
+            "name": "RNF212"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3563229/",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "evidence_id": "DBV-BL-010"
+      },
+      "DGV-BL-001": {
+        "record_id": "gssvL87089",
+        "variant_type": "CNV",
+        "variant_sub_type": "Loss",
+        "chrom": "4",
+        "start": 1092989,
+        "end": 1093058,
+        "frequency": "0.462963%",
+        "num_unique_samples_tested": 864,
+        "num_samples_with_variant": 4,
+        "num_studies": 3,
+        "studies": [
+          "Wong2012b",
+          "Boomsma2014",
+          "Levy2007"
+        ],
+        "study_names_truncated": false,
+        "num_platforms": 3,
+        "platforms": [
+          "Illumina_GA",
+          "Illumina_HiSeq",
+          "SangerSequencing"
+        ],
+        "platform_names_truncated": false,
+        "num_source_variants": 4,
+        "source_variant_ids": [
+          "essv6848166",
+          "essv6962698",
+          "essv3710136",
+          "essv9761976"
+        ],
+        "source_variant_ids_truncated": false,
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr4;start=1092988;end=1093058",
+        "match_type": "partial_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 19,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.714286,
+          "size_similarity": 0.714286
+        },
+        "evidence_id": "DGV-BL-001"
+      },
+      "ENS-BL-NOMINAL-GENE-001": {
+        "gene_id": "ENSG00000178222",
+        "external_name": "RNF212",
+        "feature_type": "gene",
+        "source": "ensembl_havana",
+        "strand": -1,
+        "assembly_name": "GRCh38",
+        "biotype": "protein_coding",
+        "end": 1113697,
+        "id": "ENSG00000178222",
+        "seq_region_name": "4",
+        "canonical_transcript": "ENST00000433731.7",
+        "start": 1056247,
+        "logic_name": "ensembl_havana_gene_homo_sapiens",
+        "version": 15,
+        "description": "ring finger protein 212 [Source:HGNC Symbol;Acc:HGNC:27729]",
+        "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+        "breakpoint_role": "nominal"
+      },
+      "GNO-BL-001": {
+        "variant_id": "DEL_chr4_09a860e6",
+        "chrom": "4",
+        "chrom2": "4",
+        "pos": 1092989,
+        "end": 1093039,
+        "pos2": null,
+        "end2": null,
+        "length": 50,
+        "type": "DEL",
+        "consequence": "intronic",
+        "ac": 72835,
+        "an": 126092,
+        "af": 0.577634,
+        "ac_hom": 22318,
+        "ac_hemi": 0,
+        "filters": [],
+        "match_type": "partial_overlap",
+        "match_metrics": {
+          "start_offset_bp": -1,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 0.980392,
+          "size_similarity": 0.980392
+        },
+        "same_event_established": false,
+        "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+        "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_09a860e6?dataset=gnomad_sv_r4",
+        "evidence_id": "GNO-BL-001"
+      },
+      "PMID-22844258": {
+        "pmid": "22844258",
+        "title": "Genetic variants in REC8, RNF212, and PRDM9 influence male recombination in cattle.",
+        "authors": [
+          "Sandor C",
+          "Li W",
+          "Coppieters W"
+        ],
+        "author_count": 6,
+        "authors_truncated": true,
+        "source": "PLoS Genet",
+        "pubdate": "2012",
+        "doi": "10.1371/journal.pgen.1002854",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/22844258/",
+        "evidence_id": "PMID-22844258"
+      },
+      "PMID-24390283": {
+        "pmid": "24390283",
+        "title": "Antagonistic roles of ubiquitin ligase HEI10 and SUMO ligase RNF212 regulate meiotic recombination.",
+        "authors": [
+          "Qiao H",
+          "Prasada Rao HB",
+          "Yang Y"
+        ],
+        "author_count": 14,
+        "authors_truncated": true,
+        "source": "Nat Genet",
+        "pubdate": "2014 Feb",
+        "doi": "10.1038/ng.2858",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24390283/",
+        "evidence_id": "PMID-24390283"
+      },
+      "PMID-27516620": {
+        "pmid": "27516620",
+        "title": "Coding and noncoding variants in HFM1, MLH3, MSH4, MSH5, RNF212, and RNF212B affect recombination rate in cattle.",
+        "authors": [
+          "Kadri NK",
+          "Harland C",
+          "Faux P"
+        ],
+        "author_count": 14,
+        "authors_truncated": true,
+        "source": "Genome Res",
+        "pubdate": "2016 Oct",
+        "doi": "10.1101/gr.204214.116",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27516620/",
+        "evidence_id": "PMID-27516620"
+      },
+      "PMID-35596132": {
+        "pmid": "35596132",
+        "title": "Recombination rates in pigs differ between breeds, sexes and individuals, and are associated with the RNF212, SYCP2, PRDM7, MEI1 and MSH4 loci.",
+        "authors": [
+          "Brekke C",
+          "Berg P",
+          "Gjuvsland AB"
+        ],
+        "author_count": 4,
+        "authors_truncated": true,
+        "source": "Genet Sel Evol",
+        "pubdate": "2022 May 20",
+        "doi": "10.1186/s12711-022-00723-9",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35596132/",
+        "evidence_id": "PMID-35596132"
+      },
+      "PMID-41565805": {
+        "pmid": "41565805",
+        "title": "Common variation in meiosis genes shapes human recombination and aneuploidy.",
+        "authors": [
+          "Carioscia SA",
+          "Biddanda A",
+          "Starostik MR"
+        ],
+        "author_count": 7,
+        "authors_truncated": true,
+        "source": "Nature",
+        "pubdate": "2026 Mar",
+        "doi": "10.1038/s41586-025-09964-2",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41565805/",
+        "evidence_id": "PMID-41565805"
+      },
+      "VEP-BL-001": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000433731",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000433731",
+        "biotype": "protein_coding",
+        "canonical": true,
+        "mane_select": "NM_001131034.4",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "3/9",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-001"
+      },
+      "VEP-BL-002": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "non_coding_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.35,
+        "record_id": "ENST00000512552",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000512552",
+        "biotype": "retained_intron",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "2/3",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-002"
+      },
+      "VEP-BL-003": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000382968",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000382968",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "3/9",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-003"
+      },
+      "VEP-BL-004": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000508428",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000508428",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "2/7",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-004"
+      },
+      "VEP-BL-005": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000510715",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000510715",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "4/7",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-005"
+      },
+      "VEP-BL-006": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000511620",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000511620",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "3/6",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-006"
+      },
+      "VEP-BL-007": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000984828",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000984828",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "4/10",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-007"
+      },
+      "VEP-BL-008": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00000984829",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00000984829",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "3/6",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-008"
+      },
+      "VEP-BL-009": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00001049740",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00001049740",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "2/7",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-009"
+      },
+      "VEP-BL-010": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "deletion",
+        "bp_overlap": 50,
+        "percentage_overlap": 0.12,
+        "record_id": "ENST00001138440",
+        "gene_id": "ENSG00000178222",
+        "gene_symbol": "RNF212",
+        "transcript_id": "ENST00001138440",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "3/9",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-010"
+      }
+    },
+    "source_context": {
+      "baseline_evidence": {
+        "status": "complete",
+        "collection_policy": "deterministic_non_optional_baseline",
+        "region_annotation": {
+          "source": "Ensembl",
+          "status": "found",
+          "completeness": "complete",
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "breakpoint_annotations": {
+            "start": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": false
+              },
+              "attempts": {
+                "gene": 1,
+                "regulatory": 1,
+                "repeat": 1
+              },
+              "completeness": "complete"
+            },
+            "end": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": false
+              },
+              "attempts": {
+                "gene": 1,
+                "regulatory": 1,
+                "repeat": 1
+              },
+              "completeness": "complete"
+            }
+          },
+          "retrieved_at": "2026-09-25T02:57:02.443369+00:00",
+          "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+        },
+        "database_evidence": {
+          "source": "gnomAD-SV",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "gnomad_sv_r4",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 4,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:55:48.573962+00:00",
+          "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+        },
+        "vep_evidence": {
+          "source": "Ensembl VEP",
+          "status": "found",
+          "completeness": "complete",
+          "consequence_count": 26,
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "attempts": 1,
+          "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+          "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+        },
+        "clingen_dosage_evidence": {
+          "source": "ClinGen Dosage",
+          "status": "not_found",
+          "completeness": "complete",
+          "returned_record_count": 0,
+          "records_truncated": false,
+          "retrieved_at": "2026-09-25T02:55:53.204867+00:00",
+          "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+        },
+        "clinvar_evidence": {
+          "source": "ClinVar",
+          "status": "not_found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 0,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:55:48.619536+00:00",
+          "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+        },
+        "dbvar_evidence": {
+          "source": "NCBI dbVar",
+          "status": "found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+          "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+        },
+        "dgv_evidence": {
+          "source": "DGV Gold Standard",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "dgvGold",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 1,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:55:48.813661+00:00",
+          "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+        },
+        "artifact_risk": {
+          "overall_risk": "medium",
+          "risk_items": [
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "present"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            }
+          ]
+        },
+        "retrieved_at": "2026-09-25T02:57:02.443369+00:00",
+        "limitations": [
+          "Baseline Ensembl evidence is coordinate-overlap evidence.",
+          "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+          "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+          "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+          "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+          "Missing source data and query failures remain explicit unknown/error states."
+        ]
+      },
+      "adaptive_tool_results": [],
+      "literature_tool_results": [
+        {
+          "source": "PubMed",
+          "status": "not_found",
+          "query": "\"RNF212\" AND \"deletion\" AND \"intron\"",
+          "retrieved_at": "2026-09-25T02:57:07.359078+00:00",
+          "query_budget": 3,
+          "queries_used": 1,
+          "queries_remaining": 2,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 0
+        },
+        {
+          "source": "PubMed",
+          "status": "found",
+          "query": "\"RNF212\" AND \"recombination\"",
+          "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+          "limitations": "Metadata does not prove that the full text supports a biological claim.",
+          "query_budget": 3,
+          "queries_used": 2,
+          "queries_remaining": 1,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 5
+        }
+      ]
+    }
+  },
+  "claim_synthesis": {
+    "candidate_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is a 50bp deletion located within the gene RNF212.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "VEP-BL-001"
+        ],
+        "evidence_basis": "The variant coordinates overlap the RNF212 gene structure; VEP analysis confirms the variant resides within an intron."
+      },
+      {
+        "claim_id": "C002",
+        "text": "VEP predicts this variant is an intronic modifier for multiple RNF212 transcript isoforms.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "evidence_basis": "VEP analysis output lists 'intron_variant' across various canonical and non-canonical transcripts."
+      },
+      {
+        "claim_id": "C003",
+        "text": "This variant (or partial overlaps) is reported in multiple databases, including gnomAD-SV, dbVar, and the DGV Gold Standard track.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001",
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008",
+          "DBV-BL-009",
+          "DBV-BL-010",
+          "DGV-BL-001"
+        ],
+        "evidence_basis": "These records document variant candidates identified in previous studies with varying degrees of positional overlap."
+      },
+      {
+        "claim_id": "C004",
+        "text": "RNF212 is associated with recombination rate variation across different species.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-22844258",
+          "PMID-24390283",
+          "PMID-27516620",
+          "PMID-35596132",
+          "PMID-41565805"
+        ],
+        "evidence_basis": "PubMed titles consistently report links between RNF212 and recombination rates."
+      },
+      {
+        "claim_id": "C005",
+        "text": "The functional impact of this specific 50bp intronic deletion on RNF212 expression or recombination phenotypes is unknown.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [],
+        "evidence_basis": "Absence of specific functional studies in literature for this variant."
+      }
+    ],
+    "evidence_gaps": [
+      "No clinical dosage sensitivity records are available for this region from ClinGen.",
+      "No specific evidence in ClinVar links this variant to clinical phenotypes.",
+      "Lack of direct literature linking this specific 50bp intronic deletion to meiotic recombination rates."
+    ],
+    "limitations": [
+      "VEP consequences are prediction-based and do not indicate actual biological impact or expression changes.",
+      "Database records (gnomAD, dbVar, DGV) indicate candidate overlaps, not proof of identity or significance.",
+      "Breakpoint window QC flags indicate potential issues with placement due to repetitive sequences."
+    ]
+  },
+  "verification": {
+    "publication_allowed": true,
+    "supported_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is a 50bp deletion located within the gene RNF212.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "VEP-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "VEP predicts this variant is an intronic modifier for multiple RNF212 transcript isoforms.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "This variant (or partial overlaps) is reported in multiple databases, including gnomAD-SV, dbVar, and the DGV Gold Standard track.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001",
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008",
+          "DBV-BL-009",
+          "DBV-BL-010",
+          "DGV-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "RNF212 is associated with recombination rate variation across different species.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-22844258",
+          "PMID-24390283",
+          "PMID-27516620",
+          "PMID-35596132",
+          "PMID-41565805"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C005",
+        "text": "The functional impact of this specific 50bp intronic deletion on RNF212 expression or recombination phenotypes is unknown.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [],
+        "confidence": "medium",
+        "verification_status": "supported",
+        "notes": "Evidence synthesis is consistent with literature search results showing no functional study for this exact variant."
+      }
+    ],
+    "rejected_claims": [],
+    "contradictions": [],
+    "missing_evidence": [
+      "No clinical dosage sensitivity records are available for this region from ClinGen.",
+      "No specific evidence in ClinVar links this variant to clinical phenotypes."
+    ],
+    "warnings": [
+      "VEP consequences are prediction-based and do not indicate actual biological impact.",
+      "Database records indicate candidate positional overlaps, not proof of identity.",
+      "Breakpoint window QC flags suggest potential placement uncertainty due to repetitive sequences.",
+      "Conservatively qualified claim C004: Only PubMed citation metadata was retrieved; full-text support was not checked."
+    ]
+  },
+  "final_report": {
+    "report_version": "1.1.1",
+    "report_status": "complete",
+    "sv_summary": {
+      "validation_status": "valid",
+      "sv_id": "GIAB_CMRG_GRCh38_chr4_1092989_DEL50",
+      "genome_build": "GRCh38",
+      "genome_build_original": "GRCh38",
+      "chrom": "4",
+      "start": 1092990,
+      "end": 1093039,
+      "coordinate_system": "1-based-inclusive",
+      "chromosome_length_bp": 190214555,
+      "cipos": null,
+      "ciend": null,
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "breakpoint_uncertainty_status": "not_provided",
+      "imprecise": false,
+      "bnd_mate_status": "not_applicable",
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null,
+      "local_orientation": null,
+      "mate_orientation": null,
+      "sv_type": "DEL",
+      "sv_type_original": "DEL",
+      "sv_subtype": null,
+      "length_bp": 50
+    },
+    "statistical_signals": [],
+    "gene_region_annotation": [
+      {
+        "statement": "The variant is a 50bp deletion located within the gene RNF212.",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "VEP-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "observation"
+      },
+      {
+        "statement": "VEP predicts this variant is an intronic modifier for multiple RNF212 transcript isoforms.",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "population_evidence": [
+      {
+        "statement": "This variant (or partial overlaps) is reported in multiple databases, including gnomAD-SV, dbVar, and the DGV Gold Standard track.",
+        "evidence_ids": [
+          "GNO-BL-001",
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008",
+          "DBV-BL-009",
+          "DBV-BL-010",
+          "DGV-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "clinical_phenotype_evidence": [],
+    "literature_evidence": [],
+    "artifact_risks": [
+      {
+        "risk_type": "low_call_rate",
+        "status": "unknown",
+        "impact": "Missingness can produce spurious population differences.",
+        "evidence_ids": [
+          "QC-BL-001"
+        ],
+        "recommended_check": "Calculate call rate per cohort."
+      },
+      {
+        "risk_type": "single_caller_support",
+        "status": "unknown",
+        "impact": "A call from one algorithm may reflect caller-specific bias.",
+        "evidence_ids": [
+          "QC-BL-002"
+        ],
+        "recommended_check": "Validate with an orthogonal caller or experimental assay."
+      },
+      {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "recommended_check": "Confirm both breakpoints against a curated repeat track."
+      },
+      {
+        "risk_type": "low_mappability",
+        "status": "unknown",
+        "impact": "Low-mappability sequence can create ambiguous alignments.",
+        "evidence_ids": [
+          "QC-BL-004"
+        ],
+        "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+      },
+      {
+        "risk_type": "supporting_reads",
+        "status": "unknown",
+        "impact": "Weak read support increases false-positive risk.",
+        "evidence_ids": [
+          "QC-BL-005"
+        ],
+        "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+      },
+      {
+        "risk_type": "genotype_quality",
+        "status": "unknown",
+        "impact": "Low or missing genotype quality weakens frequency estimates.",
+        "evidence_ids": [
+          "QC-BL-006"
+        ],
+        "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+      },
+      {
+        "risk_type": "batch_effect",
+        "status": "unknown",
+        "impact": "Unequal pipelines or batches can mimic population differentiation.",
+        "evidence_ids": [
+          "QC-BL-007"
+        ],
+        "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+      }
+    ],
+    "possible_interpretations": [
+      {
+        "statement": "The functional impact of this specific 50bp intronic deletion on RNF212 expression or recombination phenotypes is unknown.",
+        "evidence_ids": [],
+        "confidence": "medium",
+        "kind": "inference"
+      }
+    ],
+    "contradictions": [],
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states.",
+      "VEP consequences are prediction-based and do not indicate actual biological impact or expression changes.",
+      "Database records (gnomAD, dbVar, DGV) indicate candidate overlaps, not proof of identity or significance.",
+      "Breakpoint window QC flags indicate potential issues with placement due to repetitive sequences.",
+      "No clinical dosage sensitivity records are available for this region from ClinGen.",
+      "No specific evidence in ClinVar links this variant to clinical phenotypes.",
+      "VEP consequences are prediction-based and do not indicate actual biological impact.",
+      "Database records indicate candidate positional overlaps, not proof of identity.",
+      "Breakpoint window QC flags suggest potential placement uncertainty due to repetitive sequences.",
+      "Conservatively qualified claim C004: Only PubMed citation metadata was retrieved; full-text support was not checked."
+    ],
+    "recommended_next_steps": [
+      "Resolve evidence gap: No clinical dosage sensitivity records are available for this region from ClinGen.",
+      "Resolve evidence gap: No specific evidence in ClinVar links this variant to clinical phenotypes.",
+      "Resolve evidence gap: Lack of direct literature linking this specific 50bp intronic deletion to meiotic recombination rates."
+    ],
+    "verified_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is a 50bp deletion located within the gene RNF212.",
+        "claim_type": "observation",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-001",
+          "VEP-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "VEP predicts this variant is an intronic modifier for multiple RNF212 transcript isoforms.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "This variant (or partial overlaps) is reported in multiple databases, including gnomAD-SV, dbVar, and the DGV Gold Standard track.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001",
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008",
+          "DBV-BL-009",
+          "DBV-BL-010",
+          "DGV-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "RNF212 is associated with recombination rate variation across different species.",
+        "claim_type": "database_fact",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-22844258",
+          "PMID-24390283",
+          "PMID-27516620",
+          "PMID-35596132",
+          "PMID-41565805"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C005",
+        "text": "The functional impact of this specific 50bp intronic deletion on RNF212 expression or recombination phenotypes is unknown.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [],
+        "confidence": "medium",
+        "verification_status": "supported",
+        "notes": "Evidence synthesis is consistent with literature search results showing no functional study for this exact variant."
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "evidence_id": "DBV-BL-001",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "esv3833873",
+        "match_type": "exact",
+        "summary": "dbVar esv3833873: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "estd219",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "4:1092990-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3833873/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-002",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "nsv2809287",
+        "match_type": "exact",
+        "summary": "dbVar nsv2809287: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd137",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "4:1092990-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv2809287/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-003",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "nsv3392756",
+        "match_type": "exact",
+        "summary": "dbVar nsv3392756: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd162",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "4:1092990-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3392756/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-004",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "nsv4390961",
+        "match_type": "exact",
+        "summary": "dbVar nsv4390961: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd171",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "4:1092990-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4390961/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-005",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "nsv4651823",
+        "match_type": "exact",
+        "summary": "dbVar nsv4651823: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd186",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Curated"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "4:1092990-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4651823/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-006",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "dsv2402",
+        "match_type": "partial_overlap",
+        "summary": "dbVar dsv2402: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "dstd1",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092989-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/dsv2402/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-007",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "esv1191684",
+        "match_type": "partial_overlap",
+        "summary": "dbVar esv1191684: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "estd22",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092989-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv1191684/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-008",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "esv3046033",
+        "match_type": "partial_overlap",
+        "summary": "dbVar esv3046033: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "estd209",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092989-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3046033/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-009",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "esv3494989",
+        "match_type": "partial_overlap",
+        "summary": "dbVar esv3494989: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "estd59",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 1,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092990-1093040"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3494989/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-010",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "ambiguous_cnv_direction",
+        "record_id": "esv3563229",
+        "match_type": "partial_overlap",
+        "summary": "dbVar esv3563229: ambiguous_cnv_direction submitted variant record.",
+        "key_facts": {
+          "study_id": "estd215",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "genes": [
+            {
+              "id": 285498,
+              "name": "RNF212"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092989-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/esv3563229/",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DGV-BL-001",
+        "source": "DGV Gold",
+        "evidence_type": "population_cnv",
+        "retrieval_status": "found",
+        "finding_status": "partial_overlap",
+        "record_id": "gssvL87089",
+        "match_type": "partial_overlap",
+        "summary": "DGV Gold gssvL87089: partial_overlap population CNV record.",
+        "key_facts": {
+          "variant_type": "CNV",
+          "variant_sub_type": "Loss",
+          "frequency": "0.462963%",
+          "num_unique_samples_tested": 864,
+          "num_samples_with_variant": 4,
+          "num_studies": 3,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 19,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.714286,
+            "size_similarity": 0.714286
+          },
+          "position": "4:1092989-1093058"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr4;start=1092988;end=1093058",
+        "retrieved_at": "2026-09-25T02:55:48.813661+00:00",
+        "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+        "source": "Ensembl",
+        "evidence_type": "genomic_overlap",
+        "retrieval_status": "found",
+        "finding_status": "interval_overlap",
+        "record_id": "ENSG00000178222",
+        "match_type": "region_overlap",
+        "summary": "gene RNF212 found in the nominal region.",
+        "key_facts": {
+          "feature_type": "gene",
+          "breakpoint_role": "nominal",
+          "external_name": "RNF212",
+          "id": "ENSG00000178222",
+          "biotype": "protein_coding",
+          "position": "4:1056247-1113697"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "verified_claims.C001"
+        ],
+        "source_url": "",
+        "retrieved_at": "2026-09-25T02:57:02.443369+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "GNO-BL-001",
+        "source": "gnomAD-SV",
+        "evidence_type": "population_variant",
+        "retrieval_status": "found",
+        "finding_status": "partial_overlap",
+        "record_id": "DEL_chr4_09a860e6",
+        "match_type": "partial_overlap",
+        "summary": "gnomAD-SV DEL_chr4_09a860e6 is a partial_overlap match (AF=0.577634).",
+        "key_facts": {
+          "variant_id": "DEL_chr4_09a860e6",
+          "type": "DEL",
+          "af": 0.577634,
+          "ac": 72835,
+          "an": 126092,
+          "match_metrics": {
+            "start_offset_bp": -1,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.980392,
+            "size_similarity": 0.980392
+          },
+          "position": "4:1092989-1093039"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://gnomad.broadinstitute.org/variant/DEL_chr4_09a860e6?dataset=gnomad_sv_r4",
+        "retrieved_at": "2026-09-25T02:55:48.573962+00:00",
+        "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+      },
+      {
+        "evidence_id": "PMID-22844258",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "22844258",
+        "match_type": null,
+        "summary": "Genetic variants in REC8, RNF212, and PRDM9 influence male recombination in cattle.",
+        "key_facts": {
+          "authors": [
+            "Sandor C",
+            "Li W",
+            "Coppieters W"
+          ],
+          "author_count": 6,
+          "source": "PLoS Genet",
+          "pubdate": "2012",
+          "doi": "10.1371/journal.pgen.1002854"
+        },
+        "used_by": [
+          "verified_claims.C004"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/22844258/",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-24390283",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "24390283",
+        "match_type": null,
+        "summary": "Antagonistic roles of ubiquitin ligase HEI10 and SUMO ligase RNF212 regulate meiotic recombination.",
+        "key_facts": {
+          "authors": [
+            "Qiao H",
+            "Prasada Rao HB",
+            "Yang Y"
+          ],
+          "author_count": 14,
+          "source": "Nat Genet",
+          "pubdate": "2014 Feb",
+          "doi": "10.1038/ng.2858"
+        },
+        "used_by": [
+          "verified_claims.C004"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/24390283/",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-27516620",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "27516620",
+        "match_type": null,
+        "summary": "Coding and noncoding variants in HFM1, MLH3, MSH4, MSH5, RNF212, and RNF212B affect recombination rate in cattle.",
+        "key_facts": {
+          "authors": [
+            "Kadri NK",
+            "Harland C",
+            "Faux P"
+          ],
+          "author_count": 14,
+          "source": "Genome Res",
+          "pubdate": "2016 Oct",
+          "doi": "10.1101/gr.204214.116"
+        },
+        "used_by": [
+          "verified_claims.C004"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/27516620/",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-35596132",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "35596132",
+        "match_type": null,
+        "summary": "Recombination rates in pigs differ between breeds, sexes and individuals, and are associated with the RNF212, SYCP2, PRDM7, MEI1 and MSH4 loci.",
+        "key_facts": {
+          "authors": [
+            "Brekke C",
+            "Berg P",
+            "Gjuvsland AB"
+          ],
+          "author_count": 4,
+          "source": "Genet Sel Evol",
+          "pubdate": "2022 May 20",
+          "doi": "10.1186/s12711-022-00723-9"
+        },
+        "used_by": [
+          "verified_claims.C004"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/35596132/",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-41565805",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "41565805",
+        "match_type": null,
+        "summary": "Common variation in meiosis genes shapes human recombination and aneuploidy.",
+        "key_facts": {
+          "authors": [
+            "Carioscia SA",
+            "Biddanda A",
+            "Starostik MR"
+          ],
+          "author_count": 7,
+          "source": "Nature",
+          "pubdate": "2026 Mar",
+          "doi": "10.1038/s41586-025-09964-2"
+        },
+        "used_by": [
+          "verified_claims.C004"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41565805/",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "QC-BL-001",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-001",
+        "match_type": null,
+        "summary": "low_call_rate: unknown. Missingness can produce spurious population differences.",
+        "key_facts": {
+          "risk_type": "low_call_rate",
+          "recommended_check": "Calculate call rate per cohort."
+        },
+        "used_by": [
+          "artifact_risks.low_call_rate"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-002",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-002",
+        "match_type": null,
+        "summary": "single_caller_support: unknown. A call from one algorithm may reflect caller-specific bias.",
+        "key_facts": {
+          "risk_type": "single_caller_support",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay."
+        },
+        "used_by": [
+          "artifact_risks.single_caller_support"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-003",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "present",
+        "record_id": "QC-BL-003",
+        "match_type": null,
+        "summary": "repeat_region: present. Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "key_facts": {
+          "risk_type": "repeat_region",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 2,
+            "end_repeat_count": 2
+          },
+          "recommended_check": "Confirm both breakpoints against a curated repeat track."
+        },
+        "used_by": [
+          "artifact_risks.repeat_region"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-004",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-004",
+        "match_type": null,
+        "summary": "low_mappability: unknown. Low-mappability sequence can create ambiguous alignments.",
+        "key_facts": {
+          "risk_type": "low_mappability",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+        },
+        "used_by": [
+          "artifact_risks.low_mappability"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-005",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-005",
+        "match_type": null,
+        "summary": "supporting_reads: unknown. Weak read support increases false-positive risk.",
+        "key_facts": {
+          "risk_type": "supporting_reads",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+        },
+        "used_by": [
+          "artifact_risks.supporting_reads"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-006",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-006",
+        "match_type": null,
+        "summary": "genotype_quality: unknown. Low or missing genotype quality weakens frequency estimates.",
+        "key_facts": {
+          "risk_type": "genotype_quality",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+        },
+        "used_by": [
+          "artifact_risks.genotype_quality"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-007",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-007",
+        "match_type": null,
+        "summary": "batch_effect: unknown. Unequal pipelines or batches can mimic population differentiation.",
+        "key_facts": {
+          "risk_type": "batch_effect",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+        },
+        "used_by": [
+          "artifact_risks.batch_effect"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "VEP-BL-001",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000433731",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000433731",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": true,
+          "mane_select": "NM_001131034.4"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "gene_region_annotation[2]",
+          "verified_claims.C001",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-002",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000512552",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, non_coding_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000512552",
+          "consequence_terms": [
+            "intron_variant",
+            "non_coding_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.35,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-003",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000382968",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000382968",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-004",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000508428",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000508428",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-005",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000510715",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000510715",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-006",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000511620",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000511620",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-007",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000984828",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000984828",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-008",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000984829",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00000984829",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-009",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00001049740",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00001049740",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-010",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00001138440",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RNF212 (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RNF212",
+          "gene_id": "ENSG00000178222",
+          "transcript_id": "ENST00001138440",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "percentage_overlap": 0.12,
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/4:1092990-1093039:1/DEL?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      }
+    ],
+    "query_provenance": [
+      {
+        "source": "Ensembl",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"4:1092990-1093039\", \"query_strategy\": \"combined\"}",
+        "retrieved_at": "2026-09-25T02:57:02.443369+00:00"
+      },
+      {
+        "source": "Ensembl VEP",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"4:1092990-1093039\"}",
+        "retrieved_at": "2026-09-25T02:56:36.232717+00:00"
+      },
+      {
+        "source": "gnomAD-SV",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"gnomad_sv_r4\", \"query_regions\": [{\"role\": \"nominal\", \"chrom\": \"4\", \"interval\": [1092490, 1093539]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:55:48.573962+00:00"
+      },
+      {
+        "source": "ClinGen Dosage",
+        "status": "not_found",
+        "query_summary": "{}",
+        "retrieved_at": "2026-09-25T02:55:53.204867+00:00"
+      },
+      {
+        "source": "ClinVar",
+        "status": "not_found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [1092490, 1093539]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:55:48.619536+00:00"
+      },
+      {
+        "source": "NCBI dbVar",
+        "status": "found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [1092490, 1093539]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:55:50.337910+00:00"
+      },
+      {
+        "source": "DGV Gold Standard",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"dgvGold\", \"query_regions\": [{\"role\": \"nominal\", \"interval\": [1092490, 1093539]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:55:48.813661+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "not_found",
+        "query_summary": "\"RNF212\" AND \"deletion\" AND \"intron\"",
+        "retrieved_at": "2026-09-25T02:57:07.359078+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "found",
+        "query_summary": "\"RNF212\" AND \"recombination\"",
+        "retrieved_at": "2026-09-25T02:57:09.486916+00:00"
+      }
+    ],
+    "investigation_log": {
+      "identified_evidence_gaps": [
+        "No clinical dosage sensitivity records are available for this region from ClinGen.",
+        "No specific evidence in ClinVar links this variant to clinical phenotypes.",
+        "Lack of direct literature linking this specific 50bp intronic deletion to meiotic recombination rates."
+      ],
+      "planned_actions": [],
+      "executed_actions": [],
+      "query_budget": 2,
+      "queries_used": 0,
+      "stop_reason": "The variant is a small 50bp deletion in an intronic region of RNF212. Baseline evidence, including high-frequency gnomAD records, indicates it is a common polymorphism. Further investigation into transcripts or genes is unlikely to change the interpretation as the variant is clearly non-coding and well-represented in population databases.",
+      "remaining_limitations": [
+        "Baseline Ensembl evidence is coordinate-overlap evidence.",
+        "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+        "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+        "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+        "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+        "Missing source data and query failures remain explicit unknown/error states.",
+        "VEP consequences are prediction-based and do not indicate actual biological impact or expression changes.",
+        "Database records (gnomAD, dbVar, DGV) indicate candidate overlaps, not proof of identity or significance.",
+        "Breakpoint window QC flags indicate potential issues with placement due to repetitive sequences."
+      ]
+    }
+  }
+}

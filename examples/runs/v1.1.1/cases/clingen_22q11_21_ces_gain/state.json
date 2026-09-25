@@ -1,0 +1,4550 @@
+{
+  "normalized_sv": {
+    "status": "valid",
+    "sv_id": "TEST_GRCh38_22q11.21_CES_region_gain",
+    "genome_build": "GRCh38",
+    "genome_build_original": "GRCh38",
+    "chrom": "22",
+    "start": 16912063,
+    "end": 18109094,
+    "coordinate_system": "1-based-inclusive",
+    "chromosome_length_bp": 50818468,
+    "cipos": null,
+    "ciend": null,
+    "start_confidence_interval": null,
+    "end_confidence_interval": null,
+    "breakpoint_uncertainty_status": "not_provided",
+    "imprecise": false,
+    "bnd_mate_status": "not_applicable",
+    "mate_chrom": null,
+    "mate_pos": null,
+    "mate_confidence_interval": null,
+    "local_orientation": null,
+    "mate_orientation": null,
+    "bnd_alt": null,
+    "bnd_mate_source": null,
+    "breakpoint_fallback_tolerance_bp": 500,
+    "breakpoint_fallback_policy": "Used only to retrieve and label nearby candidates when a VCF confidence interval is absent; it is not a measured confidence interval.",
+    "sv_type": "DUP",
+    "sv_type_original": "DUP",
+    "sv_subtype": null,
+    "length_bp": 1197032,
+    "statistics": {},
+    "quality": {},
+    "source_record": {
+      "case_kind": "synthetic_representative_region",
+      "phenotype": null,
+      "inheritance": null,
+      "absolute_copy_number": null
+    },
+    "warnings": [
+      "breakpoint_confidence_intervals_not_provided",
+      "statistics_not_provided",
+      "quality_not_provided"
+    ],
+    "normalizations": []
+  },
+  "baseline_evidence": {
+    "status": "complete",
+    "collection_policy": "deterministic_non_optional_baseline",
+    "immutable_candidate_fields": {
+      "genome_build": "GRCh38",
+      "chrom": "22",
+      "start": 16912063,
+      "end": 18109094,
+      "sv_type": "DUP",
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null
+    },
+    "region_annotation": {
+      "source": "Ensembl",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "query_region": "22:16912063-18109094",
+      "sv_type": "DUP",
+      "annotation_mode": "spatial_overlap_only",
+      "match_type": "region_overlap",
+      "features": {
+        "gene": [
+          {
+            "seq_region_name": "22",
+            "biotype": "processed_pseudogene",
+            "strand": -1,
+            "canonical_transcript": "ENST00000437347.1",
+            "description": "DnaJ heat shock protein family (Hsp40) member A1 pseudogene 6 [Source:HGNC Symbol;Acc:HGNC:39342]",
+            "source": "havana",
+            "gene_id": "ENSG00000228045",
+            "assembly_name": "GRCh38",
+            "feature_type": "gene",
+            "start": 17518676,
+            "version": 1,
+            "logic_name": "havana_homo_sapiens",
+            "end": 17519029,
+            "external_name": "DNAJA1P6",
+            "id": "ENSG00000228045",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "22",
+            "biotype": "miRNA",
+            "assembly_name": "GRCh38",
+            "canonical_transcript": "ENST00000583102.1",
+            "strand": -1,
+            "description": "microRNA 3198-1 [Source:HGNC Symbol;Acc:HGNC:38236]",
+            "source": "mirbase",
+            "gene_id": "ENSG00000264757",
+            "end": 17764259,
+            "version": 1,
+            "feature_type": "gene",
+            "start": 17764180,
+            "logic_name": "ncrna_homo_sapiens",
+            "id": "ENSG00000264757",
+            "external_name": "MIR3198-1",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 17811497,
+            "logic_name": "havana_homo_sapiens",
+            "start": 17787652,
+            "feature_type": "gene",
+            "version": 13,
+            "id": "ENSG00000093100",
+            "biotype": "lncRNA",
+            "seq_region_name": "22",
+            "assembly_name": "GRCh38",
+            "gene_id": "ENSG00000093100",
+            "source": "havana",
+            "canonical_transcript": "ENST00000476405.1",
+            "strand": -1,
+            "description": "novel transcript",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-003",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "assembly_name": "GRCh38",
+            "strand": 1,
+            "canonical_transcript": "ENST00000657505.1",
+            "description": "novel transcript, antisense to MICAL3",
+            "gene_id": "ENSG00000286990",
+            "source": "havana_tagene",
+            "seq_region_name": "22",
+            "biotype": "lncRNA",
+            "id": "ENSG00000286990",
+            "end": 17802035,
+            "start": 17800722,
+            "feature_type": "gene",
+            "version": 1,
+            "logic_name": "havana_tagene_homo_sapiens",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-004",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "canonical_transcript": "ENST00000385046.1",
+            "description": "microRNA 648 [Source:HGNC Symbol;Acc:HGNC:32904]",
+            "strand": -1,
+            "gene_id": "ENSG00000207780",
+            "source": "mirbase",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "22",
+            "biotype": "miRNA",
+            "external_name": "MIR648",
+            "id": "ENSG00000207780",
+            "feature_type": "gene",
+            "version": 1,
+            "start": 17980868,
+            "logic_name": "ncrna_homo_sapiens",
+            "end": 17980961,
+            "evidence_id": "ENS-BL-NOMINAL-GENE-005",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "id": "ENSG00000235445",
+            "end": 17983619,
+            "version": 1,
+            "feature_type": "gene",
+            "start": 17983205,
+            "logic_name": "havana_homo_sapiens",
+            "assembly_name": "GRCh38",
+            "description": "novel transcript",
+            "canonical_transcript": "ENST00000429618.1",
+            "strand": -1,
+            "source": "havana",
+            "gene_id": "ENSG00000235445",
+            "seq_region_name": "22",
+            "biotype": "lncRNA",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-006",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "source": "havana",
+            "gene_id": "ENSG00000234913",
+            "canonical_transcript": "ENST00000441167.1",
+            "strand": -1,
+            "description": "novel transcript",
+            "assembly_name": "GRCh38",
+            "biotype": "lncRNA",
+            "seq_region_name": "22",
+            "id": "ENSG00000234913",
+            "logic_name": "havana_homo_sapiens",
+            "feature_type": "gene",
+            "start": 18004270,
+            "version": 1,
+            "end": 18007308,
+            "evidence_id": "ENS-BL-NOMINAL-GENE-007",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "strand": 1,
+            "canonical_transcript": "ENST00000411920.1",
+            "description": "RHEB pseudogene 3 [Source:HGNC Symbol;Acc:HGNC:44992]",
+            "source": "havana",
+            "gene_id": "ENSG00000237446",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "22",
+            "biotype": "processed_pseudogene",
+            "external_name": "RHEBP3",
+            "id": "ENSG00000237446",
+            "feature_type": "gene",
+            "version": 1,
+            "start": 18019214,
+            "logic_name": "havana_homo_sapiens",
+            "end": 18020200,
+            "evidence_id": "ENS-BL-NOMINAL-GENE-008",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 18081675,
+            "feature_type": "gene",
+            "start": 18081466,
+            "version": 2,
+            "logic_name": "havana_homo_sapiens",
+            "id": "ENSG00000236890",
+            "seq_region_name": "22",
+            "biotype": "processed_pseudogene",
+            "assembly_name": "GRCh38",
+            "description": "ribosomal protein L18a (RPL18A) pseudogene",
+            "canonical_transcript": "ENST00000427227.2",
+            "strand": -1,
+            "gene_id": "ENSG00000236890",
+            "source": "havana",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-009",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "22",
+            "biotype": "unprocessed_pseudogene",
+            "canonical_transcript": "ENST00000450866.1",
+            "strand": 1,
+            "description": "neurexin (NRXN) pseudogene",
+            "source": "havana",
+            "gene_id": "ENSG00000235617",
+            "assembly_name": "GRCh38",
+            "feature_type": "gene",
+            "start": 18101612,
+            "version": 1,
+            "logic_name": "havana_homo_sapiens",
+            "end": 18101888,
+            "id": "ENSG00000235617",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-010",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "regulatory": [
+          {
+            "id": "ENSR22_7ZT5L",
+            "end": 16915983,
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "strand": 0,
+            "extended_end": 16915983,
+            "extended_start": 16915857,
+            "start": 16915857,
+            "description": "enhancer",
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 16917285,
+            "id": "ENSR22_55ZFQP",
+            "source": "Ensembl",
+            "feature_type": "regulatory",
+            "extended_start": 16917264,
+            "strand": -1,
+            "extended_end": 16917285,
+            "description": "CTCF_binding_site",
+            "start": 16917264,
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-002",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "22",
+            "start": 16917297,
+            "description": "enhancer",
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "extended_end": 16917775,
+            "strand": 0,
+            "extended_start": 16917297,
+            "end": 16917775,
+            "id": "ENSR22_98PB5",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-003",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "22",
+            "description": "CTCF_binding_site",
+            "start": 16917591,
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "extended_start": 16917591,
+            "strand": -1,
+            "extended_end": 16917612,
+            "end": 16917612,
+            "id": "ENSR22_55ZFS8",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-004",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 16949904,
+            "id": "ENSR22_98PMG",
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "extended_start": 16949648,
+            "strand": 0,
+            "extended_end": 16949904,
+            "description": "enhancer",
+            "start": 16949648,
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-005",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "description": "enhancer",
+            "start": 17036080,
+            "seq_region_name": "22",
+            "id": "ENSR22_8HJ5W",
+            "end": 17036333,
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "extended_start": 17036080,
+            "strand": 0,
+            "extended_end": 17036333,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-006",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 17036580,
+            "id": "ENSR22_7323B7",
+            "source": "Ensembl",
+            "feature_type": "regulatory",
+            "extended_start": 17036480,
+            "extended_end": 17036580,
+            "strand": 0,
+            "description": "promoter",
+            "start": 17036480,
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-007",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "22",
+            "start": 17036704,
+            "description": "promoter",
+            "extended_end": 17037296,
+            "strand": 0,
+            "extended_start": 17036581,
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "end": 17037296,
+            "id": "ENSR22_B5D9S",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-008",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 17038076,
+            "id": "ENSR22_B5D9X",
+            "strand": 0,
+            "extended_end": 17038076,
+            "extended_start": 17037297,
+            "source": "Ensembl",
+            "feature_type": "regulatory",
+            "start": 17037297,
+            "description": "enhancer",
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-009",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "extended_start": 17037891,
+            "strand": 1,
+            "extended_end": 17037912,
+            "feature_type": "regulatory",
+            "source": "Ensembl",
+            "id": "ENSR22_5627G6",
+            "end": 17037912,
+            "seq_region_name": "22",
+            "description": "CTCF_binding_site",
+            "start": 17037891,
+            "evidence_id": "ENS-BL-NOMINAL-REGULATORY-010",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "repeat": [
+          {
+            "feature_type": "repeat",
+            "description": "dust",
+            "end": 16912385,
+            "strand": 0,
+            "seq_region_name": "22",
+            "start": 16912359,
+            "assembly_name": "GRCh38",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "start": 16912360,
+            "assembly_name": "GRCh38",
+            "strand": 0,
+            "seq_region_name": "22",
+            "end": 16912385,
+            "feature_type": "repeat",
+            "description": "trf",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-002",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "end": 16912385,
+            "feature_type": "repeat",
+            "description": "(TTTG)n",
+            "start": 16912360,
+            "assembly_name": "GRCh38",
+            "strand": 1,
+            "seq_region_name": "22",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-003",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "feature_type": "repeat",
+            "description": "AluSx",
+            "end": 16912825,
+            "strand": -1,
+            "seq_region_name": "22",
+            "start": 16912529,
+            "assembly_name": "GRCh38",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-004",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "assembly_name": "GRCh38",
+            "start": 16912529,
+            "seq_region_name": "22",
+            "strand": 0,
+            "end": 16912549,
+            "description": "dust",
+            "feature_type": "repeat",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-005",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "assembly_name": "GRCh38",
+            "start": 16912529,
+            "seq_region_name": "22",
+            "strand": 0,
+            "end": 16912549,
+            "description": "trf",
+            "feature_type": "repeat",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-006",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "assembly_name": "GRCh38",
+            "start": 16912529,
+            "seq_region_name": "22",
+            "strand": -1,
+            "end": 16912825,
+            "description": "AluSx",
+            "feature_type": "repeat",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-007",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "feature_type": "repeat",
+            "description": "dust",
+            "end": 16912927,
+            "strand": 0,
+            "seq_region_name": "22",
+            "start": 16912918,
+            "assembly_name": "GRCh38",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-008",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "assembly_name": "GRCh38",
+            "start": 16916256,
+            "seq_region_name": "22",
+            "strand": 0,
+            "end": 16916264,
+            "feature_type": "repeat",
+            "description": "dust",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-009",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "strand": -1,
+            "seq_region_name": "22",
+            "start": 16917552,
+            "assembly_name": "GRCh38",
+            "feature_type": "repeat",
+            "description": "LTR55",
+            "end": 16917686,
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-010",
+            "breakpoint_role": "nominal"
+          }
+        ]
+      },
+      "errors": {},
+      "truncated": {
+        "gene": true,
+        "regulatory": true,
+        "repeat": true
+      },
+      "attempts": {
+        "gene": 4,
+        "regulatory": 2,
+        "repeat": 4
+      },
+      "source_urls": {
+        "gene": "https://rest.ensembl.org/overlap/region/human/22:16912063-18109094?feature=gene&content-type=application/json",
+        "regulatory": "https://rest.ensembl.org/overlap/region/human/22:16912063-18109094?feature=regulatory&content-type=application/json",
+        "repeat": "https://rest.ensembl.org/overlap/region/human/22:16912063-18109094?feature=repeat&content-type=application/json"
+      },
+      "query_strategy": "individual_fallback",
+      "combined_query_error": "HTTP 500",
+      "breakpoint_annotations": {
+        "start": {
+          "interval": [
+            16911563,
+            16912563
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "22:16911563-16912563",
+          "features": {
+            "gene": [],
+            "regulatory": [
+              {
+                "end": 16911639,
+                "id": "ENSR22_8HFGQ",
+                "source": "Ensembl",
+                "feature_type": "regulatory",
+                "extended_end": 16911639,
+                "strand": 0,
+                "extended_start": 16911427,
+                "start": 16911427,
+                "description": "enhancer",
+                "seq_region_name": "22",
+                "evidence_id": "ENS-BL-START-REGULATORY-001",
+                "breakpoint_role": "start"
+              }
+            ],
+            "repeat": [
+              {
+                "strand": 0,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "description": "dust",
+                "seq_region_name": "22",
+                "start": 16911657,
+                "end": 16911667,
+                "evidence_id": "ENS-BL-START-REPEAT-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "strand": 1,
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "description": "L1MEg",
+                "seq_region_name": "22",
+                "end": 16911916,
+                "start": 16911685,
+                "evidence_id": "ENS-BL-START-REPEAT-002",
+                "breakpoint_role": "start"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "description": "L1MEg",
+                "strand": 1,
+                "end": 16911916,
+                "start": 16911685,
+                "seq_region_name": "22",
+                "evidence_id": "ENS-BL-START-REPEAT-003",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "description": "dust",
+                "strand": 0,
+                "start": 16912359,
+                "end": 16912385,
+                "seq_region_name": "22",
+                "evidence_id": "ENS-BL-START-REPEAT-004",
+                "breakpoint_role": "start"
+              },
+              {
+                "strand": 0,
+                "feature_type": "repeat",
+                "description": "trf",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "22",
+                "start": 16912360,
+                "end": 16912385,
+                "evidence_id": "ENS-BL-START-REPEAT-005",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 16912385,
+                "start": 16912360,
+                "seq_region_name": "22",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "(TTTG)n",
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-START-REPEAT-006",
+                "breakpoint_role": "start"
+              },
+              {
+                "seq_region_name": "22",
+                "end": 16912825,
+                "start": 16912529,
+                "strand": -1,
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "description": "AluSx",
+                "evidence_id": "ENS-BL-START-REPEAT-007",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "description": "dust",
+                "assembly_name": "GRCh38",
+                "strand": 0,
+                "seq_region_name": "22",
+                "start": 16912529,
+                "end": 16912549,
+                "evidence_id": "ENS-BL-START-REPEAT-008",
+                "breakpoint_role": "start"
+              },
+              {
+                "start": 16912529,
+                "end": 16912549,
+                "seq_region_name": "22",
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "description": "trf",
+                "evidence_id": "ENS-BL-START-REPEAT-009",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "description": "AluSx",
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "seq_region_name": "22",
+                "start": 16912529,
+                "end": 16912825,
+                "evidence_id": "ENS-BL-START-REPEAT-010",
+                "breakpoint_role": "start"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 2,
+            "regulatory": 2,
+            "repeat": 3
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/22:16911563-16912563?feature=gene&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/22:16911563-16912563?feature=regulatory&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/22:16911563-16912563?feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "individual_fallback",
+          "combined_query_error": "HTTP 500",
+          "completeness": "complete"
+        },
+        "end": {
+          "interval": [
+            18108594,
+            18109594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "22:18108594-18109594",
+          "features": {
+            "gene": [
+              {
+                "seq_region_name": "22",
+                "canonical_transcript": "ENST00000474897.6",
+                "logic_name": "havana_homo_sapiens",
+                "version": 1,
+                "start": 18077989,
+                "description": "novel protein, PEX26-TUBA8",
+                "gene_id": "ENSG00000288683",
+                "source": "havana",
+                "feature_type": "gene",
+                "strand": 1,
+                "assembly_name": "GRCh38",
+                "biotype": "protein_coding",
+                "id": "ENSG00000288683",
+                "end": 18131720,
+                "evidence_id": "ENS-BL-END-GENE-001",
+                "breakpoint_role": "end"
+              }
+            ],
+            "regulatory": [],
+            "repeat": [
+              {
+                "end": 18108650,
+                "feature_type": "repeat",
+                "seq_region_name": "22",
+                "start": 18108507,
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "description": "L2c",
+                "evidence_id": "ENS-BL-END-REPEAT-001",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18108669,
+                "seq_region_name": "22",
+                "feature_type": "repeat",
+                "start": 18108632,
+                "assembly_name": "GRCh38",
+                "strand": 0,
+                "description": "dust",
+                "evidence_id": "ENS-BL-END-REPEAT-002",
+                "breakpoint_role": "end"
+              },
+              {
+                "strand": 0,
+                "description": "trf",
+                "assembly_name": "GRCh38",
+                "start": 18108632,
+                "feature_type": "repeat",
+                "seq_region_name": "22",
+                "end": 18108669,
+                "evidence_id": "ENS-BL-END-REPEAT-003",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18108669,
+                "seq_region_name": "22",
+                "feature_type": "repeat",
+                "start": 18108632,
+                "assembly_name": "GRCh38",
+                "description": "(CA)n",
+                "strand": 1,
+                "evidence_id": "ENS-BL-END-REPEAT-004",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18109004,
+                "seq_region_name": "22",
+                "feature_type": "repeat",
+                "start": 18108702,
+                "assembly_name": "GRCh38",
+                "description": "AluSg",
+                "strand": 1,
+                "evidence_id": "ENS-BL-END-REPEAT-005",
+                "breakpoint_role": "end"
+              },
+              {
+                "description": "AluSg",
+                "strand": 1,
+                "assembly_name": "GRCh38",
+                "start": 18108702,
+                "feature_type": "repeat",
+                "seq_region_name": "22",
+                "end": 18109004,
+                "evidence_id": "ENS-BL-END-REPEAT-006",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18109000,
+                "feature_type": "repeat",
+                "seq_region_name": "22",
+                "start": 18108979,
+                "assembly_name": "GRCh38",
+                "strand": 0,
+                "description": "dust",
+                "evidence_id": "ENS-BL-END-REPEAT-007",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18109323,
+                "feature_type": "repeat",
+                "start": 18109021,
+                "seq_region_name": "22",
+                "assembly_name": "GRCh38",
+                "strand": 1,
+                "description": "AluSc8",
+                "evidence_id": "ENS-BL-END-REPEAT-008",
+                "breakpoint_role": "end"
+              },
+              {
+                "end": 18109323,
+                "seq_region_name": "22",
+                "feature_type": "repeat",
+                "start": 18109021,
+                "assembly_name": "GRCh38",
+                "description": "AluSc8",
+                "strand": 1,
+                "evidence_id": "ENS-BL-END-REPEAT-009",
+                "breakpoint_role": "end"
+              },
+              {
+                "start": 18109300,
+                "feature_type": "repeat",
+                "seq_region_name": "22",
+                "end": 18109319,
+                "strand": 0,
+                "description": "dust",
+                "assembly_name": "GRCh38",
+                "evidence_id": "ENS-BL-END-REPEAT-010",
+                "breakpoint_role": "end"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": true
+          },
+          "attempts": {
+            "gene": 2,
+            "regulatory": 2,
+            "repeat": 3
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/22:18108594-18109594?feature=gene&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/22:18108594-18109594?feature=regulatory&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/22:18108594-18109594?feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "individual_fallback",
+          "combined_query_error": "HTTP 500",
+          "completeness": "complete"
+        },
+        "mate": null
+      },
+      "retrieved_at": "2026-09-25T03:11:05.189738+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    "database_evidence": {
+      "source": "gnomAD-SV",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "dataset": "gnomad_sv_r4",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_intervals": [
+        [
+          16911563,
+          18109594
+        ]
+      ],
+      "query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "22",
+          "interval": [
+            16911563,
+            18109594
+          ]
+        }
+      ],
+      "matching_query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "22",
+          "interval": [
+            16911563,
+            18109594
+          ]
+        }
+      ],
+      "retrieval_padding_bp": 0,
+      "matching_windows_unchanged": true,
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            16911563,
+            16912563
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            18108594,
+            18109594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "mate": null
+      },
+      "records": [
+        {
+          "variant_id": "GD_22q11.21__DUP",
+          "chrom": "22",
+          "chrom2": null,
+          "pos": 16912063,
+          "end": 18109094,
+          "pos2": null,
+          "end2": null,
+          "length": 1197031,
+          "type": "DUP",
+          "consequence": "copy_gain",
+          "ac": 1,
+          "an": 124722,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "exact",
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "same_event_established": true,
+          "interpretation": "Exact coordinate and compatible-type match.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/GD_22q11.21__DUP?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-001"
+        },
+        {
+          "variant_id": "DUP_chr22_187bc588",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17736010,
+          "end": 18239000,
+          "pos2": null,
+          "end2": null,
+          "length": 502990,
+          "type": "DUP",
+          "consequence": "copy_gain",
+          "ac": 1,
+          "an": 125812,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 823947,
+            "end_offset_bp": 129906,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.311675,
+            "reciprocal_overlap_database": 0.741733,
+            "size_similarity": 0.420198
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_187bc588?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-002"
+        },
+        {
+          "variant_id": "DUP_chr22_cbb56cab",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17785088,
+          "end": 17898082,
+          "pos2": null,
+          "end2": null,
+          "length": 112994,
+          "type": "DUP",
+          "consequence": "dup_partial",
+          "ac": 1,
+          "an": 125880,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 873025,
+            "end_offset_bp": -211012,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.094396,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.094396
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_cbb56cab?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-003"
+        },
+        {
+          "variant_id": "DUP_chr22_dc587e0d",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17567930,
+          "end": 17658801,
+          "pos2": null,
+          "end2": null,
+          "length": 90871,
+          "type": "DUP",
+          "consequence": "copy_gain",
+          "ac": 2,
+          "an": 126082,
+          "af": 1.6e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 655867,
+            "end_offset_bp": -450293,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.075914,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.075914
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_dc587e0d?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-004"
+        },
+        {
+          "variant_id": "DUP_chr22_5c785dab",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17744323,
+          "end": 17812198,
+          "pos2": null,
+          "end2": null,
+          "length": 67875,
+          "type": "DUP",
+          "consequence": "tss_dup",
+          "ac": 1,
+          "an": 125872,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 832260,
+            "end_offset_bp": -296896,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.056704,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.056704
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_5c785dab?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-005"
+        },
+        {
+          "variant_id": "DUP_chr22_adf55420",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17784782,
+          "end": 17809069,
+          "pos2": null,
+          "end2": null,
+          "length": 24287,
+          "type": "DUP",
+          "consequence": "dup_partial",
+          "ac": 2,
+          "an": 125784,
+          "af": 1.6e-05,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 872719,
+            "end_offset_bp": -300025,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.02029,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.02029
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_adf55420?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-006"
+        },
+        {
+          "variant_id": "DUP_chr22_03e36328",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17753128,
+          "end": 17771227,
+          "pos2": null,
+          "end2": null,
+          "length": 18099,
+          "type": "DUP",
+          "consequence": "intronic",
+          "ac": 1,
+          "an": 126088,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 841065,
+            "end_offset_bp": -337867,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.015121,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.015121
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_03e36328?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-007"
+        },
+        {
+          "variant_id": "DUP_chr22_cc303e85",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17646318,
+          "end": 17663709,
+          "pos2": null,
+          "end2": null,
+          "length": 17391,
+          "type": "DUP",
+          "consequence": "intragenic_exon_dup",
+          "ac": 1,
+          "an": 126078,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 734255,
+            "end_offset_bp": -445385,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.014529,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.014529
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_cc303e85?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-008"
+        },
+        {
+          "variant_id": "DUP_chr22_c6893222",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17600010,
+          "end": 17616010,
+          "pos2": null,
+          "end2": null,
+          "length": 16000,
+          "type": "DUP",
+          "consequence": "intragenic_exon_dup",
+          "ac": 1,
+          "an": 125358,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 687947,
+            "end_offset_bp": -493084,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.013367,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.013367
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_c6893222?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-009"
+        },
+        {
+          "variant_id": "DUP_chr22_49552e5b",
+          "chrom": "22",
+          "chrom2": "22",
+          "pos": 17508010,
+          "end": 17522010,
+          "pos2": null,
+          "end2": null,
+          "length": 14000,
+          "type": "DUP",
+          "consequence": "intragenic_exon_dup",
+          "ac": 1,
+          "an": 125744,
+          "af": 8e-06,
+          "ac_hom": 0,
+          "ac_hemi": 0,
+          "filters": [],
+          "match_type": "region_overlap",
+          "match_metrics": {
+            "start_offset_bp": 595947,
+            "end_offset_bp": -587084,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.011696,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.011696
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/DUP_chr22_49552e5b?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-010"
+        }
+      ],
+      "raw_region_record_count": 1003,
+      "compatible_record_count": 113,
+      "returned_record_count": 10,
+      "type_incompatible_records_excluded": 890,
+      "bnd_topology_or_coordinate_records_excluded": 0,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T03:03:35.516852+00:00",
+      "source_url": "https://gnomad.broadinstitute.org/",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    "vep_evidence": {
+      "source": "Ensembl VEP",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "query_region": "22:16912063-18109094",
+      "input_annotations": [
+        {
+          "id": "22_16912063_duplication",
+          "assembly_name": "GRCh38",
+          "chrom": "22",
+          "start": 16912063,
+          "end": 18109094,
+          "allele_string": "duplication",
+          "most_severe_consequence": "transcript_amplification"
+        }
+      ],
+      "records": [
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 36614,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000253413",
+          "gene_id": "ENSG00000131100",
+          "gene_symbol": "ATP6V1E1",
+          "transcript_id": "ENST00000253413",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001696.4",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-001"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 188692,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000262608",
+          "gene_id": "ENSG00000099954",
+          "gene_symbol": "CECR2",
+          "transcript_id": "ENST00000262608",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001290047.2",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": 1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-002"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 92099,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000317582",
+          "gene_id": "ENSG00000099968",
+          "gene_symbol": "BCL2L13",
+          "transcript_id": "ENST00000317582",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_015367.4",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": 1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-003"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 30694,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000319363",
+          "gene_id": "ENSG00000177663",
+          "gene_symbol": "IL17RA",
+          "transcript_id": "ENST00000319363",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_014339.7",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": 1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-004"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 27498,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000327451",
+          "gene_id": "ENSG00000182902",
+          "gene_symbol": "SLC25A18",
+          "transcript_id": "ENST00000327451",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_031481.3",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": 1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-005"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 5064,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000331437",
+          "gene_id": "ENSG00000183307",
+          "gene_symbol": "TMEM121B",
+          "transcript_id": "ENST00000331437",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_031890.4",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-006"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 21758,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000336737",
+          "gene_id": "ENSG00000069998",
+          "gene_symbol": "HDHD5",
+          "transcript_id": "ENST00000336737",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_033070.3",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-007"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 27407,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000399744",
+          "gene_id": "ENSG00000215193",
+          "gene_symbol": "PEX26",
+          "transcript_id": "ENST00000399744",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001127649.3",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": 1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-008"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 40646,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000399837",
+          "gene_id": "ENSG00000093072",
+          "gene_symbol": "ADA2",
+          "transcript_id": "ENST00000399837",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001282225.2",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-009"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "HIGH",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "variant_allele": "duplication",
+          "bp_overlap": 46287,
+          "percentage_overlap": 100,
+          "record_id": "ENST00000400588",
+          "gene_id": "ENSG00000215568",
+          "gene_symbol": "GAB4",
+          "transcript_id": "ENST00000400588",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001037814.1",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-010"
+        }
+      ],
+      "consequence_count": 1391,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "attempts": 2,
+      "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-25T03:05:12.157408+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    "clingen_dosage_evidence": {
+      "source": "ClinGen Dosage",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "dataset_created_at": "2026-09-25",
+      "records": [
+        {
+          "record_id": "ISCA-37393",
+          "entity": "22q11.21 recurrent (CES) region (includes CECR2)",
+          "entity_type": "region",
+          "chrom": "22",
+          "start": 16912063,
+          "end": 18109094,
+          "haploinsufficiency": {
+            "assessment": "Little Evidence for Haploinsufficiency",
+            "score": 1
+          },
+          "triplosensitivity": {
+            "assessment": "Sufficient Evidence for Triplosensitivity",
+            "score": 3
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "Sufficient Evidence for Triplosensitivity",
+          "curation_date": "2026-08-14T17:28:28-04:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37393",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "CGD-BL-001"
+        },
+        {
+          "record_id": "HGNC:18325",
+          "entity": "GAB4",
+          "entity_type": "gene",
+          "chrom": "22",
+          "start": 16961936,
+          "end": 17008222,
+          "haploinsufficiency": {
+            "assessment": "Dosage Sensitivity Unlikely for Haploinsufficiency",
+            "score": 40
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "curation_date": "2021-02-02T19:31:07+00:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:18325",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 49873,
+            "end_offset_bp": -1100872,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.038668,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.038668
+          },
+          "evidence_id": "CGD-BL-002"
+        },
+        {
+          "record_id": "HGNC:1839",
+          "entity": "ADA2",
+          "entity_type": "gene",
+          "chrom": "22",
+          "start": 17178790,
+          "end": 17221848,
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "curation_date": "2025-10-24T15:24:06+00:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:1839",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 266727,
+            "end_offset_bp": -887246,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.035971,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.035971
+          },
+          "evidence_id": "CGD-BL-003"
+        },
+        {
+          "record_id": "HGNC:857",
+          "entity": "ATP6V1E1",
+          "entity_type": "gene",
+          "chrom": "22",
+          "start": 17592136,
+          "end": 17628822,
+          "haploinsufficiency": {
+            "assessment": "No Evidence for Haploinsufficiency",
+            "score": 0
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "curation_date": "2012-04-26T22:40:17+00:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:857",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 680073,
+            "end_offset_bp": -480272,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.030648,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.030648
+          },
+          "evidence_id": "CGD-BL-004"
+        },
+        {
+          "record_id": "HGNC:5985",
+          "entity": "IL17RA",
+          "entity_type": "gene",
+          "chrom": "22",
+          "start": 17085000,
+          "end": 17115693,
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "Not yet evaluated",
+            "score": null
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "Not yet evaluated",
+          "curation_date": "2016-08-22T17:49:29+00:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:5985",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 172937,
+            "end_offset_bp": -993401,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.025642,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.025642
+          },
+          "evidence_id": "CGD-BL-005"
+        },
+        {
+          "record_id": "HGNC:22965",
+          "entity": "PEX26",
+          "entity_type": "gene",
+          "chrom": "22",
+          "start": 18077990,
+          "end": 18105396,
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "curation_date": "2016-08-22T17:51:10+00:00",
+          "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:22965",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 1165927,
+            "end_offset_bp": -3698,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.022896,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.022896
+          },
+          "evidence_id": "CGD-BL-006"
+        }
+      ],
+      "overlapping_record_count": 6,
+      "returned_record_count": 6,
+      "records_truncated": false,
+      "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+      "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/downloadall",
+      "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+    },
+    "clinvar_evidence": {
+      "source": "ClinVar",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            16911563,
+            18109594
+          ]
+        }
+      ],
+      "query_terms": [
+        "22[chr] AND 16911563:18109594[chrpos38] AND Duplication[vartype] AND 50:100000000[varlen]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            16911563,
+            16912563
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            18108594,
+            18109594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [
+        {
+          "record_id": "VCV000583739.4",
+          "variation_id": "583739",
+          "title": "NC_000022.10:g.(?_17662353)_(17663671_?)dup",
+          "variant_type": "Duplication",
+          "chrom": "22",
+          "start": 17181463,
+          "end": 17182781,
+          "inner_start": "17181463",
+          "inner_stop": "17182781",
+          "outer_start": null,
+          "outer_stop": null,
+          "assembly_accession": "GCF_000001405.38",
+          "germline_classification": "Uncertain significance",
+          "review_status": "criteria provided, single submitter",
+          "last_evaluated": "2019/12/23 00:00",
+          "traits": [
+            "Deficiency of adenosine deaminase 2"
+          ],
+          "trait_count": 1,
+          "supporting_scv_count": 1,
+          "supporting_rcv_count": 1,
+          "genes": [
+            "ADA2"
+          ],
+          "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/583739/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 269400,
+            "end_offset_bp": -926313,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.001102,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.001102
+          },
+          "evidence_id": "CLV-BL-001"
+        },
+        {
+          "record_id": "VCV004847812.1",
+          "variation_id": "4847812",
+          "title": "NM_001696.4(ATP6V1E1):c.100-57_115dup",
+          "variant_type": "Duplication",
+          "chrom": "22",
+          "start": 17613304,
+          "end": 17613305,
+          "inner_start": null,
+          "inner_stop": null,
+          "outer_start": null,
+          "outer_stop": null,
+          "assembly_accession": "GCF_000001405.38",
+          "germline_classification": "Uncertain significance",
+          "review_status": "criteria provided, single submitter",
+          "last_evaluated": "2026/02/26 00:00",
+          "traits": [
+            "not specified"
+          ],
+          "trait_count": 1,
+          "supporting_scv_count": 1,
+          "supporting_rcv_count": 1,
+          "genes": [
+            "ATP6V1E1"
+          ],
+          "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/variation/4847812/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 701241,
+            "end_offset_bp": -495789,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 2e-06,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 2e-06
+          },
+          "evidence_id": "CLV-BL-002"
+        }
+      ],
+      "search_uid_count": 2,
+      "compatible_record_count": 2,
+      "returned_record_count": 2,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T03:03:34.668930+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    "dbvar_evidence": {
+      "source": "NCBI dbVar",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            16911563,
+            18109594
+          ]
+        }
+      ],
+      "query_terms": [
+        "22[Chr] AND (16911563:18109594[ChrPos] OR 16911563:18109594[ChrEnd]) AND ((\"duplication\"[Variant Type]) OR (\"copy number gain\"[Variant Type]) OR (\"copy number variation\"[Variant Type])) AND \"variant\"[Object Type]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            16911563,
+            16912563
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            18108594,
+            18109594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "search_counts": [
+        {
+          "role": "nominal",
+          "interval": [
+            16911563,
+            18109594
+          ],
+          "total_count": 6208,
+          "uid_count_returned": 50,
+          "search_truncated": true
+        }
+      ],
+      "records": [
+        {
+          "record_id": "nsv7776212",
+          "uid": "57398064",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17600825,
+          "end": 17786028,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 637,
+              "name": "BID"
+            },
+            {
+              "id": 529,
+              "name": "ATP6V1E1"
+            },
+            {
+              "id": 23786,
+              "name": "BCL2L13"
+            },
+            {
+              "id": 200298,
+              "name": "LINC00528"
+            },
+            {
+              "id": 100423025,
+              "name": "MIR3198-1"
+            },
+            {
+              "id": 57553,
+              "name": "MICAL3"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776212/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 688762,
+            "end_offset_bp": -323066,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.154719,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.154719
+          },
+          "evidence_id": "DBV-BL-001"
+        },
+        {
+          "record_id": "nsv7776041",
+          "uid": "57397893",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17013657,
+          "end": 17134323,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 317691,
+              "name": "VN1R9P"
+            },
+            {
+              "id": 100130418,
+              "name": "CECR7"
+            },
+            {
+              "id": 27439,
+              "name": "TMEM121B"
+            },
+            {
+              "id": 100271482,
+              "name": "RPL31P62"
+            },
+            {
+              "id": 100996342,
+              "name": "LINC01664"
+            },
+            {
+              "id": 23765,
+              "name": "IL17RA"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776041/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 101594,
+            "end_offset_bp": -974771,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.100805,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.100805
+          },
+          "evidence_id": "DBV-BL-002"
+        },
+        {
+          "record_id": "nsv7776770",
+          "uid": "57398622",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17763166,
+          "end": 17855590,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 637,
+              "name": "BID"
+            },
+            {
+              "id": 100423025,
+              "name": "MIR3198-1"
+            },
+            {
+              "id": 200298,
+              "name": "LINC00528"
+            },
+            {
+              "id": 57553,
+              "name": "MICAL3"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776770/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 851103,
+            "end_offset_bp": -253504,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.077212,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.077212
+          },
+          "evidence_id": "DBV-BL-003"
+        },
+        {
+          "record_id": "nsv7776169",
+          "uid": "57398021",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 18036063,
+          "end": 18112586,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 55670,
+              "name": "PEX26"
+            },
+            {
+              "id": 105372853,
+              "name": "LOC105372853"
+            },
+            {
+              "id": 100874449,
+              "name": "ARL2BPP10"
+            },
+            {
+              "id": 100192420,
+              "name": "LINC01634"
+            },
+            {
+              "id": 51807,
+              "name": "TUBA8"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776169/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 1124000,
+            "end_offset_bp": 3492,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.061011,
+            "reciprocal_overlap_database": 0.954367,
+            "size_similarity": 0.063928
+          },
+          "evidence_id": "DBV-BL-004"
+        },
+        {
+          "record_id": "nsv7908466",
+          "uid": "57754042",
+          "study_id": "nstd102",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17178789,
+          "end": 17219436,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [
+            "Uncertain significance"
+          ],
+          "genes": [
+            {
+              "id": 23754,
+              "name": "RPL32P5"
+            },
+            {
+              "id": 107985573,
+              "name": "LOC107985573"
+            },
+            {
+              "id": 399656,
+              "name": "FAM32BP"
+            },
+            {
+              "id": 51816,
+              "name": "ADA2"
+            }
+          ],
+          "methods": [
+            "Multiple"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7908466/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 266726,
+            "end_offset_bp": -889658,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.033957,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.033957
+          },
+          "evidence_id": "DBV-BL-005"
+        },
+        {
+          "record_id": "nsv7776615",
+          "uid": "57398467",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17739801,
+          "end": 17780001,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 200298,
+              "name": "LINC00528"
+            },
+            {
+              "id": 100423025,
+              "name": "MIR3198-1"
+            },
+            {
+              "id": 637,
+              "name": "BID"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776615/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 827738,
+            "end_offset_bp": -329093,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.033584,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.033584
+          },
+          "evidence_id": "DBV-BL-006"
+        },
+        {
+          "record_id": "nsv7776399",
+          "uid": "57398251",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17600825,
+          "end": 17638084,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 6,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 23786,
+              "name": "BCL2L13"
+            },
+            {
+              "id": 529,
+              "name": "ATP6V1E1"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776399/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 688762,
+            "end_offset_bp": -471010,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.031127,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.031127
+          },
+          "evidence_id": "DBV-BL-007"
+        },
+        {
+          "record_id": "nsv7776486",
+          "uid": "57398338",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17617669,
+          "end": 17638084,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 2,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 529,
+              "name": "ATP6V1E1"
+            },
+            {
+              "id": 23786,
+              "name": "BCL2L13"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776486/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 705606,
+            "end_offset_bp": -471010,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.017056,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.017056
+          },
+          "evidence_id": "DBV-BL-008"
+        },
+        {
+          "record_id": "nsv7776392",
+          "uid": "57398244",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17105867,
+          "end": 17125009,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 23765,
+              "name": "IL17RA"
+            },
+            {
+              "id": 27439,
+              "name": "TMEM121B"
+            },
+            {
+              "id": 100996342,
+              "name": "LINC01664"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776392/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 193804,
+            "end_offset_bp": -984085,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.015992,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.015992
+          },
+          "evidence_id": "DBV-BL-009"
+        },
+        {
+          "record_id": "nsv7776462",
+          "uid": "57398314",
+          "study_id": "nstd239",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "copy number variation"
+          ],
+          "type_compatibility": "ambiguous_cnv_direction",
+          "chrom": "22",
+          "start": 17105581,
+          "end": 17106790,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 23765,
+              "name": "IL17RA"
+            }
+          ],
+          "methods": [
+            "SNP array"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv7776462/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 193518,
+            "end_offset_bp": -1002304,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.001011,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.001011
+          },
+          "evidence_id": "DBV-BL-010"
+        }
+      ],
+      "search_uid_count": 50,
+      "search_results_truncated": true,
+      "compatible_record_count": 50,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T03:03:35.911083+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    "dgv_evidence": {
+      "source": "DGV Gold Standard",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "DUP",
+      "dataset": "dgvGold",
+      "access_backend": "UCSC Genome Browser API",
+      "data_version": "",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            16911563,
+            18109594
+          ]
+        }
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            16911563,
+            16912563
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            18108594,
+            18109594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [
+        {
+          "record_id": "gssvG23664",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "22",
+          "start": 17069325,
+          "end": 17142761,
+          "frequency": "0.0795545%",
+          "num_unique_samples_tested": 2514,
+          "num_samples_with_variant": 2,
+          "num_studies": 2,
+          "studies": [
+            "Park2010",
+            "1000GenomesPhase3"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 2,
+          "platforms": [
+            "Multiple_NGS_Sequencing",
+            "Agilent24M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 2,
+          "source_variant_ids": [
+            "essv16352243",
+            "nssv1431096"
+          ],
+          "source_variant_ids_truncated": false,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=17069324;end=17142761",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 157262,
+            "end_offset_bp": -966333,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.061349,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.061349
+          },
+          "evidence_id": "DGV-BL-001"
+        },
+        {
+          "record_id": "gssvG23684",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "22",
+          "start": 17023055,
+          "end": 17034926,
+          "frequency": "100%",
+          "num_unique_samples_tested": 11,
+          "num_samples_with_variant": 11,
+          "num_studies": 2,
+          "studies": [
+            "Sudmant2013",
+            "Dogan2014"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 1,
+          "platforms": [
+            "Illumina_HiSeq"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 11,
+          "source_variant_ids": [
+            "nssv2253778",
+            "nssv2253779",
+            "nssv2253780",
+            "nssv2253781",
+            "nssv2253782"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=17023054;end=17034926",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 110992,
+            "end_offset_bp": -1074168,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.009918,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.009918
+          },
+          "evidence_id": "DGV-BL-002"
+        },
+        {
+          "record_id": "gssvG23735",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "22",
+          "start": 17658015,
+          "end": 17662058,
+          "frequency": "0.196078%",
+          "num_unique_samples_tested": 1530,
+          "num_samples_with_variant": 3,
+          "num_studies": 2,
+          "studies": [
+            "Park2010",
+            "Cooper2011"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 2,
+          "platforms": [
+            "Custom_Illumina_1.2M",
+            "Agilent24M"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 3,
+          "source_variant_ids": [
+            "nssv1432595",
+            "nssv951401",
+            "nssv951432"
+          ],
+          "source_variant_ids_truncated": false,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=17658014;end=17662058",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 745952,
+            "end_offset_bp": -447036,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.003378,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 0.003378
+          },
+          "evidence_id": "DGV-BL-003"
+        },
+        {
+          "record_id": "gssvG23655",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "22",
+          "start": 16367188,
+          "end": 17135620,
+          "frequency": "0.515709%",
+          "num_unique_samples_tested": 14737,
+          "num_samples_with_variant": 76,
+          "num_studies": 4,
+          "studies": [
+            "Uddin2014",
+            "Coe2014",
+            "Vogler2010",
+            "Cooper2011"
+          ],
+          "study_names_truncated": false,
+          "num_platforms": 4,
+          "platforms": [
+            "CytoScanHD_2.7M",
+            "Affymetrix_6.0",
+            "Custom_Illumina_1.2M",
+            "Affymetrix6.0"
+          ],
+          "platform_names_truncated": false,
+          "num_source_variants": 76,
+          "source_variant_ids": [
+            "nssv3589308",
+            "essv7004491",
+            "nssv3731793",
+            "essv7004488",
+            "essv7004490"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=16367187;end=17135620",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -544875,
+            "end_offset_bp": -973474,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.18676,
+            "reciprocal_overlap_database": 0.290927,
+            "size_similarity": 0.641949
+          },
+          "evidence_id": "DGV-BL-004"
+        },
+        {
+          "record_id": "gssvG23745",
+          "variant_type": "CNV",
+          "variant_sub_type": "Gain",
+          "chrom": "22",
+          "start": 18062621,
+          "end": 19019471,
+          "frequency": "0.344828%",
+          "num_unique_samples_tested": 14790,
+          "num_samples_with_variant": 51,
+          "num_studies": 7,
+          "studies": [
+            "Vogler2010",
+            "Cooper2011",
+            "Uddin2014",
+            "Sudmant2013",
+            "Conrad2009"
+          ],
+          "study_names_truncated": true,
+          "num_platforms": 7,
+          "platforms": [
+            "Affymetrix_6.0",
+            "Custom_Illumina_1.2M",
+            "CytoScanHD_2.7M",
+            "Affymetrix6.0",
+            "Illumina_HiSeq"
+          ],
+          "platform_names_truncated": true,
+          "num_source_variants": 51,
+          "source_variant_ids": [
+            "nssv3589347",
+            "nssv3589348",
+            "nssv3589350",
+            "nssv3589351",
+            "nssv3589352"
+          ],
+          "source_variant_ids_truncated": true,
+          "source_url": "https://api.genome.ucsc.edu/getData/track?genome=hg38;track=dgvGold;chrom=chr22;start=18062620;end=19019471",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 1150558,
+            "end_offset_bp": 910377,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.038824,
+            "reciprocal_overlap_database": 0.04857,
+            "size_similarity": 0.799353
+          },
+          "evidence_id": "DGV-BL-005"
+        }
+      ],
+      "raw_region_record_count": 33,
+      "compatible_record_count": 5,
+      "returned_record_count": 5,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T03:03:34.943568+00:00",
+      "source_url": "https://dgv.tcag.ca/dgv/app/downloads",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    "artifact_risk": {
+      "overall_risk": "medium",
+      "risk_items": [
+        {
+          "risk_type": "low_call_rate",
+          "status": "unknown",
+          "impact": "Missingness can produce spurious population differences.",
+          "recommended_check": "Calculate call rate per cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "single_caller_support",
+          "status": "unknown",
+          "impact": "A call from one algorithm may reflect caller-specific bias.",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay.",
+          "evidence": null
+        },
+        {
+          "risk_type": "repeat_region",
+          "status": "present",
+          "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+          "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 10,
+            "end_repeat_count": 10
+          }
+        },
+        {
+          "risk_type": "low_mappability",
+          "status": "unknown",
+          "impact": "Low-mappability sequence can create ambiguous alignments.",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track.",
+          "evidence": null
+        },
+        {
+          "risk_type": "supporting_reads",
+          "status": "unknown",
+          "impact": "Weak read support increases false-positive risk.",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds.",
+          "evidence": null
+        },
+        {
+          "risk_type": "genotype_quality",
+          "status": "unknown",
+          "impact": "Low or missing genotype quality weakens frequency estimates.",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "batch_effect",
+          "status": "unknown",
+          "impact": "Unequal pipelines or batches can mimic population differentiation.",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts.",
+          "evidence": null
+        }
+      ]
+    },
+    "retrieved_at": "2026-09-25T03:11:05.191691+00:00",
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states."
+    ]
+  },
+  "adaptive_tool_results": [],
+  "literature_tool_results": [
+    {
+      "source": "PubMed",
+      "status": "not_found",
+      "query": "22q11.21 duplication triplosensitivity CATSLIP",
+      "records": [],
+      "retrieved_at": "2026-09-25T03:11:10.865859+00:00",
+      "query_budget": 3,
+      "queries_used": 1,
+      "queries_remaining": 2,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 0
+    },
+    {
+      "source": "PubMed",
+      "status": "found",
+      "query": "22q11.21 recurrent duplication clinical phenotype",
+      "records": [
+        {
+          "pmid": "41338233",
+          "title": "Microdeletion and microduplication syndromes, including recurrent rearrangements at 16p11.2 and 22q11.21, are enriched in unexplained male infertility.",
+          "authors": [
+            "Kikas T",
+            "Dutta A",
+            "Inno R"
+          ],
+          "author_count": 9,
+          "authors_truncated": true,
+          "source": "Hum Reprod",
+          "pubdate": "2026 Feb 1",
+          "doi": "10.1093/humrep/deaf231",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/41338233/",
+          "evidence_id": "PMID-41338233"
+        },
+        {
+          "pmid": "26625662",
+          "title": "ESOPHAGEAL ATRESIA WITH RECURRENT TRACHEOESOPHAGEAL FISTULAS AND MICRODUPLICATION 22q11.23.",
+          "authors": [
+            "Puvabanditsin S",
+            "Garrow E",
+            "February M"
+          ],
+          "author_count": 5,
+          "authors_truncated": true,
+          "source": "Genet Couns",
+          "pubdate": "2015",
+          "doi": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/26625662/",
+          "evidence_id": "PMID-26625662"
+        },
+        {
+          "pmid": "27138190",
+          "title": "CNV analysis in 169 patients with bladder exstrophy-epispadias complex.",
+          "authors": [
+            "von Lowtzow C",
+            "Hofmann A",
+            "Zhang R"
+          ],
+          "author_count": 19,
+          "authors_truncated": true,
+          "source": "BMC Med Genet",
+          "pubdate": "2016 Apr 30",
+          "doi": "10.1186/s12881-016-0299-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/27138190/",
+          "evidence_id": "PMID-27138190"
+        },
+        {
+          "pmid": "29691480",
+          "title": "An estimation of the prevalence of genomic disorders using chromosomal microarray data.",
+          "authors": [
+            "Gillentine MA",
+            "Lupo PJ",
+            "Stankiewicz P"
+          ],
+          "author_count": 4,
+          "authors_truncated": true,
+          "source": "J Hum Genet",
+          "pubdate": "2018 Jul",
+          "doi": "10.1038/s10038-018-0451-x",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/29691480/",
+          "evidence_id": "PMID-29691480"
+        },
+        {
+          "pmid": "42653435",
+          "title": "Contribution of Copy Number Variants and Cumulative Genetic Load to Autism Spectrum Disorders: Integrative Insights from Chromosomal Microarray Analysis.",
+          "authors": [
+            "Di Iorio MR",
+            "La Monica I",
+            "Imperatore A"
+          ],
+          "author_count": 7,
+          "authors_truncated": true,
+          "source": "Int J Mol Sci",
+          "pubdate": "2026 Aug 20",
+          "doi": "10.3390/ijms27167434",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42653435/",
+          "evidence_id": "PMID-42653435"
+        }
+      ],
+      "retrieved_at": "2026-09-25T03:11:13.320608+00:00",
+      "summary_records_missing": 0,
+      "limitations": "Metadata does not prove that the full text supports a biological claim.",
+      "query_budget": 3,
+      "queries_used": 2,
+      "queries_remaining": 1,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 5
+    },
+    {
+      "source": "PubMed",
+      "status": "not_found",
+      "query": "22q11.21 duplication triplosensitivity CAT eye syndrome",
+      "records": [],
+      "retrieved_at": "2026-09-25T03:11:15.059915+00:00",
+      "query_budget": 3,
+      "queries_used": 3,
+      "queries_remaining": 0,
+      "duplicate_pmids_excluded": 0,
+      "returned_record_count": 0
+    }
+  ],
+  "literature_query_keys": [
+    "22q11.21 duplication triplosensitivity catslip",
+    "22q11.21 recurrent duplication clinical phenotype",
+    "22q11.21 duplication triplosensitivity cat eye syndrome"
+  ],
+  "adaptive_investigation": "{\n  \"decision\": \"No action required\",\n  \"evidence_gaps\": [],\n  \"executed_action_names\": [],\n  \"stop_reason\": \"The candidate region is a well-characterized 22q11.21 recurrent (CES) duplication. Baseline evidence already provides comprehensive gene annotation, clinical dosage sensitivity (triplosensitivity), and extensive population frequency overlap. No further queries are needed to characterize the biological content of this well-known region.\",\n  \"remaining_limitations\": [\n    \"Baseline Ensembl evidence is coordinate-overlap evidence.\",\n    \"Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.\",\n    \"Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.\",\n    \"dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.\",\n    \"Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.\",\n    \"Missing source data and query failures remain explicit unknown/error states.\"\n  ]\n}",
+  "literature_evidence": "{\n  \"queries\": [\n    {\n      \"query\": \"22q11.21 duplication triplosensitivity CATSLIP\",\n      \"reason\": \"Initial probe for specific documentation of triplosensitivity associations.\",\n      \"evidence_ids\": [],\n      \"missing_sources\": [\n        \"PubMed\"\n      ],\n      \"limitations\": [\n        \"Query returned no results.\"\n      ]\n    },\n    {\n      \"query\": \"22q11.21 recurrent duplication clinical phenotype\",\n      \"reason\": \"Broad search to capture literature context for the clinical features of this recurrent duplication syndrome.\",\n      \"evidence_ids\": [\n        \"PMID-41338233\",\n        \"PMID-26625662\",\n        \"PMID-27138190\",\n        \"PMID-29691480\",\n        \"PMID-42653435\"\n      ],\n      \"missing_sources\": [],\n      \"limitations\": [\n        \"Metadata does not prove that the full text supports a biological claim.\"\n      ]\n    },\n    {\n      \"query\": \"22q11.21 duplication triplosensitivity CAT eye syndrome\",\n      \"reason\": \"Search to verify historical clinical nomenclature (Cat Eye Syndrome) for this region.\",\n      \"evidence_ids\": [],\n      \"missing_sources\": [\n        \"PubMed\"\n      ],\n      \"limitations\": [\n        \"Query returned no results.\"\n      ]\n    }\n  ]\n}",
+  "evidence_view": {
+    "status": "ready",
+    "record_count": 12,
+    "total_record_count": 107,
+    "records_by_id": {
+      "CGD-BL-001": {
+        "record_id": "ISCA-37393",
+        "entity": "22q11.21 recurrent (CES) region (includes CECR2)",
+        "entity_type": "region",
+        "chrom": "22",
+        "start": 16912063,
+        "end": 18109094,
+        "haploinsufficiency": {
+          "assessment": "Little Evidence for Haploinsufficiency",
+          "score": 1
+        },
+        "triplosensitivity": {
+          "assessment": "Sufficient Evidence for Triplosensitivity",
+          "score": 3
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "Sufficient Evidence for Triplosensitivity",
+        "curation_date": "2026-08-14T17:28:28-04:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37393",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "CGD-BL-001"
+      },
+      "CGD-BL-003": {
+        "record_id": "HGNC:1839",
+        "entity": "ADA2",
+        "entity_type": "gene",
+        "chrom": "22",
+        "start": 17178790,
+        "end": 17221848,
+        "haploinsufficiency": {
+          "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+          "score": 30
+        },
+        "triplosensitivity": {
+          "assessment": "No Evidence for Triplosensitivity",
+          "score": 0
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "No Evidence for Triplosensitivity",
+        "curation_date": "2025-10-24T15:24:06+00:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:1839",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 266727,
+          "end_offset_bp": -887246,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.035971,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.035971
+        },
+        "evidence_id": "CGD-BL-003"
+      },
+      "CGD-BL-004": {
+        "record_id": "HGNC:857",
+        "entity": "ATP6V1E1",
+        "entity_type": "gene",
+        "chrom": "22",
+        "start": 17592136,
+        "end": 17628822,
+        "haploinsufficiency": {
+          "assessment": "No Evidence for Haploinsufficiency",
+          "score": 0
+        },
+        "triplosensitivity": {
+          "assessment": "No Evidence for Triplosensitivity",
+          "score": 0
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "No Evidence for Triplosensitivity",
+        "curation_date": "2012-04-26T22:40:17+00:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:857",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 680073,
+          "end_offset_bp": -480272,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.030648,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.030648
+        },
+        "evidence_id": "CGD-BL-004"
+      },
+      "CGD-BL-005": {
+        "record_id": "HGNC:5985",
+        "entity": "IL17RA",
+        "entity_type": "gene",
+        "chrom": "22",
+        "start": 17085000,
+        "end": 17115693,
+        "haploinsufficiency": {
+          "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+          "score": 30
+        },
+        "triplosensitivity": {
+          "assessment": "Not yet evaluated",
+          "score": null
+        },
+        "relevant_dosage_direction": "triplosensitivity",
+        "relevant_assessment": "Not yet evaluated",
+        "curation_date": "2016-08-22T17:49:29+00:00",
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:5985",
+        "match_type": "region_overlap",
+        "coordinate_exact": false,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 172937,
+          "end_offset_bp": -993401,
+          "start_within_allowed_window": false,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 0.025642,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 0.025642
+        },
+        "evidence_id": "CGD-BL-005"
+      },
+      "GNO-BL-001": {
+        "variant_id": "GD_22q11.21__DUP",
+        "chrom": "22",
+        "chrom2": null,
+        "pos": 16912063,
+        "end": 18109094,
+        "pos2": null,
+        "end2": null,
+        "length": 1197031,
+        "type": "DUP",
+        "consequence": "copy_gain",
+        "ac": 1,
+        "an": 124722,
+        "af": 8e-06,
+        "ac_hom": 0,
+        "ac_hemi": 0,
+        "filters": [],
+        "match_type": "exact",
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "same_event_established": true,
+        "interpretation": "Exact coordinate and compatible-type match.",
+        "source_url": "https://gnomad.broadinstitute.org/variant/GD_22q11.21__DUP?dataset=gnomad_sv_r4",
+        "evidence_id": "GNO-BL-001"
+      },
+      "PMID-26625662": {
+        "pmid": "26625662",
+        "title": "ESOPHAGEAL ATRESIA WITH RECURRENT TRACHEOESOPHAGEAL FISTULAS AND MICRODUPLICATION 22q11.23.",
+        "authors": [
+          "Puvabanditsin S",
+          "Garrow E",
+          "February M"
+        ],
+        "author_count": 5,
+        "authors_truncated": true,
+        "source": "Genet Couns",
+        "pubdate": "2015",
+        "doi": null,
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26625662/",
+        "evidence_id": "PMID-26625662"
+      },
+      "PMID-41338233": {
+        "pmid": "41338233",
+        "title": "Microdeletion and microduplication syndromes, including recurrent rearrangements at 16p11.2 and 22q11.21, are enriched in unexplained male infertility.",
+        "authors": [
+          "Kikas T",
+          "Dutta A",
+          "Inno R"
+        ],
+        "author_count": 9,
+        "authors_truncated": true,
+        "source": "Hum Reprod",
+        "pubdate": "2026 Feb 1",
+        "doi": "10.1093/humrep/deaf231",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41338233/",
+        "evidence_id": "PMID-41338233"
+      },
+      "PMID-42653435": {
+        "pmid": "42653435",
+        "title": "Contribution of Copy Number Variants and Cumulative Genetic Load to Autism Spectrum Disorders: Integrative Insights from Chromosomal Microarray Analysis.",
+        "authors": [
+          "Di Iorio MR",
+          "La Monica I",
+          "Imperatore A"
+        ],
+        "author_count": 7,
+        "authors_truncated": true,
+        "source": "Int J Mol Sci",
+        "pubdate": "2026 Aug 20",
+        "doi": "10.3390/ijms27167434",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/42653435/",
+        "evidence_id": "PMID-42653435"
+      },
+      "QC-BL-003": {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+        "evidence": {
+          "scope": "breakpoint_windows",
+          "start_repeat_count": 10,
+          "end_repeat_count": 10
+        },
+        "evidence_id": "QC-BL-003"
+      },
+      "VEP-BL-001": {
+        "consequence_scope": "transcript",
+        "impact": "HIGH",
+        "consequence_terms": [
+          "transcript_amplification"
+        ],
+        "variant_allele": "duplication",
+        "bp_overlap": 36614,
+        "percentage_overlap": 100,
+        "record_id": "ENST00000253413",
+        "gene_id": "ENSG00000131100",
+        "gene_symbol": "ATP6V1E1",
+        "transcript_id": "ENST00000253413",
+        "biotype": "protein_coding",
+        "canonical": true,
+        "mane_select": "NM_001696.4",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-001"
+      },
+      "VEP-BL-002": {
+        "consequence_scope": "transcript",
+        "impact": "HIGH",
+        "consequence_terms": [
+          "transcript_amplification"
+        ],
+        "variant_allele": "duplication",
+        "bp_overlap": 188692,
+        "percentage_overlap": 100,
+        "record_id": "ENST00000262608",
+        "gene_id": "ENSG00000099954",
+        "gene_symbol": "CECR2",
+        "transcript_id": "ENST00000262608",
+        "biotype": "protein_coding",
+        "canonical": true,
+        "mane_select": "NM_001290047.2",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": 1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-002"
+      },
+      "VEP-BL-009": {
+        "consequence_scope": "transcript",
+        "impact": "HIGH",
+        "consequence_terms": [
+          "transcript_amplification"
+        ],
+        "variant_allele": "duplication",
+        "bp_overlap": 40646,
+        "percentage_overlap": 100,
+        "record_id": "ENST00000399837",
+        "gene_id": "ENSG00000093072",
+        "gene_symbol": "ADA2",
+        "transcript_id": "ENST00000399837",
+        "biotype": "protein_coding",
+        "canonical": true,
+        "mane_select": "NM_001282225.2",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-009"
+      }
+    },
+    "source_context": {
+      "baseline_evidence": {
+        "status": "complete",
+        "collection_policy": "deterministic_non_optional_baseline",
+        "region_annotation": {
+          "source": "Ensembl",
+          "status": "found",
+          "completeness": "complete",
+          "errors": {},
+          "truncated": {
+            "gene": true,
+            "regulatory": true,
+            "repeat": true
+          },
+          "attempts": {
+            "gene": 4,
+            "regulatory": 2,
+            "repeat": 4
+          },
+          "breakpoint_annotations": {
+            "start": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": false
+              },
+              "attempts": {
+                "gene": 2,
+                "regulatory": 2,
+                "repeat": 3
+              },
+              "completeness": "complete"
+            },
+            "end": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": true
+              },
+              "attempts": {
+                "gene": 2,
+                "regulatory": 2,
+                "repeat": 3
+              },
+              "completeness": "complete"
+            }
+          },
+          "retrieved_at": "2026-09-25T03:11:05.189738+00:00",
+          "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+        },
+        "database_evidence": {
+          "source": "gnomAD-SV",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "gnomad_sv_r4",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T03:03:35.516852+00:00",
+          "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+        },
+        "vep_evidence": {
+          "source": "Ensembl VEP",
+          "status": "found",
+          "completeness": "complete",
+          "consequence_count": 1391,
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "attempts": 2,
+          "retrieved_at": "2026-09-25T03:05:12.157408+00:00",
+          "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+        },
+        "clingen_dosage_evidence": {
+          "source": "ClinGen Dosage",
+          "status": "found",
+          "completeness": "complete",
+          "returned_record_count": 6,
+          "records_truncated": false,
+          "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+          "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+        },
+        "clinvar_evidence": {
+          "source": "ClinVar",
+          "status": "found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 2,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T03:03:34.668930+00:00",
+          "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+        },
+        "dbvar_evidence": {
+          "source": "NCBI dbVar",
+          "status": "found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T03:03:35.911083+00:00",
+          "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+        },
+        "dgv_evidence": {
+          "source": "DGV Gold Standard",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "dgvGold",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 5,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T03:03:34.943568+00:00",
+          "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+        },
+        "artifact_risk": {
+          "overall_risk": "medium",
+          "risk_items": [
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "present"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            }
+          ]
+        },
+        "retrieved_at": "2026-09-25T03:11:05.191691+00:00",
+        "limitations": [
+          "Baseline Ensembl evidence is coordinate-overlap evidence.",
+          "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+          "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+          "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+          "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+          "Missing source data and query failures remain explicit unknown/error states."
+        ]
+      },
+      "adaptive_tool_results": [],
+      "literature_tool_results": [
+        {
+          "source": "PubMed",
+          "status": "not_found",
+          "query": "22q11.21 duplication triplosensitivity CATSLIP",
+          "retrieved_at": "2026-09-25T03:11:10.865859+00:00",
+          "query_budget": 3,
+          "queries_used": 1,
+          "queries_remaining": 2,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 0
+        },
+        {
+          "source": "PubMed",
+          "status": "found",
+          "query": "22q11.21 recurrent duplication clinical phenotype",
+          "retrieved_at": "2026-09-25T03:11:13.320608+00:00",
+          "limitations": "Metadata does not prove that the full text supports a biological claim.",
+          "query_budget": 3,
+          "queries_used": 2,
+          "queries_remaining": 1,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 5
+        },
+        {
+          "source": "PubMed",
+          "status": "not_found",
+          "query": "22q11.21 duplication triplosensitivity CAT eye syndrome",
+          "retrieved_at": "2026-09-25T03:11:15.059915+00:00",
+          "query_budget": 3,
+          "queries_used": 3,
+          "queries_remaining": 0,
+          "duplicate_pmids_excluded": 0,
+          "returned_record_count": 0
+        }
+      ]
+    }
+  },
+  "claim_synthesis": {
+    "candidate_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The SV corresponds to the 22q11.21 recurrent (CES) region, which is documented in the ClinGen dosage database as having sufficient evidence for triplosensitivity.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "evidence_basis": "ClinGen curation identifies this specific region as having sufficient evidence for triplosensitivity."
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication is identified in gnomAD-SV at the exact reported coordinates.",
+        "claim_type": "observation",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "evidence_basis": "Exact match for a structural variant record in gnomAD-SV v4."
+      },
+      {
+        "claim_id": "C003",
+        "text": "The SV overlaps with multiple genes including ADA2, ATP6V1E1, and IL17RA, which are classified in ClinGen as having either no evidence for triplosensitivity or are not yet evaluated.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "CGD-BL-003",
+          "CGD-BL-004",
+          "CGD-BL-005"
+        ],
+        "evidence_basis": "ClinGen dosage classifications for individual genes within the duplicated region."
+      },
+      {
+        "claim_id": "C004",
+        "text": "VEP analysis predicts high-impact consequences (transcript_amplification) for genes including ATP6V1E1, CECR2, and ADA2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-009"
+        ],
+        "evidence_basis": "Ensembl VEP prediction for the specified structural variant interval."
+      },
+      {
+        "claim_id": "C005",
+        "text": "Literature exists reporting copy number variants in 22q11.21 in patients with diverse phenotypes including infertility, esophageal atresia, and autism spectrum disorders.",
+        "claim_type": "observation",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-41338233",
+          "PMID-26625662",
+          "PMID-42653435"
+        ],
+        "evidence_basis": "PubMed metadata summaries describe association studies for 22q11.2 rearrangements."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Breakpoint regions contain repetitive sequences, which may affect the reliability of breakpoint placement.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "evidence_basis": "Repeat content within breakpoint windows is explicitly noted in the quality control review."
+      }
+    ],
+    "evidence_gaps": [
+      "No direct patient-level clinical report was retrieved confirming the pathogenicity of this specific duplication in a diagnostic context.",
+      "The literature search did not yield specific documentation linking the queried region to 'CATSLIP' or specific CAT eye syndrome triplosensitivity mechanisms."
+    ],
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence only.",
+      "VEP consequences are bioinformatic predictions for a symbolic allele and do not constitute experimental validation or evidence of clinical consequence.",
+      "ClinGen dosage scores are expert-curated regional assessments, not diagnostic classifications for a specific patient's variant.",
+      "gnomAD and DGV frequency data serve as population context and do not establish the pathogenicity or benignity of the variant.",
+      "PubMed metadata summarizes study topics but does not equate to the verification of specific biological claims or clinical diagnoses."
+    ]
+  },
+  "verification": {
+    "publication_allowed": true,
+    "supported_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The SV corresponds to the 22q11.21 recurrent (CES) region, which is documented in the ClinGen dosage database as having sufficient evidence for triplosensitivity.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication is identified in gnomAD-SV at the exact reported coordinates.",
+        "claim_type": "observation",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "The SV overlaps with multiple genes including ADA2, ATP6V1E1, and IL17RA, which are classified in ClinGen as having either no evidence for triplosensitivity or are not yet evaluated.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "CGD-BL-003",
+          "CGD-BL-004",
+          "CGD-BL-005"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "VEP analysis predicts high-impact consequences (transcript_amplification) for genes including ATP6V1E1, CECR2, and ADA2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-009"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C005",
+        "text": "Literature exists reporting copy number variants in 22q11.21 in patients with diverse phenotypes including infertility, esophageal atresia, and autism spectrum disorders.",
+        "claim_type": "observation",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-41338233",
+          "PMID-26625662",
+          "PMID-42653435"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Breakpoint regions contain repetitive sequences, which may affect the reliability of breakpoint placement.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      }
+    ],
+    "rejected_claims": [],
+    "contradictions": [],
+    "missing_evidence": [],
+    "warnings": [
+      "ClinGen gene-level evidence refers to dosage sensitivity of genes, whereas the regional assessment (C001) pertains to the 22q11.21 recurrent region; ensure the distinction between gene-level and region-level curation is maintained in final reporting.",
+      "Conservatively qualified claim C005: Only PubMed citation metadata was retrieved; full-text support was not checked."
+    ]
+  },
+  "final_report": {
+    "report_version": "1.1.1",
+    "report_status": "complete",
+    "sv_summary": {
+      "validation_status": "valid",
+      "sv_id": "TEST_GRCh38_22q11.21_CES_region_gain",
+      "genome_build": "GRCh38",
+      "genome_build_original": "GRCh38",
+      "chrom": "22",
+      "start": 16912063,
+      "end": 18109094,
+      "coordinate_system": "1-based-inclusive",
+      "chromosome_length_bp": 50818468,
+      "cipos": null,
+      "ciend": null,
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "breakpoint_uncertainty_status": "not_provided",
+      "imprecise": false,
+      "bnd_mate_status": "not_applicable",
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null,
+      "local_orientation": null,
+      "mate_orientation": null,
+      "sv_type": "DUP",
+      "sv_type_original": "DUP",
+      "sv_subtype": null,
+      "length_bp": 1197032
+    },
+    "statistical_signals": [],
+    "gene_region_annotation": [
+      {
+        "statement": "The SV overlaps with multiple genes including ADA2, ATP6V1E1, and IL17RA, which are classified in ClinGen as having either no evidence for triplosensitivity or are not yet evaluated.",
+        "evidence_ids": [
+          "CGD-BL-003",
+          "CGD-BL-004",
+          "CGD-BL-005"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "VEP analysis predicts high-impact consequences (transcript_amplification) for genes including ATP6V1E1, CECR2, and ADA2.",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-009"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "population_evidence": [
+      {
+        "statement": "The duplication is identified in gnomAD-SV at the exact reported coordinates.",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "observation"
+      }
+    ],
+    "clinical_phenotype_evidence": [
+      {
+        "statement": "The SV corresponds to the 22q11.21 recurrent (CES) region, which is documented in the ClinGen dosage database as having sufficient evidence for triplosensitivity.",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "literature_evidence": [],
+    "artifact_risks": [
+      {
+        "risk_type": "low_call_rate",
+        "status": "unknown",
+        "impact": "Missingness can produce spurious population differences.",
+        "evidence_ids": [
+          "QC-BL-001"
+        ],
+        "recommended_check": "Calculate call rate per cohort."
+      },
+      {
+        "risk_type": "single_caller_support",
+        "status": "unknown",
+        "impact": "A call from one algorithm may reflect caller-specific bias.",
+        "evidence_ids": [
+          "QC-BL-002"
+        ],
+        "recommended_check": "Validate with an orthogonal caller or experimental assay."
+      },
+      {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "recommended_check": "Confirm both breakpoints against a curated repeat track."
+      },
+      {
+        "risk_type": "low_mappability",
+        "status": "unknown",
+        "impact": "Low-mappability sequence can create ambiguous alignments.",
+        "evidence_ids": [
+          "QC-BL-004"
+        ],
+        "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+      },
+      {
+        "risk_type": "supporting_reads",
+        "status": "unknown",
+        "impact": "Weak read support increases false-positive risk.",
+        "evidence_ids": [
+          "QC-BL-005"
+        ],
+        "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+      },
+      {
+        "risk_type": "genotype_quality",
+        "status": "unknown",
+        "impact": "Low or missing genotype quality weakens frequency estimates.",
+        "evidence_ids": [
+          "QC-BL-006"
+        ],
+        "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+      },
+      {
+        "risk_type": "batch_effect",
+        "status": "unknown",
+        "impact": "Unequal pipelines or batches can mimic population differentiation.",
+        "evidence_ids": [
+          "QC-BL-007"
+        ],
+        "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+      }
+    ],
+    "possible_interpretations": [
+      {
+        "statement": "Breakpoint regions contain repetitive sequences, which may affect the reliability of breakpoint placement.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "kind": "inference"
+      }
+    ],
+    "contradictions": [],
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states.",
+      "Baseline Ensembl evidence is coordinate-overlap evidence only.",
+      "VEP consequences are bioinformatic predictions for a symbolic allele and do not constitute experimental validation or evidence of clinical consequence.",
+      "ClinGen dosage scores are expert-curated regional assessments, not diagnostic classifications for a specific patient's variant.",
+      "gnomAD and DGV frequency data serve as population context and do not establish the pathogenicity or benignity of the variant.",
+      "PubMed metadata summarizes study topics but does not equate to the verification of specific biological claims or clinical diagnoses.",
+      "ClinGen gene-level evidence refers to dosage sensitivity of genes, whereas the regional assessment (C001) pertains to the 22q11.21 recurrent region; ensure the distinction between gene-level and region-level curation is maintained in final reporting.",
+      "Conservatively qualified claim C005: Only PubMed citation metadata was retrieved; full-text support was not checked."
+    ],
+    "recommended_next_steps": [
+      "Resolve evidence gap: No direct patient-level clinical report was retrieved confirming the pathogenicity of this specific duplication in a diagnostic context.",
+      "Resolve evidence gap: The literature search did not yield specific documentation linking the queried region to 'CATSLIP' or specific CAT eye syndrome triplosensitivity mechanisms."
+    ],
+    "verified_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The SV corresponds to the 22q11.21 recurrent (CES) region, which is documented in the ClinGen dosage database as having sufficient evidence for triplosensitivity.",
+        "claim_type": "database_fact",
+        "report_section": "clinical_phenotype_evidence",
+        "evidence_ids": [
+          "CGD-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "The duplication is identified in gnomAD-SV at the exact reported coordinates.",
+        "claim_type": "observation",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "The SV overlaps with multiple genes including ADA2, ATP6V1E1, and IL17RA, which are classified in ClinGen as having either no evidence for triplosensitivity or are not yet evaluated.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "CGD-BL-003",
+          "CGD-BL-004",
+          "CGD-BL-005"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "VEP analysis predicts high-impact consequences (transcript_amplification) for genes including ATP6V1E1, CECR2, and ADA2.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-009"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C005",
+        "text": "Literature exists reporting copy number variants in 22q11.21 in patients with diverse phenotypes including infertility, esophageal atresia, and autism spectrum disorders.",
+        "claim_type": "observation",
+        "report_section": "literature_evidence",
+        "evidence_ids": [
+          "PMID-41338233",
+          "PMID-26625662",
+          "PMID-42653435"
+        ],
+        "confidence": "medium",
+        "verification_status": "partially_supported",
+        "notes": "Only PubMed citation metadata was retrieved; full-text support was not checked."
+      },
+      {
+        "claim_id": "C006",
+        "text": "Breakpoint regions contain repetitive sequences, which may affect the reliability of breakpoint placement.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "evidence_id": "CGD-BL-001",
+        "source": "ClinGen Dosage",
+        "evidence_type": "dosage_curation",
+        "retrieval_status": "found",
+        "finding_status": "Sufficient Evidence for Triplosensitivity",
+        "record_id": "ISCA-37393",
+        "match_type": "exact",
+        "summary": "ClinGen dosage record for 22q11.21 recurrent (CES) region (includes CECR2): Sufficient Evidence for Triplosensitivity.",
+        "key_facts": {
+          "entity": "22q11.21 recurrent (CES) region (includes CECR2)",
+          "entity_type": "region",
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "Sufficient Evidence for Triplosensitivity",
+          "haploinsufficiency": {
+            "assessment": "Little Evidence for Haploinsufficiency",
+            "score": 1
+          },
+          "triplosensitivity": {
+            "assessment": "Sufficient Evidence for Triplosensitivity",
+            "score": 3
+          },
+          "position": "22:16912063-18109094"
+        },
+        "used_by": [
+          "clinical_phenotype_evidence[1]",
+          "verified_claims.C001"
+        ],
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/region/ISCA-37393",
+        "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "CGD-BL-003",
+        "source": "ClinGen Dosage",
+        "evidence_type": "dosage_curation",
+        "retrieval_status": "found",
+        "finding_status": "No Evidence for Triplosensitivity",
+        "record_id": "HGNC:1839",
+        "match_type": "region_overlap",
+        "summary": "ClinGen dosage record for ADA2: No Evidence for Triplosensitivity.",
+        "key_facts": {
+          "entity": "ADA2",
+          "entity_type": "gene",
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "position": "22:17178790-17221848"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:1839",
+        "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "CGD-BL-004",
+        "source": "ClinGen Dosage",
+        "evidence_type": "dosage_curation",
+        "retrieval_status": "found",
+        "finding_status": "No Evidence for Triplosensitivity",
+        "record_id": "HGNC:857",
+        "match_type": "region_overlap",
+        "summary": "ClinGen dosage record for ATP6V1E1: No Evidence for Triplosensitivity.",
+        "key_facts": {
+          "entity": "ATP6V1E1",
+          "entity_type": "gene",
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "No Evidence for Triplosensitivity",
+          "haploinsufficiency": {
+            "assessment": "No Evidence for Haploinsufficiency",
+            "score": 0
+          },
+          "triplosensitivity": {
+            "assessment": "No Evidence for Triplosensitivity",
+            "score": 0
+          },
+          "position": "22:17592136-17628822"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:857",
+        "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "CGD-BL-005",
+        "source": "ClinGen Dosage",
+        "evidence_type": "dosage_curation",
+        "retrieval_status": "found",
+        "finding_status": "Not yet evaluated",
+        "record_id": "HGNC:5985",
+        "match_type": "region_overlap",
+        "summary": "ClinGen dosage record for IL17RA: Not yet evaluated.",
+        "key_facts": {
+          "entity": "IL17RA",
+          "entity_type": "gene",
+          "relevant_dosage_direction": "triplosensitivity",
+          "relevant_assessment": "Not yet evaluated",
+          "haploinsufficiency": {
+            "assessment": "Gene Associated with Autosomal Recessive Phenotype",
+            "score": 30
+          },
+          "triplosensitivity": {
+            "assessment": "Not yet evaluated",
+            "score": null
+          },
+          "position": "22:17085000-17115693"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "verified_claims.C003"
+        ],
+        "source_url": "https://search.clinicalgenome.org/kb/gene-dosage/HGNC:5985",
+        "retrieved_at": "2026-09-25T03:03:37.108199+00:00",
+        "limitations": "ClinGen dosage scores are expert-curated gene/region evidence, not a patient-level classification. Coordinate overlap does not establish that recurrent breakpoints, copy state, phenotype, inheritance, or structural configuration match the curated cases."
+      },
+      {
+        "evidence_id": "GNO-BL-001",
+        "source": "gnomAD-SV",
+        "evidence_type": "population_variant",
+        "retrieval_status": "found",
+        "finding_status": "exact",
+        "record_id": "GD_22q11.21__DUP",
+        "match_type": "exact",
+        "summary": "gnomAD-SV GD_22q11.21__DUP is a exact match (AF=8e-06).",
+        "key_facts": {
+          "variant_id": "GD_22q11.21__DUP",
+          "type": "DUP",
+          "af": 8e-06,
+          "ac": 1,
+          "an": 124722,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "22:16912063-18109094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://gnomad.broadinstitute.org/variant/GD_22q11.21__DUP?dataset=gnomad_sv_r4",
+        "retrieved_at": "2026-09-25T03:03:35.516852+00:00",
+        "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+      },
+      {
+        "evidence_id": "PMID-26625662",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "26625662",
+        "match_type": null,
+        "summary": "ESOPHAGEAL ATRESIA WITH RECURRENT TRACHEOESOPHAGEAL FISTULAS AND MICRODUPLICATION 22q11.23.",
+        "key_facts": {
+          "authors": [
+            "Puvabanditsin S",
+            "Garrow E",
+            "February M"
+          ],
+          "author_count": 5,
+          "source": "Genet Couns",
+          "pubdate": "2015"
+        },
+        "used_by": [
+          "verified_claims.C005"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/26625662/",
+        "retrieved_at": "2026-09-25T03:11:13.320608+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-41338233",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "41338233",
+        "match_type": null,
+        "summary": "Microdeletion and microduplication syndromes, including recurrent rearrangements at 16p11.2 and 22q11.21, are enriched in unexplained male infertility.",
+        "key_facts": {
+          "authors": [
+            "Kikas T",
+            "Dutta A",
+            "Inno R"
+          ],
+          "author_count": 9,
+          "source": "Hum Reprod",
+          "pubdate": "2026 Feb 1",
+          "doi": "10.1093/humrep/deaf231"
+        },
+        "used_by": [
+          "verified_claims.C005"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41338233/",
+        "retrieved_at": "2026-09-25T03:11:13.320608+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "PMID-42653435",
+        "source": "PubMed",
+        "evidence_type": "literature_metadata",
+        "retrieval_status": "found",
+        "finding_status": "citation_found",
+        "record_id": "42653435",
+        "match_type": null,
+        "summary": "Contribution of Copy Number Variants and Cumulative Genetic Load to Autism Spectrum Disorders: Integrative Insights from Chromosomal Microarray Analysis.",
+        "key_facts": {
+          "authors": [
+            "Di Iorio MR",
+            "La Monica I",
+            "Imperatore A"
+          ],
+          "author_count": 7,
+          "source": "Int J Mol Sci",
+          "pubdate": "2026 Aug 20",
+          "doi": "10.3390/ijms27167434"
+        },
+        "used_by": [
+          "verified_claims.C005"
+        ],
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42653435/",
+        "retrieved_at": "2026-09-25T03:11:13.320608+00:00",
+        "limitations": "Metadata does not prove that the full text supports a biological claim."
+      },
+      {
+        "evidence_id": "QC-BL-001",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-001",
+        "match_type": null,
+        "summary": "low_call_rate: unknown. Missingness can produce spurious population differences.",
+        "key_facts": {
+          "risk_type": "low_call_rate",
+          "recommended_check": "Calculate call rate per cohort."
+        },
+        "used_by": [
+          "artifact_risks.low_call_rate"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-002",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-002",
+        "match_type": null,
+        "summary": "single_caller_support: unknown. A call from one algorithm may reflect caller-specific bias.",
+        "key_facts": {
+          "risk_type": "single_caller_support",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay."
+        },
+        "used_by": [
+          "artifact_risks.single_caller_support"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-003",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "present",
+        "record_id": "QC-BL-003",
+        "match_type": null,
+        "summary": "repeat_region: present. Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "key_facts": {
+          "risk_type": "repeat_region",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 10,
+            "end_repeat_count": 10
+          },
+          "recommended_check": "Confirm both breakpoints against a curated repeat track."
+        },
+        "used_by": [
+          "artifact_risks.repeat_region",
+          "possible_interpretations[1]",
+          "verified_claims.C006"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-004",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-004",
+        "match_type": null,
+        "summary": "low_mappability: unknown. Low-mappability sequence can create ambiguous alignments.",
+        "key_facts": {
+          "risk_type": "low_mappability",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+        },
+        "used_by": [
+          "artifact_risks.low_mappability"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-005",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-005",
+        "match_type": null,
+        "summary": "supporting_reads: unknown. Weak read support increases false-positive risk.",
+        "key_facts": {
+          "risk_type": "supporting_reads",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+        },
+        "used_by": [
+          "artifact_risks.supporting_reads"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-006",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-006",
+        "match_type": null,
+        "summary": "genotype_quality: unknown. Low or missing genotype quality weakens frequency estimates.",
+        "key_facts": {
+          "risk_type": "genotype_quality",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+        },
+        "used_by": [
+          "artifact_risks.genotype_quality"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-007",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-007",
+        "match_type": null,
+        "summary": "batch_effect: unknown. Unequal pipelines or batches can mimic population differentiation.",
+        "key_facts": {
+          "risk_type": "batch_effect",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+        },
+        "used_by": [
+          "artifact_risks.batch_effect"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "VEP-BL-001",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "high",
+        "record_id": "ENST00000253413",
+        "match_type": null,
+        "summary": "VEP predicts transcript_amplification for ATP6V1E1 (HIGH).",
+        "key_facts": {
+          "gene_symbol": "ATP6V1E1",
+          "gene_id": "ENSG00000131100",
+          "transcript_id": "ENST00000253413",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "impact": "HIGH",
+          "percentage_overlap": 100,
+          "canonical": true,
+          "mane_select": "NM_001696.4"
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T03:05:12.157408+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-002",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "high",
+        "record_id": "ENST00000262608",
+        "match_type": null,
+        "summary": "VEP predicts transcript_amplification for CECR2 (HIGH).",
+        "key_facts": {
+          "gene_symbol": "CECR2",
+          "gene_id": "ENSG00000099954",
+          "transcript_id": "ENST00000262608",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "impact": "HIGH",
+          "percentage_overlap": 100,
+          "canonical": true,
+          "mane_select": "NM_001290047.2"
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T03:05:12.157408+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-009",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "high",
+        "record_id": "ENST00000399837",
+        "match_type": null,
+        "summary": "VEP predicts transcript_amplification for ADA2 (HIGH).",
+        "key_facts": {
+          "gene_symbol": "ADA2",
+          "gene_id": "ENSG00000093072",
+          "transcript_id": "ENST00000399837",
+          "consequence_terms": [
+            "transcript_amplification"
+          ],
+          "impact": "HIGH",
+          "percentage_overlap": 100,
+          "canonical": true,
+          "mane_select": "NM_001282225.2"
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/22:16912063-18109094:1/DUP?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T03:05:12.157408+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      }
+    ],
+    "query_provenance": [
+      {
+        "source": "Ensembl",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"22:16912063-18109094\", \"query_strategy\": \"individual_fallback\"}",
+        "retrieved_at": "2026-09-25T03:11:05.189738+00:00"
+      },
+      {
+        "source": "Ensembl VEP",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"22:16912063-18109094\"}",
+        "retrieved_at": "2026-09-25T03:05:12.157408+00:00"
+      },
+      {
+        "source": "gnomAD-SV",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"gnomad_sv_r4\", \"query_regions\": [{\"role\": \"nominal\", \"chrom\": \"22\", \"interval\": [16911563, 18109594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T03:03:35.516852+00:00"
+      },
+      {
+        "source": "ClinGen Dosage",
+        "status": "found",
+        "query_summary": "{}",
+        "retrieved_at": "2026-09-25T03:03:37.108199+00:00"
+      },
+      {
+        "source": "ClinVar",
+        "status": "found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [16911563, 18109594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T03:03:34.668930+00:00"
+      },
+      {
+        "source": "NCBI dbVar",
+        "status": "found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [16911563, 18109594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T03:03:35.911083+00:00"
+      },
+      {
+        "source": "DGV Gold Standard",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"dgvGold\", \"query_regions\": [{\"role\": \"nominal\", \"interval\": [16911563, 18109594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T03:03:34.943568+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "not_found",
+        "query_summary": "22q11.21 duplication triplosensitivity CATSLIP",
+        "retrieved_at": "2026-09-25T03:11:10.865859+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "found",
+        "query_summary": "22q11.21 recurrent duplication clinical phenotype",
+        "retrieved_at": "2026-09-25T03:11:13.320608+00:00"
+      },
+      {
+        "source": "PubMed",
+        "status": "not_found",
+        "query_summary": "22q11.21 duplication triplosensitivity CAT eye syndrome",
+        "retrieved_at": "2026-09-25T03:11:15.059915+00:00"
+      }
+    ],
+    "investigation_log": {
+      "identified_evidence_gaps": [
+        "No direct patient-level clinical report was retrieved confirming the pathogenicity of this specific duplication in a diagnostic context.",
+        "The literature search did not yield specific documentation linking the queried region to 'CATSLIP' or specific CAT eye syndrome triplosensitivity mechanisms."
+      ],
+      "planned_actions": [],
+      "executed_actions": [],
+      "query_budget": 2,
+      "queries_used": 0,
+      "stop_reason": "The candidate region is a well-characterized 22q11.21 recurrent (CES) duplication. Baseline evidence already provides comprehensive gene annotation, clinical dosage sensitivity (triplosensitivity), and extensive population frequency overlap. No further queries are needed to characterize the biological content of this well-known region.",
+      "remaining_limitations": [
+        "Baseline Ensembl evidence is coordinate-overlap evidence.",
+        "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+        "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+        "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+        "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+        "Missing source data and query failures remain explicit unknown/error states.",
+        "Baseline Ensembl evidence is coordinate-overlap evidence only.",
+        "VEP consequences are bioinformatic predictions for a symbolic allele and do not constitute experimental validation or evidence of clinical consequence.",
+        "ClinGen dosage scores are expert-curated regional assessments, not diagnostic classifications for a specific patient's variant.",
+        "gnomAD and DGV frequency data serve as population context and do not establish the pathogenicity or benignity of the variant.",
+        "PubMed metadata summarizes study topics but does not equate to the verification of specific biological claims or clinical diagnoses."
+      ]
+    }
+  }
+}

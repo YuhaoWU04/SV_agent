@@ -1,0 +1,24 @@
+{
+  "sv_id": "GIAB_CMRG_GRCh38_chr2_983265_INS222_REPTYPE_DUP",
+  "genome_build": "GRCh38",
+  "chrom": "2",
+  "start": 983265,
+  "end": 983265,
+  "sv_type": "INS",
+  "length_bp": 222,
+  "quality": {
+    "vcf_qual": 30,
+    "filter": ".",
+    "genotype": "0|1",
+    "callset": "GIAB_CMRG_v1.00"
+  },
+  "source_record": {
+    "vcf_chrom": "chr2",
+    "vcf_pos": 983265,
+    "ref_length": 1,
+    "alt_length": 223,
+    "reptype": "DUP",
+    "breaksimlength": 459,
+    "refwidened": "chr2:982922-983380"
+  }
+}

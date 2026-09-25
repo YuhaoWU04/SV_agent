@@ -6,4 +6,6 @@ __pycache__/
 .adk/
 .vs/
 /runs/
+/output/
+.ppt_build/
 test/

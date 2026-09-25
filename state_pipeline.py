@@ -318,7 +318,10 @@ def build_evidence_view(
     }
 
 
-def _catalog_record(evidence_id: str, indexed: Mapping[str, Any]) -> dict[str, Any]:
+def _catalog_record(
+    evidence_id: str, indexed: Mapping[str, Any], used_by: list[str]
+) -> dict[str, Any]:
+    """Project one raw record into a compact, source-aware catalog entry."""
     record = indexed["record"]
     context = indexed["context"]
     source = next(
@@ -331,29 +334,137 @@ def _catalog_record(evidence_id: str, indexed: Mapping[str, Any]) -> dict[str, A
         ) if record.get(key) not in (None, "")),
         evidence_id,
     )
-    label = next(
-        (record[key] for key in (
-            "summary", "title", "description", "interpretation", "external_name",
-            "gene_symbol", "risk_type", "field",
-        ) if record.get(key)),
-        None,
-    )
     limitations = context.get("limitations", "")
     if isinstance(limitations, list):
         limitations = "; ".join(map(str, limitations))
     match_type = record.get("match_type") or context.get("match_type")
+    record_chrom = record.get("chrom") or record.get("seq_region_name")
+    record_start = record.get("start", record.get("pos"))
+    position = (
+        f"{record_chrom}:{record_start}-{record.get('end')}"
+        if record_chrom and record_start is not None and record.get("end") is not None
+        else ""
+    )
+
+    def facts(*keys: str) -> dict[str, Any]:
+        return {
+            key: record[key] for key in keys
+            if record.get(key) not in (None, "", [], {})
+        }
+
+    prefix = evidence_id.split("-", 1)[0]
+    evidence_type = "source_record"
+    finding_status = ""
+    key_facts: dict[str, Any] = {}
+    label = ""
+    if prefix == "QC":
+        evidence_type = "technical_qc"
+        finding_status = str(record.get("status") or "unknown")
+        key_facts = facts("risk_type", "evidence", "recommended_check")
+        label = (
+            f"{record.get('risk_type', 'Technical risk')}: {finding_status}. "
+            f"{record.get('impact', '')}"
+        )
+    elif prefix == "INPUT":
+        evidence_type = "input_statistic"
+        finding_status = "reported"
+        key_facts = facts("field", "value")
+        label = str(record.get("summary") or f"{record_id}: {record.get('value')}")
+    elif prefix == "ENS":
+        evidence_type = "genomic_overlap"
+        role = str(record.get("breakpoint_role") or "nominal")
+        finding_status = "interval_overlap" if role == "nominal" else "breakpoint_window_hit"
+        name = record.get("external_name") or record.get("id") or record_id
+        key_facts = facts("feature_type", "breakpoint_role", "external_name", "id", "biotype")
+        if position:
+            key_facts["position"] = position
+        label = f"{record.get('feature_type', 'Feature')} {name} found in the {role} region."
+    elif prefix == "VEP":
+        evidence_type = "predicted_consequence"
+        finding_status = str(record.get("impact") or "predicted").lower()
+        key_facts = facts(
+            "gene_symbol", "gene_id", "transcript_id", "consequence_terms",
+            "impact", "percentage_overlap", "canonical", "mane_select",
+        )
+        subject = record.get("gene_symbol") or record.get("transcript_id") or record_id
+        terms = ", ".join(map(str, record.get("consequence_terms") or [])) or "consequence"
+        label = f"VEP predicts {terms} for {subject} ({record.get('impact') or 'impact not provided'})."
+    elif prefix == "GNO":
+        evidence_type = "population_variant"
+        finding_status = str(match_type or "candidate_match")
+        key_facts = facts("variant_id", "type", "af", "ac", "an", "filters", "match_metrics")
+        if position:
+            key_facts["position"] = position
+        label = f"gnomAD-SV {record_id} is a {match_type or 'candidate'} match"
+        if record.get("af") is not None:
+            label += f" (AF={record['af']})"
+        label += "."
+    elif prefix == "CGD":
+        evidence_type = "dosage_curation"
+        finding_status = str(record.get("relevant_assessment") or "curated_overlap")
+        key_facts = facts(
+            "entity", "entity_type", "relevant_dosage_direction",
+            "relevant_assessment", "haploinsufficiency", "triplosensitivity",
+        )
+        if position:
+            key_facts["position"] = position
+        label = f"ClinGen dosage record for {record.get('entity') or record_id}: {finding_status}."
+    elif prefix == "CLV":
+        evidence_type = "clinical_record"
+        finding_status = str(record.get("germline_classification") or "not_provided")
+        key_facts = facts(
+            "variant_type", "germline_classification", "review_status", "traits",
+            "genes", "supporting_scv_count", "match_metrics",
+        )
+        if position:
+            key_facts["position"] = position
+        label = f"ClinVar {record_id}: {finding_status} ({record.get('review_status') or 'review status not provided'})."
+    elif prefix == "DBV":
+        evidence_type = "submitted_variant"
+        finding_status = str(record.get("type_compatibility") or "submitted_record")
+        key_facts = facts(
+            "study_id", "variant_types", "type_compatibility", "clinical_significance",
+            "genes", "methods", "match_metrics",
+        )
+        if position:
+            key_facts["position"] = position
+        label = f"dbVar {record_id}: {finding_status} submitted variant record."
+    elif prefix == "DGV":
+        evidence_type = "population_cnv"
+        finding_status = str(match_type or "candidate_match")
+        key_facts = facts(
+            "variant_type", "variant_sub_type", "frequency",
+            "num_unique_samples_tested", "num_samples_with_variant",
+            "num_studies", "match_metrics",
+        )
+        if position:
+            key_facts["position"] = position
+        label = f"DGV Gold {record_id}: {match_type or 'candidate'} population CNV record."
+    elif prefix == "PMID":
+        evidence_type = "literature_metadata"
+        finding_status = "citation_found"
+        key_facts = facts("authors", "author_count", "source", "pubdate", "doi")
+        label = str(record.get("title") or f"PubMed record {record_id}")
+    else:
+        label = str(next(
+            (record[key] for key in ("summary", "title", "description", "interpretation") if record.get(key)),
+            f"{source} record {record_id}",
+        ))
     return {
         "evidence_id": evidence_id,
         "source": source,
-        "status": context.get("status")
+        "evidence_type": evidence_type,
+        "retrieval_status": context.get("status")
         if context.get("status") in {
             "found", "not_found", "not_applicable", "unavailable", "error", "not_queried",
         }
         else "found",
+        "finding_status": finding_status,
         "record_id": str(record_id),
-        "match_type": match_type if match_type in _MATCH_TYPES else "contextual",
-        "support_direction": "contextual",
-        "summary": str(label or f"{source} record {record_id}")[:500],
+        "match_type": match_type if match_type in _MATCH_TYPES and match_type != "contextual" else None,
+        "summary": label.strip()[:500],
+        "key_facts": key_facts,
+        "used_by": used_by,
         "source_url": str(record.get("source_url") or record.get("url") or ""),
         "retrieved_at": str(record.get("retrieved_at") or context.get("retrieved_at") or ""),
         "limitations": str(limitations)[:1000],
@@ -644,7 +755,7 @@ def finalize_report_from_state(
     report["contradictions"] = list(verification.get("contradictions") or [])
     report["investigation_log"] = _investigation_log(report, state)
     report["query_provenance"] = _query_provenance(state)
-    report["report_version"] = "1.0.1"
+    report["report_version"] = "1.1.1"
     source_failures = [
         f"{source.get('source') or key} query was incomplete ({source.get('status') or source.get('completeness')})."
         for key in (
@@ -703,13 +814,14 @@ def finalize_report_from_state(
     index = _evidence_index(state)
     unknown: set[str] = set()
     referenced: set[str] = set()
+    used_by: dict[str, list[str]] = {}
 
     for group in _REPORT_EVIDENCE_GROUPS:
         items = report.get(group)
         if not isinstance(items, list):
             continue
         cleaned = []
-        for item in items:
+        for item_index, item in enumerate(items, start=1):
             if not isinstance(item, dict) or not isinstance(item.get("evidence_ids"), list):
                 cleaned.append(item)
                 continue
@@ -721,11 +833,17 @@ def finalize_report_from_state(
             item = dict(item)
             item["evidence_ids"] = known
             referenced.update(known)
+            item_name = item.get("claim_id") or item.get("risk_type")
+            location = f"{group}.{item_name}" if item_name else f"{group}[{item_index}]"
+            for evidence_id in known:
+                used_by.setdefault(evidence_id, []).append(location)
             cleaned.append(item)
         report[group] = cleaned
 
     report["evidence_catalog"] = [
-        _catalog_record(evidence_id, index[evidence_id])
+        _catalog_record(
+            evidence_id, index[evidence_id], list(dict.fromkeys(used_by.get(evidence_id, [])))
+        )
         for evidence_id in sorted(referenced)
     ]
     if unknown:

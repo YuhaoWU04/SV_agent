@@ -1,10 +1,12 @@
 # SV Investigator (Google ADK)
 
-Current prototype release: **v1.0.1**.
+Current prototype release: **v1.1.1**.
 
-The six-case v1.0.0 reference run is stored in
-[`examples/runs/v1.0.0`](examples/runs/v1.0.0). It includes complete session state,
-validated reports, Markdown renderings, compact event logs, and aggregate metrics.
+The current six-case v1.1.1 reference run is stored in
+[`examples/runs/v1.1.1`](examples/runs/v1.1.1). It was generated with
+`gemini-3.1-flash-lite` and includes complete session state, validated reports,
+Markdown renderings, compact event logs, and aggregate metrics. The older v1.0.0
+reference remains in [`examples/runs/v1.0.0`](examples/runs/v1.0.0).
 
 This is a research prototype for investigating one pre-screened structural
 variant. It does not call SVs from reads and does not replace expert review.
@@ -157,9 +159,10 @@ pre-limit counts and a truncation flag.
 
 ## Baseline Ensembl annotation: capability and limitations
 
-The region stage uses only the Ensembl REST API. For each coordinate scope it combines
-`gene`, `regulatory`, and `repeat` features in one overlap request, reducing load and
-correlated failures. It returns the normalized
+The region stage uses only the Ensembl REST API. For each coordinate scope it first
+combines `gene`, `regulatory`, and `repeat` in one overlap request. If that request
+fails, the adapter retries each feature serially so successful feature types are still
+retained. It returns the normalized
 build, region, and SV type for provenance, but the overlap operation itself is not
 SV-type-aware: the same interval produces the same overlap features for DEL, DUP,
 INV, INS, BND, and CNV. These results support statements such as "the interval overlaps
@@ -177,14 +180,16 @@ whether the window came from VCF confidence intervals or from the heuristic fall
 features found only in a fallback window are nearby candidates, not confirmed SV
 overlaps.
 
-Ensembl requests have a 60-second timeout and at most three attempts by default, with
-backoff delays starting at two seconds. Only timeouts, connection errors, HTTP 429,
+Ensembl requests have a 60-second timeout and at most four attempts by default. All
+Ensembl overlap, VEP, and adaptive requests are process-wide serialized and share an
+exponential cooldown starting at five seconds, with up to 25% random jitter. Only
+timeouts, connection errors, HTTP 429,
 and HTTP 500/502/503/504 are retried; other HTTP errors and malformed responses are
-not. At most two Ensembl requests run concurrently. `attempts` records the number of
-tries for each feature or adaptive query. Exhausted retries remain explicit errors,
+not. `attempts` records the total combined and fallback attempts relevant to each
+feature, or the attempts for VEP/adaptive queries. Exhausted retries remain explicit errors,
 not empty annotation results. These defaults can be changed with
-`SV_AGENT_ENSEMBL_HTTP_TIMEOUT`, `SV_AGENT_ENSEMBL_MAX_ATTEMPTS`,
-`SV_AGENT_ENSEMBL_MAX_CONCURRENT_REQUESTS`, and `SV_AGENT_ENSEMBL_RETRY_BACKOFF`.
+`SV_AGENT_ENSEMBL_HTTP_TIMEOUT`, `SV_AGENT_ENSEMBL_MAX_ATTEMPTS`, and
+`SV_AGENT_ENSEMBL_RETRY_BACKOFF`.
 
 This spatial-overlap adapter does not provide transcript, exon, CDS, MANE transcript,
 protein consequence, or affected-feature percentage; those are handled separately by
@@ -225,7 +230,7 @@ allele number, allele frequency, homozygote/hemizygote counts, consequence, and 
 flags.
 
 Candidate matching is deterministic. Incompatible SV types are excluded. DEL, DUP,
-INV, and CNV candidates are compared using both breakpoint distances, size similarity,
+INV, and CNV candidates are compared using both signed breakpoint offsets, size similarity,
 and reciprocal overlap. INS is compared around the insertion point. For BND input with
 a parsed mate, the tool queries both breakpoint windows and compares the chromosome
 pair and both positions; reversed database breakend order is accepted. Input adjacency
@@ -236,6 +241,12 @@ coordinate as proof of the same BND event. Matches are labelled `exact`, `high_s
 `partial_overlap`, `region_overlap`, or `nearby`; only `exact` establishes identical
 coordinates. Every non-exact record remains a candidate and includes the metrics and
 uncertainty-window source used for classification.
+
+Interval records expose signed `start_offset_bp` and `end_offset_bp`, calculated as
+`database coordinate - input coordinate`. Negative values place the database
+breakpoint to the left of the input; positive values place it to the right. Ranking
+uses their absolute magnitudes, so this representation change does not alter candidate
+ordering or similarity classes.
 
 For intervals up to 5 Mb, the tool searches the expanded full interval. For larger SVs,
 it queries the two breakpoint windows separately to keep the public region request
@@ -419,6 +430,14 @@ copy with:
 py -m sv_investigator.render_report report.json -o report.md
 ```
 
+The evidence catalog is also assembled deterministically; it does not require another
+model call. `retrieval_status` says whether the source record was retrieved, while
+`finding_status` describes what that record reports (for example, a QC risk may be
+`present`, `absent`, or `unknown`). Each entry contains a source-aware short summary,
+a small `key_facts` object, and `used_by` paths showing which report items cite it.
+Full source records remain in session state and are not duplicated into the catalog.
+The Markdown renderer groups entries by source and omits empty audit fields.
+
 ## Batch runner
 
 `runner` executes a case manifest end to end. Every case gets an independent ADK
@@ -447,7 +466,8 @@ py -m sv_investigator.runner --category technical_benchmark
 ```
 
 After an editable/package install, the equivalent short command is `sv-runner`.
-The model is selected by `SV_AGENT_MODEL`. The runner loads the package-local `.env`
+The model is selected by `SV_AGENT_MODEL`; the cost-oriented prototype default is
+`gemini-3.1-flash-lite`. The runner loads the package-local `.env`
 without overriding variables already present in the process environment, matching
 the usual ADK Web setup. Useful controls include:
 

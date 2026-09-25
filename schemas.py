@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Any, Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import AliasChoices, BaseModel, Field, model_validator
 
 
 ClaimType = Literal["observation", "database_fact", "inference", "hypothesis"]
@@ -144,17 +144,20 @@ class ProvenanceItem(BaseModel):
 class EvidenceRecord(BaseModel):
     evidence_id: str
     source: str
-    status: Literal[
+    evidence_type: str = "source_record"
+    retrieval_status: Literal[
         "found", "not_found", "not_applicable", "unavailable", "error",
         "not_queried",
-    ]
+    ] = Field(validation_alias=AliasChoices("retrieval_status", "status"))
+    finding_status: str = ""
     record_id: str = ""
     match_type: Literal[
         "exact", "high_similarity", "partial_overlap", "region_search",
         "region_overlap", "nearby", "gene_level", "contextual", "not_applicable"
-    ] = "contextual"
-    support_direction: Literal["supports", "contradicts", "contextual"] = "contextual"
+    ] | None = None
     summary: str
+    key_facts: dict[str, Any] = Field(default_factory=dict)
+    used_by: list[str] = Field(default_factory=list)
     source_url: str = ""
     retrieved_at: str = ""
     limitations: str = ""
@@ -219,7 +222,7 @@ class InvestigationLog(BaseModel):
 
 
 class SVReport(BaseModel):
-    report_version: str = "1.0.1"
+    report_version: str = "1.1.1"
     report_status: Literal["complete", "incomplete", "blocked"]
     sv_summary: SVSummary
     statistical_signals: list[ReportStatement] = Field(default_factory=list)

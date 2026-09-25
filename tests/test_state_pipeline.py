@@ -191,6 +191,12 @@ class StatePipelineTest(unittest.TestCase):
         self.assertEqual(validated.artifact_risks[0].evidence_ids, ["QC-BL-001"])
         self.assertEqual(validated.verified_claims[0].claim_id, "C001")
         self.assertEqual(validated.gene_region_annotation[0].statement, "VEP observation")
+        catalog = {item.evidence_id: item for item in validated.evidence_catalog}
+        self.assertEqual(catalog["QC-BL-001"].retrieval_status, "found")
+        self.assertEqual(catalog["QC-BL-001"].finding_status, "present")
+        self.assertEqual(catalog["QC-BL-001"].evidence_type, "technical_qc")
+        self.assertIn("artifact_risks.repeat_region", catalog["QC-BL-001"].used_by)
+        self.assertIn("verified_claims.C001", catalog["VEP-BL-001"].used_by)
         self.assertEqual(
             validated.recommended_next_steps,
             ["Resolve evidence gap: functional assay"],
@@ -252,7 +258,9 @@ class StatePipelineTest(unittest.TestCase):
             "baseline_evidence": {
                 "status": "complete",
                 "database_evidence": {"status": "found", "records": [{
-                    "evidence_id": "GNO-BL-001", "match_type": "partial_overlap",
+                    "evidence_id": "GNO-BL-001", "variant_id": "gnomAD-SV-1",
+                    "chrom": "1", "pos": 11, "end": 20, "type": "DEL",
+                    "af": 0.012, "match_type": "partial_overlap",
                 }]},
                 "region_annotation": {"status": "found", "features": [{
                     "evidence_id": "ENS-BL-001", "description": "repeat",
@@ -277,6 +285,14 @@ class StatePipelineTest(unittest.TestCase):
         self.assertEqual(result["gene_region_annotation"], [])
         self.assertNotIn("No validation required.", result["recommended_next_steps"])
         self.assertNotIn("Writer says frequency proves clinical safety.", result["limitations"])
+        population_record = next(
+            item for item in result["evidence_catalog"]
+            if item["evidence_id"] == "GNO-BL-001"
+        )
+        self.assertEqual(population_record["evidence_type"], "population_variant")
+        self.assertEqual(population_record["finding_status"], "partial_overlap")
+        self.assertEqual(population_record["key_facts"]["af"], 0.012)
+        self.assertEqual(population_record["key_facts"]["position"], "1:11-20")
 
     def test_normalizer_writes_raw_result_and_resets_per_run_evidence(self):
         state = {"adaptive_tool_results": [{"stale": True}]}

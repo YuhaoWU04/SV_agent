@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Barrier
 from unittest.mock import patch
 
+import sv_investigator.tools as tools_module
 from sv_investigator.config import ENSEMBL_HTTP_TIMEOUT_SECONDS
 from sv_investigator.render_report import render_markdown
 from sv_investigator.schemas import SVReport
@@ -27,6 +28,9 @@ from sv_investigator.tools import (
 
 
 class SVToolsTest(unittest.TestCase):
+    def setUp(self):
+        tools_module._ENSEMBL_NOT_BEFORE = 0.0
+
     @patch("sv_investigator.tools.execute_adaptive_action")
     def test_adaptive_budget_is_atomic_for_parallel_calls(self, execute):
         started = Barrier(2)
@@ -98,12 +102,13 @@ class SVToolsTest(unittest.TestCase):
         payload, error, attempts = _ensembl_json_request("https://example.org", {"feature": "gene"})
         self.assertIsNone(payload)
         self.assertEqual(error, "HTTP 503")
-        self.assertEqual(attempts, 3)
-        self.assertEqual(request.call_count, 3)
-        self.assertEqual(sleep.call_count, 2)
+        self.assertEqual(attempts, 4)
+        self.assertEqual(request.call_count, 4)
+        self.assertEqual(sleep.call_count, 3)
 
+    @patch("sv_investigator.tools.time.sleep")
     @patch("sv_investigator.tools._json_request")
-    def test_ensembl_requests_explicit_json_and_retries_disconnects(self, request):
+    def test_ensembl_requests_explicit_json_and_retries_disconnects(self, request, _sleep):
         request.side_effect = [(None, "ConnectionError"), ([], None)]
         payload, error, attempts = _ensembl_json_request("https://example.org", {})
         self.assertEqual(payload, [])
@@ -357,6 +362,41 @@ class SVToolsTest(unittest.TestCase):
         self.assertIn("| SV type | DEL |", markdown)
         self.assertIn("| Position | chr1:10-20 |", markdown)
 
+    def test_report_renderer_groups_catalog_and_hides_empty_metadata(self):
+        markdown = render_markdown({
+            "report_status": "complete",
+            "sv_summary": {},
+            "evidence_catalog": [{
+                "evidence_id": "QC-BL-003",
+                "source": "Artifact-risk rules",
+                "evidence_type": "technical_qc",
+                "retrieval_status": "found",
+                "finding_status": "present",
+                "summary": "repeat_region: present. Breakpoint placement may be unreliable.",
+                "key_facts": {"evidence": 2},
+                "used_by": ["artifact_risks.repeat_region"],
+                "limitations": "Breakpoint-window evidence is contextual.",
+            }, {
+                "evidence_id": "QC-BL-004",
+                "source": "Artifact-risk rules",
+                "evidence_type": "technical_qc",
+                "retrieval_status": "found",
+                "finding_status": "present",
+                "match_type": "present",
+                "summary": "A second risk.",
+                "limitations": "Breakpoint-window evidence is contextual.",
+            }],
+        })
+
+        self.assertIn("### Artifact-risk rules", markdown)
+        self.assertIn("**QC-BL-003** (present)", markdown)
+        self.assertIn("Key facts: evidence=2", markdown)
+        self.assertIn("Used by: artifact_risks.repeat_region", markdown)
+        self.assertNotIn("Retrieval: found", markdown)
+        self.assertNotIn("match_type", markdown)
+        self.assertNotIn("present; present", markdown)
+        self.assertEqual(markdown.count("Breakpoint-window evidence is contextual."), 1)
+
     def test_report_renderer_summarizes_baseline_source_results(self):
         markdown = render_markdown({
             "report_status": "incomplete",
@@ -504,17 +544,22 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(len(result["features"]["gene"]), 1)
         self.assertEqual(len(result["features"]["regulatory"]), 1)
         self.assertEqual(len(result["features"]["repeat"]), 1)
+        self.assertEqual(result["query_strategy"], "combined")
+        self.assertIsNone(result["combined_query_error"])
         self.assertIn("?feature=gene", result["source_urls"]["gene"])
         self.assertEqual(
             result["breakpoint_annotations"]["start"]["source"],
             "heuristic_fallback",
         )
 
+    @patch("sv_investigator.tools.time.sleep")
     @patch("sv_investigator.tools._json_request")
-    def test_ensembl_partial_failure_is_not_not_found(self, request):
+    def test_ensembl_partial_failure_is_not_not_found(self, request, _sleep):
         def response(url, params, headers, **kwargs):
             del headers, kwargs
-            if "1:10-20" not in url:
+            if "1:10-20" in url:
+                return [], None
+            if url.count("feature=") > 1 or "feature=repeat" in url:
                 return None, "HTTP 503"
             return [], None
 
@@ -525,7 +570,10 @@ class SVToolsTest(unittest.TestCase):
         self.assertIsNone(
             result["breakpoint_annotations"]["start"]["features"]["repeat"]
         )
-        self.assertEqual(result["breakpoint_annotations"]["start"]["attempts"]["repeat"], 3)
+        start_annotation = result["breakpoint_annotations"]["start"]
+        self.assertEqual(start_annotation["query_strategy"], "individual_fallback")
+        self.assertEqual(start_annotation["features"]["gene"], [])
+        self.assertEqual(start_annotation["attempts"]["repeat"], 5)
 
         risks = assess_artifact_risk(json.dumps({
             "quality": {},
@@ -582,6 +630,9 @@ class SVToolsTest(unittest.TestCase):
             result["records"][0]["match_metrics"]["start_window_source"],
             "vcf_confidence_interval",
         )
+        self.assertEqual(result["records"][0]["match_metrics"]["start_offset_bp"], -10)
+        self.assertEqual(result["records"][0]["match_metrics"]["end_offset_bp"], 20)
+        self.assertNotIn("start_distance_bp", result["records"][0]["match_metrics"])
         self.assertFalse(result["records"][0]["same_event_established"])
 
     @patch("sv_investigator.tools._json_post")
@@ -622,6 +673,8 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(
             record["match_metrics"]["start_window_source"], "heuristic_fallback"
         )
+        self.assertEqual(record["match_metrics"]["start_offset_bp"], 10)
+        self.assertEqual(record["match_metrics"]["end_offset_bp"], 10)
         self.assertFalse(record["same_event_established"])
 
     @patch("sv_investigator.tools._json_post")

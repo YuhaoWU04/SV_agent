@@ -1,0 +1,24 @@
+{
+  "sv_id": "GIAB_CMRG_GRCh38_chr4_1092989_DEL50",
+  "genome_build": "GRCh38",
+  "chrom": "4",
+  "start": 1092990,
+  "end": 1093039,
+  "sv_type": "DEL",
+  "length_bp": 50,
+  "quality": {
+    "vcf_qual": 30,
+    "filter": ".",
+    "genotype": "1|1",
+    "callset": "GIAB_CMRG_v1.00"
+  },
+  "source_record": {
+    "vcf_chrom": "chr4",
+    "vcf_pos": 1092989,
+    "ref_length": 51,
+    "alt_length": 1,
+    "reptype": "SIMPLEDEL",
+    "breaksimlength": 0,
+    "refwidened": "chr4:1092988-1093040"
+  }
+}

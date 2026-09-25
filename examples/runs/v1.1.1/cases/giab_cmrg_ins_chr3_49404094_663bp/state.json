@@ -1,0 +1,3936 @@
+{
+  "normalized_sv": {
+    "status": "valid",
+    "sv_id": "GIAB_CMRG_GRCh38_chr3_49404094_INS663",
+    "genome_build": "GRCh38",
+    "genome_build_original": "GRCh38",
+    "chrom": "3",
+    "start": 49404094,
+    "end": 49404094,
+    "coordinate_system": "1-based-inclusive",
+    "chromosome_length_bp": 198295559,
+    "cipos": null,
+    "ciend": null,
+    "start_confidence_interval": null,
+    "end_confidence_interval": null,
+    "breakpoint_uncertainty_status": "not_provided",
+    "imprecise": false,
+    "bnd_mate_status": "not_applicable",
+    "mate_chrom": null,
+    "mate_pos": null,
+    "mate_confidence_interval": null,
+    "local_orientation": null,
+    "mate_orientation": null,
+    "bnd_alt": null,
+    "bnd_mate_source": null,
+    "breakpoint_fallback_tolerance_bp": 500,
+    "breakpoint_fallback_policy": "Used only to retrieve and label nearby candidates when a VCF confidence interval is absent; it is not a measured confidence interval.",
+    "sv_type": "INS",
+    "sv_type_original": "INS",
+    "sv_subtype": null,
+    "length_bp": 663,
+    "statistics": {},
+    "quality": {
+      "vcf_qual": 30,
+      "filter": ".",
+      "genotype": "0|1",
+      "callset": "GIAB_CMRG_v1.00"
+    },
+    "source_record": {
+      "vcf_chrom": "chr3",
+      "vcf_pos": 49404094,
+      "ref_length": 1,
+      "alt_length": 664,
+      "reptype": "SIMPLEINS",
+      "breaksimlength": 1,
+      "refwidened": "chr3:49404095-49404095"
+    },
+    "warnings": [
+      "breakpoint_confidence_intervals_not_provided",
+      "statistics_not_provided"
+    ],
+    "normalizations": []
+  },
+  "baseline_evidence": {
+    "status": "complete",
+    "collection_policy": "deterministic_non_optional_baseline",
+    "immutable_candidate_fields": {
+      "genome_build": "GRCh38",
+      "chrom": "3",
+      "start": 49404094,
+      "end": 49404094,
+      "sv_type": "INS",
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null
+    },
+    "region_annotation": {
+      "source": "Ensembl",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "query_region": "3:49404094-49404094",
+      "sv_type": "INS",
+      "annotation_mode": "spatial_overlap_only",
+      "match_type": "region_overlap",
+      "features": {
+        "gene": [
+          {
+            "canonical_transcript": "ENST00000704381.1",
+            "logic_name": "havana_homo_sapiens",
+            "version": 1,
+            "start": 49357176,
+            "description": "novel protein",
+            "seq_region_name": "3",
+            "biotype": "protein_coding",
+            "id": "ENSG00000290318",
+            "end": 49412051,
+            "gene_id": "ENSG00000290318",
+            "source": "havana",
+            "feature_type": "gene",
+            "strand": -1,
+            "assembly_name": "GRCh38",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "seq_region_name": "3",
+            "description": "ras homolog family member A [Source:HGNC Symbol;Acc:HGNC:667]",
+            "logic_name": "ensembl_havana_gene_homo_sapiens",
+            "version": 16,
+            "start": 49359136,
+            "canonical_transcript": "ENST00000418115.6",
+            "assembly_name": "GRCh38",
+            "strand": -1,
+            "source": "ensembl_havana",
+            "feature_type": "gene",
+            "gene_id": "ENSG00000067560",
+            "external_name": "RHOA",
+            "id": "ENSG00000067560",
+            "end": 49412998,
+            "biotype": "protein_coding",
+            "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+            "breakpoint_role": "nominal"
+          }
+        ],
+        "regulatory": [],
+        "repeat": [
+          {
+            "end": 49404313,
+            "start": 49404019,
+            "description": "AluJo",
+            "feature_type": "repeat",
+            "strand": 1,
+            "assembly_name": "GRCh38",
+            "seq_region_name": "3",
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-001",
+            "breakpoint_role": "nominal"
+          },
+          {
+            "feature_type": "repeat",
+            "assembly_name": "GRCh38",
+            "seq_region_name": "3",
+            "strand": 1,
+            "end": 49404313,
+            "description": "AluJo",
+            "start": 49404019,
+            "evidence_id": "ENS-BL-NOMINAL-REPEAT-002",
+            "breakpoint_role": "nominal"
+          }
+        ]
+      },
+      "errors": {},
+      "truncated": {
+        "gene": false,
+        "regulatory": false,
+        "repeat": false
+      },
+      "attempts": {
+        "gene": 1,
+        "regulatory": 1,
+        "repeat": 1
+      },
+      "source_urls": {
+        "gene": "https://rest.ensembl.org/overlap/region/human/3:49404094-49404094?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+        "regulatory": "https://rest.ensembl.org/overlap/region/human/3:49404094-49404094?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+        "repeat": "https://rest.ensembl.org/overlap/region/human/3:49404094-49404094?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+      },
+      "query_strategy": "combined",
+      "combined_query_error": null,
+      "breakpoint_annotations": {
+        "start": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "3:49403594-49404594",
+          "features": {
+            "gene": [
+              {
+                "id": "ENSG00000290318",
+                "end": 49412051,
+                "biotype": "protein_coding",
+                "source": "havana",
+                "feature_type": "gene",
+                "gene_id": "ENSG00000290318",
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "canonical_transcript": "ENST00000704381.1",
+                "description": "novel protein",
+                "start": 49357176,
+                "logic_name": "havana_homo_sapiens",
+                "version": 1,
+                "seq_region_name": "3",
+                "evidence_id": "ENS-BL-START-GENE-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "seq_region_name": "3",
+                "canonical_transcript": "ENST00000418115.6",
+                "description": "ras homolog family member A [Source:HGNC Symbol;Acc:HGNC:667]",
+                "start": 49359136,
+                "logic_name": "ensembl_havana_gene_homo_sapiens",
+                "version": 16,
+                "source": "ensembl_havana",
+                "feature_type": "gene",
+                "external_name": "RHOA",
+                "gene_id": "ENSG00000067560",
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "id": "ENSG00000067560",
+                "end": 49412998,
+                "biotype": "protein_coding",
+                "evidence_id": "ENS-BL-START-GENE-002",
+                "breakpoint_role": "start"
+              }
+            ],
+            "regulatory": [],
+            "repeat": [
+              {
+                "strand": 1,
+                "seq_region_name": "3",
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "start": 49403441,
+                "description": "AluJr",
+                "end": 49403746,
+                "evidence_id": "ENS-BL-START-REPEAT-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "L1ME2",
+                "start": 49403747,
+                "end": 49403800,
+                "evidence_id": "ENS-BL-START-REPEAT-002",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49404313,
+                "description": "AluJo",
+                "start": 49404019,
+                "evidence_id": "ENS-BL-START-REPEAT-003",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49404638,
+                "description": "AluSx3",
+                "start": 49404314,
+                "evidence_id": "ENS-BL-START-REPEAT-004",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49403746,
+                "description": "dust",
+                "start": 49403725,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-005",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49404313,
+                "description": "dust",
+                "start": 49404306,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-006",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49404458,
+                "description": "dust",
+                "start": 49404434,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-007",
+                "breakpoint_role": "start"
+              },
+              {
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "feature_type": "repeat",
+                "start": 49404434,
+                "description": "trf",
+                "end": 49404458,
+                "evidence_id": "ENS-BL-START-REPEAT-008",
+                "breakpoint_role": "start"
+              },
+              {
+                "start": 49404306,
+                "description": "trf",
+                "end": 49405281,
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "feature_type": "repeat",
+                "evidence_id": "ENS-BL-START-REPEAT-009",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49403746,
+                "description": "AluJr",
+                "start": 49403441,
+                "evidence_id": "ENS-BL-START-REPEAT-010",
+                "breakpoint_role": "start"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": true
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "combined",
+          "combined_query_error": null,
+          "completeness": "complete"
+        },
+        "end": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false,
+          "query_region": "3:49403594-49404594",
+          "features": {
+            "gene": [
+              {
+                "id": "ENSG00000290318",
+                "end": 49412051,
+                "biotype": "protein_coding",
+                "source": "havana",
+                "feature_type": "gene",
+                "gene_id": "ENSG00000290318",
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "canonical_transcript": "ENST00000704381.1",
+                "description": "novel protein",
+                "start": 49357176,
+                "logic_name": "havana_homo_sapiens",
+                "version": 1,
+                "seq_region_name": "3",
+                "evidence_id": "ENS-BL-START-GENE-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "seq_region_name": "3",
+                "canonical_transcript": "ENST00000418115.6",
+                "description": "ras homolog family member A [Source:HGNC Symbol;Acc:HGNC:667]",
+                "start": 49359136,
+                "logic_name": "ensembl_havana_gene_homo_sapiens",
+                "version": 16,
+                "source": "ensembl_havana",
+                "feature_type": "gene",
+                "external_name": "RHOA",
+                "gene_id": "ENSG00000067560",
+                "assembly_name": "GRCh38",
+                "strand": -1,
+                "id": "ENSG00000067560",
+                "end": 49412998,
+                "biotype": "protein_coding",
+                "evidence_id": "ENS-BL-START-GENE-002",
+                "breakpoint_role": "start"
+              }
+            ],
+            "regulatory": [],
+            "repeat": [
+              {
+                "strand": 1,
+                "seq_region_name": "3",
+                "assembly_name": "GRCh38",
+                "feature_type": "repeat",
+                "start": 49403441,
+                "description": "AluJr",
+                "end": 49403746,
+                "evidence_id": "ENS-BL-START-REPEAT-001",
+                "breakpoint_role": "start"
+              },
+              {
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "feature_type": "repeat",
+                "description": "L1ME2",
+                "start": 49403747,
+                "end": 49403800,
+                "evidence_id": "ENS-BL-START-REPEAT-002",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49404313,
+                "description": "AluJo",
+                "start": 49404019,
+                "evidence_id": "ENS-BL-START-REPEAT-003",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49404638,
+                "description": "AluSx3",
+                "start": 49404314,
+                "evidence_id": "ENS-BL-START-REPEAT-004",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49403746,
+                "description": "dust",
+                "start": 49403725,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-005",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49404313,
+                "description": "dust",
+                "start": 49404306,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-006",
+                "breakpoint_role": "start"
+              },
+              {
+                "end": 49404458,
+                "description": "dust",
+                "start": 49404434,
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 0,
+                "evidence_id": "ENS-BL-START-REPEAT-007",
+                "breakpoint_role": "start"
+              },
+              {
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "feature_type": "repeat",
+                "start": 49404434,
+                "description": "trf",
+                "end": 49404458,
+                "evidence_id": "ENS-BL-START-REPEAT-008",
+                "breakpoint_role": "start"
+              },
+              {
+                "start": 49404306,
+                "description": "trf",
+                "end": 49405281,
+                "strand": 0,
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "feature_type": "repeat",
+                "evidence_id": "ENS-BL-START-REPEAT-009",
+                "breakpoint_role": "start"
+              },
+              {
+                "feature_type": "repeat",
+                "assembly_name": "GRCh38",
+                "seq_region_name": "3",
+                "strand": 1,
+                "end": 49403746,
+                "description": "AluJr",
+                "start": 49403441,
+                "evidence_id": "ENS-BL-START-REPEAT-010",
+                "breakpoint_role": "start"
+              }
+            ]
+          },
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": true
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "source_urls": {
+            "gene": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "regulatory": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json",
+            "repeat": "https://rest.ensembl.org/overlap/region/human/3:49403594-49404594?feature=gene;feature=regulatory;feature=repeat&content-type=application/json"
+          },
+          "query_strategy": "combined",
+          "combined_query_error": null,
+          "completeness": "complete",
+          "reused_start_breakpoint_query": true
+        },
+        "mate": null
+      },
+      "retrieved_at": "2026-09-25T02:58:13.671659+00:00",
+      "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+    },
+    "database_evidence": {
+      "source": "gnomAD-SV",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "dataset": "gnomad_sv_r4",
+      "candidate_sv_type": "INS",
+      "query_strategy": "expanded_full_interval",
+      "query_intervals": [
+        [
+          49403594,
+          49404594
+        ]
+      ],
+      "query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "3",
+          "interval": [
+            49403594,
+            49404594
+          ]
+        }
+      ],
+      "matching_query_regions": [
+        {
+          "role": "nominal",
+          "chrom": "3",
+          "interval": [
+            49403594,
+            49404594
+          ]
+        }
+      ],
+      "retrieval_padding_bp": 0,
+      "matching_windows_unchanged": true,
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "mate": null
+      },
+      "records": [
+        {
+          "variant_id": "INS_chr3_9224a6a5",
+          "chrom": "3",
+          "chrom2": "3",
+          "pos": 49404094,
+          "end": 49404095,
+          "pos2": null,
+          "end2": null,
+          "length": 126,
+          "type": "INS",
+          "consequence": "intronic",
+          "ac": 17585,
+          "an": 110570,
+          "af": 0.15904,
+          "ac_hom": 3135,
+          "ac_hemi": 0,
+          "filters": [
+            "HIGH_NCR"
+          ],
+          "match_type": "high_similarity",
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 1,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "comparison_scope": "insertion_point"
+          },
+          "same_event_established": false,
+          "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+          "source_url": "https://gnomad.broadinstitute.org/variant/INS_chr3_9224a6a5?dataset=gnomad_sv_r4",
+          "evidence_id": "GNO-BL-001"
+        }
+      ],
+      "raw_region_record_count": 59,
+      "compatible_record_count": 1,
+      "returned_record_count": 1,
+      "type_incompatible_records_excluded": 58,
+      "bnd_topology_or_coordinate_records_excluded": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:57:21.961817+00:00",
+      "source_url": "https://gnomad.broadinstitute.org/",
+      "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+    },
+    "vep_evidence": {
+      "source": "Ensembl VEP",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "INS",
+      "query_region": "3:49404094-49404094",
+      "input_annotations": [
+        {
+          "id": "3_49404095_insertion",
+          "assembly_name": "GRCh38",
+          "chrom": "3",
+          "start": 49404095,
+          "end": 49404094,
+          "allele_string": "insertion",
+          "most_severe_consequence": "intron_variant"
+        }
+      ],
+      "records": [
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000418115",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000418115",
+          "biotype": "protein_coding",
+          "canonical": true,
+          "mane_select": "NM_001664.4",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/4",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-001"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000422781",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000422781",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/5",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-002"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "non_coding_transcript_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000431929",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000431929",
+          "biotype": "protein_coding_CDS_not_defined",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/2",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-003"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000445425",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000445425",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "2/5",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-004"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000454011",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000454011",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/3",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-005"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000676712",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000676712",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/2",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-006"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000677684",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000677684",
+          "biotype": "nonsense_mediated_decay",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/3",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-007"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000678200",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000678200",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/4",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-008"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000678921",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000678921",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/3",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-009"
+        },
+        {
+          "consequence_scope": "transcript",
+          "impact": "MODIFIER",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "variant_allele": "insertion",
+          "bp_overlap": null,
+          "percentage_overlap": null,
+          "record_id": "ENST00000679208",
+          "gene_id": "ENSG00000067560",
+          "gene_symbol": "RHOA",
+          "transcript_id": "ENST00000679208",
+          "biotype": "protein_coding",
+          "canonical": false,
+          "mane_select": "",
+          "mane_plus_clinical": "",
+          "exon": "",
+          "intron": "1/4",
+          "cds_start": null,
+          "cds_end": null,
+          "protein_start": null,
+          "protein_end": null,
+          "strand": -1,
+          "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+          "evidence_id": "VEP-BL-010"
+        }
+      ],
+      "consequence_count": 40,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "attempts": 1,
+      "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+      "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+      "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+    },
+    "clingen_dosage_evidence": {
+      "source": "ClinGen Dosage",
+      "status": "not_applicable",
+      "candidate_sv_type": "INS",
+      "records": [],
+      "retrieved_at": "2026-09-25T02:57:21.511971+00:00",
+      "limitations": "Dosage sensitivity is queried only for DEL, DUP, and CNV."
+    },
+    "clinvar_evidence": {
+      "source": "ClinVar",
+      "status": "not_found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "INS",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            49403594,
+            49404594
+          ]
+        }
+      ],
+      "query_terms": [
+        "3[chr] AND 49403594:49404594[chrpos38] AND Insertion[vartype] AND 50:100000000[varlen]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [],
+      "search_uid_count": 0,
+      "compatible_record_count": 0,
+      "returned_record_count": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:57:21.863406+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+      "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+    },
+    "dbvar_evidence": {
+      "source": "NCBI dbVar",
+      "status": "found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "INS",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            49403594,
+            49404594
+          ]
+        }
+      ],
+      "query_terms": [
+        "3[Chr] AND (49403594:49404594[ChrPos] OR 49403594:49404594[ChrEnd]) AND ((\"insertion\"[Variant Type]) OR (\"mobile element insertion\"[Variant Type])) AND \"variant\"[Object Type]"
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "search_counts": [
+        {
+          "role": "nominal",
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "total_count": 17,
+          "uid_count_returned": 17,
+          "search_truncated": false
+        }
+      ],
+      "records": [
+        {
+          "record_id": "nsv3552129",
+          "uid": "47754739",
+          "study_id": "nstd152",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "mobile element insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3552129/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-001"
+        },
+        {
+          "record_id": "nsv3947452",
+          "uid": "48541441",
+          "study_id": "nstd167",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3947452/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-002"
+        },
+        {
+          "record_id": "nsv4438715",
+          "uid": "49595065",
+          "study_id": "nstd175",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38.p12",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4438715/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-003"
+        },
+        {
+          "record_id": "nsv5167875",
+          "uid": "51292242",
+          "study_id": "nstd203",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "mobile element insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5167875/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-004"
+        },
+        {
+          "record_id": "nsv5535033",
+          "uid": "51982009",
+          "study_id": "nstd206",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5535033/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-005"
+        },
+        {
+          "record_id": "nsv5605727",
+          "uid": "52164896",
+          "study_id": "nstd207",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5605727/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-006"
+        },
+        {
+          "record_id": "nsv5948684",
+          "uid": "52853932",
+          "study_id": "nstd209",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5948684/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-007"
+        },
+        {
+          "record_id": "nsv6062347",
+          "uid": "53100010",
+          "study_id": "nstd212",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404094,
+          "end": 49404094,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6062347/",
+          "match_type": "exact",
+          "coordinate_exact": true,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-008"
+        },
+        {
+          "record_id": "nsv5166842",
+          "uid": "51291209",
+          "study_id": "nstd203",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "mobile element insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404092,
+          "end": 49404144,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 1,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5166842/",
+          "match_type": "region_overlap",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": -2,
+            "end_offset_bp": 50,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 0.018868,
+            "size_similarity": 0.018868
+          },
+          "evidence_id": "DBV-BL-009"
+        },
+        {
+          "record_id": "nsv3380534",
+          "uid": "47583131",
+          "study_id": "nstd162",
+          "object_type": "VARIANT",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "chrom": "3",
+          "start": 49404095,
+          "end": 49404095,
+          "assembly": "GRCh38",
+          "assembly_accession": "",
+          "variant_call_count": 3,
+          "clinical_significance": [],
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "publications": [],
+          "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3380534/",
+          "match_type": "nearby",
+          "coordinate_exact": false,
+          "same_event_established": false,
+          "match_metrics": {
+            "start_offset_bp": 1,
+            "end_offset_bp": 1,
+            "start_within_allowed_window": false,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 0.0,
+            "reciprocal_overlap_database": 0.0,
+            "size_similarity": 1.0
+          },
+          "evidence_id": "DBV-BL-010"
+        }
+      ],
+      "search_uid_count": 17,
+      "search_results_truncated": false,
+      "compatible_record_count": 17,
+      "returned_record_count": 10,
+      "records_truncated": true,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+      "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/",
+      "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+    },
+    "dgv_evidence": {
+      "source": "DGV Gold Standard",
+      "status": "not_found",
+      "completeness": "complete",
+      "genome_build": "GRCh38",
+      "candidate_sv_type": "INS",
+      "dataset": "dgvGold",
+      "access_backend": "UCSC Genome Browser API",
+      "data_version": "",
+      "query_strategy": "expanded_full_interval",
+      "query_regions": [
+        {
+          "role": "nominal",
+          "interval": [
+            49403594,
+            49404594
+          ]
+        }
+      ],
+      "breakpoint_windows": {
+        "start": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        },
+        "end": {
+          "interval": [
+            49403594,
+            49404594
+          ],
+          "source": "heuristic_fallback",
+          "tolerance_bp": 500,
+          "is_measured_confidence_interval": false
+        }
+      },
+      "records": [],
+      "raw_region_record_count": 0,
+      "compatible_record_count": 0,
+      "returned_record_count": 0,
+      "records_truncated": false,
+      "query_errors": [],
+      "retrieved_at": "2026-09-25T02:57:21.965511+00:00",
+      "source_url": "https://dgv.tcag.ca/dgv/app/downloads",
+      "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+    },
+    "artifact_risk": {
+      "overall_risk": "medium",
+      "risk_items": [
+        {
+          "risk_type": "low_call_rate",
+          "status": "unknown",
+          "impact": "Missingness can produce spurious population differences.",
+          "recommended_check": "Calculate call rate per cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "single_caller_support",
+          "status": "unknown",
+          "impact": "A call from one algorithm may reflect caller-specific bias.",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay.",
+          "evidence": null
+        },
+        {
+          "risk_type": "repeat_region",
+          "status": "present",
+          "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+          "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 10,
+            "end_repeat_count": 10
+          }
+        },
+        {
+          "risk_type": "low_mappability",
+          "status": "unknown",
+          "impact": "Low-mappability sequence can create ambiguous alignments.",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track.",
+          "evidence": null
+        },
+        {
+          "risk_type": "supporting_reads",
+          "status": "unknown",
+          "impact": "Weak read support increases false-positive risk.",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds.",
+          "evidence": null
+        },
+        {
+          "risk_type": "genotype_quality",
+          "status": "unknown",
+          "impact": "Low or missing genotype quality weakens frequency estimates.",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort.",
+          "evidence": null
+        },
+        {
+          "risk_type": "batch_effect",
+          "status": "unknown",
+          "impact": "Unequal pipelines or batches can mimic population differentiation.",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts.",
+          "evidence": null
+        }
+      ]
+    },
+    "retrieved_at": "2026-09-25T02:58:13.672633+00:00",
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states."
+    ]
+  },
+  "adaptive_tool_results": [],
+  "literature_tool_results": [],
+  "literature_query_keys": [],
+  "adaptive_investigation": "{\n  \"decision\": \"No further action is required; existing evidence adequately characterizes the variant's genomic context and population status.\",\n  \"evidence_gaps\": [],\n  \"executed_action_names\": [],\n  \"stop_reason\": \"The variant is situated in an intronic region of the RHOA gene, and baseline data already includes gnomAD-SV population frequencies and dbVar records confirming similar insertion events at this locus. Further gene or transcript queries would not materially change the interpretation of this intronic, potentially common insertion.\",\n  \"remaining_limitations\": [\n    \"Baseline Ensembl evidence is coordinate-overlap evidence.\",\n    \"Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.\",\n    \"Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.\",\n    \"dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.\",\n    \"Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.\",\n    \"Missing source data and query failures remain explicit unknown/error states.\"\n  ]\n}",
+  "literature_evidence": "{\n  \"queries\": [\n    {\n      \"query\": \"RHOA[gene] AND insertion[ti]\",\n      \"reason\": \"To identify any functional studies related to insertions within the RHOA gene, given its role as a potential regulatory or structural feature in an intronic location.\",\n      \"evidence_ids\": [],\n      \"missing_sources\": [\n        \"PubMed\"\n      ],\n      \"limitations\": \"PubMed searches are not exhaustive and do not guarantee the identification of specific intronic insertion variants described in the literature.\"\n    }\n  ]\n}",
+  "evidence_view": {
+    "status": "ready",
+    "record_count": 23,
+    "total_record_count": 44,
+    "records_by_id": {
+      "DBV-BL-001": {
+        "record_id": "nsv3552129",
+        "uid": "47754739",
+        "study_id": "nstd152",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "mobile element insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Merging"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3552129/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-001"
+      },
+      "DBV-BL-002": {
+        "record_id": "nsv3947452",
+        "uid": "48541441",
+        "study_id": "nstd167",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3947452/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-002"
+      },
+      "DBV-BL-003": {
+        "record_id": "nsv4438715",
+        "uid": "49595065",
+        "study_id": "nstd175",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38.p12",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4438715/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-003"
+      },
+      "DBV-BL-004": {
+        "record_id": "nsv5167875",
+        "uid": "51292242",
+        "study_id": "nstd203",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "mobile element insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5167875/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-004"
+      },
+      "DBV-BL-005": {
+        "record_id": "nsv5535033",
+        "uid": "51982009",
+        "study_id": "nstd206",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5535033/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-005"
+      },
+      "DBV-BL-006": {
+        "record_id": "nsv5605727",
+        "uid": "52164896",
+        "study_id": "nstd207",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Merging"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5605727/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-006"
+      },
+      "DBV-BL-007": {
+        "record_id": "nsv5948684",
+        "uid": "52853932",
+        "study_id": "nstd209",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5948684/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-007"
+      },
+      "DBV-BL-008": {
+        "record_id": "nsv6062347",
+        "uid": "53100010",
+        "study_id": "nstd212",
+        "object_type": "VARIANT",
+        "variant_types": [
+          "insertion"
+        ],
+        "type_compatibility": "compatible",
+        "chrom": "3",
+        "start": 49404094,
+        "end": 49404094,
+        "assembly": "GRCh38",
+        "assembly_accession": "",
+        "variant_call_count": 1,
+        "clinical_significance": [],
+        "genes": [
+          {
+            "id": 387,
+            "name": "RHOA"
+          }
+        ],
+        "methods": [
+          "Sequencing"
+        ],
+        "publications": [],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6062347/",
+        "match_type": "exact",
+        "coordinate_exact": true,
+        "same_event_established": false,
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 0,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": true,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "reciprocal_overlap_query": 1.0,
+          "reciprocal_overlap_database": 1.0,
+          "size_similarity": 1.0
+        },
+        "evidence_id": "DBV-BL-008"
+      },
+      "ENS-BL-NOMINAL-GENE-002": {
+        "seq_region_name": "3",
+        "description": "ras homolog family member A [Source:HGNC Symbol;Acc:HGNC:667]",
+        "logic_name": "ensembl_havana_gene_homo_sapiens",
+        "version": 16,
+        "start": 49359136,
+        "canonical_transcript": "ENST00000418115.6",
+        "assembly_name": "GRCh38",
+        "strand": -1,
+        "source": "ensembl_havana",
+        "feature_type": "gene",
+        "gene_id": "ENSG00000067560",
+        "external_name": "RHOA",
+        "id": "ENSG00000067560",
+        "end": 49412998,
+        "biotype": "protein_coding",
+        "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+        "breakpoint_role": "nominal"
+      },
+      "ENS-BL-NOMINAL-REPEAT-001": {
+        "end": 49404313,
+        "start": 49404019,
+        "description": "AluJo",
+        "feature_type": "repeat",
+        "strand": 1,
+        "assembly_name": "GRCh38",
+        "seq_region_name": "3",
+        "evidence_id": "ENS-BL-NOMINAL-REPEAT-001",
+        "breakpoint_role": "nominal"
+      },
+      "ENS-BL-NOMINAL-REPEAT-002": {
+        "feature_type": "repeat",
+        "assembly_name": "GRCh38",
+        "seq_region_name": "3",
+        "strand": 1,
+        "end": 49404313,
+        "description": "AluJo",
+        "start": 49404019,
+        "evidence_id": "ENS-BL-NOMINAL-REPEAT-002",
+        "breakpoint_role": "nominal"
+      },
+      "GNO-BL-001": {
+        "variant_id": "INS_chr3_9224a6a5",
+        "chrom": "3",
+        "chrom2": "3",
+        "pos": 49404094,
+        "end": 49404095,
+        "pos2": null,
+        "end2": null,
+        "length": 126,
+        "type": "INS",
+        "consequence": "intronic",
+        "ac": 17585,
+        "an": 110570,
+        "af": 0.15904,
+        "ac_hom": 3135,
+        "ac_hemi": 0,
+        "filters": [
+          "HIGH_NCR"
+        ],
+        "match_type": "high_similarity",
+        "match_metrics": {
+          "start_offset_bp": 0,
+          "end_offset_bp": 1,
+          "start_within_allowed_window": true,
+          "end_within_allowed_window": false,
+          "start_window_source": "heuristic_fallback",
+          "end_window_source": "heuristic_fallback",
+          "comparison_scope": "insertion_point"
+        },
+        "same_event_established": false,
+        "interpretation": "Candidate similarity only; the available evidence does not establish that this is the same biological event.",
+        "source_url": "https://gnomad.broadinstitute.org/variant/INS_chr3_9224a6a5?dataset=gnomad_sv_r4",
+        "evidence_id": "GNO-BL-001"
+      },
+      "QC-BL-003": {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "recommended_check": "Confirm both breakpoints against a curated repeat track.",
+        "evidence": {
+          "scope": "breakpoint_windows",
+          "start_repeat_count": 10,
+          "end_repeat_count": 10
+        },
+        "evidence_id": "QC-BL-003"
+      },
+      "VEP-BL-001": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000418115",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000418115",
+        "biotype": "protein_coding",
+        "canonical": true,
+        "mane_select": "NM_001664.4",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/4",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-001"
+      },
+      "VEP-BL-002": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000422781",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000422781",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/5",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-002"
+      },
+      "VEP-BL-003": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "non_coding_transcript_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000431929",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000431929",
+        "biotype": "protein_coding_CDS_not_defined",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/2",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-003"
+      },
+      "VEP-BL-004": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000445425",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000445425",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "2/5",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-004"
+      },
+      "VEP-BL-005": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000454011",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000454011",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/3",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-005"
+      },
+      "VEP-BL-006": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000676712",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000676712",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/2",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-006"
+      },
+      "VEP-BL-007": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant",
+          "NMD_transcript_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000677684",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000677684",
+        "biotype": "nonsense_mediated_decay",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/3",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-007"
+      },
+      "VEP-BL-008": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000678200",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000678200",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/4",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-008"
+      },
+      "VEP-BL-009": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000678921",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000678921",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/3",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-009"
+      },
+      "VEP-BL-010": {
+        "consequence_scope": "transcript",
+        "impact": "MODIFIER",
+        "consequence_terms": [
+          "intron_variant"
+        ],
+        "variant_allele": "insertion",
+        "bp_overlap": null,
+        "percentage_overlap": null,
+        "record_id": "ENST00000679208",
+        "gene_id": "ENSG00000067560",
+        "gene_symbol": "RHOA",
+        "transcript_id": "ENST00000679208",
+        "biotype": "protein_coding",
+        "canonical": false,
+        "mane_select": "",
+        "mane_plus_clinical": "",
+        "exon": "",
+        "intron": "1/4",
+        "cds_start": null,
+        "cds_end": null,
+        "protein_start": null,
+        "protein_end": null,
+        "strand": -1,
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "evidence_id": "VEP-BL-010"
+      }
+    },
+    "source_context": {
+      "baseline_evidence": {
+        "status": "complete",
+        "collection_policy": "deterministic_non_optional_baseline",
+        "region_annotation": {
+          "source": "Ensembl",
+          "status": "found",
+          "completeness": "complete",
+          "errors": {},
+          "truncated": {
+            "gene": false,
+            "regulatory": false,
+            "repeat": false
+          },
+          "attempts": {
+            "gene": 1,
+            "regulatory": 1,
+            "repeat": 1
+          },
+          "breakpoint_annotations": {
+            "start": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": true
+              },
+              "attempts": {
+                "gene": 1,
+                "regulatory": 1,
+                "repeat": 1
+              },
+              "completeness": "complete"
+            },
+            "end": {
+              "source": "heuristic_fallback",
+              "errors": {},
+              "truncated": {
+                "gene": false,
+                "regulatory": false,
+                "repeat": true
+              },
+              "attempts": {
+                "gene": 1,
+                "regulatory": 1,
+                "repeat": 1
+              },
+              "completeness": "complete"
+            }
+          },
+          "retrieved_at": "2026-09-25T02:58:13.671659+00:00",
+          "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+        },
+        "database_evidence": {
+          "source": "gnomAD-SV",
+          "status": "found",
+          "completeness": "complete",
+          "dataset": "gnomad_sv_r4",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 1,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:57:21.961817+00:00",
+          "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+        },
+        "vep_evidence": {
+          "source": "Ensembl VEP",
+          "status": "found",
+          "completeness": "complete",
+          "consequence_count": 40,
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "attempts": 1,
+          "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+          "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+        },
+        "clingen_dosage_evidence": {
+          "source": "ClinGen Dosage",
+          "status": "not_applicable",
+          "retrieved_at": "2026-09-25T02:57:21.511971+00:00",
+          "limitations": "Dosage sensitivity is queried only for DEL, DUP, and CNV."
+        },
+        "clinvar_evidence": {
+          "source": "ClinVar",
+          "status": "not_found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 0,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:57:21.863406+00:00",
+          "limitations": "ClinVar contains submitted aggregate interpretations with different review levels and possible conflicts. Exact displayed coordinates and compatible type do not establish the same biological event. Inner/outer bounds, condition, review status, and last evaluation must be considered; absence from this bounded search does not establish novelty or benignity."
+        },
+        "dbvar_evidence": {
+          "source": "NCBI dbVar",
+          "status": "found",
+          "completeness": "complete",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 10,
+          "records_truncated": true,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+          "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+        },
+        "dgv_evidence": {
+          "source": "DGV Gold Standard",
+          "status": "not_found",
+          "completeness": "complete",
+          "dataset": "dgvGold",
+          "breakpoint_windows": {
+            "start": {
+              "source": "heuristic_fallback"
+            },
+            "end": {
+              "source": "heuristic_fallback"
+            }
+          },
+          "returned_record_count": 0,
+          "records_truncated": false,
+          "query_errors": [],
+          "retrieved_at": "2026-09-25T02:57:21.965511+00:00",
+          "limitations": "This adapter queries the curated DGV Gold Standard track exposed by UCSC, not the complete current DGV release. DGV aggregates healthy-control studies with heterogeneous platforms and often imprecise boundaries. Overlap or frequency is contextual population evidence, not proof of the same event, benignity, or absence of clinical effect."
+        },
+        "artifact_risk": {
+          "overall_risk": "medium",
+          "risk_items": [
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "present"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            },
+            {
+              "status": "unknown"
+            }
+          ]
+        },
+        "retrieved_at": "2026-09-25T02:58:13.672633+00:00",
+        "limitations": [
+          "Baseline Ensembl evidence is coordinate-overlap evidence.",
+          "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+          "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+          "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+          "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+          "Missing source data and query failures remain explicit unknown/error states."
+        ]
+      },
+      "adaptive_tool_results": [],
+      "literature_tool_results": []
+    }
+  },
+  "claim_synthesis": {
+    "candidate_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is located within the gene RHOA (ENSG00000067560).",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-002"
+        ],
+        "evidence_basis": "The variant coordinates fall within the defined genomic range of the RHOA gene."
+      },
+      {
+        "claim_id": "C002",
+        "text": "The variant is predicted to have an intronic consequence on multiple transcripts of RHOA.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "evidence_basis": "VEP analysis labels the variant as an intronic variant across multiple protein-coding transcripts."
+      },
+      {
+        "claim_id": "C003",
+        "text": "The variant overlaps with multiple annotated repeat elements, including AluJo.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-REPEAT-001",
+          "ENS-BL-NOMINAL-REPEAT-002"
+        ],
+        "evidence_basis": "Genomic annotation identifies repeat features covering the variant's coordinate range."
+      },
+      {
+        "claim_id": "C004",
+        "text": "The variant is present as an exact match in multiple studies recorded in dbVar.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008"
+        ],
+        "evidence_basis": "Multiple dbVar records report exact coordinate matches for the variant in different study cohorts."
+      },
+      {
+        "claim_id": "C005",
+        "text": "A variant with high similarity to this insertion is recorded in gnomAD-SV at an allele frequency of 0.159.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "evidence_basis": "gnomAD-SV database reports an insertion variant (INS_chr3_9224a6a5) with similar coordinates."
+      },
+      {
+        "claim_id": "C006",
+        "text": "The variant's placement within repeat-dense regions may compromise the reliability of the breakpoint coordinates.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "evidence_basis": "Quality assessment identifies the presence of repeated sequence in the breakpoint windows."
+      }
+    ],
+    "evidence_gaps": [
+      "No clinical significance data was identified in ClinVar.",
+      "No dosage sensitivity information was applicable for this variant type.",
+      "No specific literature was identified linking this intronic RHOA insertion to a phenotype."
+    ],
+    "limitations": [
+      "Baseline Ensembl annotations are based on coordinate overlap only and do not define functional impact.",
+      "VEP consequences are computational predictions and do not reflect patient-specific transcript expression.",
+      "Population database matches are provided as contextual evidence and do not prove the identity of the biological event.",
+      "dbVar records are heterogeneous and potentially imprecise.",
+      "Heuristic breakpoint window fallback is used for region queries in the absence of VCF confidence intervals."
+    ]
+  },
+  "verification": {
+    "publication_allowed": true,
+    "supported_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is located within the gene RHOA (ENSG00000067560).",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "The variant is predicted to have an intronic consequence on multiple transcripts of RHOA.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "The variant overlaps with multiple annotated repeat elements, including AluJo.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-REPEAT-001",
+          "ENS-BL-NOMINAL-REPEAT-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "The variant is present as an exact match in multiple studies recorded in dbVar.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C005",
+        "text": "A variant with high similarity to this insertion is recorded in gnomAD-SV at an allele frequency of 0.159.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C006",
+        "text": "The variant's placement within repeat-dense regions may compromise the reliability of the breakpoint coordinates.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "medium",
+        "verification_status": "supported",
+        "notes": ""
+      }
+    ],
+    "rejected_claims": [],
+    "contradictions": [],
+    "missing_evidence": [],
+    "warnings": [
+      "The dbVar and gnomAD-SV matches provide contextual population-level evidence and do not confirm clinical significance or biological identity."
+    ]
+  },
+  "final_report": {
+    "report_version": "1.1.1",
+    "report_status": "complete",
+    "sv_summary": {
+      "validation_status": "valid",
+      "sv_id": "GIAB_CMRG_GRCh38_chr3_49404094_INS663",
+      "genome_build": "GRCh38",
+      "genome_build_original": "GRCh38",
+      "chrom": "3",
+      "start": 49404094,
+      "end": 49404094,
+      "coordinate_system": "1-based-inclusive",
+      "chromosome_length_bp": 198295559,
+      "cipos": null,
+      "ciend": null,
+      "start_confidence_interval": null,
+      "end_confidence_interval": null,
+      "breakpoint_uncertainty_status": "not_provided",
+      "imprecise": false,
+      "bnd_mate_status": "not_applicable",
+      "mate_chrom": null,
+      "mate_pos": null,
+      "mate_confidence_interval": null,
+      "local_orientation": null,
+      "mate_orientation": null,
+      "sv_type": "INS",
+      "sv_type_original": "INS",
+      "sv_subtype": null,
+      "length_bp": 663
+    },
+    "statistical_signals": [],
+    "gene_region_annotation": [
+      {
+        "statement": "The variant is located within the gene RHOA (ENSG00000067560).",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-002"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "The variant is predicted to have an intronic consequence on multiple transcripts of RHOA.",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "The variant overlaps with multiple annotated repeat elements, including AluJo.",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-REPEAT-001",
+          "ENS-BL-NOMINAL-REPEAT-002"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "population_evidence": [
+      {
+        "statement": "The variant is present as an exact match in multiple studies recorded in dbVar.",
+        "evidence_ids": [
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      },
+      {
+        "statement": "A variant with high similarity to this insertion is recorded in gnomAD-SV at an allele frequency of 0.159.",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "kind": "database_fact"
+      }
+    ],
+    "clinical_phenotype_evidence": [],
+    "literature_evidence": [],
+    "artifact_risks": [
+      {
+        "risk_type": "low_call_rate",
+        "status": "unknown",
+        "impact": "Missingness can produce spurious population differences.",
+        "evidence_ids": [
+          "QC-BL-001"
+        ],
+        "recommended_check": "Calculate call rate per cohort."
+      },
+      {
+        "risk_type": "single_caller_support",
+        "status": "unknown",
+        "impact": "A call from one algorithm may reflect caller-specific bias.",
+        "evidence_ids": [
+          "QC-BL-002"
+        ],
+        "recommended_check": "Validate with an orthogonal caller or experimental assay."
+      },
+      {
+        "risk_type": "repeat_region",
+        "status": "present",
+        "impact": "Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "recommended_check": "Confirm both breakpoints against a curated repeat track."
+      },
+      {
+        "risk_type": "low_mappability",
+        "status": "unknown",
+        "impact": "Low-mappability sequence can create ambiguous alignments.",
+        "evidence_ids": [
+          "QC-BL-004"
+        ],
+        "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+      },
+      {
+        "risk_type": "supporting_reads",
+        "status": "unknown",
+        "impact": "Weak read support increases false-positive risk.",
+        "evidence_ids": [
+          "QC-BL-005"
+        ],
+        "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+      },
+      {
+        "risk_type": "genotype_quality",
+        "status": "unknown",
+        "impact": "Low or missing genotype quality weakens frequency estimates.",
+        "evidence_ids": [
+          "QC-BL-006"
+        ],
+        "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+      },
+      {
+        "risk_type": "batch_effect",
+        "status": "unknown",
+        "impact": "Unequal pipelines or batches can mimic population differentiation.",
+        "evidence_ids": [
+          "QC-BL-007"
+        ],
+        "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+      }
+    ],
+    "possible_interpretations": [
+      {
+        "statement": "The variant's placement within repeat-dense regions may compromise the reliability of the breakpoint coordinates.",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "medium",
+        "kind": "inference"
+      }
+    ],
+    "contradictions": [],
+    "limitations": [
+      "Baseline Ensembl evidence is coordinate-overlap evidence.",
+      "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+      "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+      "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+      "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+      "Missing source data and query failures remain explicit unknown/error states.",
+      "Baseline Ensembl annotations are based on coordinate overlap only and do not define functional impact.",
+      "VEP consequences are computational predictions and do not reflect patient-specific transcript expression.",
+      "Population database matches are provided as contextual evidence and do not prove the identity of the biological event.",
+      "dbVar records are heterogeneous and potentially imprecise.",
+      "Heuristic breakpoint window fallback is used for region queries in the absence of VCF confidence intervals.",
+      "The dbVar and gnomAD-SV matches provide contextual population-level evidence and do not confirm clinical significance or biological identity."
+    ],
+    "recommended_next_steps": [
+      "Resolve evidence gap: No clinical significance data was identified in ClinVar.",
+      "Resolve evidence gap: No dosage sensitivity information was applicable for this variant type.",
+      "Resolve evidence gap: No specific literature was identified linking this intronic RHOA insertion to a phenotype."
+    ],
+    "verified_claims": [
+      {
+        "claim_id": "C001",
+        "text": "The variant is located within the gene RHOA (ENSG00000067560).",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-GENE-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C002",
+        "text": "The variant is predicted to have an intronic consequence on multiple transcripts of RHOA.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "VEP-BL-001",
+          "VEP-BL-002",
+          "VEP-BL-003",
+          "VEP-BL-004",
+          "VEP-BL-005",
+          "VEP-BL-006",
+          "VEP-BL-007",
+          "VEP-BL-008",
+          "VEP-BL-009",
+          "VEP-BL-010"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C003",
+        "text": "The variant overlaps with multiple annotated repeat elements, including AluJo.",
+        "claim_type": "database_fact",
+        "report_section": "gene_region_annotation",
+        "evidence_ids": [
+          "ENS-BL-NOMINAL-REPEAT-001",
+          "ENS-BL-NOMINAL-REPEAT-002"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C004",
+        "text": "The variant is present as an exact match in multiple studies recorded in dbVar.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "DBV-BL-001",
+          "DBV-BL-002",
+          "DBV-BL-003",
+          "DBV-BL-004",
+          "DBV-BL-005",
+          "DBV-BL-006",
+          "DBV-BL-007",
+          "DBV-BL-008"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C005",
+        "text": "A variant with high similarity to this insertion is recorded in gnomAD-SV at an allele frequency of 0.159.",
+        "claim_type": "database_fact",
+        "report_section": "population_evidence",
+        "evidence_ids": [
+          "GNO-BL-001"
+        ],
+        "confidence": "high",
+        "verification_status": "supported",
+        "notes": ""
+      },
+      {
+        "claim_id": "C006",
+        "text": "The variant's placement within repeat-dense regions may compromise the reliability of the breakpoint coordinates.",
+        "claim_type": "inference",
+        "report_section": "possible_interpretations",
+        "evidence_ids": [
+          "QC-BL-003"
+        ],
+        "confidence": "medium",
+        "verification_status": "supported",
+        "notes": ""
+      }
+    ],
+    "evidence_catalog": [
+      {
+        "evidence_id": "DBV-BL-001",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv3552129",
+        "match_type": "exact",
+        "summary": "dbVar nsv3552129: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd152",
+          "variant_types": [
+            "mobile element insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3552129/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-002",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv3947452",
+        "match_type": "exact",
+        "summary": "dbVar nsv3947452: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd167",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv3947452/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-003",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv4438715",
+        "match_type": "exact",
+        "summary": "dbVar nsv4438715: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd175",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv4438715/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-004",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv5167875",
+        "match_type": "exact",
+        "summary": "dbVar nsv5167875: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd203",
+          "variant_types": [
+            "mobile element insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5167875/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-005",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv5535033",
+        "match_type": "exact",
+        "summary": "dbVar nsv5535033: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd206",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5535033/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-006",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv5605727",
+        "match_type": "exact",
+        "summary": "dbVar nsv5605727: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd207",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Merging"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5605727/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-007",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv5948684",
+        "match_type": "exact",
+        "summary": "dbVar nsv5948684: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd209",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv5948684/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "DBV-BL-008",
+        "source": "dbVar",
+        "evidence_type": "submitted_variant",
+        "retrieval_status": "found",
+        "finding_status": "compatible",
+        "record_id": "nsv6062347",
+        "match_type": "exact",
+        "summary": "dbVar nsv6062347: compatible submitted variant record.",
+        "key_facts": {
+          "study_id": "nstd212",
+          "variant_types": [
+            "insertion"
+          ],
+          "type_compatibility": "compatible",
+          "genes": [
+            {
+              "id": 387,
+              "name": "RHOA"
+            }
+          ],
+          "methods": [
+            "Sequencing"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 0,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": true,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "reciprocal_overlap_query": 1.0,
+            "reciprocal_overlap_database": 1.0,
+            "size_similarity": 1.0
+          },
+          "position": "3:49404094-49404094"
+        },
+        "used_by": [
+          "population_evidence[1]",
+          "verified_claims.C004"
+        ],
+        "source_url": "https://www.ncbi.nlm.nih.gov/dbvar/variants/nsv6062347/",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00",
+        "limitations": "dbVar aggregates submitter-defined variant regions and calls from many studies and technologies. Boundaries may be imprecise or remapped, a generic copy-number type may not establish DEL versus DUP direction, and this bounded endpoint search does not retrieve every enclosing record. A match is contextual evidence, not proof of event identity, clinical significance, or validation."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-GENE-002",
+        "source": "Ensembl",
+        "evidence_type": "genomic_overlap",
+        "retrieval_status": "found",
+        "finding_status": "interval_overlap",
+        "record_id": "ENSG00000067560",
+        "match_type": "region_overlap",
+        "summary": "gene RHOA found in the nominal region.",
+        "key_facts": {
+          "feature_type": "gene",
+          "breakpoint_role": "nominal",
+          "external_name": "RHOA",
+          "id": "ENSG00000067560",
+          "biotype": "protein_coding",
+          "position": "3:49359136-49412998"
+        },
+        "used_by": [
+          "gene_region_annotation[1]",
+          "verified_claims.C001"
+        ],
+        "source_url": "",
+        "retrieved_at": "2026-09-25T02:58:13.671659+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-REPEAT-001",
+        "source": "Ensembl",
+        "evidence_type": "genomic_overlap",
+        "retrieval_status": "found",
+        "finding_status": "interval_overlap",
+        "record_id": "ENS-BL-NOMINAL-REPEAT-001",
+        "match_type": "region_overlap",
+        "summary": "repeat ENS-BL-NOMINAL-REPEAT-001 found in the nominal region.",
+        "key_facts": {
+          "feature_type": "repeat",
+          "breakpoint_role": "nominal",
+          "position": "3:49404019-49404313"
+        },
+        "used_by": [
+          "gene_region_annotation[3]",
+          "verified_claims.C003"
+        ],
+        "source_url": "",
+        "retrieved_at": "2026-09-25T02:58:13.671659+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "ENS-BL-NOMINAL-REPEAT-002",
+        "source": "Ensembl",
+        "evidence_type": "genomic_overlap",
+        "retrieval_status": "found",
+        "finding_status": "interval_overlap",
+        "record_id": "ENS-BL-NOMINAL-REPEAT-002",
+        "match_type": "region_overlap",
+        "summary": "repeat ENS-BL-NOMINAL-REPEAT-002 found in the nominal region.",
+        "key_facts": {
+          "feature_type": "repeat",
+          "breakpoint_role": "nominal",
+          "position": "3:49404019-49404313"
+        },
+        "used_by": [
+          "gene_region_annotation[3]",
+          "verified_claims.C003"
+        ],
+        "source_url": "",
+        "retrieved_at": "2026-09-25T02:58:13.671659+00:00",
+        "limitations": "Spatial overlap only: sv_type is retained for provenance but does not change this query. Nominal-interval and breakpoint-window results are reported separately; a parsed BND mate is also queried separately. Each scope first combines gene, regulatory, and repeat features; a failed combined request falls back to serialized per-feature queries. A heuristic breakpoint window retrieves nearby features but is not a measured confidence interval. Results are capped per feature type; transcript, consequence, breakpoint, nearest-gene, and mappability annotation are not included. A null feature list means that feature query failed."
+      },
+      {
+        "evidence_id": "GNO-BL-001",
+        "source": "gnomAD-SV",
+        "evidence_type": "population_variant",
+        "retrieval_status": "found",
+        "finding_status": "high_similarity",
+        "record_id": "INS_chr3_9224a6a5",
+        "match_type": "high_similarity",
+        "summary": "gnomAD-SV INS_chr3_9224a6a5 is a high_similarity match (AF=0.15904).",
+        "key_facts": {
+          "variant_id": "INS_chr3_9224a6a5",
+          "type": "INS",
+          "af": 0.15904,
+          "ac": 17585,
+          "an": 110570,
+          "filters": [
+            "HIGH_NCR"
+          ],
+          "match_metrics": {
+            "start_offset_bp": 0,
+            "end_offset_bp": 1,
+            "start_within_allowed_window": true,
+            "end_within_allowed_window": false,
+            "start_window_source": "heuristic_fallback",
+            "end_window_source": "heuristic_fallback",
+            "comparison_scope": "insertion_point"
+          },
+          "position": "3:49404094-49404095"
+        },
+        "used_by": [
+          "population_evidence[2]",
+          "verified_claims.C005"
+        ],
+        "source_url": "https://gnomad.broadinstitute.org/variant/INS_chr3_9224a6a5?dataset=gnomad_sv_r4",
+        "retrieved_at": "2026-09-25T02:57:21.961817+00:00",
+        "limitations": "Similarity classes are deterministic screening labels, not proof of variant identity or biological effect. Heuristic windows are used only when VCF breakpoint confidence intervals are unavailable. BND records with a parsed mate are compared using both breakends and the chromosome pair, allowing reversed record order. Input orientation is retained but cannot be compared because it is absent from this gnomAD response. BND records without a mate retain first-breakend-only candidate matching. Adaptive retrieval padding, when nonzero, widens only the records retrieved from the API; it never widens the fixed matching windows. A gnomAD-SV absence does not establish novelty, pathogenicity, or technical validity."
+      },
+      {
+        "evidence_id": "QC-BL-001",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-001",
+        "match_type": null,
+        "summary": "low_call_rate: unknown. Missingness can produce spurious population differences.",
+        "key_facts": {
+          "risk_type": "low_call_rate",
+          "recommended_check": "Calculate call rate per cohort."
+        },
+        "used_by": [
+          "artifact_risks.low_call_rate"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-002",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-002",
+        "match_type": null,
+        "summary": "single_caller_support: unknown. A call from one algorithm may reflect caller-specific bias.",
+        "key_facts": {
+          "risk_type": "single_caller_support",
+          "recommended_check": "Validate with an orthogonal caller or experimental assay."
+        },
+        "used_by": [
+          "artifact_risks.single_caller_support"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-003",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "present",
+        "record_id": "QC-BL-003",
+        "match_type": null,
+        "summary": "repeat_region: present. Repeats in breakpoint windows can make breakpoint placement unreliable.",
+        "key_facts": {
+          "risk_type": "repeat_region",
+          "evidence": {
+            "scope": "breakpoint_windows",
+            "start_repeat_count": 10,
+            "end_repeat_count": 10
+          },
+          "recommended_check": "Confirm both breakpoints against a curated repeat track."
+        },
+        "used_by": [
+          "artifact_risks.repeat_region",
+          "possible_interpretations[1]",
+          "verified_claims.C006"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-004",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-004",
+        "match_type": null,
+        "summary": "low_mappability: unknown. Low-mappability sequence can create ambiguous alignments.",
+        "key_facts": {
+          "risk_type": "low_mappability",
+          "recommended_check": "Intersect both breakpoints with a build-matched mappability track."
+        },
+        "used_by": [
+          "artifact_risks.low_mappability"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-005",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-005",
+        "match_type": null,
+        "summary": "supporting_reads: unknown. Weak read support increases false-positive risk.",
+        "key_facts": {
+          "risk_type": "supporting_reads",
+          "recommended_check": "Review caller-specific split-read, paired-end, and depth thresholds."
+        },
+        "used_by": [
+          "artifact_risks.supporting_reads"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-006",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-006",
+        "match_type": null,
+        "summary": "genotype_quality: unknown. Low or missing genotype quality weakens frequency estimates.",
+        "key_facts": {
+          "risk_type": "genotype_quality",
+          "recommended_check": "Inspect genotype likelihoods and quality distributions by cohort."
+        },
+        "used_by": [
+          "artifact_risks.genotype_quality"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "QC-BL-007",
+        "source": "Artifact-risk rules",
+        "evidence_type": "technical_qc",
+        "retrieval_status": "found",
+        "finding_status": "unknown",
+        "record_id": "QC-BL-007",
+        "match_type": null,
+        "summary": "batch_effect: unknown. Unequal pipelines or batches can mimic population differentiation.",
+        "key_facts": {
+          "risk_type": "batch_effect",
+          "recommended_check": "Compare sequencing, coverage, and calling batches between cohorts."
+        },
+        "used_by": [
+          "artifact_risks.batch_effect"
+        ],
+        "source_url": "",
+        "retrieved_at": "",
+        "limitations": ""
+      },
+      {
+        "evidence_id": "VEP-BL-001",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000418115",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000418115",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": true,
+          "mane_select": "NM_001664.4"
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-002",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000422781",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000422781",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-003",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000431929",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, non_coding_transcript_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000431929",
+          "consequence_terms": [
+            "intron_variant",
+            "non_coding_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-004",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000445425",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000445425",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-005",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000454011",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000454011",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-006",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000676712",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000676712",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-007",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000677684",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant, NMD_transcript_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000677684",
+          "consequence_terms": [
+            "intron_variant",
+            "NMD_transcript_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-008",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000678200",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000678200",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-009",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000678921",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000678921",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      },
+      {
+        "evidence_id": "VEP-BL-010",
+        "source": "Ensembl VEP",
+        "evidence_type": "predicted_consequence",
+        "retrieval_status": "found",
+        "finding_status": "modifier",
+        "record_id": "ENST00000679208",
+        "match_type": null,
+        "summary": "VEP predicts intron_variant for RHOA (MODIFIER).",
+        "key_facts": {
+          "gene_symbol": "RHOA",
+          "gene_id": "ENSG00000067560",
+          "transcript_id": "ENST00000679208",
+          "consequence_terms": [
+            "intron_variant"
+          ],
+          "impact": "MODIFIER",
+          "canonical": false
+        },
+        "used_by": [
+          "gene_region_annotation[2]",
+          "verified_claims.C002"
+        ],
+        "source_url": "https://rest.ensembl.org/vep/human/region/3:49404095-49404094:1/INS?canonical=1;mane=1;numbers=1",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00",
+        "limitations": "VEP consequences are predictions for the submitted interval and symbolic allele. They do not establish expression change, dosage pathogenicity, phenotype, penetrance, or the actual transcript expressed in a sample. Only a ranked compact subset of consequences is retained."
+      }
+    ],
+    "query_provenance": [
+      {
+        "source": "Ensembl",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"3:49404094-49404094\", \"query_strategy\": \"combined\"}",
+        "retrieved_at": "2026-09-25T02:58:13.671659+00:00"
+      },
+      {
+        "source": "Ensembl VEP",
+        "status": "found",
+        "query_summary": "{\"query_region\": \"3:49404094-49404094\"}",
+        "retrieved_at": "2026-09-25T02:57:48.327178+00:00"
+      },
+      {
+        "source": "gnomAD-SV",
+        "status": "found",
+        "query_summary": "{\"dataset\": \"gnomad_sv_r4\", \"query_regions\": [{\"role\": \"nominal\", \"chrom\": \"3\", \"interval\": [49403594, 49404594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:57:21.961817+00:00"
+      },
+      {
+        "source": "ClinGen Dosage",
+        "status": "not_applicable",
+        "query_summary": "{}",
+        "retrieved_at": "2026-09-25T02:57:21.511971+00:00"
+      },
+      {
+        "source": "ClinVar",
+        "status": "not_found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [49403594, 49404594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:57:21.863406+00:00"
+      },
+      {
+        "source": "NCBI dbVar",
+        "status": "found",
+        "query_summary": "{\"query_regions\": [{\"role\": \"nominal\", \"interval\": [49403594, 49404594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:57:23.104165+00:00"
+      },
+      {
+        "source": "DGV Gold Standard",
+        "status": "not_found",
+        "query_summary": "{\"dataset\": \"dgvGold\", \"query_regions\": [{\"role\": \"nominal\", \"interval\": [49403594, 49404594]}], \"query_strategy\": \"expanded_full_interval\"}",
+        "retrieved_at": "2026-09-25T02:57:21.965511+00:00"
+      }
+    ],
+    "investigation_log": {
+      "identified_evidence_gaps": [
+        "No clinical significance data was identified in ClinVar.",
+        "No dosage sensitivity information was applicable for this variant type.",
+        "No specific literature was identified linking this intronic RHOA insertion to a phenotype."
+      ],
+      "planned_actions": [],
+      "executed_actions": [],
+      "query_budget": 2,
+      "queries_used": 0,
+      "stop_reason": "The variant is situated in an intronic region of the RHOA gene, and baseline data already includes gnomAD-SV population frequencies and dbVar records confirming similar insertion events at this locus. Further gene or transcript queries would not materially change the interpretation of this intronic, potentially common insertion.",
+      "remaining_limitations": [
+        "Baseline Ensembl evidence is coordinate-overlap evidence.",
+        "Ensembl VEP consequences are predictions for a symbolic SV allele, not experimental validation or a patient-level interpretation.",
+        "Population evidence includes gnomAD-SV and the DGV Gold Standard track; the latter is not the complete current DGV release.",
+        "dbVar evidence aggregates heterogeneous submitted studies and may include imprecise, remapped, or direction-ambiguous records.",
+        "Clinical evidence includes ClinGen dosage curations and ClinVar aggregate records, neither of which is a patient-level diagnosis.",
+        "Missing source data and query failures remain explicit unknown/error states.",
+        "Baseline Ensembl annotations are based on coordinate overlap only and do not define functional impact.",
+        "VEP consequences are computational predictions and do not reflect patient-specific transcript expression.",
+        "Population database matches are provided as contextual evidence and do not prove the identity of the biological event.",
+        "dbVar records are heterogeneous and potentially imprecise.",
+        "Heuristic breakpoint window fallback is used for region queries in the absence of VCF confidence intervals."
+      ]
+    }
+  }
+}
