@@ -7,7 +7,9 @@ import re
 import threading
 from typing import Any, Mapping, MutableMapping
 
-from .config import MAX_ADAPTIVE_QUERIES, MAX_PUBMED_QUERIES, MAX_PUBMED_RECORDS
+from . import __version__
+
+from .config import BASELINE_SOURCE_KEYS, MAX_ADAPTIVE_QUERIES, MAX_PUBMED_QUERIES, MAX_PUBMED_RECORDS, MODEL
 from .tools import (
     collect_baseline_evidence,
     normalize_sv_input,
@@ -34,6 +36,9 @@ def normalize_and_store(raw_input: str, state: MutableMapping[str, Any]) -> dict
     state["adaptive_investigation"] = {"status": "pending"}
     state["literature_evidence"] = {"status": "pending"}
     state["evidence_view"] = {"status": "pending"}
+    state["verification_evidence_view"] = {"status": "pending"}
+    state["verification_query_history"] = []
+    state["verification_loaded_ids"] = []
     state["claim_synthesis"] = {"status": "pending"}
     state["verification"] = {"status": "pending"}
     state["final_report"] = {"status": "pending"}
@@ -83,7 +88,7 @@ def adaptive_and_store(
 def literature_and_store(
     query: str, max_records: int, state: MutableMapping[str, Any]
 ) -> dict[str, Any]:
-    """Bound PubMed queries and store unique, compact citation metadata."""
+    """Bound PubMed queries and store unique citations with available abstracts."""
     sv = state.get("normalized_sv")
     if not isinstance(sv, dict) or sv.get("status") != "valid":
         return {"source": "PubMed", "status": "blocked", "reason": "input_validation_failed"}
@@ -154,6 +159,10 @@ def literature_and_store(
 
 
 _EVIDENCE_SOURCES = {
+    "CCRE-": "ENCODE cCRE",
+    "REG-": "GeneHancer",
+    "QTL-": "GTEx molecular QTL",
+    "MAP-": "Reference mappability",
     "ENS-": "Ensembl",
     "VEP-": "Ensembl VEP",
     "GNO-": "gnomAD-SV",
@@ -179,6 +188,20 @@ _VERIFIED_REPORT_SECTIONS = (
     "clinical_phenotype_evidence", "literature_evidence",
     "possible_interpretations",
 )
+
+
+def _input_statistic_items(normalized: Mapping[str, Any]) -> list[tuple[str, Any]]:
+    """Use one ordering for agent evidence and final report statistics."""
+    statistics = normalized.get("statistics") or {}
+    quality = normalized.get("quality") or {}
+    statistics = statistics if isinstance(statistics, dict) else {}
+    quality = quality if isinstance(quality, dict) else {}
+    items = sorted(statistics.items())
+    items.extend(sorted(
+        (key, value) for key, value in quality.items()
+        if (key == "call_rate" or key.startswith("call_rate_")) and key not in statistics
+    ))
+    return items
 
 
 def _evidence_index(state: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
@@ -207,20 +230,28 @@ def _evidence_index(state: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
 
     normalized = state.get("normalized_sv")
     if isinstance(normalized, dict):
-        statistics = normalized.get("statistics")
-        if isinstance(statistics, dict):
-            for index, (field, value) in enumerate(sorted(statistics.items()), start=1):
-                evidence_id = f"INPUT-STAT-{index:03d}"
-                found[evidence_id] = {
-                    "record": {
-                        "evidence_id": evidence_id,
-                        "record_id": field,
-                        "field": field,
-                        "value": value,
-                        "summary": f"Input statistic {field}: {value}",
-                    },
-                    "context": {"status": "found"},
-                }
+        if normalized.get("statistical_context"):
+            evidence_id = "INPUT-STAT-CONTEXT"
+            found[evidence_id] = {
+                "record": {
+                    "evidence_id": evidence_id,
+                    "record_id": "statistical_context",
+                    "summary": normalized["statistical_context"],
+                },
+                "context": {"status": "found"},
+            }
+        for index, (field, value) in enumerate(_input_statistic_items(normalized), start=1):
+            evidence_id = f"INPUT-STAT-{index:03d}"
+            found[evidence_id] = {
+                "record": {
+                    "evidence_id": evidence_id,
+                    "record_id": field,
+                    "field": field,
+                    "value": value,
+                    "summary": f"Input statistic {field}: {value}",
+                },
+                "context": {"status": "found"},
+            }
 
     baseline = state.get("baseline_evidence")
     risks = (
@@ -247,8 +278,10 @@ _AUDIT_SCALARS = {
     "consequence_count", "overall_risk", "query", "query_budget",
     "queries_used", "queries_remaining", "duplicate_pmids_excluded",
     "returned_record_count", "collection_policy", "matching_scope",
+    "search_results_truncated", "search_uid_count", "compatible_record_count",
 }
-_AUDIT_VALUES = {"errors", "query_errors", "counts", "limitations", "attempts"}
+_AUDIT_VALUES = {"errors", "query_errors", "counts", "limitations", "attempts",
+                 "query_region", "query_regions", "search_counts", "feature", "role"}
 
 
 def _without_evidence_records(value: Any) -> Any:
@@ -316,6 +349,159 @@ def build_evidence_view(
             )
         },
     }
+
+
+def _evidence_directory_row(evidence_id: str, indexed: Mapping[str, Any]) -> dict[str, Any]:
+    record = indexed["record"]
+    row = {"evidence_id": evidence_id, "source_prefix": evidence_id.split("-", 1)[0]}
+    for key in ("feature_type", "breakpoint_role", "query_scope", "scope", "match_type",
+                "chrom", "seq_region_name", "start", "end", "description", "external_name",
+                "geneName", "gene_symbol", "geneSymbol", "record_id", "title", "field"):
+        value = record.get(key)
+        if isinstance(value, (str, int, float)) and not isinstance(value, bool):
+            row[key] = value[:160] if isinstance(value, str) else value
+    return row
+
+
+def prepare_verification_evidence(state: MutableMapping[str, Any]) -> dict[str, Any]:
+    """Keep the full view in state, expose a bounded discovery directory instead."""
+    index = _evidence_index(state)
+    state["evidence_view"] = build_evidence_view(state)
+    claims = _json_object(state.get("claim_synthesis")).get("candidate_claims", [])
+    cited = sorted({eid for c in claims if isinstance(c, dict)
+                    for eid in c.get("evidence_ids", []) if isinstance(eid, str)})
+    directory = [_evidence_directory_row(eid, item) for eid, item in sorted(index.items())]
+    visible = []
+    directory_size = 0
+    for row in directory[:80]:
+        directory_size += len(json.dumps(row, ensure_ascii=False))
+        if directory_size > 12_000:
+            break
+        visible.append(row)
+    result = {"total_record_count": len(index), "cited_ids": cited,
+              "unknown_cited_ids": [eid for eid in cited if eid not in index],
+              "directory": visible, "directory_truncated": len(directory) > len(visible),
+              "source_counts": {prefix: sum(r["source_prefix"] == prefix for r in directory)
+                                for prefix in sorted({r["source_prefix"] for r in directory})},
+              "source_context": state["evidence_view"]["source_context"],
+              "fetch_record_limit": 8, "search_page_limit": 20,
+              "response_character_limit": 24_000}
+    state["verification_evidence_view"] = result
+    state["verification_query_history"] = []
+    state["verification_loaded_ids"] = []
+    return result
+
+
+def query_verification_evidence(
+    state: MutableMapping[str, Any], *, evidence_ids: list[str] | None = None,
+    fields: list[str] | None = None, source_prefix: str = "", feature_type: str = "",
+    scope: str = "", text: str = "", chrom: str = "", start: int = 0, end: int = 0,
+    offset: int = 0, limit: int = 20,
+) -> dict[str, Any]:
+    """Deterministic, bounded, read-only lookup over stored evidence; no network."""
+    ids, paths = evidence_ids or [], fields or []
+    if ((evidence_ids is not None and not isinstance(evidence_ids, list))
+        or (fields is not None and not isinstance(fields, list))
+        or not isinstance(ids, list) or not isinstance(paths, list)
+        or any(not isinstance(v, str) or not v or len(v) > 160 for v in ids + paths)
+        or len(ids) > 8 or len(paths) > 20
+        or any(not isinstance(v, str) or len(v) > 160 for v in (source_prefix, feature_type, scope, text, chrom))
+        or any(not isinstance(v, int) or isinstance(v, bool) for v in (start, end, offset, limit))
+        or offset < 0 or not 1 <= limit <= 20
+        or ((start or end) and (not chrom or start < 1 or end < start))
+        or (ids and any((source_prefix, feature_type, scope, text, chrom, start, end, offset)))
+        or (paths and not ids)):
+        return {"status": "rejected", "error": "invalid_lookup_arguments"}
+    with _PIPELINE_STATE_LOCK:
+        history = list(state.get("verification_query_history", []))
+        audit = {"query_number": len(history) + 1, "mode": "fetch" if ids else "search",
+                 "evidence_ids": ids, "fields": paths, "source_prefix": source_prefix,
+                 "feature_type": feature_type, "scope": scope, "text": text,
+                 "chrom": chrom, "start": start, "end": end, "offset": offset, "limit": limit}
+        request = {key: value for key, value in audit.items() if key != "query_number"}
+        request.update(evidence_ids=sorted(set(ids)), fields=sorted(set(paths)),
+                       text=text.casefold(), chrom=chrom.removeprefix("chr"))
+        request_key = json.dumps(request, sort_keys=True, ensure_ascii=False)
+        previous = next((item for item in history if item.get("request_key") == request_key), None)
+        if previous is not None:
+            return {"status": "duplicate_request", "previous_query_number": previous["query_number"],
+                    "returned_ids": previous.get("returned_ids", []),
+                    "hint": "Use the earlier response. Change fields, filters, or page only when different evidence is needed."}
+        audit["request_key"] = request_key
+        state["verification_query_history"] = history + [audit]
+    index = _evidence_index(state)
+    result: dict[str, Any] = {"status": "complete", "records_by_id": {}, "errors": [],
+                              "query_number": audit["query_number"]}
+    if ids:
+        for eid in dict.fromkeys(ids):
+            if eid not in index:
+                result["errors"].append({"evidence_id": eid, "error": "unknown_evidence_id"})
+                continue
+            record = index[eid]["record"]
+            projection = {}
+            for path in paths:
+                value: Any = record
+                try:
+                    for key in path.split("."):
+                        value = value[int(key)] if isinstance(value, list) and key.isdecimal() else value[key]
+                    projection[path] = value
+                except (KeyError, IndexError, TypeError):
+                    result["errors"].append({"evidence_id": eid, "field": path, "error": "unknown_field_path"})
+            entry = {"record": projection if paths else record, "context": index[eid]["context"],
+                     "projection_fields": paths}
+            if paths and not projection:
+                continue
+            result["records_by_id"][eid] = entry
+            if len(json.dumps(result, ensure_ascii=False)) > 23_000:
+                del result["records_by_id"][eid]
+                result["errors"].append({"evidence_id": eid, "error": "response_size_limit",
+                    "available_fields": list(record)[:40], "hint": "Fetch fewer IDs or select fields; dotted paths support list indices."})
+    else:
+        matches = []
+        for eid, item in sorted(index.items()):
+            row = _evidence_directory_row(eid, item)
+            record = item["record"]
+            if source_prefix and row["source_prefix"] != source_prefix:
+                continue
+            if feature_type and record.get("feature_type") != feature_type:
+                continue
+            if scope and scope not in {record.get(k) for k in ("scope", "query_scope", "breakpoint_role")}:
+                continue
+            if chrom and str(record.get("chrom") or record.get("seq_region_name") or "").removeprefix("chr") != chrom.removeprefix("chr"):
+                continue
+            if start and (not isinstance(record.get("start"), int) or not isinstance(record.get("end"), int)
+                          or record["start"] > end or record["end"] < start):
+                continue
+            # Literal matching over the original JSON, not regex/fuzzy or LLM summaries.
+            if text and text.casefold() not in json.dumps(record, ensure_ascii=False).casefold():
+                continue
+            matches.append(row)
+        page = []
+        page_size = 0
+        for row in matches[offset:offset + limit]:
+            page_size += len(json.dumps(row, ensure_ascii=False))
+            if page_size > 20_000:
+                break
+            page.append(row)
+        result.update(directory=page, total_matches=len(matches), offset=offset,
+                      next_offset=offset + len(page) if offset + len(page) < len(matches) else None,
+                      search_scope="stored_records_only", truncated=offset + len(page) < len(matches))
+    if len(json.dumps(result, ensure_ascii=False)) > 24_000:
+        # Keep an explicit failure instead of silently clipping record content.
+        result = {"status": "partial", "records_by_id": {},
+                  "errors": [{"error": "response_size_limit", "hint": "Fetch fewer IDs or fields."}],
+                  "query_number": audit["query_number"]}
+    if result["errors"]:
+        result["status"] = "partial"
+    with _PIPELINE_STATE_LOCK:
+        loaded = set(state.get("verification_loaded_ids", [])) | set(result["records_by_id"])
+        state["verification_loaded_ids"] = sorted(loaded)
+        history = list(state["verification_query_history"])
+        history[audit["query_number"] - 1] = {**audit, "status": result["status"],
+            "returned_ids": list(result["records_by_id"]) or [r["evidence_id"] for r in result.get("directory", [])],
+            "errors": result["errors"], "total_matches": result.get("total_matches"), "next_offset": result.get("next_offset")}
+        state["verification_query_history"] = history
+    return result
 
 
 def _catalog_record(
@@ -425,6 +611,7 @@ def _catalog_record(
         key_facts = facts(
             "study_id", "variant_types", "type_compatibility", "clinical_significance",
             "genes", "methods", "match_metrics",
+            "call_details",
         )
         if position:
             key_facts["position"] = position
@@ -440,10 +627,29 @@ def _catalog_record(
         if position:
             key_facts["position"] = position
         label = f"DGV Gold {record_id}: {match_type or 'candidate'} population CNV record."
+    elif prefix in {"CCRE", "REG", "QTL", "MAP"}:
+        evidence_type = {"CCRE": "regulatory_overlap", "REG": "regulatory_gene_link",
+                         "QTL": "regional_qtl_context", "MAP": "reference_mappability"}[prefix]
+        finding_status = str(record.get("query_scope") or record.get("scope") or "found")
+        key_facts = facts(
+            "genome_build", "query_scope", "scope", "window_source", "cCRE_class",
+            "DNase_maxZ", "H3K4me3_maxZ", "H3K27ac_maxZ", "CTCF_maxZ",
+            "geneHancerIdentifier", "geneName", "geneId", "genePos",
+            "geneAssociationMethods", "value", "eqtlName", "eqtlPos", "tissue",
+            "pip", "clusterPip", "sv_identity", "ld_with_sv", "track", "kmer_length",
+            "qtl_type", "variantId", "ref", "alt", "geneSymbol", "gencodeId",
+            "tissueSiteDetailId", "phenotypeId", "pValue", "nes", "datasetId",
+            "coverage_fraction", "covered_bases", "unmeasured_bases", "mean", "minimum",
+            "fraction_below_one_of_measured_bases",
+        )
+        if position:
+            key_facts["position"] = position
+        label = f"{source} {record_id}: {evidence_type} ({finding_status})."
     elif prefix == "PMID":
-        evidence_type = "literature_metadata"
+        evidence_type = "literature_abstract" if record.get("abstract") else "literature_metadata"
         finding_status = "citation_found"
-        key_facts = facts("authors", "author_count", "source", "pubdate", "doi")
+        key_facts = facts("authors", "author_count", "source", "pubdate", "doi",
+                          "abstract_status", "abstract", "abstract_source_url", "abstract_error")
         label = str(record.get("title") or f"PubMed record {record_id}")
     else:
         label = str(next(
@@ -503,7 +709,8 @@ def reconcile_verification_from_state(
     """Bind verifier verdicts back to the exact synthesis claims.
 
     The verifier may judge claims but cannot add or rewrite their identity, wording,
-    section, type, or evidence links.
+    section, type, or evidence links. The program corrects input-only database_fact
+    labels to observation independently of the verifier.
     """
     synthesis = _json_object(state.get("claim_synthesis"))
     candidates = {
@@ -519,9 +726,10 @@ def reconcile_verification_from_state(
     valid_statuses = {
         "supported", "partially_supported", "unsupported", "conflicting"
     }
-    for verdict in (
-        list(verification.get("supported_claims") or [])
-        + list(verification.get("rejected_claims") or [])
+    # A rejection takes precedence if the verifier also lists the same claim as supported.
+    for rejected_by_verifier, verdict in (
+        [(True, item) for item in verification.get("rejected_claims") or []]
+        + [(False, item) for item in verification.get("supported_claims") or []]
     ):
         if not isinstance(verdict, dict):
             continue
@@ -542,6 +750,38 @@ def reconcile_verification_from_state(
             "verification_status": status,
             "notes": str(verdict.get("notes") or ""),
         }
+        if rejected_by_verifier and status in {"supported", "partially_supported"}:
+            note = (
+                f"Not approved: verifier placed claim {claim_id} in rejected_claims "
+                f"with status {status}."
+            )
+            bound["verification_status"] = status = "unsupported"
+            bound["confidence"] = "unknown"
+            bound["notes"] = "; ".join(filter(None, (bound["notes"], note)))
+            warnings.append(note)
+        if (
+            bound["claim_type"] == "database_fact"
+            and bound["evidence_ids"]
+            and all(eid in evidence_index and eid.startswith("INPUT-") for eid in bound["evidence_ids"])
+        ):
+            bound["claim_type"] = "observation"
+            warnings.append(f"Corrected input-only database_fact {claim_id} to observation.")
+        if state.get("verification_evidence_view", {}).get("fetch_record_limit") and status in {"supported", "partially_supported"}:
+            unread = sorted(set(bound["evidence_ids"]) - set(state.get("verification_loaded_ids", [])))
+            if unread:
+                bound["verification_status"] = status = "unsupported"
+                bound["confidence"] = "unknown"
+                bound["notes"] = "Not verified: cited records were not fetched: " + ", ".join(unread)
+                warnings.append(f"Claim {claim_id} was not verified because cited records were not fetched.")
+        if bound["claim_type"] == "hypothesis" and status in {"supported", "partially_supported"}:
+            changed = status != "partially_supported" or bound["confidence"] != "low"
+            bound["verification_status"] = status = "partially_supported"
+            bound["confidence"] = "low"
+            note = "A hypothesis is not an established finding."
+            if note not in bound["notes"]:
+                bound["notes"] = "; ".join(filter(None, (bound["notes"], note)))
+            if changed:
+                warnings.append(f"Conservatively qualified claim {claim_id}: {note}")
         if status == "supported":
             records = [
                 evidence_index[evidence_id]["record"]
@@ -549,10 +789,7 @@ def reconcile_verification_from_state(
                 if evidence_id in evidence_index
             ]
             note = None
-            if bound["claim_type"] == "hypothesis":
-                note = "A hypothesis is not an established finding."
-                bound["confidence"] = "low"
-            elif bound["claim_type"] == "inference" and re.search(
+            if bound["claim_type"] == "inference" and re.search(
                 r"\b(benign|pathogenic|neutral|harmless|deleterious|"
                 r"disease-causing|no (?:adverse |functional )?effect)\b",
                 bound["text"],
@@ -563,16 +800,6 @@ def reconcile_verification_from_state(
                     "functional classification."
                 )
                 bound["confidence"] = "low"
-            elif records and all(
-                evidence_id.startswith("PMID-")
-                for evidence_id in bound["evidence_ids"]
-            ):
-                note = (
-                    "Only PubMed citation metadata was retrieved; full-text "
-                    "support was not checked."
-                )
-                if bound["confidence"] == "high":
-                    bound["confidence"] = "medium"
             elif re.search(
                 r"\b(corresponds?|matches?|same variant|identical)\b",
                 bound["text"],
@@ -598,6 +825,13 @@ def reconcile_verification_from_state(
     missing = sorted(set(candidates) - seen)
     if missing:
         warnings.append("Verifier did not adjudicate candidate claims: " + ", ".join(missing))
+    approved = {}
+    for field in ("evidence_gaps", "limitations"):
+        originals = _deduplicate_strings(synthesis.get(field))
+        requested = _deduplicate_strings(verification.get("approved_" + field))
+        approved["approved_" + field] = [item for item in requested if item in originals]
+        if any(item not in originals for item in requested):
+            warnings.append(f"Discarded verifier-added or rewritten {field}; only exact synthesis items are allowed.")
     return {
         "publication_allowed": bool(verification.get("publication_allowed")) and not missing,
         "supported_claims": supported,
@@ -605,6 +839,7 @@ def reconcile_verification_from_state(
         "contradictions": list(verification.get("contradictions") or []),
         "missing_evidence": list(verification.get("missing_evidence") or []),
         "warnings": list(dict.fromkeys(warnings)),
+        **approved,
     }
 
 
@@ -618,43 +853,72 @@ def _source_status(status: Any) -> str:
     return "not_queried"
 
 
+def _query_audit_row(source: Mapping[str, Any], stage: str, action: str = "") -> dict[str, Any]:
+    """Project query facts without interpreting zero hits or treating truncation as failure."""
+    details = {
+        field: source[field]
+        for field in ("dataset", "query", "query_region", "query_regions", "query_strategy",
+                      "feature", "role", "error", "query_errors")
+        if source.get(field) not in (None, "", [], {})
+    }
+    counts = {key: value for key, value in (source.get("counts") or {}).items()
+              if type(value) is int}
+    counts.update({key: source[key] for key in (
+        "search_uid_count", "compatible_record_count", "returned_record_count",
+        "raw_region_record_count", "consequence_count",
+    ) if type(source.get(key)) is int})
+    searches = source.get("search_counts") or []
+    if searches and all(type(item.get("total_count")) is int for item in searches):
+        counts["search_hit_count_across_queries"] = sum(item["total_count"] for item in searches)
+    if "returned_record_count" not in counts and isinstance(source.get("records"), list):
+        counts["returned_record_count"] = len(source["records"])
+    flags = []
+    for key in ("truncated", "records_truncated", "search_results_truncated"):
+        value = source.get(key)
+        values = value.values() if isinstance(value, dict) else [value]
+        flags.extend(flag for flag in values if isinstance(flag, bool))
+    flags.extend(item["search_truncated"] for item in searches if isinstance(item.get("search_truncated"), bool))
+    return {
+        "source": str(source.get("source") or "Unknown"),
+        "status": _source_status(source.get("status")),
+        "query_summary": json.dumps(details, ensure_ascii=False),
+        "retrieved_at": str(source.get("retrieved_at") or ""),
+        "stage": stage, "action": action,
+        "completeness": str(source.get("completeness") or ""),
+        "truncated": any(flags) if flags else None,
+        "counts": counts,
+    }
+
+
 def _query_provenance(state: Mapping[str, Any]) -> list[dict[str, Any]]:
     baseline = state.get("baseline_evidence")
     rows: list[dict[str, Any]] = []
     if isinstance(baseline, dict):
-        for key in (
-            "region_annotation", "vep_evidence", "database_evidence",
-            "clingen_dosage_evidence", "clinvar_evidence", "dbvar_evidence",
-            "dgv_evidence",
-        ):
+        for key in BASELINE_SOURCE_KEYS.values():
             source = baseline.get(key)
             if not isinstance(source, dict):
                 continue
-            details = {
-                field: source[field]
-                for field in ("dataset", "query_region", "query_regions", "query_strategy")
-                if source.get(field) not in (None, "", [])
-            }
-            rows.append({
-                "source": str(source.get("source") or key),
-                "status": _source_status(source.get("status")),
-                "query_summary": json.dumps(details, ensure_ascii=False),
-                "retrieved_at": str(source.get("retrieved_at") or ""),
-            })
+            rows.append(_query_audit_row(source, "baseline"))
+    for item in state.get("adaptive_tool_results", []):
+        if not isinstance(item, dict):
+            continue
+        wrapper = item.get("result")
+        result = wrapper.get("result", {}) if isinstance(wrapper, dict) else {}
+        if not isinstance(result, dict):
+            continue
+        for scope in result.get("results") or [result]:
+            if isinstance(scope, dict):
+                rows.append(_query_audit_row({
+                    "source": result.get("source"), "retrieved_at": result.get("retrieved_at"),
+                    **scope,
+                }, "adaptive", str(item.get("action") or "")))
     for result in state.get("literature_tool_results", []):
         if isinstance(result, dict):
-            rows.append({
-                "source": "PubMed",
-                "status": _source_status(result.get("status")),
-                "query_summary": str(result.get("query") or ""),
-                "retrieved_at": str(result.get("retrieved_at") or ""),
-            })
+            rows.append(_query_audit_row(result, "literature"))
     return rows
 
 
-def _investigation_log(report: Mapping[str, Any], state: Mapping[str, Any]) -> dict[str, Any]:
-    adaptive = _json_object(state.get("adaptive_investigation"))
-    synthesis = _json_object(state.get("claim_synthesis"))
+def _investigation_log(verification: Mapping[str, Any], state: Mapping[str, Any]) -> dict[str, Any]:
     actions = []
     for item in state.get("adaptive_tool_results", []):
         if not isinstance(item, dict):
@@ -670,28 +934,20 @@ def _investigation_log(report: Mapping[str, Any], state: Mapping[str, Any]) -> d
             "result_status": str(item.get("result_status") or ""),
             "rejection_reason": str(item.get("rejection_reason") or ""),
         })
-    draft = report.get("investigation_log")
-    draft = draft if isinstance(draft, dict) else {}
-    gaps = _deduplicate_strings(
-        [item["evidence_gap"] for item in actions if item["evidence_gap"]],
-        synthesis.get("evidence_gaps"),
+    # Planning text stays in the action audit, not in published biological conclusions.
+    stop_reason = (
+        "Recorded adaptive follow-ups finished. No further follow-up was executed."
+        if any(item["status"] == "executed" for item in actions)
+        else "No adaptive follow-up was executed."
     )
-    stop_reason = adaptive.get("stop_reason") or draft.get("stop_reason")
-    if not stop_reason:
-        stop_reason = (
-            "Adaptive follow-up audit completed."
-            if actions else "No adaptive follow-up was executed."
-        )
     return {
-        "identified_evidence_gaps": gaps,
+        "identified_evidence_gaps": verification["approved_evidence_gaps"],
         "planned_actions": [dict(item, status="planned") for item in actions],
         "executed_actions": actions,
         "query_budget": MAX_ADAPTIVE_QUERIES,
         "queries_used": sum(item["status"] == "executed" for item in actions),
         "stop_reason": str(stop_reason),
-        "remaining_limitations": _deduplicate_strings(
-            adaptive.get("remaining_limitations"), synthesis.get("limitations")
-        ),
+        "remaining_limitations": verification["approved_limitations"],
     }
 
 
@@ -700,10 +956,11 @@ def finalize_report_from_state(
 ) -> dict[str, Any]:
     """Replace every mechanically derivable report field from session state.
 
-    The model keeps only its initial completeness judgment. Verified claims, source
-    audits, and recorded evidence gaps determine all substantive report content.
+    Verified claims, tool audits, and verifier-approved synthesis text determine
+    substantive report content. Model drafts cannot bypass the approval boundary.
     """
     report = dict(report)
+    report["model"] = MODEL
     normalized = state.get("normalized_sv")
     normalized = normalized if isinstance(normalized, dict) else {}
     summary_fields = {
@@ -720,7 +977,7 @@ def finalize_report_from_state(
         ),
         **{key: normalized[key] for key in summary_fields if key in normalized},
     }
-    statistics = normalized.get("statistics")
+    report["statistical_context"] = normalized.get("statistical_context") or ""
     report["statistical_signals"] = [
         {
             "statement": f"{field}: {value}",
@@ -729,7 +986,7 @@ def finalize_report_from_state(
             "kind": "observation",
         }
         for index, (field, value) in enumerate(
-            sorted(statistics.items()) if isinstance(statistics, dict) else [], start=1
+            _input_statistic_items(normalized), start=1
         )
     ]
     baseline = state.get("baseline_evidence")
@@ -742,33 +999,32 @@ def finalize_report_from_state(
             if item.get("status") in {"present", "absent", "unknown"}
             else "unknown",
             "impact": str(item.get("impact") or ""),
+            "evidence": item.get("evidence"),
             "evidence_ids": [f"QC-BL-{index:03d}"],
             "recommended_check": str(item.get("recommended_check") or ""),
         }
         for index, item in enumerate(risks, start=1)
         if isinstance(item, dict)
     ]
-    raw_verification = state.get("verification")
-    raw_verification = raw_verification if isinstance(raw_verification, dict) else {}
-    verification = reconcile_verification_from_state(raw_verification, state)
+    verification = reconcile_verification_from_state(_json_object(state.get("verification")), state)
     report["verified_claims"] = list(verification.get("supported_claims") or [])
     report["contradictions"] = list(verification.get("contradictions") or [])
-    report["investigation_log"] = _investigation_log(report, state)
+    report["investigation_log"] = _investigation_log(verification, state)
     report["query_provenance"] = _query_provenance(state)
-    report["report_version"] = "1.1.1"
+    report["report_version"] = __version__
     source_failures = [
-        f"{source.get('source') or key} query was incomplete ({source.get('status') or source.get('completeness')})."
-        for key in (
-            "region_annotation", "vep_evidence", "database_evidence",
-            "clingen_dosage_evidence", "clinvar_evidence", "dbvar_evidence",
-            "dgv_evidence",
-        )
-        if isinstance((source := baseline.get(key)), dict)
-        and (
+        f"{source['source']} {source['stage']} query was incomplete "
+        f"({'truncated' if source.get('truncated') else source.get('completeness') or source['status']}); "
+        f"scope: {source['query_summary']}."
+        for source in report["query_provenance"]
+        if (
             source.get("status") in {"error", "unavailable"}
             or source.get("completeness") in {"partial", "failed"}
+            or source.get("truncated") is True
         )
     ]
+    if baseline.get("status") in {"pending", "blocked", "error"}:
+        source_failures.append("Required baseline collection did not finish; no complete retrieval is established.")
     if normalized.get("status") != "valid":
         report["report_status"] = "blocked"
     elif verification.get("publication_allowed") is False or source_failures:
@@ -777,30 +1033,38 @@ def finalize_report_from_state(
         report["report_status"] = "complete"
     report["limitations"] = _deduplicate_strings(
         baseline.get("limitations"),
-        _json_object(state.get("claim_synthesis")).get("limitations"),
+        verification.get("approved_limitations"),
         verification.get("missing_evidence"),
         verification.get("warnings"),
         source_failures,
     )
 
-    # Only exactly supported, verifier-bound claims enter narrative sections.
-    # Partially supported claims remain visible in verified_claims with their notes.
+    # Factual sections require exact support. Possible interpretations may retain
+    # qualified inferences/hypotheses, without upgrading them to established facts.
     for section in _VERIFIED_REPORT_SECTIONS:
         report[section] = []
     for claim in verification.get("supported_claims", []):
         section = claim.get("report_section")
-        if claim.get("verification_status") != "supported" or section not in report:
+        status = claim.get("verification_status")
+        qualified_interpretation = (
+            section == "possible_interpretations"
+            and claim.get("claim_type") in {"inference", "hypothesis"}
+            and status == "partially_supported"
+            and bool(claim.get("notes"))
+        )
+        if section not in report or (status != "supported" and not qualified_interpretation):
             continue
         report[section].append({
             "statement": claim.get("text", ""),
             "evidence_ids": list(claim.get("evidence_ids") or []),
             "confidence": claim.get("confidence", "unknown"),
             "kind": claim.get("claim_type", "observation"),
+            "verification_status": status,
+            "qualification": claim.get("notes", "") if qualified_interpretation else "",
         })
 
-    synthesis = _json_object(state.get("claim_synthesis"))
     next_step_gaps = _deduplicate_strings(
-        synthesis.get("evidence_gaps"), verification.get("missing_evidence")
+        verification.get("approved_evidence_gaps"), verification.get("missing_evidence")
     )
     report["recommended_next_steps"] = (
         [f"Resolve evidence gap: {gap}" for gap in next_step_gaps]

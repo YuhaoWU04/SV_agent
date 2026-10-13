@@ -6,6 +6,8 @@ from typing import Any, Literal
 
 from pydantic import AliasChoices, BaseModel, Field, model_validator
 
+from . import __version__
+
 
 ClaimType = Literal["observation", "database_fact", "inference", "hypothesis"]
 Confidence = Literal["high", "medium", "low", "unknown"]
@@ -24,25 +26,25 @@ ReportSection = Literal[
 class VerifiedClaim(BaseModel):
     claim_id: str = Field(description="Stable identifier such as C001.")
     text: str
-    claim_type: ClaimType
+    claim_type: ClaimType = Field(description="observation: directly reported input/tool result; database_fact: retrieved database fact; inference: interpretation; hypothesis: untested explanation.")
     report_section: ReportSection
     evidence_ids: list[str] = Field(default_factory=list)
     confidence: Confidence
     verification_status: VerificationStatus
-    notes: str = ""
+    notes: str = Field(default="", description="Identify retrieved support for each factual proposition and any unsupported relation, citation gap, or untested link.")
 
 
 class CandidateClaim(BaseModel):
     claim_id: str = Field(description="Stable identifier such as C001.")
     text: str = Field(description="One atomic claim, not a compound conclusion.")
-    claim_type: ClaimType
+    claim_type: ClaimType = Field(description="Input statistics and INPUT-* facts are observation, not database_fact. Interpretations are inference; untested explanations are hypothesis.")
     report_section: ReportSection = Field(
         description="Final report section for this claim if verification supports it."
     )
     evidence_ids: list[str] = Field(default_factory=list)
     evidence_basis: str = Field(
         default="",
-        description="Brief explanation of what the cited records directly establish.",
+        description="Briefly identify the actual title, abstract, annotation field, or input value supporting this claim. Do not describe content that was not retrieved.",
     )
 
 
@@ -53,6 +55,9 @@ class SynthesisOutput(BaseModel):
 
     @model_validator(mode="after")
     def clean_candidate_claims(self) -> "SynthesisOutput":
+        claim_ids = [claim.claim_id for claim in self.candidate_claims]
+        if len(claim_ids) != len(set(claim_ids)):
+            raise ValueError("candidate claim IDs must be unique")
         dropped = [
             claim.claim_id
             for claim in self.candidate_claims
@@ -67,9 +72,6 @@ class SynthesisOutput(BaseModel):
                 "Dropped factual candidate claims without evidence IDs: "
                 + ", ".join(dropped)
             )
-        claim_ids = [claim.claim_id for claim in self.candidate_claims]
-        if len(claim_ids) != len(set(claim_ids)):
-            raise ValueError("candidate claim IDs must be unique")
         return self
 
 
@@ -79,6 +81,8 @@ class VerificationOutput(BaseModel):
     )
     supported_claims: list[VerifiedClaim] = Field(default_factory=list)
     rejected_claims: list[VerifiedClaim] = Field(default_factory=list)
+    approved_evidence_gaps: list[str] = Field(default_factory=list, description="Exact synthesis evidence_gaps approved after checking their premises and query scope. Do not rewrite or add items.")
+    approved_limitations: list[str] = Field(default_factory=list, description="Exact synthesis limitations approved against stored evidence. Do not rewrite or add items.")
     contradictions: list[str] = Field(default_factory=list)
     missing_evidence: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)
@@ -121,12 +125,15 @@ class ReportStatement(BaseModel):
     evidence_ids: list[str] = Field(default_factory=list)
     confidence: Confidence = "unknown"
     kind: ClaimType = "observation"
+    verification_status: VerificationStatus | None = None
+    qualification: str = ""
 
 
 class ArtifactRiskItem(BaseModel):
     risk_type: str
     status: Literal["present", "absent", "unknown"]
     impact: str
+    evidence: Any = None
     evidence_ids: list[str] = Field(default_factory=list)
     recommended_check: str
 
@@ -139,6 +146,11 @@ class ProvenanceItem(BaseModel):
     ]
     query_summary: str
     retrieved_at: str = ""
+    stage: Literal["baseline", "adaptive", "literature"] = "baseline"
+    action: str = ""
+    completeness: str = ""
+    truncated: bool | None = None
+    counts: dict[str, int] = Field(default_factory=dict)
 
 
 class EvidenceRecord(BaseModel):
@@ -222,10 +234,12 @@ class InvestigationLog(BaseModel):
 
 
 class SVReport(BaseModel):
-    report_version: str = "1.1.1"
+    report_version: str = __version__
+    model: str | None = None
     report_status: Literal["complete", "incomplete", "blocked"]
     sv_summary: SVSummary
     statistical_signals: list[ReportStatement] = Field(default_factory=list)
+    statistical_context: str = ""
     gene_region_annotation: list[ReportStatement] = Field(default_factory=list)
     population_evidence: list[ReportStatement] = Field(default_factory=list)
     clinical_phenotype_evidence: list[ReportStatement] = Field(default_factory=list)

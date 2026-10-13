@@ -131,6 +131,16 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(metrics["sources"]["gnomad_sv"]["record_count"], 2)
         self.assertEqual(metrics["token_usage"]["total_token_count"], 9)
 
+    def test_metrics_include_all_baseline_sources(self) -> None:
+        from sv_investigator.config import BASELINE_SOURCE_KEYS
+        state = {"baseline_evidence": {key: {"status": "found", "records": [{}]}
+                                       for key in BASELINE_SOURCE_KEYS.values()}}
+        metrics = collect_metrics(case=Case("one", "technical", "", Path("input.json"), {}),
+                                  status="complete", elapsed_seconds=0, state=state,
+                                  events=[], report={"report_status": "complete"}, error=None)
+        self.assertEqual(set(metrics["sources"]), set(BASELINE_SOURCE_KEYS))
+        self.assertTrue(all(source["record_count"] == 1 for source in metrics["sources"].values()))
+
     def test_summary_and_resume_marker(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             run_dir = Path(temporary)
@@ -209,6 +219,15 @@ class BatchExecutionTests(unittest.IsolatedAsyncioTestCase):
             )
             self.assertNotIn("expected", json.dumps(saved_manifest))
             self.assertNotIn("provenance", json.dumps(saved_manifest))
+            self.assertEqual(saved_manifest["model_backend"], "gemini")
+            args.run_dir = run_dir
+            args.resume = True
+            with patch("sv_investigator.runner.MODEL_BACKEND", "litellm"):
+                with self.assertRaisesRegex(ValueError, "different model backend"):
+                    await run_batch(args)
+            with patch("sv_investigator.runner.MODEL_API_BASE", "http://127.0.0.1:8080/v1"):
+                with self.assertRaisesRegex(ValueError, "different model server"):
+                    await run_batch(args)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,284 @@ from sv_investigator.state_pipeline import (
 
 
 class StatePipelineTest(unittest.TestCase):
+    def test_skipped_required_baseline_cannot_publish_a_complete_report(self):
+        state = {}
+        normalize_and_store(json.dumps({"genome_build": "GRCh38", "chrom": "1",
+                                       "start": 10, "end": 20, "sv_type": "DEL"}), state)
+        state["verification"] = {"publication_allowed": True}
+        report = finalize_report_from_state({}, state)
+        self.assertEqual(report["report_status"], "incomplete")
+        self.assertIn("Required baseline collection did not finish", " ".join(report["limitations"]))
+        SVReport.model_validate(report)
+
+    def test_duplicate_claim_ids_are_rejected_before_unreferenced_claim_filter(self):
+        claims = [{"claim_id": "C1", "text": "Fact", "claim_type": "database_fact",
+                   "report_section": "gene_region_annotation", "evidence_ids": ids}
+                  for ids in ([], ["ENS-BL-001"])]
+        with self.assertRaisesRegex(ValueError, "candidate claim IDs must be unique"):
+            SynthesisOutput.model_validate({"candidate_claims": claims})
+
+    def test_report_reuses_reconciled_verdict_and_accepts_legacy_json(self):
+        state = {"normalized_sv": {"status": "valid", "genome_build": "GRCh38",
+                                  "chrom": "1", "start": 10, "end": 20, "sv_type": "DEL"},
+                 "verification": {"publication_allowed": True}}
+        with patch("sv_investigator.state_pipeline.reconcile_verification_from_state",
+                   wraps=reconcile_verification_from_state) as reconcile:
+            report = finalize_report_from_state({}, state)
+        self.assertEqual(reconcile.call_count, 1)
+        self.assertEqual(report["report_status"], "complete")
+        state["verification"] = json.dumps(state["verification"])
+        self.assertEqual(finalize_report_from_state({}, state), report)
+        SVReport.model_validate(report)
+
+    def test_incomplete_queries_in_each_stage_are_reported_without_discarding_results(self):
+        source = {"source": "Test database", "status": "error", "completeness": "failed",
+                  "query_region": [10, 20]}
+        fixtures = [
+            ("baseline", {"baseline_evidence": {"database_evidence": source}}),
+            ("adaptive", {"adaptive_tool_results": [{"status": "executed", "action": "QUERY_EXONS",
+                           "result": {"status": "executed", "result": source}}]}),
+            ("adaptive", {"adaptive_tool_results": [{"status": "executed", "action": "QUERY_EXONS",
+                           "result": {"status": "executed", "result": {"source": "Ensembl",
+                            "completeness": "partial", "results": [{"status": "found",
+                             "truncated": True, "role": "nominal", "query_region": "1:10-20"}]}}}]}),
+            ("literature", {"literature_tool_results": [source]}),
+            ("literature", {"literature_tool_results": [{"source": "PubMed", "status": "found",
+                             "completeness": "partial", "query": "GENE", "records": [
+                                 {"pmid": "1", "title": "Study", "abstract_status": "error"}]}]}),
+        ]
+        for stage, evidence in fixtures:
+            with self.subTest(stage=stage, evidence=evidence):
+                state = {"normalized_sv": {"status": "valid", "genome_build": "GRCh38",
+                          "chrom": "1", "start": 10, "end": 20, "sv_type": "DEL"},
+                         "verification": {"publication_allowed": True}, **evidence}
+                report = finalize_report_from_state({}, state)
+                self.assertEqual(report["report_status"], "incomplete")
+                self.assertEqual(report["query_provenance"][0]["stage"], stage)
+                self.assertTrue(any(f"{stage} query was incomplete" in item for item in report["limitations"]))
+                SVReport.model_validate(report)
+        state["literature_tool_results"] = [{"source": "PubMed", "status": "not_found",
+                                             "query": "GENE", "records": []}]
+        self.assertEqual(finalize_report_from_state({}, state)["report_status"], "complete")
+
+    def test_all_retained_hypotheses_are_low_without_promoting_rejections(self):
+        candidate = {"claim_id": "H", "text": "The intronic deletion may alter splicing.",
+                     "claim_type": "hypothesis", "report_section": "possible_interpretations",
+                     "evidence_ids": ["INPUT-STAT-001"]}
+        for status in ("supported", "partially_supported", "unsupported", "conflicting"):
+            with self.subTest(status=status):
+                state = {"normalized_sv": {"statistics": {"fst": 0.39}},
+                         "claim_synthesis": {"candidate_claims": [candidate]}}
+                verification = {"publication_allowed": True,
+                    "supported_claims" if status in {"supported", "partially_supported"} else "rejected_claims": [{
+                        "claim_id": "H", "verification_status": status,
+                        "confidence": "medium", "notes": "The splicing link is untested.",
+                    }]}
+                result = reconcile_verification_from_state(verification, state)
+                if status in {"supported", "partially_supported"}:
+                    claim = result["supported_claims"][0]
+                    self.assertEqual(claim["confidence"], "low")
+                    self.assertEqual(claim["verification_status"], "partially_supported")
+                    self.assertEqual(claim["text"], candidate["text"])
+                    self.assertIn("untested", claim["notes"])
+                    self.assertEqual(reconcile_verification_from_state(result, state), result)
+                else:
+                    self.assertEqual(result["supported_claims"], [])
+                    self.assertEqual(result["rejected_claims"][0]["verification_status"], status)
+
+    def test_abstract_survives_state_lookup_and_report_catalog(self):
+        from sv_investigator.state_pipeline import prepare_verification_evidence, query_verification_evidence
+        abstract = "The study reports an association between GENE1 and trait X."
+        state = {"literature_tool_results": [{"status": "found", "records": [{
+            "evidence_id": "PMID-123", "pmid": "123", "title": "Study A",
+            "abstract_status": "found", "abstract": abstract,
+            "abstract_source_url": "https://example.org/abstract/123",
+        }]}], "claim_synthesis": {"candidate_claims": [{
+            "claim_id": "L", "text": "The abstract reports an association between GENE1 and trait X.",
+            "claim_type": "database_fact", "report_section": "literature_evidence",
+            "evidence_ids": ["PMID-123"],
+        }]}, "verification": {"publication_allowed": True, "supported_claims": [{
+            "claim_id": "L", "confidence": "high", "verification_status": "supported",
+        }]}}
+        prepare_verification_evidence(state)
+        self.assertEqual(state["evidence_view"]["records_by_id"]["PMID-123"]["abstract"], abstract)
+        fetched = query_verification_evidence(state, evidence_ids=["PMID-123"])
+        self.assertEqual(fetched["records_by_id"]["PMID-123"]["record"]["abstract"], abstract)
+        report = finalize_report_from_state({}, state)
+        self.assertEqual(report["evidence_catalog"][0]["evidence_type"], "literature_abstract")
+        self.assertEqual(report["evidence_catalog"][0]["key_facts"]["abstract"], abstract)
+        self.assertEqual(report["literature_evidence"][0]["confidence"], "high")
+
+    def test_rejected_claim_cannot_return_as_a_qualified_finding(self):
+        from sv_investigator.render_report import render_markdown
+
+        text = "L1MC5, dust, AT_rich, and AluSz overlap the start confidence interval."
+        for status in ("supported", "partially_supported"):
+            with self.subTest(status=status):
+                state = {
+                    "claim_synthesis": {"candidate_claims": [{
+                        "claim_id": "C16", "text": text,
+                        "claim_type": "database_fact",
+                        "report_section": "gene_region_annotation",
+                        "evidence_ids": ["ENS-BL-START-REPEAT-001"],
+                    }]},
+                    "verification": {
+                        "publication_allowed": True,
+                        "rejected_claims": [{
+                            "claim_id": "C16", "verification_status": status,
+                            "confidence": "medium", "notes": "Only L1MC5 overlaps this interval.",
+                        }],
+                    },
+                }
+                original = json.dumps(state, sort_keys=True)
+                verification = reconcile_verification_from_state(state["verification"], state)
+                self.assertEqual(verification["supported_claims"], [])
+                rejected = verification["rejected_claims"][0]
+                self.assertEqual(rejected["text"], text)
+                self.assertEqual(rejected["verification_status"], "unsupported")
+                self.assertIn("Only L1MC5", rejected["notes"])
+                self.assertIn(status, rejected["notes"])
+                self.assertTrue(any("C16" in warning for warning in verification["warnings"]))
+                self.assertEqual(reconcile_verification_from_state(verification, state), verification)
+                report = finalize_report_from_state({}, state)
+                self.assertEqual(report["verified_claims"], [])
+                self.assertEqual(report["gene_region_annotation"], [])
+                self.assertNotIn(text, render_markdown(report))
+                self.assertEqual(json.dumps(state, sort_keys=True), original)
+
+    def test_rejected_verdict_takes_precedence_over_duplicate_support(self):
+        state = {"claim_synthesis": {"candidate_claims": [{
+            "claim_id": "C16", "text": "An inaccurate finding.",
+            "claim_type": "database_fact", "evidence_ids": [],
+        }]}}
+        result = reconcile_verification_from_state({
+            "supported_claims": [{"claim_id": "C16", "verification_status": "supported"}],
+            "rejected_claims": [{
+                "claim_id": "C16", "verification_status": "conflicting",
+                "notes": "Coordinates contradict the finding.",
+            }],
+        }, state)
+        self.assertEqual(result["supported_claims"], [])
+        self.assertEqual(result["rejected_claims"][0]["verification_status"], "conflicting")
+        self.assertIn("Coordinates contradict", result["rejected_claims"][0]["notes"])
+
+    def test_metadata_claim_can_enter_literature_but_overreach_cannot(self):
+        cases = [
+            ("TITLE", "The paper title reports an association between X and Y.", "supported"),
+            ("MECHANISM", "This SV causes Y by disrupting X.", "unsupported"),
+            ("PARTIAL", "The paper reports X.", "partially_supported"),
+        ]
+        state = {"literature_tool_results": [{"records": [{
+                    "evidence_id": "PMID-123", "pmid": "123", "title": "Association between X and Y"}]}],
+                 "claim_synthesis": {"candidate_claims": [
+                     {"claim_id": cid, "text": text, "claim_type": "database_fact",
+                      "report_section": "literature_evidence", "evidence_ids": ["PMID-123"]}
+                     for cid, text, status in cases]},
+                 "verification": {"publication_allowed": True, "supported_claims": [
+                     {"claim_id": cid, "verification_status": status, "confidence": "high",
+                      "notes": "Title metadata only; no SV-specific experiment was retrieved."}
+                     for cid, text, status in cases]}}
+        report = finalize_report_from_state({}, state)
+        self.assertEqual([s["statement"] for s in report["literature_evidence"]], [cases[0][1]])
+        self.assertEqual(report["literature_evidence"][0]["confidence"], "high")
+        self.assertEqual(report["literature_evidence"][0]["verification_status"], "supported")
+        self.assertFalse(any("Only PubMed citation metadata" in warning for warning in report["limitations"]))
+        self.assertEqual([c["claim_id"] for c in report["verified_claims"]], ["TITLE", "PARTIAL"])
+        from sv_investigator.render_report import render_markdown
+        markdown = render_markdown(report)
+        self.assertNotIn(cases[2][1], markdown)
+        self.assertIn("`verified_claims` for review: PARTIAL.", markdown)
+
+    def test_qualified_interpretations_are_visible_without_promoting_facts(self):
+        from sv_investigator.render_report import render_markdown
+        cases = [
+            ("H", "hypothesis", "possible_interpretations", "supported", "Candidate mechanism; not demonstrated."),
+            ("I", "inference", "possible_interpretations", "partially_supported", "No direct functional evidence."),
+            ("F", "database_fact", "population_evidence", "partially_supported", "Only partial evidence."),
+            ("U", "hypothesis", "possible_interpretations", "unsupported", "No basis."),
+            ("C", "inference", "possible_interpretations", "conflicting", "Conflicting evidence."),
+            ("N", "inference", "possible_interpretations", "partially_supported", ""),
+        ]
+        state = {"normalized_sv": {"statistics": {"fst": 0.3}},
+                 "claim_synthesis": {"candidate_claims": [
+                     {"claim_id": cid, "text": cid, "claim_type": kind,
+                      "report_section": section, "evidence_ids": ["INPUT-STAT-001"]}
+                     for cid, kind, section, status, notes in cases]},
+                 "verification": {"publication_allowed": True, "supported_claims": [
+                     {"claim_id": cid, "verification_status": status,
+                      "confidence": "high", "notes": notes}
+                     for cid, kind, section, status, notes in cases]}}
+        report = finalize_report_from_state({}, state)
+        self.assertEqual([s["statement"] for s in report["possible_interpretations"]], ["H", "I"])
+        self.assertEqual(report["population_evidence"], [])
+        hypothesis = report["possible_interpretations"][0]
+        self.assertEqual(hypothesis["kind"], "hypothesis")
+        self.assertEqual(hypothesis["confidence"], "low")
+        self.assertEqual(hypothesis["verification_status"], "partially_supported")
+        validated = SVReport.model_validate(report).model_dump(mode="json")
+        self.assertIn("Qualification (partially_supported)", render_markdown(validated))
+        self.assertNotIn("## Qualified findings", render_markdown(validated))
+        self.assertEqual(
+            [claim["claim_id"] for claim in validated["verified_claims"]
+             if claim["verification_status"] == "partially_supported"],
+            ["H", "I", "F", "N"],
+        )
+        self.assertIn("A hypothesis is not an established finding.", hypothesis["qualification"])
+
+    def test_input_fact_type_and_call_rate_signals_survive_finalization(self):
+        from sv_investigator.tools import assess_artifact_risk
+        from sv_investigator.render_report import render_markdown
+        normalized = {"quality": {"call_rate_A": 1.0, "call_rate_B": 1.0},
+                      "statistics": {"fst_max": 0.3474}}
+        state = {"normalized_sv": normalized,
+                 "baseline_evidence": {"artifact_risk": assess_artifact_risk(json.dumps(normalized))},
+                 "claim_synthesis": {"candidate_claims": [{
+                     "claim_id": "C1", "text": "Input Fst is 0.3474.",
+                     "claim_type": "database_fact", "report_section": "population_evidence",
+                     "evidence_ids": ["INPUT-STAT-001"]}]},
+                 "verification": {"supported_claims": [{"claim_id": "C1",
+                     "verification_status": "supported", "confidence": "high"}]}}
+        report = finalize_report_from_state({}, state)
+        self.assertEqual(report["verified_claims"][0]["claim_type"], "observation")
+        self.assertEqual(report["population_evidence"][0]["kind"], "observation")
+        self.assertFalse({"low_call_rate", "genotype_missingness"} & {r["risk_type"] for r in report["artifact_risks"]})
+        self.assertIn("call_rate_A: 1.0", render_markdown(report))
+        records = build_evidence_view(state)["records_by_id"]
+        for signal in report["statistical_signals"]:
+            record = records[signal["evidence_ids"][0]]
+            self.assertEqual(signal["statement"], f"{record['field']}: {record['value']}")
+            self.assertEqual(signal["kind"], "observation")
+        self.assertEqual(len(report["statistical_signals"]), 3)
+        self.assertNotIn("INPUT-CALL-RATES", records)
+        self.assertTrue(any(r["key_facts"].get("field") == "call_rate_A" for r in report["evidence_catalog"]))
+
+    def test_report_model_comes_from_runtime_config(self):
+        with patch("sv_investigator.state_pipeline.MODEL", "test-runtime-model"):
+            report = finalize_report_from_state({"model": "model-written-value"}, {})
+        self.assertEqual(report["model"], "test-runtime-model")
+        from sv_investigator.render_report import render_markdown
+        validated = SVReport.model_validate(report).model_dump(mode="json")
+        self.assertIn("**Model:** test-runtime-model", render_markdown(validated))
+        validated.pop("model")
+        self.assertIn("**Model:** Not recorded", render_markdown(validated))
+
+    def test_call_rates_and_statistical_context_reach_evidence_view(self):
+        state = {"normalized_sv": {
+            "quality": {"call_rate_A": 1.0, "call_rate_B": 0.9},
+            "statistical_context": "Labels shuffled 1000 times.",
+        }}
+        records = build_evidence_view(state)["records_by_id"]
+        self.assertEqual(records["INPUT-STAT-001"]["field"], "call_rate_A")
+        self.assertEqual(records["INPUT-STAT-001"]["value"], 1.0)
+        self.assertEqual(records["INPUT-STAT-002"]["field"], "call_rate_B")
+        self.assertEqual(records["INPUT-STAT-002"]["value"], 0.9)
+        self.assertEqual(records["INPUT-STAT-CONTEXT"]["summary"], "Labels shuffled 1000 times.")
+        report = finalize_report_from_state({}, state)
+        self.assertEqual(report["statistical_context"], "Labels shuffled 1000 times.")
+        from sv_investigator.render_report import render_markdown
+        validated = SVReport.model_validate(report).model_dump(mode="json")
+        self.assertIn("## Statistical context\n\nLabels shuffled 1000 times.", render_markdown(validated))
+
     def test_synthesis_drops_ungrounded_fact_without_aborting(self):
         result = SynthesisOutput.model_validate({
             "candidate_claims": [
@@ -166,6 +444,7 @@ class StatePipelineTest(unittest.TestCase):
             },
             "verification": {
                 "publication_allowed": True, "supported_claims": [claim],
+                "approved_evidence_gaps": ["functional assay"],
                 "contradictions": ["none material"], "missing_evidence": [], "warnings": [],
             },
         }
@@ -186,7 +465,8 @@ class StatePipelineTest(unittest.TestCase):
 
         self.assertEqual(validated.sv_summary.start, 100)
         self.assertEqual(validated.investigation_log.queries_used, 1)
-        self.assertEqual(validated.investigation_log.stop_reason, "done")
+        self.assertEqual(validated.investigation_log.stop_reason,
+                         "Recorded adaptive follow-ups finished. No further follow-up was executed.")
         self.assertEqual(validated.statistical_signals[0].evidence_ids, ["INPUT-STAT-001"])
         self.assertEqual(validated.artifact_risks[0].evidence_ids, ["QC-BL-001"])
         self.assertEqual(validated.verified_claims[0].claim_id, "C001")
@@ -201,6 +481,76 @@ class StatePipelineTest(unittest.TestCase):
             validated.recommended_next_steps,
             ["Resolve evidence gap: functional assay"],
         )
+
+    def test_query_facts_and_reviewed_text_cannot_be_replaced_by_model_prose(self):
+        from sv_investigator.render_report import render_markdown
+        hypothesis = "The intronic deletion may affect splicing."
+        gap = "Test the deletion for a splicing effect."
+        bad_gap = "The exon lookup failed; alternative exons remain unresolved."
+        limitation = "The retrieved titles do not establish an SV effect."
+        state = {
+            "normalized_sv": {"status": "valid", "genome_build": "GRCh38", "sv_type": "DEL",
+                              "chrom": "1", "start": 100, "end": 200, "statistics": {"fst": 0.39}},
+            "baseline_evidence": {"dbvar_evidence": {
+                "source": "NCBI dbVar", "status": "found", "completeness": "complete",
+                "query_regions": [{"interval": [100, 200]}],
+                "search_counts": [{"total_count": 74, "search_truncated": True}],
+                "search_uid_count": 50, "returned_record_count": 10,
+                "records_truncated": True,
+            }},
+            "adaptive_tool_results": [{
+                "action": "QUERY_EXONS", "status": "executed", "result_status": "not_found",
+                "evidence_gap": "Original planning premise, not a finding.",
+                "result": {"result": {"source": "Ensembl", "results": [{
+                    "status": "not_found", "query_region": "1:100-200", "feature": "exon",
+                    "records": [], "error": None, "truncated": False,
+                }]}},
+            }],
+            "adaptive_investigation": {"stop_reason": "All transcripts are unaffected.",
+                                       "remaining_limitations": ["Unreviewed adaptive assertion."]},
+            "claim_synthesis": {
+                "candidate_claims": [{"claim_id": "H", "text": hypothesis,
+                    "claim_type": "hypothesis", "report_section": "possible_interpretations",
+                    "evidence_ids": ["INPUT-STAT-001"]}],
+                "evidence_gaps": [gap, bad_gap],
+                "limitations": [limitation, "No functional research exists."],
+            },
+            "verification": {
+                "publication_allowed": True,
+                "supported_claims": [{"claim_id": "H", "text": "The SV causes disease.",
+                    "verification_status": "supported", "confidence": "high",
+                    "notes": "Intronic location motivates testing; the splicing effect is untested."}],
+                "approved_evidence_gaps": [gap, "A rewritten gap."],
+                "approved_limitations": [limitation, "A new limitation."],
+            },
+        }
+        view = build_evidence_view(state)
+        self.assertEqual(view["source_context"]["baseline_evidence"]["dbvar_evidence"]["query_regions"],
+                         [{"interval": [100, 200]}])
+        report = SVReport.model_validate(finalize_report_from_state({}, state)).model_dump(mode="json")
+        rendered = render_markdown(report)
+        self.assertEqual(report["recommended_next_steps"], ["Resolve evidence gap: " + gap])
+        self.assertEqual(report["investigation_log"]["remaining_limitations"], [limitation])
+        self.assertEqual(report["possible_interpretations"][0]["statement"], hypothesis)
+        self.assertEqual(report["possible_interpretations"][0]["confidence"], "low")
+        for forbidden in (bad_gap, "No functional research exists.", "A rewritten gap.",
+                          "A new limitation.", "All transcripts are unaffected.",
+                          "Original planning premise", "Unreviewed adaptive assertion.", "The SV causes disease."):
+            self.assertNotIn(forbidden, rendered)
+        self.assertIn("Untested hypothesis:", rendered)
+        self.assertIn("No matching records were returned within the reported query scope.", rendered)
+        self.assertIn("1:100-200", rendered)
+        self.assertIn("returned_record_count=0", rendered)
+        self.assertIn("search_hit_count_across_queries=74", rendered)
+        self.assertIn("search_uid_count=50", rendered)
+        self.assertIn("returned_record_count=10", rendered)
+        self.assertIn("Yes. Returned records are not exhaustive.", rendered)
+        # Legacy verdicts have no approval lists: do not silently publish their draft prose.
+        state["verification"].pop("approved_evidence_gaps")
+        state["verification"].pop("approved_limitations")
+        legacy = finalize_report_from_state({}, state)
+        self.assertNotIn(limitation, legacy["limitations"])
+        self.assertFalse(any(gap in item for item in legacy["recommended_next_steps"]))
 
     def test_verifier_cannot_rewrite_claim_or_publish_partial_claim(self):
         state = {
@@ -313,7 +663,7 @@ class StatePipelineTest(unittest.TestCase):
                 "evidence_ids": ["GNO-BL-001"],
             },
             {
-                "claim_id": "C2", "text": "The gene is dosage sensitive.",
+                "claim_id": "C2", "text": "The retrieved publication is titled 'A title'.",
                 "claim_type": "database_fact", "report_section": "literature_evidence",
                 "evidence_ids": ["PMID-123"],
             },
@@ -352,11 +702,12 @@ class StatePipelineTest(unittest.TestCase):
 
         self.assertEqual(
             [claim["verification_status"] for claim in result["supported_claims"]],
-            ["partially_supported"] * 4,
+            ["partially_supported", "supported", "partially_supported", "partially_supported"],
         )
         self.assertEqual(result["supported_claims"][2]["confidence"], "low")
         self.assertEqual(result["supported_claims"][3]["confidence"], "low")
-        self.assertEqual(len(result["warnings"]), 4)
+        self.assertEqual(result["supported_claims"][1]["confidence"], "high")
+        self.assertEqual(len(result["warnings"]), 3)
 
     @patch("sv_investigator.state_pipeline.collect_baseline_evidence")
     def test_baseline_stores_tool_result_without_rewriting(self, collect):

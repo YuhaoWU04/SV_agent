@@ -14,12 +14,16 @@ import random
 import re
 import threading
 import time
+import xml.etree.ElementTree as ET
+from html.parser import HTMLParser
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from typing import Any, MutableMapping
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
+
+from .info_definitions import resolve_info_definitions
 
 from .config import (
     DEFAULT_BREAKPOINT_TOLERANCE_BP,
@@ -158,6 +162,8 @@ def _json_request(
         if isinstance(exc, URLError):
             return None, "URLError"
         return None, "ConnectionError"
+    except UnicodeDecodeError:
+        return None, "invalid_text_encoding"
     except json.JSONDecodeError:
         return None, "invalid_json_response"
 
@@ -170,7 +176,7 @@ def _text_request(
     timeout_seconds: float | None = None,
 ) -> tuple[str | None, str | None]:
     """Fetch a public text resource while preserving failure as explicit data."""
-    query = f"?{urlencode(params, doseq=True)}" if params else ""
+    query = f"{'&' if '?' in url else '?'}{urlencode(params, doseq=True)}" if params else ""
     request_headers = {"Accept": "text/plain,text/csv,*/*", "User-Agent": USER_AGENT}
     if headers:
         request_headers.update(headers)
@@ -181,8 +187,8 @@ def _text_request(
             return response.read().decode("utf-8-sig"), None
     except HTTPError as exc:
         return None, f"HTTP {exc.code}"
-    except (URLError, TimeoutError) as exc:
-        return None, type(exc).__name__
+    except (URLError, TimeoutError, ConnectionError) as exc:
+        return None, "ConnectionError" if isinstance(exc, ConnectionError) else type(exc).__name__
     except UnicodeDecodeError:
         return None, "invalid_text_encoding"
 
@@ -250,8 +256,10 @@ def _json_post(url: str, payload: dict[str, Any]) -> tuple[Any | None, str | Non
             return json.loads(response.read().decode("utf-8")), None
     except HTTPError as exc:
         return None, f"HTTP {exc.code}"
-    except (URLError, TimeoutError) as exc:
-        return None, type(exc).__name__
+    except (URLError, TimeoutError, ConnectionError) as exc:
+        return None, "ConnectionError" if isinstance(exc, ConnectionError) else type(exc).__name__
+    except UnicodeDecodeError:
+        return None, "invalid_text_encoding"
     except json.JSONDecodeError:
         return None, "invalid_json_response"
 
@@ -532,6 +540,17 @@ def normalize_sv_input(raw_input: str) -> dict[str, Any]:
         )
         imprecise_value = _get_vcf_field(payload, "imprecise", "IMPRECISE")
         source_record = payload.get("source_record")
+        if isinstance(source_record, dict):
+            source_record = dict(source_record)
+            info = source_record.get("INFO", source_record.get("info"))
+            if isinstance(info, dict):
+                definitions = resolve_info_definitions(
+                    info, source_record.get("info_definition"), source_record.get("dataset"),
+                )
+                if definitions:
+                    source_record["info_definition"] = definitions
+                else:
+                    source_record.pop("info_definition", None)
         imprecise_present = any(
             key in container
             for container in (
@@ -575,6 +594,9 @@ def normalize_sv_input(raw_input: str) -> dict[str, Any]:
             warnings.append("BND_mate_not_provided_first_breakend_only")
 
         statistics = payload.get("statistics") or {}
+        statistical_context = payload.get("statistical_context", "")
+        if not isinstance(statistical_context, str):
+            raise ValueError("statistical_context must be a JSON string")
         quality = payload.get("quality") or {}
         if not isinstance(statistics, dict) or not isinstance(quality, dict):
             raise ValueError("statistics and quality must be JSON objects")
@@ -653,6 +675,7 @@ def normalize_sv_input(raw_input: str) -> dict[str, Any]:
             "sv_subtype": sv_subtype,
             "length_bp": length_bp,
             "statistics": statistics,
+            "statistical_context": statistical_context,
             "quality": quality,
             "source_record": source_record,
             "warnings": warnings,
@@ -1097,10 +1120,16 @@ def _query_ensembl_single_feature(
     host: str, chrom: str, interval: list[int], feature: str, role: str
 ) -> dict[str, Any]:
     """Run one explicit Ensembl overlap query for an adaptive action."""
+    query_region = f"{chrom}:{interval[0]}-{interval[1]}"
+    if interval[1] - interval[0] + 1 > 5_000_000:
+        return {
+            "role": role, "query_region": query_region, "feature": feature,
+            "status": "error", "records": None, "error": "query_region_exceeds_5mb_limit",
+            "source_url": None, "truncated": False, "attempts": 0,
+        }
     payload, error, attempts, source_url = _ensembl_overlap_request(
         host, chrom, interval, (feature,)
     )
-    query_region = f"{chrom}:{interval[0]}-{interval[1]}"
     response_error = error or (
         None if isinstance(payload, list) else "invalid_response_shape"
     )
@@ -1213,6 +1242,12 @@ def _ensembl_adaptive_query(sv: dict[str, Any], action: str) -> dict[str, Any]:
         scopes.append(("mate_breakend", mate_chrom, mate_window["interval"]))
     elif sv["end"] - sv["start"] + 1 <= 5_000_000:
         scopes.append(("nominal", chrom, [sv["start"], sv["end"]]))
+        if action == "QUERY_EXONS":
+            for endpoint in ("start", "end"):
+                ci = sv.get(f"{endpoint}_confidence_interval")
+                if ci is not None:
+                    window = _breakpoint_window(sv[endpoint], ci, chrom_length)
+                    scopes.append((f"{endpoint}_confidence_interval", chrom, window["interval"]))
     else:
         start_window = _breakpoint_window(
             sv["start"], sv.get("start_confidence_interval"), chrom_length
@@ -1229,12 +1264,17 @@ def _ensembl_adaptive_query(sv: dict[str, Any], action: str) -> dict[str, Any]:
         for role, scope_chrom, interval in scopes
     ]
     status = "found" if any(item["status"] == "found" for item in results) else (
-        "error" if results and all(item["status"] == "error" for item in results)
+        "error" if any(item["status"] == "error" for item in results)
         else "not_found"
+    )
+    completeness = (
+        "failed" if results and all(item["status"] == "error" for item in results)
+        else "partial" if any(item["status"] == "error" or item["truncated"] for item in results)
+        else "complete"
     )
     return {
         "source": "Ensembl", "action": action, "status": status,
-        "results": results, "retrieved_at": _now(),
+        "results": results, "completeness": completeness, "retrieved_at": _now(),
         "limitations": (
             "Coordinate overlap with a transcript or exon is not a predicted "
             "molecular consequence."
@@ -1245,7 +1285,7 @@ def _ensembl_adaptive_query(sv: dict[str, Any], action: str) -> dict[str, Any]:
 # Population and clinical database adapters
 
 def _ncbi_params(extra: dict[str, Any]) -> dict[str, Any]:
-    params = {**extra, "retmode": "json", "tool": "sv_investigator"}
+    params = {"retmode": "json", **extra, "tool": "sv_investigator"}
     if NCBI_API_KEY:
         params["api_key"] = NCBI_API_KEY
     if NCBI_EMAIL:
@@ -1253,8 +1293,8 @@ def _ncbi_params(extra: dict[str, Any]) -> dict[str, Any]:
     return params
 
 
-def _ncbi_json_request(
-    endpoint: str, params: dict[str, Any]
+def _ncbi_request(
+    endpoint: str, params: dict[str, Any], *, text: bool = False
 ) -> tuple[Any | None, str | None]:
     global _NCBI_LAST_REQUEST_MONOTONIC
     minimum_interval = 0.11 if NCBI_API_KEY else 0.34
@@ -1263,7 +1303,7 @@ def _ncbi_json_request(
         if elapsed < minimum_interval:
             time.sleep(minimum_interval - elapsed)
         _NCBI_LAST_REQUEST_MONOTONIC = time.monotonic()
-        return _json_request(endpoint, params)
+        return (_text_request if text else _json_request)(endpoint, params)
 
 
 GNOMAD_SV_REGION_QUERY = """
@@ -1593,7 +1633,7 @@ def query_clinvar(
             f"AND {_CLINVAR_TYPE_TERMS[sv['sv_type']]}{length_clause}"
         )
         query_terms.append(term)
-        payload, error = _ncbi_json_request(
+        payload, error = _ncbi_request(
             f"{NCBI_EUTILS}/esearch.fcgi",
             _ncbi_params({
                 "db": "clinvar", "term": term, "retmax": search_limit,
@@ -1610,7 +1650,7 @@ def query_clinvar(
 
     summaries: dict[str, Any] = {}
     if ids:
-        payload, error = _ncbi_json_request(
+        payload, error = _ncbi_request(
             f"{NCBI_EUTILS}/esummary.fcgi",
             _ncbi_params({"db": "clinvar", "id": ",".join(ids)}),
         )
@@ -1808,7 +1848,7 @@ def query_dbvar(
             f'{_DBVAR_TYPE_TERMS[sv["sv_type"]]} AND "variant"[Object Type]'
         )
         query_terms.append(term)
-        payload, error = _ncbi_json_request(
+        payload, error = _ncbi_request(
             f"{NCBI_EUTILS}/esearch.fcgi",
             _ncbi_params({
                 "db": "dbvar", "term": term, "retmax": search_limit,
@@ -1834,7 +1874,7 @@ def query_dbvar(
 
     summaries: dict[str, Any] = {}
     if ids:
-        payload, error = _ncbi_json_request(
+        payload, error = _ncbi_request(
             f"{NCBI_EUTILS}/esummary.fcgi",
             _ncbi_params({"db": "dbvar", "id": ",".join(ids)}),
         )
@@ -1888,7 +1928,13 @@ def query_dbvar(
         row["record_id"],
     ))
     records = classified[:max_records]
-    search_failures = sum(error.get("role") != "summary" for error in query_errors)
+    for record in records:
+        details = _query_dbvar_details(record["source_url"], sv, max_records)
+        details["region_reported_call_count"] = record["variant_call_count"]
+        record["call_details"] = details
+        if details["status"] != "found":
+            query_errors.append({"role": "detail", "record_id": record["record_id"], "error": details.get("error") or details["reason"]})
+    search_failures = sum(error.get("role") not in {"summary", "detail"} for error in query_errors)
     successful_queries = len(regions) - search_failures
     completeness = "complete" if not query_errors else (
         "failed" if successful_queries <= 0 else "partial"
@@ -1916,11 +1962,169 @@ def query_dbvar(
             "dbVar aggregates submitter-defined variant regions and calls from many "
             "studies and technologies. Boundaries may be imprecise or remapped, a "
             "generic copy-number type may not establish DEL versus DUP direction, "
-            "and this bounded endpoint search does not retrieve every enclosing "
+            "call-level types and HGVS are retrieved separately from detail pages. "
+            "Numeric copy numbers are returned only when explicitly reported; "
+            "zygosity and deletion/gain labels are not converted to numeric CN. "
+            "Call details are bounded and may differ from the region-level annotation. "
+            "This bounded endpoint search does not retrieve every enclosing "
             "record. A match is contextual evidence, not proof of event identity, "
             "clinical significance, or validation."
         ),
     }
+
+
+class _DbvarTables(HTMLParser):
+    """Read named HTML table columns, retaining original submitted values."""
+
+    def __init__(self):
+        super().__init__()
+        self.tables = []
+        self.table = self.row = self.cell = None
+        self.genotype_links = set()
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "table":
+            self.table = []
+            self.tables.append(self.table)
+        elif tag == "tr":
+            self.row = []
+        elif tag in {"td", "th"}:
+            self.cell = []
+        elif tag == "a":
+            href = dict(attrs).get("href", "")
+            if "dbvar" in href.lower() and "/genotype/" in href.lower():
+                self.genotype_links.add(href)
+
+    def handle_data(self, data):
+        if self.cell is not None:
+            self.cell.append(data)
+
+    def handle_endtag(self, tag):
+        if tag in {"td", "th"} and self.cell is not None:
+            if self.row is not None:
+                self.row.append(" ".join("".join(self.cell).split()))
+            self.cell = None
+        elif tag == "tr" and self.row is not None:
+            if self.table is not None:
+                self.table.append(self.row)
+            self.row = None
+        elif tag == "table":
+            self.table = None
+
+
+def _query_dbvar_details(url: str, sv: dict[str, Any], limit: int) -> dict[str, Any]:
+    # ponytail: detail pages supply call tables absent from ESummary; replace this
+    # parser with a structured endpoint if NCBI exposes one. Missing tables stay unknown.
+    page, error = _text_request(url)
+    if error or not page:
+        return {"status": "error", "error": error or "empty_detail_page", "source_url": url}
+    parser = _DbvarTables()
+    parser.feed(page)
+    calls = {}
+    placements = []
+    copy_numbers = []
+    unparsed_copy_numbers = []
+    additional_details = []
+    skipped_rows = 0
+    recognized = False
+    for table in parser.tables:
+        if not table:
+            continue
+        headers = table[0]
+        cn_headers = {"copy number", "copy number genotype", "cn"}
+        if "Variant Call ID" not in headers and "Sample ID" not in headers:
+            continue
+        recognized = True
+        for values in table[1:]:
+            if len(values) != len(headers):
+                skipped_rows += 1
+                continue
+            row = dict(zip(headers, values))
+            call_id = row.get("Variant Call ID") or None
+            if "Variant Call ID" in headers and not call_id:
+                skipped_rows += 1
+                continue
+            consumed = {"Variant Call ID", "Sample ID"}
+            if call_id and "Type" in row:
+                call = calls.setdefault(call_id, {"call_id": call_id})
+                field_map = {"Type": "variant_type", "Sample ID": "sample_id",
+                             "Zygosity": "zygosity", "Method": "method", "Analysis": "analysis"}
+                call.update({target: row[source] for source, target in field_map.items() if row.get(source)})
+                consumed.update(field_map)
+            if {"Assembly", "Chr", "Start", "Stop"}.issubset(row):
+                summary = {"dbvarplacementlist": [{
+                    "assembly": row["Assembly"], "chr": row["Chr"],
+                    "chr_start": row["Start"].replace(",", ""),
+                    "chr_end": row["Stop"].replace(",", ""),
+                }]}
+                placement = _dbvar_build_placement(summary, sv["genome_build"], sv["chrom"])
+                if placement:
+                    start_window, end_window, _, _ = _interval_query_context(sv)
+                    placement_fields = {"Assembly", "Chr", "Start", "Stop", "HGVS", "Placement Type"}
+                    extra = {key: value for key, value in row.items()
+                             if key not in consumed | placement_fields and key.casefold() not in cn_headers and value}
+                    placements.append((call_id, {
+                        **placement,
+                        **({"hgvs": row["HGVS"]} if row.get("HGVS") else {}),
+                        **({"placement_type": row["Placement Type"]} if row.get("Placement Type") else {}),
+                        **({"additional_fields": extra} if extra else {}),
+                        **_interval_candidate_match(sv, placement["start"], placement["end"], start_window, end_window),
+                    }))
+                    consumed.update(placement_fields)
+                    consumed.update(extra)
+            for field, raw in row.items():
+                if field.casefold() not in cn_headers:
+                    continue
+                consumed.add(field)
+                reported_cn = {
+                    "call_id": call_id, "sample_id": row.get("Sample ID") or None,
+                    "reported_field": field, "reported_value": raw,
+                    "scope": "as reported; ploidy and allele/sample scope not inferred",
+                }
+                try:
+                    cn = float(raw)
+                    if not 0 <= cn < float("inf"):
+                        raise ValueError
+                except (TypeError, ValueError):
+                    unparsed_copy_numbers.append(reported_cn)
+                    continue
+                copy_numbers.append({**reported_cn, "value": cn})
+            extra = {key: value for key, value in row.items() if key not in consumed and value}
+            if extra:
+                if call_id in calls and "Type" in row:
+                    calls[call_id].setdefault("additional_fields", {}).update(extra)
+                else:
+                    additional_details.append({**({"call_id": call_id} if call_id else {}),
+                                               **({"sample_id": row["Sample ID"]} if row.get("Sample ID") else {}),
+                                               "submitted_fields": extra})
+    for call_id, placement in placements:
+        if call_id in calls:
+            calls[call_id].setdefault("placements", []).append(placement)
+        else:
+            additional_details.append({"call_id": call_id, "placement": placement})
+    for call in calls.values():
+        call["type_compatibility"] = _dbvar_type_compatibility(sv["sv_type"], call["variant_type"]) or "incompatible"
+    result = {"status": "found" if calls or copy_numbers or unparsed_copy_numbers or additional_details else "unavailable",
+              "source_url": url}
+    for key, values in (("calls", list(calls.values())), ("reported_copy_numbers", copy_numbers),
+                        ("unparsed_copy_numbers", unparsed_copy_numbers), ("additional_details", additional_details),
+                        ("genotype_download_links", sorted(parser.genotype_links))):
+        if values:
+            bound = 5 if key == "genotype_download_links" else limit
+            result[key] = values[:bound]
+            if len(values) > bound:
+                result[key + "_truncated"] = True
+    limitations = []
+    if not copy_numbers and not unparsed_copy_numbers:
+        limitations.append("No numeric copy number was reported in the retrieved detail tables; genotype files were not inspected.")
+    if skipped_rows:
+        limitations.append(f"Skipped {skipped_rows} detail rows with mismatched columns or missing call IDs; extraction is incomplete.")
+    limitations.append("Only retrieved call/sample tables are parsed; free text and linked files are not comprehensively extracted.")
+    if result["status"] == "unavailable":
+        result["reason"] = "no_call_rows" if recognized else "call_table_not_found"
+    if limitations:
+        result["limitations"] = limitations
+    return result
 
 
 def _dgv_type_compatible(query_type: str, row: dict[str, Any]) -> bool:
@@ -2437,20 +2641,20 @@ def query_gnomad_sv(
 # Literature and deterministic technical-risk evidence
 
 def search_pubmed(query: str, max_records: int = MAX_PUBMED_RECORDS) -> dict[str, Any]:
-    """Search PubMed and return citation metadata.
+    """Search PubMed and return citation metadata with available abstracts.
 
     Args:
         query: A traceable PubMed query using coordinates, genes, or SV terms.
         max_records: Maximum citation summaries to return.
 
     Returns:
-        PubMed IDs and summaries. A title alone is not treated as claim support.
+        PubMed IDs, summaries, and abstracts. Missing or failed abstracts are explicit.
     """
     query = query.strip()
     if not query:
         return {"source": "PubMed", "status": "error", "error": "empty_query"}
     max_records = max(1, min(int(max_records), MAX_PUBMED_RECORDS))
-    search, error = _ncbi_json_request(
+    search, error = _ncbi_request(
         f"{NCBI_EUTILS}/esearch.fcgi",
         _ncbi_params({"db": "pubmed", "term": query, "retmax": max_records, "sort": "relevance"}),
     )
@@ -2469,7 +2673,7 @@ def search_pubmed(query: str, max_records: int = MAX_PUBMED_RECORDS) -> dict[str
             "source": "PubMed", "status": "not_found", "query": query,
             "records": [], "retrieved_at": _now(),
         }
-    summaries, summary_error = _ncbi_json_request(
+    summaries, summary_error = _ncbi_request(
         f"{NCBI_EUTILS}/esummary.fcgi",
         _ncbi_params({"db": "pubmed", "id": ",".join(ids)}),
     )
@@ -2484,7 +2688,7 @@ def search_pubmed(query: str, max_records: int = MAX_PUBMED_RECORDS) -> dict[str
     records = []
     for pmid in ids:
         row = result.get(pmid, {})
-        if isinstance(row, dict):
+        if isinstance(row, dict) and row.get("title"):
             raw_authors = row.get("authors") or []
             if not isinstance(raw_authors, list):
                 raw_authors = []
@@ -2514,16 +2718,54 @@ def search_pubmed(query: str, max_records: int = MAX_PUBMED_RECORDS) -> dict[str
             "error": "summary_records_missing", "query": query,
             "retrieved_at": _now(),
         }
+    # One batched fetch shares the NCBI rate limit with search and summaries.
+    xml, abstract_error = _ncbi_request(
+        f"{NCBI_EUTILS}/efetch.fcgi",
+        _ncbi_params({"db": "pubmed", "id": ",".join(row["pmid"] for row in records), "retmode": "xml"}),
+        text=True,
+    )
+    abstracts: dict[str, str] = {}
+    if not abstract_error:
+        try:
+            root = ET.fromstring(xml or "")
+            if root.tag != "PubmedArticleSet":
+                raise ValueError("invalid_abstract_response_shape")
+            for article in root.findall("PubmedArticle"):
+                pmid = article.findtext("./MedlineCitation/PMID")
+                sections = []
+                for section in article.findall("./MedlineCitation/Article/Abstract/AbstractText"):
+                    body = " ".join("".join(section.itertext()).split())
+                    if body:
+                        sections.append(f"{section.get('Label')}: {body}" if section.get("Label") else body)
+                if pmid:
+                    abstracts[pmid.strip()] = "\n".join(sections)
+        except (ET.ParseError, ValueError):
+            abstract_error = "invalid_abstract_response"
+    for row in records:
+        abstract = abstracts.get(row["pmid"])
+        row["abstract_source_url"] = f"{NCBI_EUTILS}/efetch.fcgi?db=pubmed&id={row['pmid']}&retmode=xml"
+        if abstract_error or abstract is None:
+            row["abstract_status"] = "error"
+            row["abstract_error"] = abstract_error or "abstract_record_missing"
+        elif abstract:
+            row.update(abstract_status="found", abstract=abstract)
+        else:
+            row["abstract_status"] = "not_found"
     return {
         "source": "PubMed", "status": "found", "query": query,
         "records": records, "retrieved_at": _now(),
+        "completeness": "partial" if len(records) < len(ids) or any(
+            row["abstract_status"] == "error" for row in records
+        ) else "complete",
         "summary_records_missing": len(ids) - len(records),
-        "limitations": "Metadata does not prove that the full text supports a biological claim.",
+        "limitations": "Only citation metadata and available abstracts were retrieved, not full text. "
+                        "An absent statement in this material does not establish its absence from the paper.",
     }
 
 
 def assess_artifact_risk(
-    normalized_sv_json: str, region_annotation_json: str = "{}"
+    normalized_sv_json: str, region_annotation_json: str = "{}",
+    mappability_json: str = "{}",
 ) -> dict[str, Any]:
     """Apply deterministic first-pass artifact-risk rules.
 
@@ -2538,6 +2780,7 @@ def assess_artifact_risk(
     try:
         sv = _safe_json_loads(normalized_sv_json, "normalized_sv_json")
         annotation = _safe_json_loads(region_annotation_json, "region_annotation_json")
+        mappability = _safe_json_loads(mappability_json, "mappability_json")
     except ValueError as exc:
         return {"overall_risk": "unknown", "error": str(exc), "risk_items": []}
     quality = sv.get("quality") or {}
@@ -2554,37 +2797,6 @@ def assess_artifact_risk(
             "risk_type": name, "status": status, "impact": impact,
             "recommended_check": check, "evidence": evidence,
         })
-
-    call_rate = quality.get("call_rate")
-    if call_rate is None:
-        add(
-            "low_call_rate",
-            "unknown",
-            "Missingness can produce spurious population differences.",
-            "Calculate call rate per cohort.",
-        )
-    else:
-        try:
-            if isinstance(call_rate, bool):
-                raise ValueError
-            rate = float(call_rate)
-            if not 0 <= rate <= 1:
-                raise ValueError
-            add(
-                "low_call_rate",
-                "present" if rate < 0.95 else "absent",
-                f"Reported call rate is {rate:.3f}.",
-                "Inspect cohort-specific missingness and genotype clusters.",
-                rate,
-            )
-        except (TypeError, ValueError):
-            add(
-                "low_call_rate",
-                "unknown",
-                "The supplied call rate is not a valid fraction.",
-                "Provide a numeric rate between 0 and 1.",
-                call_rate,
-            )
 
     caller = quality.get("caller")
     caller_count = len(caller) if isinstance(caller, list) else (1 if caller else 0)
@@ -2659,11 +2871,20 @@ def assess_artifact_risk(
         "Confirm both breakpoints against a curated repeat track.",
         repeat_evidence,
     )
+    measurements = mappability.get("records") or []
+    fully_unique = (
+        mappability.get("completeness") == "complete" and bool(measurements)
+        and all(row.get("coverage_fraction") == 1 and row.get("minimum") == 1
+                for row in measurements)
+    )
     add(
         "low_mappability",
-        "unknown",
+        "absent" if fully_unique else "unknown",
         "Low-mappability sequence can create ambiguous alignments.",
-        "Intersect both breakpoints with a build-matched mappability track.",
+        "Assess the measured breakpoint mappability against actual read length and "
+        "alignment evidence. Non-unit values are not automatically an artifact; "
+        "fully unique reference sequence does not validate the called allele.",
+        measurements,
     )
 
     supporting_reads = quality.get("supporting_reads")
@@ -2709,6 +2930,243 @@ def assess_artifact_risk(
     return {"overall_risk": overall, "risk_items": items}
 
 
+def _functional_regions(sv: dict[str, Any], *, breakpoints_only: bool = False,
+                        padding: int = 0) -> list[dict[str, Any]]:
+    """Keep nominal overlap separate from uncertain breakpoint-window context."""
+    lengths = CHROMOSOME_LENGTHS[sv["genome_build"]]
+    if not breakpoints_only and sv["sv_type"] not in {"INS", "BND"} and sv["end"] - sv["start"] < 1_000_000:
+        return [{"scope": "padded_nominal_interval" if padding else "nominal_interval",
+                 **({"padding_bp": padding} if padding else {}), "chrom": sv["chrom"],
+                 "start": max(1, sv["start"] - padding),
+                 "end": min(lengths[sv["chrom"]], sv["end"] + padding)}]
+    regions = []
+    endpoints = [("start", sv["chrom"], sv["start"], sv.get("start_confidence_interval"))]
+    if sv["sv_type"] not in {"INS", "BND"}:
+        endpoints.append(("end", sv["chrom"], sv["end"], sv.get("end_confidence_interval")))
+    if sv["sv_type"] == "BND" and sv.get("mate_chrom") and sv.get("mate_pos"):
+        endpoints.append(("mate", sv["mate_chrom"], sv["mate_pos"], sv.get("mate_confidence_interval")))
+    for role, chrom, pos, ci in endpoints:
+        window = _breakpoint_window(pos, ci, lengths[chrom])
+        regions.append({"scope": f"{'padded_' if padding else ''}{role}_breakpoint_window",
+                        **({"padding_bp": padding} if padding else {}), "chrom": chrom,
+                        "start": max(1, window["interval"][0] - padding),
+                        "end": min(lengths[chrom], window["interval"][1] + padding),
+                        "window_source": window["source"]})
+    return regions
+
+
+def query_functional_track(normalized_sv_json: str, kind: str) -> dict[str, Any]:
+    """Query build-matched UCSC tracks, then filter actual feature endpoints.
+
+    kind is ccre, links, map, or qtl (the UCSC eQTL track only).
+    Use query_qtl_context for eQTL records with the GTEx sQTL follow-up.
+    Interaction/eQTL BED spans include the connecting line, not just the feature.
+    Those spans must never be used as evidence of feature overlap.
+    """
+    sources = {"ccre": "ENCODE cCRE", "links": "GeneHancer",
+               "qtl": "GTEx DAP-G cis-eQTL", "map": "Reference mappability"}
+    result: dict[str, Any] = {"source": sources[kind], "records": [],
+                              "retrieved_at": _now(), "query_errors": []}
+    try:
+        sv = _validated_normalized_sv(normalized_sv_json)
+    except (ValueError, TypeError) as exc:
+        return {**result, "status": "error", "error": str(exc), "completeness": "failed"}
+    build = sv["genome_build"]
+    genome = "hg38" if build == "GRCh38" else "hg19"
+    tracks = {"ccre": "cCREregistry", "links": "geneHancerInteractionsDoubleElite",
+              "qtl": "gtexEqtlDapg", "map": "umap100Quantitative" if genome == "hg38"
+              else "wgEncodeCrgMapabilityAlign100mer"}
+    track = tracks[kind]
+    result.update(genome_build=build, dataset=track, backend="UCSC REST API")
+    result["limitations"] = {
+        "ccre": "ENCODE4 registry (2024), cell-type agnostic. Overlap is not evidence "
+                "of altered activity or a target gene. Breakpoint windows are contextual.",
+        "links": "GeneHancer Double Elite v2 (2019) integrated predicted associations, "
+                 "not ABC scores or experimentally established targets of this SV. "
+                 "Neither the connecting span nor nearest gene establishes a link.",
+        "qtl": "GTEx fine-mapped cis-eQTL context, not an SV-eQTL/sQTL lookup. "
+               "The track lacks alleles needed to establish SV identity, LD or colocalization; "
+               "nearby SNP associations do not establish effects of the input SV. "
+               "PIP is not a p-value; the track excludes chrX.",
+        "map": "100-mer reference mappability, not observed read/genotype quality. "
+               "GRCh38 uses Umap multi-read probability; GRCh37 uses CRG alignability "
+               "(a different measure). Missing track coverage is unknown, never zero.",
+    }[kind]
+    if build == "GRCh37" and kind in {"ccre", "qtl"}:
+        return {**result, "status": "not_applicable", "completeness": "complete",
+                "reason": "Selected track is GRCh38-only; no automatic liftover."}
+    if kind == "qtl" and sv["chrom"] == "X":
+        return {**result, "status": "not_applicable", "completeness": "complete",
+                "reason": "GTEx DAP-G track excludes chrX."}
+    regions = _functional_regions(sv, breakpoints_only=kind == "map",
+                                  padding=10_000 if kind == "qtl" else 0)
+    result["query_regions"] = regions
+    if sv["sv_type"] == "BND" and not (sv.get("mate_chrom") and sv.get("mate_pos")):
+        result["query_errors"].append({"error": "mate_coordinates_missing; only local breakend queried"})
+    seen = set()
+    truncated = False
+    for region in regions:
+        # ponytail: bound large CI windows; local bigWig/tabix access if larger queries matter.
+        if region["end"] - region["start"] >= (10_000 if kind == "map" else 1_100_000):
+            result["query_errors"].append({**region, "error": "query_window_exceeds_limit"})
+            continue
+        params = {"genome": genome, "track": track, "chrom": f"chr{region['chrom']}",
+                  "start": region["start"] - 1, "end": region["end"],
+                  "maxItemsOutput": 20_000}
+        payload, error = _json_request(f"{UCSC_API}/getData/track", params)
+        rows = payload.get(track) if isinstance(payload, dict) else None
+        if error or not isinstance(rows, list):
+            result["query_errors"].append({**region, "error": error or "invalid_track_response"})
+            continue
+        truncated |= bool(payload.get("maxItemsLimit")) or len(rows) >= 20_000
+        source_url = f"{UCSC_API}/getData/track?{urlencode(params)}"
+        if kind == "map":
+            weighted = covered = below_one = 0
+            values = []
+            previous_end = region["start"] - 1
+            valid_rows = [r for r in rows if isinstance(r, dict)
+                          and isinstance(r.get("start"), int) and isinstance(r.get("end"), int)
+                          and isinstance(r.get("value"), (int, float))
+                          and not isinstance(r.get("value"), bool) and 0 <= r["value"] <= 1
+                          and r["start"] < r["end"]]
+            if len(valid_rows) != len(rows):
+                result["query_errors"].append({**region, "error": "invalid_mappability_records"})
+            for row in sorted(valid_rows, key=lambda r: r["start"]):
+                left = max(row["start"], region["start"] - 1, previous_end)
+                right = min(row["end"], region["end"])
+                value = row.get("value")
+                if right <= left or not isinstance(value, (int, float)) or not 0 <= value <= 1:
+                    continue
+                n = right - left
+                covered += n
+                weighted += n * value
+                below_one += n if value < 1 else 0
+                values.append(value)
+                previous_end = right
+            total = region["end"] - region["start"] + 1
+            result["records"].append({**region, "record_id": region["scope"],
+                "genome_build": build, "source_url": source_url, "track": track,
+                "kmer_length": 100, "coverage_fraction": covered / total,
+                "covered_bases": covered, "unmeasured_bases": total - covered,
+                "mean": weighted / covered if covered else None,
+                "minimum": min(values) if values else None,
+                "fraction_below_one_of_measured_bases": below_one / covered if covered else None})
+            continue
+        for row in rows:
+            if not isinstance(row, dict):
+                result["query_errors"].append({**region, "error": "invalid_feature_record"})
+                continue
+            try:
+                if kind == "links":
+                    chrom = row["geneHancerChrom"].removeprefix("chr")
+                    start, end = int(row["geneHancerStart"]) + 1, int(row["geneHancerEnd"])
+                elif kind == "qtl":
+                    match = re.fullmatch(r"chr([^:]+):(\d+)-(\d+)", row["eqtlPos"])
+                    if not match:
+                        raise ValueError("invalid_eqtl_position")
+                    chrom, start, end = match[1], int(match[2]), int(match[3])
+                else:
+                    chrom = row["chrom"].removeprefix("chr")
+                    start, end = int(row["chromStart"]) + 1, int(row["chromEnd"])
+            except (AttributeError, KeyError, TypeError, ValueError) as exc:
+                result["query_errors"].append({**region, "error": f"invalid_feature_coordinates: {exc}"})
+                continue
+            if chrom != region["chrom"] or start > region["end"] or end < region["start"]:
+                continue
+            key = (row.get("name"), chrom, start, end, region["scope"])
+            if key in seen:
+                continue
+            seen.add(key)
+            result["records"].append({**row, "chrom": chrom, "start": start, "end": end,
+                "record_id": row.get("name"), "genome_build": build,
+                "query_scope": region["scope"], "source_url": source_url,
+                "match_type": "regional_qtl_context" if kind == "qtl" else "feature_overlap",
+                **({"sv_identity": "not_established", "ld_with_sv": "not_assessed"} if kind == "qtl" else {})})
+    records = result["records"]
+    result["records_truncated"] = truncated or len(records) > MAX_DATABASE_RECORDS
+    result["records"] = records[:MAX_DATABASE_RECORDS]
+    result["returned_record_count"] = len(result["records"])
+    result["completeness"] = "partial" if result["query_errors"] or result["records_truncated"] else "complete"
+    result["status"] = "found" if records else "error" if result["query_errors"] else "not_found"
+    return result
+
+
+def query_qtl_context(normalized_sv_json: str) -> dict[str, Any]:
+    result = query_functional_track(normalized_sv_json, "qtl")
+    result["source"] = "GTEx molecular QTL"
+    for row in result["records"]:
+        row["qtl_type"] = "eQTL"
+    result["sqtl_lookup"] = {"status": "not_queried", "queries": [], "query_budget": 3}
+    if result["status"] != "found":
+        return result
+    # ponytail: follow up at most three regional eQTL variants; exhaustive regional
+    # sQTL discovery requires indexed summary statistics, not unlimited portal calls.
+    def pip(row: dict[str, Any]) -> float:
+        try:
+            return float(row.get("pip") or 0)
+        except (ValueError, TypeError):
+            return 0
+
+    candidates = sorted(result["records"], key=pip, reverse=True)
+    names = list(dict.fromkeys(r.get("eqtlName") for r in candidates if r.get("eqtlName")))[:3]
+    endpoint = "https://gtexportal.org/api/v2"
+    result["sqtl_lookup"].update(status="complete", selection="up to three distinct regional eQTL variants, highest PIP first")
+    result["limitations"] += " sQTL follow-up covers at most three regional eQTL variants, " \
+        "not all regional splicing associations; no SV identity or LD is inferred. " \
+        "Source intron phenotype identifiers are retained verbatim; embedded coordinates " \
+        "are not used for build-matched SV overlap."
+    for name in names:
+        query = {"snpId": name, "datasetId": "gtex_v8", "itemsPerPage": 10}
+        variants, error = _json_request(f"{endpoint}/dataset/variant", query)
+        if error or not isinstance(variants, dict) or not isinstance(variants.get("data"), list):
+            result["query_errors"].append({"variant": name, "error": error or "invalid_variant_response"})
+            continue
+        for variant in variants["data"]:
+            if len(result["sqtl_lookup"]["queries"]) >= 3:
+                break
+            if not isinstance(variant, dict):
+                result["query_errors"].append({"variant": name, "error": "invalid_variant_record"})
+                continue
+            variant_id = variant.get("variantId")
+            chrom = str(variant.get("chromosome") or "").removeprefix("chr")
+            pos = variant.get("pos")
+            if not variant_id or not isinstance(pos, int) or not any(
+                r["chrom"] == chrom and r["start"] <= pos <= r["end"] for r in result["query_regions"]
+            ):
+                continue
+            query = {"variantId": variant_id, "datasetId": "gtex_v8", "itemsPerPage": MAX_DATABASE_RECORDS}
+            payload, error = _json_request(f"{endpoint}/association/singleTissueSqtl", query)
+            result["sqtl_lookup"]["queries"].append(variant_id)
+            rows = payload.get("data") if isinstance(payload, dict) else None
+            if error or not isinstance(rows, list):
+                result["query_errors"].append({"variant": variant_id, "error": error or "invalid_sqtl_response"})
+                continue
+            if (payload.get("paging_info") or {}).get("numberOfPages", 1) > 1:
+                result["records_truncated"] = True
+            for row in rows:
+                if not isinstance(row, dict) or row.get("variantId") != variant_id:
+                    result["query_errors"].append({"variant": variant_id, "error": "unexpected_sqtl_variant"})
+                    continue
+                result["records"].append({**row, "record_id": f"{variant_id}/{row.get('phenotypeId')}/{row.get('tissueSiteDetailId')}",
+                    "qtl_type": "sQTL", "chrom": chrom, "start": pos, "end": pos,
+                    "genome_build": "GRCh38", "ref": variant.get("ref"), "alt": variant.get("alt"),
+                    "query_scope": "selected_regional_eqtl_variant_followup",
+                    "match_type": "regional_qtl_context", "sv_identity": "not_established", "ld_with_sv": "not_assessed",
+                    "source_url": f"{endpoint}/association/singleTissueSqtl?{urlencode(query)}"})
+    if result["query_errors"] or result["records_truncated"]:
+        result["completeness"] = "partial"
+        result["sqtl_lookup"]["status"] = "partial"
+    # Separate caps keep eQTL context from consuming the entire sQTL evidence budget.
+    eqtls = [r for r in result["records"] if r["qtl_type"] == "eQTL"]
+    sqtls = [r for r in result["records"] if r["qtl_type"] == "sQTL"]
+    if len(sqtls) > MAX_DATABASE_RECORDS:
+        result.update(records_truncated=True, completeness="partial")
+        result["sqtl_lookup"]["status"] = "partial"
+    result["records"] = eqtls + sqtls[:MAX_DATABASE_RECORDS]
+    result["returned_record_count"] = len(result["records"])
+    return result
+
+
 # Baseline and adaptive orchestration
 
 def _add_ensembl_evidence_ids(annotation: dict[str, Any]) -> dict[str, Any]:
@@ -2742,22 +3200,17 @@ def _add_ensembl_evidence_ids(annotation: dict[str, Any]) -> dict[str, Any]:
     return enriched
 
 
-def _add_gnomad_evidence_ids(evidence: dict[str, Any], prefix: str) -> dict[str, Any]:
-    enriched = copy.deepcopy(evidence)
-    for index, row in enumerate(enriched.get("records") or [], start=1):
-        if isinstance(row, dict):
-            row.setdefault("evidence_id", f"GNO-{prefix}-{index:03d}")
-    return enriched
-
-
-def _add_database_evidence_ids(
-    evidence: dict[str, Any], source_prefix: str
+def _add_evidence_ids(
+    evidence: dict[str, Any], id_prefix: str
 ) -> dict[str, Any]:
-    """Attach local evidence IDs while keeping the adapter response intact."""
+    """Attach IDs using a complete prefix, e.g. GNO-BL or GNO-ADP-2000.
+
+    Preserve existing IDs and leave the caller-owned adapter response intact.
+    """
     enriched = copy.deepcopy(evidence)
     for index, row in enumerate(enriched.get("records") or [], start=1):
         if isinstance(row, dict):
-            row.setdefault("evidence_id", f"{source_prefix}-BL-{index:03d}")
+            row.setdefault("evidence_id", f"{id_prefix}-{index:03d}")
     return enriched
 
 
@@ -2770,7 +3223,7 @@ def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
 
     # Independent public sources run concurrently. The artifact assessment waits for
     # Ensembl because repeat overlap is one of its deterministic risk inputs.
-    with ThreadPoolExecutor(max_workers=7) as executor:
+    with ThreadPoolExecutor(max_workers=11) as executor:
         region_future = executor.submit(
             query_ensembl_region,
             genome_build=sv["genome_build"], chrom=sv["chrom"],
@@ -2780,20 +3233,26 @@ def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
             mate_chrom=sv.get("mate_chrom"), mate_pos=sv.get("mate_pos"),
             mate_confidence_interval=sv.get("mate_confidence_interval"),
         )
-        gnomad_future = executor.submit(query_gnomad_sv, normalized_sv_json)
-        vep_future = executor.submit(query_ensembl_vep, normalized_sv_json)
-        clingen_future = executor.submit(query_clingen_dosage, normalized_sv_json)
-        clinvar_future = executor.submit(query_clinvar, normalized_sv_json)
-        dbvar_future = executor.submit(query_dbvar, normalized_sv_json)
-        dgv_future = executor.submit(query_dgv, normalized_sv_json)
+        source_futures = {
+            key: (prefix, executor.submit(query, normalized_sv_json, *args))
+            for key, prefix, query, args in (
+                ("database_evidence", "GNO", query_gnomad_sv, ()),
+                ("vep_evidence", "VEP", query_ensembl_vep, ()),
+                ("clingen_dosage_evidence", "CGD", query_clingen_dosage, ()),
+                ("clinvar_evidence", "CLV", query_clinvar, ()),
+                ("dbvar_evidence", "DBV", query_dbvar, ()),
+                ("dgv_evidence", "DGV", query_dgv, ()),
+                ("regulatory_element_evidence", "CCRE", query_functional_track, ("ccre",)),
+                ("regulatory_gene_link_evidence", "REG", query_functional_track, ("links",)),
+                ("qtl_evidence", "QTL", query_qtl_context, ()),
+                ("mappability_evidence", "MAP", query_functional_track, ("map",)),
+            )
+        }
         region = region_future.result()
-        population = gnomad_future.result()
-        vep = vep_future.result()
-        clingen = clingen_future.result()
-        clinvar = clinvar_future.result()
-        dbvar = dbvar_future.result()
-        dgv = dgv_future.result()
-    artifact = assess_artifact_risk(normalized_sv_json, json.dumps(region))
+        sources = {key: _add_evidence_ids(future.result(), f"{prefix}-BL")
+                   for key, (prefix, future) in source_futures.items()}
+    artifact = assess_artifact_risk(normalized_sv_json, json.dumps(region),
+                                    json.dumps(sources["mappability_evidence"]))
     return {
         "status": "complete",
         "collection_policy": "deterministic_non_optional_baseline",
@@ -2805,12 +3264,7 @@ def collect_baseline_evidence(normalized_sv_json: str) -> dict[str, Any]:
             )
         },
         "region_annotation": _add_ensembl_evidence_ids(region),
-        "database_evidence": _add_gnomad_evidence_ids(population, "BL"),
-        "vep_evidence": _add_database_evidence_ids(vep, "VEP"),
-        "clingen_dosage_evidence": _add_database_evidence_ids(clingen, "CGD"),
-        "clinvar_evidence": _add_database_evidence_ids(clinvar, "CLV"),
-        "dbvar_evidence": _add_database_evidence_ids(dbvar, "DBV"),
-        "dgv_evidence": _add_database_evidence_ids(dgv, "DGV"),
+        **sources,
         "artifact_risk": artifact,
         "retrieved_at": _now(),
         "limitations": [
@@ -2848,7 +3302,7 @@ def execute_adaptive_action(
         result = query_gnomad_sv(
             normalized_sv_json, retrieval_padding_bp=padding
         )
-        result = _add_gnomad_evidence_ids(result, f"ADP-{padding}")
+        result = _add_evidence_ids(result, f"GNO-ADP-{padding}")
     else:
         result = _ensembl_adaptive_query(sv, action)
     return {

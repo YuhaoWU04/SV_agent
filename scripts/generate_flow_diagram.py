@@ -19,10 +19,12 @@ MANIFEST_PATH = PROJECT_DIR / "architecture" / "data_lineage.json"
 HTML_PATH = PROJECT_DIR / "docs" / "system_flow.html"
 DICTIONARY_PATH = PROJECT_DIR / "docs" / "field_dictionary.md"
 SOURCE_PATHS = [
+    PROJECT_DIR / "__init__.py",
     PROJECT_DIR / "agent.py",
     PROJECT_DIR / "state_pipeline.py",
     PROJECT_DIR / "prompts.py",
     PROJECT_DIR / "tools.py",
+    PROJECT_DIR / "info_definitions.py",
     PROJECT_DIR / "schemas.py",
     PROJECT_DIR / "config.py",
     PROJECT_DIR / "scripts" / "generate_flow_diagram.py",

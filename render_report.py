@@ -16,11 +16,14 @@ def _statements(title: str, items: list[dict[str, Any]]) -> list[str]:
         return lines + ["No evidence recorded.", ""]
     for item in items:
         evidence = ", ".join(item.get("evidence_ids", [])) or "none"
+        prefix = "Untested hypothesis: " if item.get("kind") == "hypothesis" else ""
         lines.append(
-            f"- {item.get('statement', '')} "
+            f"- {prefix}{item.get('statement', '')} "
             f"(kind: {item.get('kind', 'unknown')}; confidence: "
             f"{item.get('confidence', 'unknown')}; evidence: {evidence})"
         )
+        if item.get("qualification"):
+            lines.append(f"  Qualification ({item.get('verification_status')}): {item['qualification']}")
     return lines + [""]
 
 
@@ -54,6 +57,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "# Structural Variant Investigation Report",
         "",
         f"**Status:** {report.get('report_status', 'unknown')}",
+        f"**Model:** {report.get('model') or 'Not recorded'}",
         "",
         "## Variant summary",
         "",
@@ -101,7 +105,7 @@ def render_markdown(report: dict[str, Any]) -> str:
 
     baseline_rows = [
         item for item in report.get("query_provenance", [])
-        if item.get("source") != "PubMed"
+        if item.get("stage", "baseline") == "baseline" and item.get("source") != "PubMed"
     ]
     if baseline_rows:
         lines += [
@@ -130,10 +134,12 @@ def render_markdown(report: dict[str, Any]) -> str:
         for action in investigation.get("executed_actions", []):
             lines.append(
                 f"- {action.get('action', 'unknown')} — "
-                f"{action.get('status', 'unknown')}: "
-                f"{action.get('evidence_gap', '')}"
+                f"{action.get('status', 'unknown')}; "
+                f"result: {action.get('result_status') or 'not recorded'}"
             )
         lines.append("")
+    if report.get("statistical_context"):
+        lines += ["## Statistical context", "", report["statistical_context"], ""]
     sections = (
         ("Statistical signals", "statistical_signals"),
         ("Gene and region annotation", "gene_region_annotation"),
@@ -145,29 +151,14 @@ def render_markdown(report: dict[str, Any]) -> str:
     for title, key in sections:
         lines.extend(_statements(title, report.get(key, [])))
 
-    qualified = [
-        claim for claim in report.get("verified_claims", [])
-        if claim.get("verification_status") == "partially_supported"
-    ]
-    lines += ["## Qualified findings", ""]
-    if qualified:
-        for claim in qualified:
-            evidence = ", ".join(claim.get("evidence_ids", [])) or "none"
-            lines.append(
-                f"- {claim.get('text', '')} "
-                f"(evidence: {evidence}; qualification: "
-                f"{claim.get('notes') or 'partially supported'})"
-            )
-    else:
-        lines.append("No partially supported claims recorded.")
-    lines.append("")
-
     lines += ["## Artifact risks", ""]
     for item in report.get("artifact_risks", []):
         lines.append(
             f"- **{item.get('risk_type')} — {item.get('status')}**: "
             f"{item.get('impact')} Recommended check: {item.get('recommended_check')}"
         )
+        if item.get("evidence") is not None:
+            lines.append("  Evidence: `" + json.dumps(item["evidence"], ensure_ascii=False) + "`")
     if not report.get("artifact_risks"):
         lines.append("No risk assessment recorded.")
 
@@ -218,12 +209,40 @@ def render_markdown(report: dict[str, Any]) -> str:
 
     lines += ["", "## Query provenance", ""]
     for item in report.get("query_provenance", []):
+        status = item.get("status")
+        result = (
+            "No matching records were returned within the reported query scope."
+            if status == "not_found" else _STATUS_LABELS.get(status, status)
+        )
         lines.append(
-            f"- {item.get('source')}: {item.get('status')} — "
+            f"- {item.get('source')} ({item.get('stage', 'baseline')}"
+            f"{': ' + item['action'] if item.get('action') else ''}): {result} — "
             f"{item.get('query_summary')}"
         )
+        if item.get("completeness"):
+            lines.append(f"  - Adapter completeness: {item['completeness']} (separate from result truncation).")
+        if item.get("truncated") is not None:
+            lines.append("  - Result truncation: " + (
+                "Yes. Returned records are not exhaustive."
+                if item["truncated"] else "No truncation reported."
+            ))
+        if item.get("counts"):
+            lines.append("  - Counts: " + "; ".join(f"{key}={value}" for key, value in item["counts"].items()))
     if not report.get("query_provenance"):
         lines.append("No query provenance recorded.")
+    partial_facts = [
+        claim for claim in report.get("verified_claims", [])
+        if claim.get("verification_status") == "partially_supported"
+        and claim.get("claim_type") not in {"inference", "hypothesis"}
+    ]
+    if partial_facts:
+        lines += [
+            "", "## Verification review", "",
+            "Partially supported factual candidates are not reported as findings. "
+            "Their original text, citations and verification notes are retained in "
+            "the structured report's `verified_claims` for review: "
+            + ", ".join(claim.get("claim_id", "unknown") for claim in partial_facts) + ".",
+        ]
     return "\n".join(lines).rstrip() + "\n"
 
 

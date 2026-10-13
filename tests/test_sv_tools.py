@@ -122,6 +122,19 @@ class SVToolsTest(unittest.TestCase):
         self.assertIsNone(payload)
         self.assertEqual(error, "ConnectionError")
 
+    @patch("sv_investigator.tools.urlopen")
+    def test_http_helpers_preserve_encoding_errors_and_existing_query(self, urlopen):
+        urlopen.return_value.__enter__.return_value.read.return_value = b"\xff"
+        self.assertEqual(_json_request("https://example.org"), (None, "invalid_text_encoding"))
+        self.assertEqual(tools_module._text_request("https://example.org?x=1", {"y": 2}),
+                         (None, "invalid_text_encoding"))
+        self.assertEqual(urlopen.call_args.args[0].full_url, "https://example.org?x=1&y=2")
+        self.assertEqual(tools_module._json_post("https://example.org", {}),
+                         (None, "invalid_text_encoding"))
+        urlopen.side_effect = ConnectionResetError
+        self.assertEqual(tools_module._json_post("https://example.org", {}), (None, "ConnectionError"))
+        self.assertIsNone(tools_module._text_request("https://example.org")[0])
+
     def test_normalize_valid_sv(self):
         result = normalize_sv_input(json.dumps({
             "genome_build": "GRCh38",
@@ -311,8 +324,23 @@ class SVToolsTest(unittest.TestCase):
             "end": 10, "sv_type": "INV",
         }))
         risks = assess_artifact_risk(json.dumps(sv))
-        call_rate = next(x for x in risks["risk_items"] if x["risk_type"] == "low_call_rate")
-        self.assertEqual(call_rate["status"], "unknown")
+        self.assertTrue(any(x["status"] == "unknown" for x in risks["risk_items"]))
+        self.assertFalse({"low_call_rate", "genotype_missingness"} & {x["risk_type"] for x in risks["risk_items"]})
+
+    def test_population_call_rates(self):
+        for quality in (
+            {"call_rate_ASIA": 1.0, "call_rate_NON_ASIA": 1.0},
+            {"call_rate": 1.0, "call_rate_ASIA": 0.9},
+            {"call_rate_ASIA": 1.0, "call_rate_NON_ASIA": None},
+            {"call_rate_ASIA": 0.9, "call_rate_NON_ASIA": True},
+            {"call_rate_ASIA": float("nan")},
+            {"call_rate": 0.95},
+            {"call_rate": 0.999999},
+        ):
+            with self.subTest(quality=quality):
+                sv = {"quality": quality}
+                items = assess_artifact_risk(json.dumps(sv))["risk_items"]
+                self.assertFalse({"low_call_rate", "genotype_missingness"} & {item["risk_type"] for item in items})
 
     def test_invalid_numeric_quality_values_stay_unknown(self):
         sv = normalize_sv_input(json.dumps({
@@ -326,7 +354,7 @@ class SVToolsTest(unittest.TestCase):
         }))
         risks = assess_artifact_risk(json.dumps(sv))["risk_items"]
         by_type = {item["risk_type"]: item for item in risks}
-        self.assertEqual(by_type["low_call_rate"]["status"], "unknown")
+        self.assertNotIn("genotype_missingness", by_type)
         self.assertEqual(by_type["supporting_reads"]["status"], "unknown")
         self.assertEqual(by_type["genotype_quality"]["status"], "unknown")
 
@@ -415,19 +443,25 @@ class SVToolsTest(unittest.TestCase):
         self.assertIn("| ClinVar | No record found |", markdown)
         self.assertNotIn("| PubMed | Found |", markdown)
 
-    def test_report_renderer_keeps_partial_claim_with_qualification(self):
+    def test_report_renderer_keeps_partial_fact_only_in_structured_review(self):
+        fact = {
+            "claim_id": "C008", "claim_type": "database_fact",
+            "text": "A nearby candidate may represent the same event.",
+            "evidence_ids": ["GNO-BL-001"],
+            "verification_status": "partially_supported",
+            "notes": "The start coordinate differs by 1 bp.",
+        }
         markdown = render_markdown({
             "report_status": "incomplete",
             "sv_summary": {},
-            "verified_claims": [{
-                "text": "A nearby candidate may represent the same event.",
-                "evidence_ids": ["GNO-BL-001"],
-                "verification_status": "partially_supported",
-                "notes": "The start coordinate differs by 1 bp.",
-            }],
+            "verified_claims": [fact],
         })
-        self.assertIn("## Qualified findings", markdown)
-        self.assertIn("The start coordinate differs by 1 bp.", markdown)
+        self.assertNotIn("## Qualified findings", markdown)
+        self.assertNotIn(fact["text"], markdown)
+        self.assertNotIn(fact["notes"], markdown)
+        self.assertIn("## Verification review", markdown)
+        self.assertIn("`verified_claims` for review: C008.", markdown)
+        self.assertEqual(fact["notes"], "The start coordinate differs by 1 bp.")
 
     def test_report_renderer_shows_normalization_metadata(self):
         markdown = render_markdown({
@@ -837,8 +871,9 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(result["status"], "not_found")
         self.assertIn("/vep/human/region/3:101-100:1/INS", request.call_args.args[0])
 
+    @patch("sv_investigator.tools._text_request", return_value=(None, "HTTP 503"))
     @patch("sv_investigator.tools._json_request")
-    def test_dbvar_filters_build_and_labels_direction_ambiguity(self, request):
+    def test_dbvar_filters_build_and_labels_direction_ambiguity(self, request, detail_request):
         request.side_effect = [
             ({"esearchresult": {"count": "1", "idlist": ["42"]}}, None),
             ({"result": {"uids": ["42"], "42": {
@@ -867,6 +902,8 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(record["type_compatibility"], "ambiguous_cnv_direction")
         self.assertEqual(record["match_type"], "exact")
         self.assertFalse(record["same_event_established"])
+        self.assertEqual(record["call_details"]["status"], "error")
+        self.assertEqual(result["completeness"], "partial")
 
     @patch("sv_investigator.tools._json_request")
     @patch("sv_investigator.tools._ensembl_json_request")
@@ -911,6 +948,99 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(dbvar["completeness"], "failed")
         self.assertEqual(vep["status"], "error")
 
+    @patch("sv_investigator.tools._ensembl_overlap_request")
+    def test_exon_query_covers_nominal_and_supplied_confidence_intervals(self, request):
+        request.side_effect = [
+            ([], None, 1, "nominal-url"),
+            ([{"id": "EXON1", "start": 980, "end": 990}], None, 1, "start-url"),
+            (None, "TimeoutError", 4, "end-url"),
+        ]
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL", "CIPOS": [-20, 30], "CIEND": [-40, 50],
+        }))
+        original = json.dumps(sv, sort_keys=True)
+        executed = execute_adaptive_action(json.dumps(sv), "QUERY_EXONS")
+        result = executed["result"]
+        self.assertEqual([call.args[2] for call in request.call_args_list],
+                         [[1000, 2000], [980, 1030], [1960, 2050]])
+        self.assertTrue(all(call.args[3] == ("exon",) for call in request.call_args_list))
+        self.assertEqual([row["role"] for row in result["results"]],
+                         ["nominal", "start_confidence_interval", "end_confidence_interval"])
+        self.assertEqual([row["status"] for row in result["results"]],
+                         ["not_found", "found", "error"])
+        self.assertEqual(result["status"], "found")
+        self.assertEqual(result["completeness"], "partial")
+        self.assertEqual(result["results"][2]["error"], "TimeoutError")
+        self.assertEqual(result["results"][1]["records"][0]["evidence_id"],
+                         "ENS-ADP-START_CONFIDENCE_INTERVAL-EXON-001")
+        self.assertEqual(json.dumps(sv, sort_keys=True), original)
+        from sv_investigator.state_pipeline import build_evidence_view, finalize_report_from_state
+        state = {"normalized_sv": sv, "adaptive_tool_results": [{
+            "action": "QUERY_EXONS", "result": executed,
+        }]}
+        view = build_evidence_view(state)
+        self.assertIn("ENS-ADP-START_CONFIDENCE_INTERVAL-EXON-001", view["records_by_id"])
+        report = finalize_report_from_state({}, state)
+        self.assertEqual([row["status"] for row in report["query_provenance"]],
+                         ["not_found", "found", "error"])
+        self.assertIn("TimeoutError", report["query_provenance"][2]["query_summary"])
+
+    @patch("sv_investigator.tools._ensembl_overlap_request", return_value=([], None, 1, "url"))
+    def test_exon_query_does_not_invent_missing_confidence_intervals(self, request):
+        for ci_fields, intervals in (
+            ({}, [[1000, 2000]]),
+            ({"CIPOS": [0, 0]}, [[1000, 2000], [1000, 1000]]),
+            ({"CIEND": [-20, 20]}, [[1000, 2000], [1980, 2020]]),
+        ):
+            with self.subTest(ci_fields=ci_fields):
+                request.reset_mock()
+                sv = normalize_sv_input(json.dumps({
+                    "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+                    "end": 2000, "sv_type": "DEL", **ci_fields,
+                }))
+                result = execute_adaptive_action(json.dumps(sv), "QUERY_EXONS")["result"]
+                self.assertEqual([call.args[2] for call in request.call_args_list], intervals)
+                self.assertEqual(result["status"], "not_found")
+                self.assertEqual(result["completeness"], "complete")
+
+    @patch("sv_investigator.tools._ensembl_overlap_request", return_value=([], None, 1, "url"))
+    def test_exon_query_keeps_large_region_limit_and_ci_failure(self, request):
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 6_000_000, "sv_type": "DEL",
+        }))
+        result = execute_adaptive_action(json.dumps(sv), "QUERY_EXONS")["result"]
+        self.assertEqual([call.args[2] for call in request.call_args_list],
+                         [[500, 1500], [5_999_500, 6_000_500]])
+        request.reset_mock()
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL", "CIPOS": [0, 5_000_000],
+        }))
+        result = execute_adaptive_action(json.dumps(sv), "QUERY_EXONS")["result"]
+        request.assert_called_once()
+        self.assertEqual(result["status"], "error")
+        self.assertEqual(result["completeness"], "partial")
+        self.assertEqual(result["results"][1]["query_region"], "1:1000-5001000")
+        self.assertEqual(result["results"][1]["attempts"], 0)
+        self.assertIsNone(result["results"][1]["records"])
+
+    @patch("sv_investigator.tools._ensembl_overlap_request")
+    def test_exon_query_retains_per_scope_truncation(self, request):
+        request.side_effect = [
+            ([{"id": f"EXON{i}"} for i in range(tools_module.MAX_DATABASE_RECORDS + 1)], None, 1, "nominal-url"),
+            ([], None, 1, "start-url"),
+        ]
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 1000,
+            "end": 2000, "sv_type": "DEL", "CIPOS": [-20, 20],
+        }))
+        result = execute_adaptive_action(json.dumps(sv), "QUERY_EXONS")["result"]
+        self.assertTrue(result["results"][0]["truncated"])
+        self.assertFalse(result["results"][1]["truncated"])
+        self.assertEqual(result["completeness"], "partial")
+
     def test_adaptive_action_whitelist_and_budget_are_enforced(self):
         sv = normalize_sv_input(json.dumps({
             "genome_build": "GRCh38", "chrom": "1", "start": 1000,
@@ -944,6 +1074,36 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(over_budget["rejection_reason"], "query_budget_exhausted")
         self.assertEqual(execute.call_count, 2)
 
+    @patch("sv_investigator.tools.query_gnomad_sv")
+    def test_adaptive_expansion_preserves_ids_records_and_input(self, query):
+        sv = normalize_sv_input(json.dumps({
+            "genome_build": "GRCh38", "chrom": "1", "start": 10,
+            "end": 20, "sv_type": "DEL",
+        }))
+        raw = {"status": "found", "records": [
+            {"evidence_id": "existing-id", "extra": {"af": 0.1}},
+            None,
+            {"variant_id": "v2", "extra": {"af": 0.2}},
+        ]}
+        original = json.dumps(raw)
+        query.return_value = raw
+        for action, padding in (("EXPAND_GNOMAD_RETRIEVAL_2KB", 2000),
+                                ("EXPAND_GNOMAD_RETRIEVAL_10KB", 10000)):
+            with self.subTest(action=action):
+                result = execute_adaptive_action(json.dumps(sv), action)
+                self.assertEqual(result["status"], "executed")
+                self.assertTrue(result["candidate_fields_unchanged"])
+                records = result["result"]["records"]
+                self.assertEqual(records[0]["evidence_id"], "existing-id")
+                self.assertIsNone(records[1])
+                self.assertEqual(records[2]["evidence_id"], f"GNO-ADP-{padding}-003")
+                self.assertEqual(records[2]["extra"], {"af": 0.2})
+                self.assertIsNot(records[0]["extra"], raw["records"][0]["extra"])
+                self.assertEqual(json.dumps(raw), original)
+                self.assertEqual(query.call_args.kwargs["retrieval_padding_bp"], padding)
+
+    @patch("sv_investigator.tools.query_functional_track")
+    @patch("sv_investigator.tools.query_qtl_context")
     @patch("sv_investigator.tools.query_dgv")
     @patch("sv_investigator.tools.query_dbvar")
     @patch("sv_investigator.tools.query_clinvar")
@@ -953,7 +1113,8 @@ class SVToolsTest(unittest.TestCase):
     @patch("sv_investigator.tools.query_gnomad_sv")
     @patch("sv_investigator.tools.query_ensembl_region")
     def test_baseline_collection_adds_ids_without_losing_records(
-        self, ensembl, gnomad, artifact, vep, clingen, clinvar, dbvar, dgv
+        self, ensembl, gnomad, artifact, vep, clingen, clinvar, dbvar, dgv,
+        qtl, functional_track
     ):
         ensembl.return_value = {
             "source": "Ensembl", "status": "found",
@@ -985,11 +1146,22 @@ class SVToolsTest(unittest.TestCase):
             "records": [{"record_id": "gssv1"}],
         }
         artifact.return_value = {"overall_risk": "unknown", "risk_items": []}
+        for mock in (qtl, functional_track):
+            mock.return_value = {"status": "found", "records": [{"record_id": "kept"}]}
         sv = normalize_sv_input(json.dumps({
             "genome_build": "GRCh38", "chrom": "1", "start": 10,
             "end": 20, "sv_type": "DEL",
         }))
         result = collect_baseline_evidence(json.dumps(sv))
+        self.assertEqual(sorted(call.args[1] for call in functional_track.call_args_list),
+                         ["ccre", "links", "map"])
+        from sv_investigator.config import BASELINE_SOURCE_KEYS
+        self.assertTrue(set(BASELINE_SOURCE_KEYS.values()).issubset(result))
+        self.assertNotIn("evidence_id", gnomad.return_value["records"][0])
+        for key, prefix in (("regulatory_element_evidence", "CCRE"),
+                            ("regulatory_gene_link_evidence", "REG"),
+                            ("qtl_evidence", "QTL"), ("mappability_evidence", "MAP")):
+            self.assertEqual(result[key]["records"][0]["evidence_id"], f"{prefix}-BL-001")
         gene = result["region_annotation"]["features"]["gene"][0]
         self.assertEqual(gene["extra"], "kept")
         self.assertTrue(gene["evidence_id"].startswith("ENS-BL"))
@@ -1064,8 +1236,11 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(record["match_metrics"]["comparison_scope"], "first_breakend_only")
         self.assertFalse(record["same_event_established"])
 
+    @patch("sv_investigator.tools._text_request", return_value=(
+        "<PubmedArticleSet><PubmedArticle><MedlineCitation><PMID>123</PMID><Article/>"
+        "</MedlineCitation></PubmedArticle></PubmedArticleSet>", None))
     @patch("sv_investigator.tools._json_request")
-    def test_pubmed_metadata_retains_pmid_and_doi(self, request):
+    def test_pubmed_metadata_retains_pmid_and_doi(self, request, fetch):
         request.side_effect = [
             ({"esearchresult": {"idlist": ["123"]}}, None),
             ({"result": {"123": {
@@ -1079,9 +1254,13 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(result["status"], "found")
         self.assertEqual(result["records"][0]["pmid"], "123")
         self.assertEqual(result["records"][0]["doi"], "10.1/example")
+        self.assertEqual(result["records"][0]["abstract_status"], "not_found")
+        self.assertNotIn("abstract", result["records"][0])
+        fetch.assert_called_once()
 
+    @patch("sv_investigator.tools._text_request", return_value=(None, "TimeoutError"))
     @patch("sv_investigator.tools._json_request")
-    def test_pubmed_compacts_authors_and_caps_records(self, request):
+    def test_pubmed_compacts_authors_and_caps_records(self, request, fetch):
         request.side_effect = [
             ({"esearchresult": {"idlist": ["123", "456"]}}, None),
             ({"result": {"123": {
@@ -1098,6 +1277,81 @@ class SVToolsTest(unittest.TestCase):
         self.assertEqual(result["records"][0]["authors"], ["A", "B", "C"])
         self.assertEqual(result["records"][0]["author_count"], 4)
         self.assertTrue(result["records"][0]["authors_truncated"])
+        self.assertEqual(fetch.call_args.args[1]["id"], "123")
+
+    @patch("sv_investigator.tools._text_request")
+    @patch("sv_investigator.tools._json_request")
+    def test_pubmed_batches_abstracts_and_matches_by_pmid(self, request, fetch):
+        request.side_effect = [
+            ({"esearchresult": {"idlist": ["123", "456"]}}, None),
+            ({"result": {"123": {"title": "Study A"}, "456": {"title": "Study B"}}}, None),
+        ]
+        fetch.return_value = ("""<PubmedArticleSet>
+            <PubmedArticle><MedlineCitation><PMID>456</PMID><Article><Abstract>
+            <AbstractText>Gene B affects trait Y.</AbstractText>
+            </Abstract></Article></MedlineCitation></PubmedArticle>
+            <PubmedArticle><MedlineCitation><PMID>123</PMID><Article><Abstract>
+            <AbstractText Label="RESULTS"> <i>SLC35F3</i> affects trait X. </AbstractText>
+            <AbstractText Label="CONCLUSION">Further validation is needed.</AbstractText>
+            </Abstract></Article></MedlineCitation></PubmedArticle>
+            </PubmedArticleSet>""", None)
+        result = search_pubmed("example")
+        self.assertEqual(result["completeness"], "complete")
+        self.assertEqual(result["records"][0]["abstract"],
+                         "RESULTS: SLC35F3 affects trait X.\nCONCLUSION: Further validation is needed.")
+        self.assertEqual(result["records"][1]["abstract"], "Gene B affects trait Y.")
+        self.assertTrue(all(row["abstract_status"] == "found" for row in result["records"]))
+        fetch.assert_called_once()
+        self.assertEqual(fetch.call_args.args[1]["id"], "123,456")
+        self.assertEqual(fetch.call_args.args[1]["retmode"], "xml")
+        self.assertNotIn("api_key", result["records"][0]["abstract_source_url"])
+
+    @patch("sv_investigator.tools._text_request")
+    @patch("sv_investigator.tools._json_request")
+    def test_pubmed_failed_or_missing_abstract_keeps_metadata(self, request, fetch):
+        for xml, error in ((None, "TimeoutError"), ("<broken", None),
+                           ("<PubmedArticleSet/>", None), ("<ERROR>Failed</ERROR>", None)):
+            with self.subTest(xml=xml, error=error):
+                request.side_effect = [
+                    ({"esearchresult": {"idlist": ["123"]}}, None),
+                    ({"result": {"123": {"title": "Study A"}}}, None),
+                ]
+                fetch.return_value = (xml, error)
+                result = search_pubmed("example")
+                self.assertEqual(result["status"], "found")
+                self.assertEqual(result["completeness"], "partial")
+                row = result["records"][0]
+                self.assertEqual(row["title"], "Study A")
+                self.assertEqual(row["abstract_status"], "error")
+                self.assertIn("abstract_error", row)
+                self.assertNotIn("abstract", row)
+
+    @patch("sv_investigator.tools._text_request")
+    @patch("sv_investigator.tools._json_request")
+    def test_pubmed_empty_or_incomplete_summary_does_not_invent_records(self, request, fetch):
+        request.side_effect = [
+            ({"esearchresult": {"idlist": []}}, None),
+            ({"esearchresult": {"idlist": ["123"]}}, None),
+            ({"result": {}}, None),
+        ]
+        self.assertEqual(search_pubmed("empty")["status"], "not_found")
+        self.assertEqual(search_pubmed("missing summary")["error"], "summary_records_missing")
+        fetch.assert_not_called()
+
+    @patch("sv_investigator.tools._text_request", return_value=(
+        "<PubmedArticleSet><PubmedArticle><MedlineCitation><PMID>123</PMID><Article/>"
+        "</MedlineCitation></PubmedArticle></PubmedArticleSet>", None))
+    @patch("sv_investigator.tools._json_request")
+    def test_pubmed_partially_missing_summaries_are_not_complete(self, request, fetch):
+        request.side_effect = [
+            ({"esearchresult": {"idlist": ["123", "456"]}}, None),
+            ({"result": {"123": {"title": "Study"}}}, None),
+        ]
+        result = search_pubmed("example")
+        self.assertEqual(result["status"], "found")
+        self.assertEqual(result["completeness"], "partial")
+        self.assertEqual(result["summary_records_missing"], 1)
+        self.assertEqual([row["pmid"] for row in result["records"]], ["123"])
 
     @patch("sv_investigator.tools._json_request")
     def test_pubmed_invalid_response_is_not_reported_as_no_results(self, request):

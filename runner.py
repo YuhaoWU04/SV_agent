@@ -34,7 +34,7 @@ from . import __version__
 # environment variables retain priority over values in the file.
 load_dotenv(Path(__file__).with_name(".env"), override=False)
 
-from .config import MODEL
+from .config import BASELINE_SOURCE_KEYS, MODEL, MODEL_API_BASE, MODEL_BACKEND
 from .render_report import render_markdown
 from .schemas import SVReport
 
@@ -242,20 +242,11 @@ def collect_metrics(
 ) -> dict[str, Any]:
     """Collect operational facts only; this is not a biological-quality score."""
 
-    source_keys = {
-        "ensembl_overlap": "region_annotation",
-        "ensembl_vep": "vep_evidence",
-        "gnomad_sv": "database_evidence",
-        "clingen_dosage": "clingen_dosage_evidence",
-        "clinvar": "clinvar_evidence",
-        "dbvar": "dbvar_evidence",
-        "dgv": "dgv_evidence",
-    }
     baseline = state.get("baseline_evidence")
     if not isinstance(baseline, dict):
         baseline = {}
     sources: dict[str, Any] = {}
-    for source, key in source_keys.items():
+    for source, key in BASELINE_SOURCE_KEYS.items():
         # Current sessions store source results under baseline_evidence. The fallback
         # also understands early development states that used top-level source keys.
         value = baseline.get(key, state.get(key))
@@ -574,6 +565,10 @@ async def run_batch(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
             raise ValueError(
                 f"run directory used model {previous_model!r}, not current {MODEL!r}"
             )
+        if run_manifest.get("model_backend", "gemini") != MODEL_BACKEND:
+            raise ValueError("run directory used a different model backend")
+        if run_manifest.get("model_api_base", "") != MODEL_API_BASE:
+            raise ValueError("run directory used a different model server")
         previous_ids = [
             item.get("case_id") for item in run_manifest.get("selected_cases", [])
         ]
@@ -584,11 +579,13 @@ async def run_batch(args: argparse.Namespace) -> tuple[Path, dict[str, Any]]:
     else:
         run_manifest = {
             "project_version": __version__,
-            "runner_version": "1.1.1",
+            "runner_version": __version__,
             "started_at": _utc_now(),
             "source_manifest": str(manifest_path),
             "corpus_version": manifest.get("corpus_version"),
             "model": MODEL,
+            "model_backend": MODEL_BACKEND,
+            "model_api_base": MODEL_API_BASE,
             "runtime": _runtime_metadata(),
             "git": _git_metadata(Path(__file__).parent),
         }
